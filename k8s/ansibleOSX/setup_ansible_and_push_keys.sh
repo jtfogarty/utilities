@@ -49,4 +49,9 @@ install_ansible
 # Push SSH keys to nodes
 push_ssh_keys "$inventory_file" "$ssh_key_file"
 
+# Setup RKE on OSX
+curl -LO https://github.com/rancher/rke/releases/download/v1.3.12/rke_darwin-amd64
+sudo mv rke_darwin-amd64 /usr/local/bin/rke
+sudo chmod +x /usr/local/bin/rke
+
 echo "Setup complete."
