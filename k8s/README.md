@@ -4,7 +4,7 @@ This guide explains how to set up and use Ansible to install `containerd` on mul
 
 ## Prerequisites
 
-- A control machine with Ansible installed.
+- A control machine with Ansible installed (Linux).
 - SSH access to all target nodes from the control machine.
 - Target nodes running Ubuntu.
 
