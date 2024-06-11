@@ -21,7 +21,8 @@ This guide explains how to use the `setup_ansible_and_push_keys.sh` script to in
    node4 ansible_host=192.168.1.4 ansible_user=ubuntu
    node5 ansible_host=192.168.1.5 ansible_user=ubuntu
 
-2. **setup file File**
+2. **Setup Script File**
+The `setup_ansible_and_push_keys.sh` installs Ansible on OSX, pushes id_rsa file to all nodes and installs Rancher rke on OSX
 
 ```sh
 chmod +x setup_ansible_and_push_keys.sh
