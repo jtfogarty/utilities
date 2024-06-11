@@ -8,35 +8,23 @@ This guide explains how to set up and use Ansible to install `containerd` on mul
 - SSH access to all target nodes from the control machine.
 - Target nodes running Ubuntu.
 
-## 1. Install Ansible on the Control Machine
+## 1. **Inventory File (`hosts.ini`)**
 
-### AnsibleInstall.sh
+   Create an inventory file named `hosts.ini` to list your target nodes.
 
-Create a script named `AnsibleInstall.sh` to install Ansible on the control machine.
-
-```bash
-#!/bin/bash
-
-# Update and upgrade the system
-sudo apt-get update -y
-sudo apt-get upgrade -y
-
-# Install required dependencies
-sudo apt-get install -y software-properties-common
-
-# Add Ansible PPA repository
-sudo add-apt-repository --yes --update ppa:ansible/ansible
-
-# Install Ansible
-sudo apt-get update -y
-sudo apt-get install -y ansible
-
-# Verify Ansible installation
-ansible --version
-
-echo "Ansible installation completed successfully."
+   ```ini
+   [containerd_nodes]
+   node1 ansible_host=192.168.1.1 ansible_user=ubuntu
+   node2 ansible_host=192.168.1.2 ansible_user=ubuntu
+   node3 ansible_host=192.168.1.3 ansible_user=ubuntu
+   node4 ansible_host=192.168.1.4 ansible_user=ubuntu
+   node5 ansible_host=192.168.1.5 ansible_user=ubuntu
 ```
+   
+## 2. Install Ansible on the Control Machine
 
-## 2. Execute Ansible Containerd Installation.
+For Linux, run `ansibleInstall.sh` on OSX run `setup_ansible_and_push_keys.sh` 
+
+## 3. Execute Ansible Containerd Installation.
 `ansible-playbook -i hosts.ini containerd.yml`
 
