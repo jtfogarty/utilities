@@ -35,7 +35,8 @@ sudo apt-get install -y ansible
 ansible --version
 
 echo "Ansible installation completed successfully."
+```
 
 ## 2. Execute Ansible Containerd Installation.
-ansible-playbook -i hosts.ini containerd.yml
+`ansible-playbook -i hosts.ini containerd.yml`
 
