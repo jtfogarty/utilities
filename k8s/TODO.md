@@ -6,4 +6,5 @@
 5. Name each server
 6. Buy Cat 7 cables
 7. it seems that the NUC rack needs to be all worker nodes and the masters should be on the shelf
-8. 
+8. Run setup ansible push keys script
+9. determine where rke `rke up --config cluster.yml` will be run from.  the cluster yaml file get created from this and needs to be used
