@@ -54,4 +54,12 @@ curl -LO https://github.com/rancher/rke/releases/download/v1.3.12/rke_darwin-amd
 sudo mv rke_darwin-amd64 /usr/local/bin/rke
 sudo chmod +x /usr/local/bin/rke
 
+# Setup kubectl on OSX
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
+# this needs to be put in a .zshrc file or somewhere
+# export KUBECONFIG=$(pwd)/kube_config_cluster.yml
+
 echo "Setup complete."
