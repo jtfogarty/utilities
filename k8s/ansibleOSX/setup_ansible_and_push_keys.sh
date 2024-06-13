@@ -25,10 +25,9 @@ push_ssh_keys() {
     echo "Pushing SSH public key to nodes..."
     while IFS= read -r line; do
         if [[ $line == *"ansible_host="* ]]; then
-            node=$(echo $line | cut -d' ' -f1)
             host=$(echo $line | grep -oP 'ansible_host=\K\S+')
             user=$(echo $line | grep -oP 'ansible_user=\K\S+')
-            echo "Pushing key to $node ($user@$host)..."
+            echo "Pushing key to $host ($user@$host)..."
             ssh-copy-id -i "$ssh_key_file.pub" "$user@$host"
         fi
     done < "$inventory_file"
