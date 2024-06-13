@@ -1,0 +1,53 @@
+---
+- name: UnInstall containerd and kubelet on all nodes
+  hosts: containerd_nodes
+  become: True
+  become_method: sudo
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa_k8s
+    ansible_python_interpreter: /usr/bin/python3.10
+  tasks:
+    - name: Remove all containerd containers
+      shell: crictl rm $(crictl ps -a -q)
+      ignore_errors: yes
+
+    - name: Remove all containerd images
+      shell: crictl rmi $(crictl images -q)
+      ignore_errors: yes
+
+    - name: Remove Kubernetes configuration directory
+      file:
+        path: /etc/kubernetes
+        state: absent
+
+    - name: Remove etcd data directory
+      file:
+        path: /var/lib/etcd
+        state: absent
+
+    - name: Remove Rancher data directory
+      file:
+        path: /var/lib/rancher
+        state: absent
+
+    - name: Remove kubelet data directory
+      file:
+        path: /var/lib/kubelet
+        state: absent
+
+    - name: Remove Flannel cni0 interface
+      command: ip link delete cni0
+      ignore_errors: yes
+
+    - name: Remove Flannel flannel.1 interface
+      command: ip link delete flannel.1
+      ignore_errors: yes
+
+    - name: Verify removal of Kubernetes components
+      command: crictl ps -a
+      register: containerd_processes
+
+    - debug:
+        msg: "{{ containerd_processes.stdout }}"
+      when: containerd_processes.stdout != ""
+      ignore_errors: yes

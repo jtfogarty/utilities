@@ -1,7 +1,6 @@
----
-- name: Install containerd on all nodes
+- name: Install and configure containerd and kubelet on all nodes
   hosts: containerd_nodes
-  become: yes
+  become: True
   become_method: sudo
   vars:
     ansible_ssh_private_key_file: ~/.ssh/id_rsa_k8s
@@ -9,16 +8,16 @@
   tasks:
     - name: Update and upgrade apt packages
       apt:
-        update_cache: yes
+        update_cache: True
         upgrade: dist
 
     - name: Install required dependencies
       apt:
-        name:
+        name: 
           - apt-transport-https
           - ca-certificates
           - curl
-          - software-properties-common
+          - gpg
         state: present
 
     - name: Add Docker GPG key
@@ -33,7 +32,7 @@
 
     - name: Update apt cache after adding Docker repo
       apt:
-        update_cache: yes
+        update_cache: True
 
     - name: Install containerd
       apt:
@@ -48,15 +47,89 @@
     - name: Generate default containerd configuration
       command: containerd config default
       register: containerd_config
-      changed_when: false
+      changed_when: False
 
     - name: Write containerd configuration to file
       copy:
         dest: /etc/containerd/config.toml
         content: "{{ containerd_config.stdout }}"
 
-    - name: Restart containerd
+    - name: Create kubelet service directory if it does not exist
+      file:
+        path: /etc/systemd/system/kubelet.service.d
+        state: directory
+        mode: 0755
+
+    - name: Ensure Kubelet is configured to use containerd
+      blockinfile:
+        path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+        create: True
+        block: |
+          Environment="KUBELET_EXTRA_ARGS=--container-runtime=remote --container-runtime-endpoint=unix:///run/containerd/containerd.sock"
+
+    - name: Create /etc/apt/keyrings directory if it does not exist
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: 0755
+
+    - name: Check if Kubernetes signing keyring exists
+      stat:
+        path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      register: kubernetes_keyring
+
+    - name: Download Kubernetes public signing key
+      shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      when: not kubernetes_keyring.stat.exists
+      retries: 3
+      delay: 10
+      register: download_key
+      until: download_key is succeeded
+
+    - name: Add Kubernetes repository
+      copy:
+        content: |
+          deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /
+        dest: /etc/apt/sources.list.d/kubernetes.list
+
+    - name: Update apt cache after adding Kubernetes repo
+      apt:
+        update_cache: True
+
+    - name: Install kubelet, kubeadm and kubectl
+      apt:
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+
+    - name: Mark kubelet, kubeadm and kubectl packages to hold
+      shell: sudo apt-mark hold kubelet kubeadm kubectl
+
+    - name: Disable swap
+      shell: |
+        swapoff -a
+        sed -i '/ swap / s/^\\(.*\\)$/#\\1/g' /etc/fstab
+
+    - name: Restart and enable containerd
       systemd:
         name: containerd
         state: restarted
-        enabled: yes
+        enabled: True
+
+    - name: Restart and enable kubelet
+      systemd:
+        name: kubelet
+        state: restarted
+        enabled: True
+
+    - name: Ensure firewalld is not installed
+      apt:
+        name: firewalld
+        state: absent
+
+    - name: Install etcdctl
+      apt:
+        name: etcd-client
+        state: present

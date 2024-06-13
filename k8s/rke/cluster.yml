@@ -68,7 +68,7 @@ services:
       proxy-mode: iptables
   scheduler:
     extra_args:
-      leader-elect: true
+      leader-elect: "true"
 
 network:
   plugin: canal
