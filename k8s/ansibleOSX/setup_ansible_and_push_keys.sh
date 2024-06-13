@@ -3,7 +3,7 @@
 # Function to install Ansible on macOS
 install_ansible() {
     echo "Installing Ansible on macOS..."
-    # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     brew install ansible
     echo "Ansible installed successfully."
 }
@@ -34,6 +34,21 @@ push_ssh_keys() {
     done < "$inventory_file"
 }
 
+# Function to install RKE and kubectl on macOS
+setup_rke_and_kubectl() {
+    echo "Setting up RKE on macOS..."
+    curl -LO https://github.com/rancher/rke/releases/download/v1.3.12/rke_darwin-amd64
+    sudo mv rke_darwin-amd64 /usr/local/bin/rke
+    sudo chmod +x /usr/local/bin/rke
+    echo "RKE installed successfully."
+
+    echo "Setting up kubectl on macOS..."
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+    chmod +x kubectl
+    sudo mv kubectl /usr/local/bin/
+    echo "kubectl installed successfully."
+}
+
 # Check if the inventory file is provided
 if [ -z "$1" ]; then
     echo "Usage: $0 <inventory_file> [ssh_key_file]"
@@ -49,17 +64,7 @@ install_ansible
 # Push SSH keys to nodes
 push_ssh_keys "$inventory_file" "$ssh_key_file"
 
-# Setup RKE on OSX
-curl -LO https://github.com/rancher/rke/releases/download/v1.3.12/rke_darwin-amd64
-sudo mv rke_darwin-amd64 /usr/local/bin/rke
-sudo chmod +x /usr/local/bin/rke
-
-# Setup kubectl on OSX
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
-chmod +x kubectl
-sudo mv kubectl /usr/local/bin/
-
-# this needs to be put in a .zshrc file or somewhere
-# export KUBECONFIG=$(pwd)/kube_config_cluster.yml
+# Setup RKE and kubectl on macOS
+setup_rke_and_kubectl
 
 echo "Setup complete."
