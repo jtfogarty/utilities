@@ -3,7 +3,7 @@
 # Function to install Ansible on macOS
 install_ansible() {
     echo "Installing Ansible on macOS..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    #/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     brew install ansible
     echo "Ansible installed successfully."
 }
