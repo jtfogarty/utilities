@@ -25,8 +25,8 @@ push_ssh_keys() {
     echo "Pushing SSH public key to nodes..."
     while IFS= read -r line; do
         if [[ $line == *"ansible_host="* ]]; then
-            host=$(echo $line | grep -oP 'ansible_host=\K\S+')
-            user=$(echo $line | grep -oP 'ansible_user=\K\S+')
+            host=$(echo $line | awk -F 'ansible_host=' '{print $2}' | awk '{print $1}')
+            user=$(echo $line | awk -F 'ansible_user=' '{print $2}')
             echo "Pushing key to $host ($user@$host)..."
             ssh-copy-id -i "$ssh_key_file.pub" "$user@$host"
         fi
@@ -58,12 +58,12 @@ inventory_file=$1
 ssh_key_file=${2:-~/.ssh/id_rsa}
 
 # Install Ansible on macOS
-install_ansible
+#install_ansible
 
 # Push SSH keys to nodes
 push_ssh_keys "$inventory_file" "$ssh_key_file"
 
 # Setup RKE and kubectl on macOS
-setup_rke_and_kubectl
+#setup_rke_and_kubectl
 
 echo "Setup complete."

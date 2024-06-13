@@ -1,0 +1,87 @@
+nodes:
+  - address: k8s-rancher-01
+    user: jtfogar
+    role:
+      - controlplane
+      - etcd
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-02
+    user: jtfogar
+    role:
+      - controlplane
+      - etcd
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-03
+    user: jtfogar
+    role:
+      - controlplane
+      - etcd
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-04
+    user: jtfogar
+    role:
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-05
+    user: jtfogar
+    role:
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-06
+    user: jtfogar
+    role:
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-07
+    user: jtfogar
+    role:
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-08
+    user: jtfogar
+    role:
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+  - address: k8s-rancher-09
+    user: jtfogar
+    role:
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa_k8s
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24h
+  kube-api:
+    service_cluster_ip_range: 10.43.0.0/16
+    pod_security_policy: false
+  kube-controller:
+    cluster_cidr: 10.42.0.0/16
+    service_cluster_ip_range: 10.43.0.0/16
+  kubelet:
+    extra_args:
+      container-runtime: remote
+      container-runtime-endpoint: unix:///run/containerd/containerd.sock
+  kubeproxy:
+    extra_args:
+      proxy-mode: iptables
+  scheduler:
+    extra_args:
+      leader-elect: true
+
+network:
+  plugin: canal
+  options:
+    canal_flannel_backend_type: "vxlan"
+
+ingress:
+  provider: nginx
+
+monitoring:
+  provider: metrics-server
+
+ssh_key_path: ~/.ssh/id_rsa_k8s
+
+addons: ""
+addons_include: []
