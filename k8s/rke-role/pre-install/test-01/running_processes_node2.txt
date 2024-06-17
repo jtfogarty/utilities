@@ -1,0 +1,143 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 167792 13424 ?        Ss   Jun16   0:08 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    Jun16   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   Jun16   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   Jun16   0:00 [rcu_par_gp]
+root           5  0.0  0.0      0     0 ?        I<   Jun16   0:00 [slub_flushwq]
+root           6  0.0  0.0      0     0 ?        I<   Jun16   0:00 [netns]
+root           8  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/0:0H-events_highpri]
+root          10  0.0  0.0      0     0 ?        I<   Jun16   0:00 [mm_percpu_wq]
+root          11  0.0  0.0      0     0 ?        S    Jun16   0:00 [rcu_tasks_rude_]
+root          12  0.0  0.0      0     0 ?        S    Jun16   0:00 [rcu_tasks_trace]
+root          13  0.0  0.0      0     0 ?        S    Jun16   0:00 [ksoftirqd/0]
+root          14  0.0  0.0      0     0 ?        I    Jun16   0:09 [rcu_sched]
+root          15  0.0  0.0      0     0 ?        S    Jun16   0:00 [migration/0]
+root          16  0.0  0.0      0     0 ?        S    Jun16   0:00 [idle_inject/0]
+root          18  0.0  0.0      0     0 ?        S    Jun16   0:00 [cpuhp/0]
+root          19  0.0  0.0      0     0 ?        S    Jun16   0:00 [cpuhp/1]
+root          20  0.0  0.0      0     0 ?        S    Jun16   0:00 [idle_inject/1]
+root          21  0.0  0.0      0     0 ?        S    Jun16   0:00 [migration/1]
+root          22  0.0  0.0      0     0 ?        S    Jun16   0:00 [ksoftirqd/1]
+root          24  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/1:0H-events_highpri]
+root          25  0.0  0.0      0     0 ?        S    Jun16   0:00 [cpuhp/2]
+root          26  0.0  0.0      0     0 ?        S    Jun16   0:00 [idle_inject/2]
+root          27  0.0  0.0      0     0 ?        S    Jun16   0:00 [migration/2]
+root          28  0.0  0.0      0     0 ?        S    Jun16   0:00 [ksoftirqd/2]
+root          30  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/2:0H-kblockd]
+root          31  0.0  0.0      0     0 ?        S    Jun16   0:00 [cpuhp/3]
+root          32  0.0  0.0      0     0 ?        S    Jun16   0:00 [idle_inject/3]
+root          33  0.0  0.0      0     0 ?        S    Jun16   0:00 [migration/3]
+root          34  0.0  0.0      0     0 ?        S    Jun16   0:00 [ksoftirqd/3]
+root          36  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/3:0H-events_highpri]
+root          37  0.0  0.0      0     0 ?        S    Jun16   0:00 [kdevtmpfs]
+root          38  0.0  0.0      0     0 ?        I<   Jun16   0:00 [inet_frag_wq]
+root          39  0.0  0.0      0     0 ?        S    Jun16   0:00 [kauditd]
+root          40  0.0  0.0      0     0 ?        S    Jun16   0:00 [khungtaskd]
+root          41  0.0  0.0      0     0 ?        S    Jun16   0:00 [oom_reaper]
+root          42  0.0  0.0      0     0 ?        I<   Jun16   0:00 [writeback]
+root          43  0.0  0.0      0     0 ?        S    Jun16   0:07 [kcompactd0]
+root          44  0.0  0.0      0     0 ?        SN   Jun16   0:00 [ksmd]
+root          45  0.0  0.0      0     0 ?        SN   Jun16   0:00 [khugepaged]
+root          92  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kintegrityd]
+root          93  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kblockd]
+root          94  0.0  0.0      0     0 ?        I<   Jun16   0:00 [blkcg_punt_bio]
+root          96  0.0  0.0      0     0 ?        I<   Jun16   0:00 [tpm_dev_wq]
+root          97  0.0  0.0      0     0 ?        I<   Jun16   0:00 [ata_sff]
+root          98  0.0  0.0      0     0 ?        I<   Jun16   0:00 [md]
+root          99  0.0  0.0      0     0 ?        I<   Jun16   0:00 [edac-poller]
+root         100  0.0  0.0      0     0 ?        I<   Jun16   0:00 [devfreq_wq]
+root         101  0.0  0.0      0     0 ?        S    Jun16   0:00 [watchdogd]
+root         104  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/3:1H-kblockd]
+root         106  0.0  0.0      0     0 ?        S    Jun16   0:00 [kswapd0]
+root         107  0.0  0.0      0     0 ?        S    Jun16   0:00 [ecryptfs-kthrea]
+root         109  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kthrotld]
+root         110  0.0  0.0      0     0 ?        I<   Jun16   0:00 [acpi_thermal_pm]
+root         112  0.0  0.0      0     0 ?        I<   Jun16   0:00 [vfio-irqfd-clea]
+root         113  0.0  0.0      0     0 ?        I<   Jun16   0:00 [mld]
+root         114  0.0  0.0      0     0 ?        I<   Jun16   0:00 [ipv6_addrconf]
+root         123  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kstrp]
+root         126  0.0  0.0      0     0 ?        I<   Jun16   0:00 [zswap-shrink]
+root         127  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/u9:0-hci0]
+root         134  0.0  0.0      0     0 ?        I<   Jun16   0:00 [charger_manager]
+root         157  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/0:1H-kblockd]
+root         185  0.0  0.0      0     0 ?        S    Jun16   0:00 [scsi_eh_0]
+root         186  0.0  0.0      0     0 ?        I<   Jun16   0:00 [scsi_tmf_0]
+root         187  0.0  0.0      0     0 ?        I<   Jun16   0:00 [sdhci]
+root         188  0.0  0.0      0     0 ?        S    Jun16   0:00 [irq/39-mmc0]
+root         189  0.0  0.0      0     0 ?        I<   Jun16   0:00 [sdhci]
+root         191  0.0  0.0      0     0 ?        S    Jun16   0:00 [irq/42-mmc1]
+root         200  0.0  0.0      0     0 ?        I<   Jun16   0:00 [cryptd]
+root         208  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/2:1H-kblockd]
+root         241  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/1:1H-kblockd]
+root         252  0.0  0.0      0     0 ?        S    Jun16   0:00 [card0-crtc0]
+root         253  0.0  0.0      0     0 ?        S    Jun16   0:00 [card0-crtc1]
+root         254  0.0  0.0      0     0 ?        S    Jun16   0:00 [card0-crtc2]
+root         263  0.0  0.0      0     0 ?        S    Jun16   0:00 [spi1]
+root         265  0.0  0.0      0     0 ?        S    Jun16   0:00 [spi2]
+root         267  0.0  0.0      0     0 ?        S    Jun16   0:00 [spi3]
+root         281  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kdmflush]
+root         311  0.0  0.0      0     0 ?        I<   Jun16   0:00 [raid5wq]
+root         359  0.0  0.0      0     0 ?        S    Jun16   0:00 [jbd2/dm-0-8]
+root         360  0.0  0.0      0     0 ?        I<   Jun16   0:00 [ext4-rsv-conver]
+root         433  0.0  0.2  48316 19752 ?        S<s  Jun16   0:01 /lib/systemd/systemd-journald
+root         464  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kaluad]
+root         466  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kmpath_rdacd]
+root         468  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kmpathd]
+root         469  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kmpath_handlerd]
+root         471  0.0  0.3 289352 27100 ?        SLsl Jun16   0:15 /sbin/multipathd -d -s
+root         472  0.0  0.0  26096  7020 ?        Ss   Jun16   0:00 /lib/systemd/systemd-udevd
+root         511  0.0  0.0      0     0 ?        S    Jun16   0:00 [irq/131-mei_me]
+root         529  0.0  0.0      0     0 ?        I<   Jun16   0:00 [cfg80211]
+root         530  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kmemstick]
+root         533  0.0  0.0      0     0 ?        S    Jun16   0:00 [irq/132-iwlwifi]
+root         562  0.0  0.0      0     0 ?        I<   Jun16   0:00 [kworker/u9:1-hci0]
+root         578  0.0  0.0      0     0 ?        S    Jun16   0:00 [jbd2/sda2-8]
+root         579  0.0  0.0      0     0 ?        I<   Jun16   0:00 [ext4-rsv-conver]
+systemd+     637  0.0  0.0  89364  6672 ?        Ssl  Jun16   0:00 /lib/systemd/systemd-timesyncd
+systemd+     678  0.0  0.0  16260  7916 ?        Ss   Jun16   0:01 /lib/systemd/systemd-networkd
+systemd+     680  0.0  0.1  25540 12628 ?        Ss   Jun16   0:00 /lib/systemd/systemd-resolved
+message+     690  0.0  0.0   9016  5320 ?        Ss   Jun16   0:01 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         695  0.0  0.0  82800  3880 ?        Ssl  Jun16   0:16 /usr/sbin/irqbalance --foreground
+root         696  0.0  0.2  32736 19024 ?        Ss   Jun16   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root         697  0.0  0.1 236396  9008 ?        Ssl  Jun16   0:00 /usr/libexec/polkitd --no-debug
+root         702  0.0  0.0  48332  7788 ?        Ss   Jun16   0:00 /lib/systemd/systemd-logind
+root         703  0.0  0.1 125996  9352 ?        Ssl  Jun16   0:22 /usr/sbin/thermald --systemd --dbus-enable --adaptive
+root         704  0.0  0.1 392620 13652 ?        Ssl  Jun16   0:06 /usr/libexec/udisks2/udisksd
+root         706  0.0  0.0  16504  5828 ?        Ss   Jun16   0:00 /sbin/wpa_supplicant -u -s -O /run/wpa_supplicant
+root         721  0.0  0.1 317976 12144 ?        Ssl  Jun16   0:00 /usr/sbin/ModemManager
+root         725  0.0  0.0   6896  3032 ?        Ss   Jun16   0:00 /usr/sbin/cron -f -P
+root         743  0.0  0.0   6176  1120 tty1     Ss+  Jun16   0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+root         766  0.0  0.2 109756 21656 ?        Ssl  Jun16   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root         769  0.0  0.1  15440  9452 ?        Ss   Jun16   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root        1482  0.0  0.2 295592 20700 ?        Ssl  00:24   0:01 /usr/libexec/packagekitd
+root        3490  0.0  0.3 1541672 31436 ?       Ssl  00:25   0:12 /usr/lib/snapd/snapd
+syslog      3888  0.0  0.0 222404  5052 ?        Ssl  00:25   0:00 /usr/sbin/rsyslogd -n -iNONE
+root        4178  0.0  0.0      0     0 ?        I    00:25   0:02 [kworker/2:12-events]
+root        5911  0.0  0.0      0     0 ?        I    01:11   0:05 [kworker/3:0-events_freezable]
+root        7939  0.0  0.0      0     0 ?        I    03:01   0:00 [kworker/0:0-cgroup_destroy]
+root        8093  0.0  0.0      0     0 ?        I    06:15   0:00 [kworker/1:2-cgroup_destroy]
+root        8624  0.0  0.1 239640  8040 ?        Ssl  13:44   0:00 /usr/libexec/upowerd
+root        8661  0.0  0.0      0     0 ?        I    13:44   0:00 [kworker/2:0-cgroup_destroy]
+root        8725  0.0  0.0      0     0 ?        I    15:21   0:01 [kworker/1:0-events]
+root        8733  0.0  0.0      0     0 ?        I    15:44   0:00 [kworker/3:1-cgroup_destroy]
+root        8734  0.0  0.0      0     0 ?        I    15:44   0:00 [kworker/0:1-events]
+root        8866  0.0  0.0      0     0 ?        I    21:11   0:00 [kworker/u8:2-events_power_efficient]
+root        8877  0.0  0.0      0     0 ?        I    21:43   0:00 [kworker/u8:1-writeback]
+root        8882  0.0  0.0      0     0 ?        I    22:00   0:00 [kworker/u8:0-events_power_efficient]
+root        8883  0.0  0.0      0     0 ?        I    22:01   0:00 [kworker/u8:3-events_unbound]
+root        8893  0.0  0.0      0     0 ?        I    22:05   0:00 [kworker/2:1-cgroup_destroy]
+root        9839  0.0  0.0      0     0 ?        I    22:07   0:00 [kworker/0:2-events]
+root        9841  0.0  0.0      0     0 ?        I    22:07   0:00 [kworker/2:2-events]
+root        9843  0.1  0.1  16924 10912 ?        Ss   22:08   0:00 sshd: jtfogar [priv]
+jtfogar     9846  0.3  0.1  17184 10048 ?        Ss   22:08   0:00 /lib/systemd/systemd --user
+jtfogar     9847  0.0  0.0 170704  5288 ?        S    22:08   0:00 (sd-pam)
+root        9852  0.0  0.0      0     0 ?        I    22:08   0:00 [kworker/1:1-events]
+root        9853  0.0  0.0      0     0 ?        I    22:08   0:00 [kworker/3:2-events]
+jtfogar     9910  1.1  0.1  17780  9128 ?        S    22:08   0:00 sshd: jtfogar@pts/0
+root       10322  0.0  0.0      0     0 ?        I    22:08   0:00 [kworker/1:3]
+jtfogar    10972  0.0  0.0   2892  1008 pts/0    Ss+  22:08   0:00 /bin/sh -c sudo -H -S -n  -u root /bin/sh -c 'echo BECOME-SUCCESS-dzdrcmbyceifqbhfmphpmtmlyotyyzdj ; /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1718662139.1942148-73461-147977719273916/AnsiballZ_command.py' && sleep 0
+root       10973  0.0  0.0  11500  5552 pts/0    S+   22:08   0:00 sudo -H -S -n -u root /bin/sh -c echo BECOME-SUCCESS-dzdrcmbyceifqbhfmphpmtmlyotyyzdj ; /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1718662139.1942148-73461-147977719273916/AnsiballZ_command.py
+root       10974  0.0  0.0  11500   880 pts/1    Ss   22:08   0:00 sudo -H -S -n -u root /bin/sh -c echo BECOME-SUCCESS-dzdrcmbyceifqbhfmphpmtmlyotyyzdj ; /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1718662139.1942148-73461-147977719273916/AnsiballZ_command.py
+root       10975  0.0  0.0   2892   988 pts/1    S+   22:08   0:00 /bin/sh -c echo BECOME-SUCCESS-dzdrcmbyceifqbhfmphpmtmlyotyyzdj ; /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1718662139.1942148-73461-147977719273916/AnsiballZ_command.py
+root       10976  0.0  0.2  34268 23596 pts/1    S+   22:08   0:00 /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1718662139.1942148-73461-147977719273916/AnsiballZ_command.py
+root       10977  0.0  0.0  10072  3556 pts/1    R+   22:08   0:00 ps aux

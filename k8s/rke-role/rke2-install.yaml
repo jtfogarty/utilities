@@ -1,0 +1,27 @@
+In pfsense, I have a vlan called kubernetes, it has a subnet of 10.10.100.0/24
+which gives me a range of 10.10.100.1 - 10.10.100.254
+the subnet pool starts at 10.10.100.22 
+there are 2 VIPs configured with IPs of
+10.10.100.2/24
+10.10.100.7/24
+
+I have the below static IPs configured in pfsense for the kubernetes vlan
+
+k8s-rancher-01	10.10.100.5
+k8s-rancher-02	10.10.100.6
+k8s-rancher-03	10.10.100.8
+k8s-rancher-04	10.10.100.9
+k8s-rancher-05	10.10.100.10
+k8s-rancher-06	10.10.100.11
+k8s-rancher-07	10.10.100.12
+k8s-rancher-08	10.10.100.13
+g5admin-MacPro	10.10.100.14
+k8s-rancher-09	10.10.100.15
+NAS3E8D86	      10.10.100.18
+
+I plan to install RKE2 on k8s-rancher-0x nodes puting the control plane on 01, 02 and 03
+To make this HA I need a load balancer 
+I can install kubevip or use a VIP in pfsense.
+What do you recommend
+
+explain the configuration of either method

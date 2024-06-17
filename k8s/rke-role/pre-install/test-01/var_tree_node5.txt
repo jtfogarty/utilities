@@ -1,5 +1,6 @@
 /var
 ├── backups
+│   └── apt.extended_states.0
 ├── cache
 │   ├── apparmor
 │   │   ├── 72e9179b.0
@@ -7,6 +8,7 @@
 │   │   │   ├── nvidia_modprobe
 │   │   │   ├── sbin.dhclient
 │   │   │   ├── snap-confine.snapd.20671
+│   │   │   ├── snap-confine.snapd.21759
 │   │   │   ├── snap.lxd.activate
 │   │   │   ├── snap.lxd.benchmark
 │   │   │   ├── snap.lxd.buginfo
@@ -88,6 +90,11 @@
 │   │   ├── passwords.dat
 │   │   ├── templates.dat
 │   │   └── templates.dat-old
+│   ├── fwupd
+│   │   ├── metadata.xmlb
+│   │   ├── metainfo.xmlb
+│   │   └── quirks.xmlb
+│   ├── fwupdmgr
 │   ├── ldconfig
 │   │   └── aux-cache
 │   ├── man
@@ -263,6 +270,7 @@
 │   ├── apport
 │   │   └── coredump
 │   ├── apt
+│   │   ├── daily_lock
 │   │   ├── extended_states
 │   │   ├── lists
 │   │   │   ├── auxfiles
@@ -319,8 +327,11 @@
 │   │   ├── mirrors
 │   │   │   └── partial
 │   │   └── periodic
+│   │       ├── download-upgradeable-stamp
 │   │       ├── unattended-upgrades-stamp
-│   │       └── update-success-stamp
+│   │       ├── update-stamp
+│   │       ├── update-success-stamp
+│   │       └── upgrade-stamp
 │   ├── boltd
 │   │   ├── bootacl
 │   │   │   └── c2010000-0080-8c0e-834b-d1295801da25
@@ -3179,6 +3190,26 @@
 │   │   │   ├── update-ca-certificates-fresh
 │   │   │   └── update-initramfs
 │   │   └── updates
+│   ├── fwupd
+│   │   ├── gnupg
+│   │   │   ├── private-keys-v1.d
+│   │   │   ├── pubring.kbx
+│   │   │   ├── pubring.kbx~
+│   │   │   ├── S.gpg-agent
+│   │   │   ├── S.gpg-agent.browser
+│   │   │   ├── S.gpg-agent.extra
+│   │   │   ├── S.gpg-agent.ssh
+│   │   │   └── trustdb.gpg
+│   │   ├── metadata
+│   │   │   └── lvfs
+│   │   │       ├── metadata.xml.gz
+│   │   │       └── metadata.xml.gz.jcat
+│   │   ├── pending.db
+│   │   ├── pki
+│   │   │   ├── client.pem
+│   │   │   └── secret.key
+│   │   ├── quirks.d
+│   │   └── remotes.d
 │   ├── git
 │   ├── grub
 │   │   ├── esp
@@ -3222,6 +3253,7 @@
 │   │   ├── apparmor
 │   │   │   ├── profiles
 │   │   │   │   ├── snap-confine.snapd.20671
+│   │   │   │   ├── snap-confine.snapd.21759
 │   │   │   │   ├── snap.lxd.activate
 │   │   │   │   ├── snap.lxd.benchmark
 │   │   │   │   ├── snap.lxd.buginfo
@@ -3266,7 +3298,13 @@
 │   │   │   │   │       └── PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4
 │   │   │   │   │           └── active
 │   │   │   │   └── snap-revision
+│   │   │   │       ├── ahosNJJurRcs1k6pxvnQ605WAdaQKVYwUKo5QOq_MXelJLjF5ZRM7SY0PYvuSuAk
+│   │   │   │       │   └── active
 │   │   │   │       ├── Ea2FTda4BeraYHsYvAwn7L8ActRvdGLuNbvELqiwaL9vxDvxXusj9mQ4QoYYi-F3
+│   │   │   │       │   └── active
+│   │   │   │       ├── KsfBnKIA9j8R2HVhkMMC9WYxqMVlj5vsAu1MhatGdZQb3lugwH8w8Dr-Cv1isr-h
+│   │   │   │       │   └── active
+│   │   │   │       ├── MiDDsFrPKxG30KV37Ys3oQO0jD2XcDcPmbdw1GU8wqxFzsK392mcvNwLJ7I5djy3
 │   │   │   │       │   └── active
 │   │   │   │       ├── sQEnVkollJ9d7PIHX48fJO_xRgi4aBpbPZDgDcAwYI2GDOWC0r0qejtoVSLftJp_
 │   │   │   │       │   └── active
@@ -3374,9 +3412,12 @@
 │   │   │   └── snapd.json
 │   │   ├── snaps
 │   │   │   ├── core20_2105.snap
+│   │   │   ├── core20_2318.snap
 │   │   │   ├── lxd_27037.snap
+│   │   │   ├── lxd_28373.snap
 │   │   │   ├── partial
-│   │   │   └── snapd_20671.snap
+│   │   │   ├── snapd_20671.snap
+│   │   │   └── snapd_21759.snap
 │   │   ├── ssl
 │   │   │   └── store-certs
 │   │   ├── state.json
@@ -3746,21 +3787,24 @@
 ├── snap
 │   ├── core20
 │   │   ├── 2105
+│   │   ├── 2318
 │   │   ├── common
-│   │   └── current -> 2105
+│   │   └── current -> 2318
 │   ├── lxd
 │   │   ├── 27037
+│   │   ├── 28373
 │   │   ├── common
 │   │   │   ├── config
 │   │   │   ├── lxd
 │   │   │   │   └── unix.socket
 │   │   │   └── lxd-user
 │   │   │       └── unix.socket
-│   │   └── current -> 27037
+│   │   └── current -> 28373
 │   └── snapd
 │       ├── 20671
+│       ├── 21759
 │       ├── common
-│       └── current -> 20671
+│       └── current -> 21759
 ├── spool
 │   ├── cron
 │   │   └── crontabs
@@ -3769,13 +3813,17 @@
 └── tmp
     ├── systemd-private-78c765b7bb8344e9b17a849134b842aa-bolt.service-5OoBEW
     │   └── tmp
+    ├── systemd-private-78c765b7bb8344e9b17a849134b842aa-fwupd.service-H8WVdk
+    │   └── tmp
     ├── systemd-private-78c765b7bb8344e9b17a849134b842aa-ModemManager.service-XxOtZe
     │   └── tmp
     ├── systemd-private-78c765b7bb8344e9b17a849134b842aa-systemd-logind.service-tw9aMc
     │   └── tmp
     ├── systemd-private-78c765b7bb8344e9b17a849134b842aa-systemd-resolved.service-qLP10j
     │   └── tmp
-    └── systemd-private-78c765b7bb8344e9b17a849134b842aa-systemd-timesyncd.service-aeemap
+    ├── systemd-private-78c765b7bb8344e9b17a849134b842aa-systemd-timesyncd.service-aeemap
+    │   └── tmp
+    └── systemd-private-78c765b7bb8344e9b17a849134b842aa-upower.service-xXdYiV
         └── tmp
 
-362 directories, 3416 files
+382 directories, 3444 files

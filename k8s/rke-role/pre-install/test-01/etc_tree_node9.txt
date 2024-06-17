@@ -1363,6 +1363,7 @@
 │   │   │   ├── rsyslog.service -> /lib/systemd/system/rsyslog.service
 │   │   │   ├── secureboot-db.service -> /lib/systemd/system/secureboot-db.service
 │   │   │   ├── snap-core20-2105.mount -> /etc/systemd/system/snap-core20-2105.mount
+│   │   │   ├── snap-core20-2318.mount -> /etc/systemd/system/snap-core20-2318.mount
 │   │   │   ├── snapd.aa-prompt-listener.service -> /lib/systemd/system/snapd.aa-prompt-listener.service
 │   │   │   ├── snapd.apparmor.service -> /lib/systemd/system/snapd.apparmor.service
 │   │   │   ├── snapd.autoimport.service -> /lib/systemd/system/snapd.autoimport.service
@@ -1371,8 +1372,10 @@
 │   │   │   ├── snapd.seeded.service -> /lib/systemd/system/snapd.seeded.service
 │   │   │   ├── snapd.service -> /lib/systemd/system/snapd.service
 │   │   │   ├── snap-lxd-27037.mount -> /etc/systemd/system/snap-lxd-27037.mount
+│   │   │   ├── snap-lxd-28373.mount -> /etc/systemd/system/snap-lxd-28373.mount
 │   │   │   ├── snap.lxd.activate.service -> /etc/systemd/system/snap.lxd.activate.service
 │   │   │   ├── snap-snapd-20671.mount -> /etc/systemd/system/snap-snapd-20671.mount
+│   │   │   ├── snap-snapd-21759.mount -> /etc/systemd/system/snap-snapd-21759.mount
 │   │   │   ├── ssh.service -> /lib/systemd/system/ssh.service
 │   │   │   ├── systemd-networkd.service -> /lib/systemd/system/systemd-networkd.service
 │   │   │   ├── systemd-resolved.service -> /lib/systemd/system/systemd-resolved.service
@@ -1396,17 +1399,23 @@
 │   │   │   ├── grub-common.service -> /lib/systemd/system/grub-common.service
 │   │   │   └── grub-initrd-fallback.service -> /lib/systemd/system/grub-initrd-fallback.service
 │   │   ├── snap-core20-2105.mount
+│   │   ├── snap-core20-2318.mount
 │   │   ├── snapd.mounts.target.wants
 │   │   │   ├── snap-core20-2105.mount -> /etc/systemd/system/snap-core20-2105.mount
+│   │   │   ├── snap-core20-2318.mount -> /etc/systemd/system/snap-core20-2318.mount
 │   │   │   ├── snap-lxd-27037.mount -> /etc/systemd/system/snap-lxd-27037.mount
-│   │   │   └── snap-snapd-20671.mount -> /etc/systemd/system/snap-snapd-20671.mount
+│   │   │   ├── snap-lxd-28373.mount -> /etc/systemd/system/snap-lxd-28373.mount
+│   │   │   ├── snap-snapd-20671.mount -> /etc/systemd/system/snap-snapd-20671.mount
+│   │   │   └── snap-snapd-21759.mount -> /etc/systemd/system/snap-snapd-21759.mount
 │   │   ├── snap-lxd-27037.mount
+│   │   ├── snap-lxd-28373.mount
 │   │   ├── snap.lxd.activate.service
 │   │   ├── snap.lxd.daemon.service
 │   │   ├── snap.lxd.daemon.unix.socket
 │   │   ├── snap.lxd.user-daemon.service
 │   │   ├── snap.lxd.user-daemon.unix.socket
 │   │   ├── snap-snapd-20671.mount
+│   │   ├── snap-snapd-21759.mount
 │   │   ├── sockets.target.wants
 │   │   │   ├── apport-forward.socket -> /lib/systemd/system/apport-forward.socket
 │   │   │   ├── dm-event.socket -> /lib/systemd/system/dm-event.socket
@@ -1566,4 +1575,4 @@
 │   └── user-dirs.defaults
 └── zsh_command_not_found
 
-230 directories, 1336 files
+230 directories, 1345 files

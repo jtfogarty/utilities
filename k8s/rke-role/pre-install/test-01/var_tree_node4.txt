@@ -1,5 +1,6 @@
 /var
 ├── backups
+│   └── apt.extended_states.0
 ├── cache
 │   ├── apparmor
 │   │   ├── 72e9179b.0
@@ -89,6 +90,11 @@
 │   │   ├── passwords.dat
 │   │   ├── templates.dat
 │   │   └── templates.dat-old
+│   ├── fwupd
+│   │   ├── metadata.xmlb
+│   │   ├── metainfo.xmlb
+│   │   └── quirks.xmlb
+│   ├── fwupdmgr
 │   ├── ldconfig
 │   │   └── aux-cache
 │   ├── man
@@ -264,6 +270,7 @@
 │   ├── apport
 │   │   └── coredump
 │   ├── apt
+│   │   ├── daily_lock
 │   │   ├── extended_states
 │   │   ├── lists
 │   │   │   ├── auxfiles
@@ -320,8 +327,11 @@
 │   │   ├── mirrors
 │   │   │   └── partial
 │   │   └── periodic
+│   │       ├── download-upgradeable-stamp
 │   │       ├── unattended-upgrades-stamp
-│   │       └── update-success-stamp
+│   │       ├── update-stamp
+│   │       ├── update-success-stamp
+│   │       └── upgrade-stamp
 │   ├── boltd
 │   ├── cloud
 │   │   ├── data
@@ -3154,6 +3164,22 @@
 │   │   │   ├── update-ca-certificates-fresh
 │   │   │   └── update-initramfs
 │   │   └── updates
+│   ├── fwupd
+│   │   ├── gnupg
+│   │   │   ├── private-keys-v1.d
+│   │   │   ├── pubring.kbx
+│   │   │   ├── pubring.kbx~
+│   │   │   └── trustdb.gpg
+│   │   ├── metadata
+│   │   │   └── lvfs
+│   │   │       ├── metadata.xml.gz
+│   │   │       └── metadata.xml.gz.jcat
+│   │   ├── pending.db
+│   │   ├── pki
+│   │   │   ├── client.pem
+│   │   │   └── secret.key
+│   │   ├── quirks.d
+│   │   └── remotes.d
 │   ├── git
 │   ├── grub
 │   │   ├── esp
@@ -3752,13 +3778,17 @@
 │   ├── mail -> ../mail
 │   └── rsyslog
 └── tmp
+    ├── systemd-private-b8c636c617e44c8590fcad4636644239-fwupd.service-FvZl5K
+    │   └── tmp
     ├── systemd-private-b8c636c617e44c8590fcad4636644239-ModemManager.service-5XLdYE
     │   └── tmp
     ├── systemd-private-b8c636c617e44c8590fcad4636644239-systemd-logind.service-EXGT7q
     │   └── tmp
     ├── systemd-private-b8c636c617e44c8590fcad4636644239-systemd-resolved.service-MCEPmR
     │   └── tmp
-    └── systemd-private-b8c636c617e44c8590fcad4636644239-systemd-timesyncd.service-kaNaQk
+    ├── systemd-private-b8c636c617e44c8590fcad4636644239-systemd-timesyncd.service-kaNaQk
+    │   └── tmp
+    └── systemd-private-b8c636c617e44c8590fcad4636644239-upower.service-S2fiuf
         └── tmp
 
-361 directories, 3400 files
+375 directories, 3416 files

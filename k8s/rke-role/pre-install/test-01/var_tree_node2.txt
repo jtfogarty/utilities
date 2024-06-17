@@ -1,6 +1,7 @@
 /var
 ├── backups
 │   ├── alternatives.tar.0
+│   ├── apt.extended_states.0
 │   ├── dpkg.arch.0
 │   ├── dpkg.diversions.0
 │   ├── dpkg.statoverride.0
@@ -94,6 +95,11 @@
 │   │   ├── passwords.dat
 │   │   ├── templates.dat
 │   │   └── templates.dat-old
+│   ├── fwupd
+│   │   ├── metadata.xmlb
+│   │   ├── metainfo.xmlb
+│   │   └── quirks.xmlb
+│   ├── fwupdmgr
 │   ├── ldconfig
 │   │   └── aux-cache
 │   ├── man
@@ -269,6 +275,7 @@
 │   ├── apport
 │   │   └── coredump
 │   ├── apt
+│   │   ├── daily_lock
 │   │   ├── extended_states
 │   │   ├── lists
 │   │   │   ├── auxfiles
@@ -325,8 +332,11 @@
 │   │   ├── mirrors
 │   │   │   └── partial
 │   │   └── periodic
+│   │       ├── download-upgradeable-stamp
 │   │       ├── unattended-upgrades-stamp
-│   │       └── update-success-stamp
+│   │       ├── update-stamp
+│   │       ├── update-success-stamp
+│   │       └── upgrade-stamp
 │   ├── boltd
 │   ├── cloud
 │   │   ├── data
@@ -3175,6 +3185,22 @@
 │   │   │   ├── update-ca-certificates-fresh
 │   │   │   └── update-initramfs
 │   │   └── updates
+│   ├── fwupd
+│   │   ├── gnupg
+│   │   │   ├── private-keys-v1.d
+│   │   │   ├── pubring.kbx
+│   │   │   ├── pubring.kbx~
+│   │   │   └── trustdb.gpg
+│   │   ├── metadata
+│   │   │   └── lvfs
+│   │   │       ├── metadata.xml.gz
+│   │   │       └── metadata.xml.gz.jcat
+│   │   ├── pending.db
+│   │   ├── pki
+│   │   │   ├── client.pem
+│   │   │   └── secret.key
+│   │   ├── quirks.d
+│   │   └── remotes.d
 │   ├── git
 │   ├── grub
 │   │   ├── esp
@@ -3782,7 +3808,9 @@
     │   └── tmp
     ├── systemd-private-1b1596b2c1d44378bd612f7b2119c69c-systemd-resolved.service-n6t4rG
     │   └── tmp
-    └── systemd-private-1b1596b2c1d44378bd612f7b2119c69c-systemd-timesyncd.service-wRCFiT
+    ├── systemd-private-1b1596b2c1d44378bd612f7b2119c69c-systemd-timesyncd.service-wRCFiT
+    │   └── tmp
+    └── systemd-private-1b1596b2c1d44378bd612f7b2119c69c-upower.service-zUOLeu
         └── tmp
 
-362 directories, 3423 files
+374 directories, 3439 files
