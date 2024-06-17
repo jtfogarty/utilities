@@ -1,0 +1,177 @@
+[0;32mk8s-rancher-01[0m
+Checking token file on k8s-rancher-01...
+/var/lib/rancher/rke2/server/node-token
+Token file exists on k8s-rancher-01
+[0;32mk8s-rancher-02[0m
+Checking token file on k8s-rancher-02...
+/var/lib/rancher/rke2/server/node-token
+Token file exists on k8s-rancher-02
+[0;32mk8s-rancher-03[0m
+Checking token file on k8s-rancher-03...
+/var/lib/rancher/rke2/server/node-token
+Token file exists on k8s-rancher-03
+Checking journalctl logs for rke2-agent on k8s-rancher-04...
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit rke2-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 1.
+Jun 14 00:02:01 k8s-rancher-04 systemd[1]: rke2-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit rke2-agent.service has entered the 'failed' state with result 'exit-code'.
+Jun 14 00:02:01 k8s-rancher-04 systemd[1]: Failed to start Rancher Kubernetes Engine v2 (agent).
+░░ Subject: A start job for unit rke2-agent.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ A start job for unit rke2-agent.service has finished with a failure.
+░░ 
+░░ The job identifier is 109089 and the job result is failed.
+Checking journalctl logs for rke2-agent on k8s-rancher-05...
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit rke2-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 1.
+Jun 14 00:02:02 k8s-rancher-05 systemd[1]: rke2-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit rke2-agent.service has entered the 'failed' state with result 'exit-code'.
+Jun 14 00:02:02 k8s-rancher-05 systemd[1]: Failed to start Rancher Kubernetes Engine v2 (agent).
+░░ Subject: A start job for unit rke2-agent.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ A start job for unit rke2-agent.service has finished with a failure.
+░░ 
+░░ The job identifier is 112435 and the job result is failed.
+Checking journalctl logs for rke2-agent on k8s-rancher-06...
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit rke2-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 1.
+Jun 14 00:02:03 k8s-rancher-06 systemd[1]: rke2-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit rke2-agent.service has entered the 'failed' state with result 'exit-code'.
+Jun 14 00:02:03 k8s-rancher-06 systemd[1]: Failed to start Rancher Kubernetes Engine v2 (agent).
+░░ Subject: A start job for unit rke2-agent.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ A start job for unit rke2-agent.service has finished with a failure.
+░░ 
+░░ The job identifier is 112910 and the job result is failed.
+Checking journalctl logs for rke2-agent on k8s-rancher-07...
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit rke2-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 1.
+Jun 14 00:02:02 k8s-rancher-07 systemd[1]: rke2-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit rke2-agent.service has entered the 'failed' state with result 'exit-code'.
+Jun 14 00:02:02 k8s-rancher-07 systemd[1]: Failed to start Rancher Kubernetes Engine v2 (agent).
+░░ Subject: A start job for unit rke2-agent.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ A start job for unit rke2-agent.service has finished with a failure.
+░░ 
+░░ The job identifier is 100924 and the job result is failed.
+Checking journalctl logs for rke2-agent on k8s-rancher-08...
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit rke2-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 1.
+Jun 14 00:02:04 k8s-rancher-08 systemd[1]: rke2-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit rke2-agent.service has entered the 'failed' state with result 'exit-code'.
+Jun 14 00:02:04 k8s-rancher-08 systemd[1]: Failed to start Rancher Kubernetes Engine v2 (agent).
+░░ Subject: A start job for unit rke2-agent.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ A start job for unit rke2-agent.service has finished with a failure.
+░░ 
+░░ The job identifier is 108895 and the job result is failed.
+Checking journalctl logs for rke2-agent on k8s-rancher-09...
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit rke2-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 1.
+Jun 14 00:02:04 k8s-rancher-09 systemd[1]: rke2-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit rke2-agent.service has entered the 'failed' state with result 'exit-code'.
+Jun 14 00:02:04 k8s-rancher-09 systemd[1]: Failed to start Rancher Kubernetes Engine v2 (agent).
+░░ Subject: A start job for unit rke2-agent.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ A start job for unit rke2-agent.service has finished with a failure.
+░░ 
+░░ The job identifier is 100922 and the job result is failed.
+Checking RKE2 config file on k8s-rancher-01...
+token: 
+server: https://k8s-rancher-01:9345
+tls-san:
+  - k8s-rancher-01
+Checking RKE2 config file on k8s-rancher-02...
+[0;31mConfig file does NOT exist on k8s-rancher-02[0m
+Checking RKE2 config file on k8s-rancher-03...
+[0;31mConfig file does NOT exist on k8s-rancher-03[0m
+Checking RKE2 config file on k8s-rancher-04...
+[0;31mConfig file does NOT exist on k8s-rancher-04[0m
+Checking RKE2 config file on k8s-rancher-05...
+[0;31mConfig file does NOT exist on k8s-rancher-05[0m
+Checking RKE2 config file on k8s-rancher-06...
+[0;31mConfig file does NOT exist on k8s-rancher-06[0m
+Checking RKE2 config file on k8s-rancher-07...
+[0;31mConfig file does NOT exist on k8s-rancher-07[0m
+Checking RKE2 config file on k8s-rancher-08...
+[0;31mConfig file does NOT exist on k8s-rancher-08[0m
+Checking RKE2 config file on k8s-rancher-09...
+[0;31mConfig file does NOT exist on k8s-rancher-09[0m
+Testing network connectivity to k8s-rancher-01 from k8s-rancher-04...
+404 page not found
+[0;31mFailed to connect to k8s-rancher-01:6443 from k8s-rancher-04[0m
+Testing network connectivity to k8s-rancher-01 from k8s-rancher-05...
+404 page not found
+[0;31mFailed to connect to k8s-rancher-01:6443 from k8s-rancher-05[0m
+Testing network connectivity to k8s-rancher-01 from k8s-rancher-06...
+404 page not found
+[0;31mFailed to connect to k8s-rancher-01:6443 from k8s-rancher-06[0m
+Testing network connectivity to k8s-rancher-01 from k8s-rancher-07...
+404 page not found
+[0;31mFailed to connect to k8s-rancher-01:6443 from k8s-rancher-07[0m
+Testing network connectivity to k8s-rancher-01 from k8s-rancher-08...
+404 page not found
+[0;31mFailed to connect to k8s-rancher-01:6443 from k8s-rancher-08[0m
+Testing network connectivity to k8s-rancher-01 from k8s-rancher-09...
+404 page not found
+[0;31mFailed to connect to k8s-rancher-01:6443 from k8s-rancher-09[0m

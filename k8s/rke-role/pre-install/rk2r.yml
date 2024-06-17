@@ -1,0 +1,152 @@
+---
+- name: Snapshot system state before Kubernetes and Rancher installation
+  hosts: all
+  become: yes
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa_k8s
+    ansible_python_interpreter: /usr/bin/python3.10
+  tasks:
+    - name: Update the package list and upgrade all packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install tree package
+      apt:
+        name: tree
+        state: present
+
+    - name: List /etc directory structure
+      command: tree /etc
+      register: etc_tree_output
+
+    - name: List /var directory structure
+      command: tree /var
+      register: var_tree_output
+
+    - name: Get a list of all running services
+      command: systemctl list-units --type=service --state=running
+      register: running_services
+
+    - name: Save /etc directory structure to a file on the remote machine
+      copy:
+        content: "{{ etc_tree_output.stdout }}"
+        dest: "/tmp/etc_tree_{{ inventory_hostname }}.txt"
+
+    - name: Fetch /etc directory structure file to Ansible control machine
+      fetch:
+        src: "/tmp/etc_tree_{{ inventory_hostname }}.txt"
+        dest: "./etc_tree_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Save /var directory structure to a file on the remote machine
+      copy:
+        content: "{{ var_tree_output.stdout }}"
+        dest: "/tmp/var_tree_{{ inventory_hostname }}.txt"
+
+    - name: Fetch /var directory structure file to Ansible control machine
+      fetch:
+        src: "/tmp/var_tree_{{ inventory_hostname }}.txt"
+        dest: "./var_tree_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Save running services list to a file on the remote machine
+      copy:
+        content: "{{ running_services.stdout }}"
+        dest: "/tmp/running_services_{{ inventory_hostname }}.txt"
+
+    - name: Fetch running services list file to Ansible control machine
+      fetch:
+        src: "/tmp/running_services_{{ inventory_hostname }}.txt"
+        dest: "./running_services_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Get list of installed packages
+      command: dpkg --get-selections
+      register: installed_packages
+
+    - name: Save installed packages list to a file on the remote machine
+      copy:
+        content: "{{ installed_packages.stdout }}"
+        dest: "/tmp/installed_packages_{{ inventory_hostname }}.txt"
+
+    - name: Fetch installed packages list file to Ansible control machine
+      fetch:
+        src: "/tmp/installed_packages_{{ inventory_hostname }}.txt"
+        dest: "./installed_packages_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Capture containerd state
+      command: ctr --namespace k8s.io containers list
+      register: containerd_state
+
+    - name: Save containerd state to a file on the remote machine
+      copy:
+        content: "{{ containerd_state.stdout }}"
+        dest: "/tmp/containerd_state_{{ inventory_hostname }}.txt"
+
+    - name: Fetch containerd state file to Ansible control machine
+      fetch:
+        src: "/tmp/containerd_state_{{ inventory_hostname }}.txt"
+        dest: "./containerd_state_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Get network configuration
+      command: ip a
+      register: network_config
+
+    - name: Save network configuration to a file on the remote machine
+      copy:
+        content: "{{ network_config.stdout }}"
+        dest: "/tmp/network_config_{{ inventory_hostname }}.txt"
+
+    - name: Fetch network configuration file to Ansible control machine
+      fetch:
+        src: "/tmp/network_config_{{ inventory_hostname }}.txt"
+        dest: "./network_config_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Capture iptables rules
+      command: iptables-save
+      register: iptables_rules
+
+    - name: Save iptables rules to a file on the remote machine
+      copy:
+        content: "{{ iptables_rules.stdout }}"
+        dest: "/tmp/iptables_rules_{{ inventory_hostname }}.txt"
+
+    - name: Fetch iptables rules file to Ansible control machine
+      fetch:
+        src: "/tmp/iptables_rules_{{ inventory_hostname }}.txt"
+        dest: "./iptables_rules_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Capture disk usage
+      command: df -h
+      register: disk_usage
+
+    - name: Save disk usage to a file on the remote machine
+      copy:
+        content: "{{ disk_usage.stdout }}"
+        dest: "/tmp/disk_usage_{{ inventory_hostname }}.txt"
+
+    - name: Fetch disk usage file to Ansible control machine
+      fetch:
+        src: "/tmp/disk_usage_{{ inventory_hostname }}.txt"
+        dest: "./disk_usage_{{ inventory_hostname }}.txt"
+        flat: yes
+
+    - name: Capture running processes
+      command: ps aux
+      register: running_processes
+
+    - name: Save running processes to a file on the remote machine
+      copy:
+        content: "{{ running_processes.stdout }}"
+        dest: "/tmp/running_processes_{{ inventory_hostname }}.txt"
+
+    - name: Fetch running processes file to Ansible control machine
+      fetch:
+        src: "/tmp/running_processes_{{ inventory_hostname }}.txt"
+        dest: "./running_processes_{{ inventory_hostname }}.txt"
+        flat: yes

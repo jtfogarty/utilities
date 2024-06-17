@@ -1,0 +1,169 @@
+- name: Install and configure RKE2 on all nodes
+  hosts: all
+  become: True
+  become_method: sudo
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa_k8s
+    ansible_python_interpreter: /usr/bin/python3.10
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - curl
+        - sudo
+        - apt-transport-https
+        - ca-certificates
+
+    - name: Set the network IP address
+      set_fact:
+        network_ip: "{{ ansible_facts.default_ipv4.address if ansible_facts.default_ipv4.address != '127.0.0.1' else (ansible_all_ipv4_addresses | difference(['127.0.0.1', '127.0.1.1']) | first) }}"
+
+- name: Install and configure RKE2 on server nodes
+  hosts: server_nodes
+  become: True
+  become_method: sudo
+  vars:
+    rke2_version: "v1.21.4+rke2r1"
+    rke2_server_url: "https://{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}:9345"
+    rke2_token_file: "/var/lib/rancher/rke2/server/node-token"
+    rke2_config_file: "/etc/rancher/rke2/config.yaml"
+
+  tasks:
+    - name: Install NetworkManager
+      apt:
+        name: network-manager
+        state: present
+
+    - name: Install RKE2 server
+      shell: |
+        curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION={{ rke2_version }} INSTALL_RKE2_TYPE=server sh -
+
+    - name: Enable and start RKE2 server service
+      systemd:
+        name: rke2-server
+        enabled: true
+        state: started
+      register: rke2_service_status
+      ignore_errors: true
+
+    - name: Log RKE2 server service status to a file
+      copy:
+        dest: "/var/log/rke2_service_status_{{ inventory_hostname }}.log"
+        content: "{{ rke2_service_status | to_nice_json }}"
+      no_log: true
+
+    - name: Create RKE2 config directory
+      file:
+        path: /etc/rancher/rke2
+        state: directory
+        mode: '0755'
+
+    - name: Ensure token directory exists
+      file:
+        path: /var/lib/rancher/rke2/server
+        state: directory
+        mode: '0755'
+
+    - name: Fetch node token from the control plane node
+      when: inventory_hostname == groups['server_nodes'][0]
+      fetch:
+        src: "{{ rke2_token_file }}"
+        dest: "./node-token"
+        flat: true
+
+    - name: Distribute node token to other server nodes
+      when: inventory_hostname != groups['server_nodes'][0]
+      copy:
+        src: "./node-token"
+        dest: "{{ rke2_token_file }}"
+        mode: '0600'
+
+    - name: Configure RKE2 on server nodes
+      copy:
+        dest: "{{ rke2_config_file }}"
+        content: |
+          server: {{ rke2_server_url }}
+          token: {{ lookup('file', './node-token') }}
+          tls-san:
+            - {{ ansible_host }}
+
+    - name: Ensure hostname resolution
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ network_ip }} {{ ansible_hostname }}"
+        create: yes
+
+    - name: Restart RKE2 server service
+      systemd:
+        name: rke2-server
+        state: restarted
+      register: server_restart_status
+      ignore_errors: true
+
+    - name: Debug server restart status
+      when: "'failed' in server_restart_status"
+      debug:
+        msg: "Failed to restart rke2-server service. Check 'systemctl status rke2-server.service' and 'journalctl -xeu rke2-server.service' for details."
+
+- name: Install and configure RKE2 agent on agent nodes
+  hosts: agent_nodes
+  become: True
+  become_method: sudo
+  vars:
+    rke2_version: "v1.21.4+rke2r1"
+    rke2_server_url: "https://{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}:9345"
+    rke2_token_file: "/var/lib/rancher/rke2/server/node-token"
+    rke2_config_file: "/etc/rancher/rke2/config.yaml"
+
+  tasks:
+    - name: Install RKE2 agent
+      shell: |
+        curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION={{ rke2_version }} INSTALL_RKE2_TYPE=agent sh -
+
+    - name: Enable and start RKE2 agent service
+      systemd:
+        name: rke2-agent
+        enabled: true
+        state: started
+      register: rke2_agent_service_status
+      ignore_errors: true
+
+    - name: Log RKE2 agent service status to a file
+      copy:
+        dest: "/var/log/rke2_agent_service_status_{{ inventory_hostname }}.log"
+        content: "{{ rke2_agent_service_status | to_nice_json }}"
+      no_log: true
+
+    - name: Ensure RKE2 config directory exists
+      file:
+        path: /etc/rancher/rke2
+        state: directory
+        mode: '0755'
+
+    - name: Configure RKE2 agent on all nodes
+      copy:
+        dest: "{{ rke2_config_file }}"
+        content: |
+          server: {{ rke2_server_url }}
+          token: {{ lookup('file', './node-token') }}
+          tls-san:
+            - {{ ansible_host }}
+
+    - name: Ensure hostname resolution
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ network_ip }} {{ ansible_hostname }}"
+        create: yes
+
+    - name: Verify network connectivity to control plane from all nodes
+      shell: |
+        curl -k https://{{ rke2_server_url }}/cacerts || echo "Failed to connect to {{ rke2_server_url }}"
+      register: curl_output
+      ignore_errors: yes
+
+    - name: Debug curl output
+      debug:
+        var: curl_output.stdout

@@ -1,0 +1,1569 @@
+/etc
+├── adduser.conf
+├── alternatives
+│   ├── arptables -> /usr/sbin/arptables-nft
+│   ├── arptables-restore -> /usr/sbin/arptables-nft-restore
+│   ├── arptables-save -> /usr/sbin/arptables-nft-save
+│   ├── awk -> /usr/bin/gawk
+│   ├── awk.1.gz -> /usr/share/man/man1/gawk.1.gz
+│   ├── builtins.7.gz -> /usr/share/man/man7/bash-builtins.7.gz
+│   ├── ebtables -> /usr/sbin/ebtables-nft
+│   ├── ebtables-restore -> /usr/sbin/ebtables-nft-restore
+│   ├── ebtables-save -> /usr/sbin/ebtables-nft-save
+│   ├── editor -> /bin/nano
+│   ├── editor.1.gz -> /usr/share/man/man1/nano.1.gz
+│   ├── ex -> /usr/bin/vim.basic
+│   ├── ex.1.gz -> /usr/share/man/man1/vim.1.gz
+│   ├── ex.da.1.gz -> /usr/share/man/da/man1/vim.1.gz
+│   ├── ex.de.1.gz -> /usr/share/man/de/man1/vim.1.gz
+│   ├── ex.fr.1.gz -> /usr/share/man/fr/man1/vim.1.gz
+│   ├── ex.it.1.gz -> /usr/share/man/it/man1/vim.1.gz
+│   ├── ex.ja.1.gz -> /usr/share/man/ja/man1/vim.1.gz
+│   ├── ex.pl.1.gz -> /usr/share/man/pl/man1/vim.1.gz
+│   ├── ex.ru.1.gz -> /usr/share/man/ru/man1/vim.1.gz
+│   ├── ftp -> /usr/bin/tnftp
+│   ├── ftp.1.gz -> /usr/share/man/man1/tnftp.1.gz
+│   ├── infobrowser -> /usr/bin/info
+│   ├── infobrowser.1.gz -> /usr/share/man/man1/info.1.gz
+│   ├── ip6tables -> /usr/sbin/ip6tables-nft
+│   ├── ip6tables-restore -> /usr/sbin/ip6tables-nft-restore
+│   ├── ip6tables-save -> /usr/sbin/ip6tables-nft-save
+│   ├── iptables -> /usr/sbin/iptables-nft
+│   ├── iptables-restore -> /usr/sbin/iptables-nft-restore
+│   ├── iptables-save -> /usr/sbin/iptables-nft-save
+│   ├── jsondiff -> /usr/bin/json-patch-jsondiff
+│   ├── lzcat -> /usr/bin/xzcat
+│   ├── lzcat.1.gz -> /usr/share/man/man1/xzcat.1.gz
+│   ├── lzcmp -> /usr/bin/xzcmp
+│   ├── lzcmp.1.gz -> /usr/share/man/man1/xzcmp.1.gz
+│   ├── lzdiff -> /usr/bin/xzdiff
+│   ├── lzdiff.1.gz -> /usr/share/man/man1/xzdiff.1.gz
+│   ├── lzegrep -> /usr/bin/xzegrep
+│   ├── lzegrep.1.gz -> /usr/share/man/man1/xzegrep.1.gz
+│   ├── lzfgrep -> /usr/bin/xzfgrep
+│   ├── lzfgrep.1.gz -> /usr/share/man/man1/xzfgrep.1.gz
+│   ├── lzgrep -> /usr/bin/xzgrep
+│   ├── lzgrep.1.gz -> /usr/share/man/man1/xzgrep.1.gz
+│   ├── lzless -> /usr/bin/xzless
+│   ├── lzless.1.gz -> /usr/share/man/man1/xzless.1.gz
+│   ├── lzma -> /usr/bin/xz
+│   ├── lzma.1.gz -> /usr/share/man/man1/xz.1.gz
+│   ├── lzmore -> /usr/bin/xzmore
+│   ├── lzmore.1.gz -> /usr/share/man/man1/xzmore.1.gz
+│   ├── mt -> /bin/mt-gnu
+│   ├── mt.1.gz -> /usr/share/man/man1/mt-gnu.1.gz
+│   ├── nawk -> /usr/bin/gawk
+│   ├── nawk.1.gz -> /usr/share/man/man1/gawk.1.gz
+│   ├── nc -> /bin/nc.openbsd
+│   ├── nc.1.gz -> /usr/share/man/man1/nc_openbsd.1.gz
+│   ├── netcat -> /bin/nc.openbsd
+│   ├── netcat.1.gz -> /usr/share/man/man1/nc_openbsd.1.gz
+│   ├── newt-palette -> /etc/newt/palette.ubuntu
+│   ├── pager -> /usr/bin/less
+│   ├── pager.1.gz -> /usr/share/man/man1/less.1.gz
+│   ├── pico -> /bin/nano
+│   ├── pico.1.gz -> /usr/share/man/man1/nano.1.gz
+│   ├── pinentry -> /usr/bin/pinentry-curses
+│   ├── pinentry.1.gz -> /usr/share/man/man1/pinentry-curses.1.gz
+│   ├── pybabel -> /usr/bin/pybabel-python3
+│   ├── rcp -> /usr/bin/scp
+│   ├── rcp.1.gz -> /usr/share/man/man1/scp.1.gz
+│   ├── README
+│   ├── rlogin -> /usr/bin/slogin
+│   ├── rlogin.1.gz -> /usr/share/man/man1/slogin.1.gz
+│   ├── rmt -> /usr/sbin/rmt-tar
+│   ├── rmt.8.gz -> /usr/share/man/man8/rmt-tar.8.gz
+│   ├── rsh -> /usr/bin/ssh
+│   ├── rsh.1.gz -> /usr/share/man/man1/ssh.1.gz
+│   ├── rview -> /usr/bin/vim.basic
+│   ├── rvim -> /usr/bin/vim.basic
+│   ├── shimx64.efi.signed -> /usr/lib/shim/shimx64.efi.signed.latest
+│   ├── telnet -> /usr/bin/telnet.netkit
+│   ├── telnet.1.gz -> /usr/share/man/man1/telnet.netkit.1.gz
+│   ├── text.plymouth -> /usr/share/plymouth/themes/ubuntu-text/ubuntu-text.plymouth
+│   ├── unlzma -> /usr/bin/unxz
+│   ├── unlzma.1.gz -> /usr/share/man/man1/unxz.1.gz
+│   ├── vi -> /usr/bin/vim.basic
+│   ├── vi.1.gz -> /usr/share/man/man1/vim.1.gz
+│   ├── vi.da.1.gz -> /usr/share/man/da/man1/vim.1.gz
+│   ├── vi.de.1.gz -> /usr/share/man/de/man1/vim.1.gz
+│   ├── view -> /usr/bin/vim.basic
+│   ├── view.1.gz -> /usr/share/man/man1/vim.1.gz
+│   ├── view.da.1.gz -> /usr/share/man/da/man1/vim.1.gz
+│   ├── view.de.1.gz -> /usr/share/man/de/man1/vim.1.gz
+│   ├── view.fr.1.gz -> /usr/share/man/fr/man1/vim.1.gz
+│   ├── view.it.1.gz -> /usr/share/man/it/man1/vim.1.gz
+│   ├── view.ja.1.gz -> /usr/share/man/ja/man1/vim.1.gz
+│   ├── view.pl.1.gz -> /usr/share/man/pl/man1/vim.1.gz
+│   ├── view.ru.1.gz -> /usr/share/man/ru/man1/vim.1.gz
+│   ├── vi.fr.1.gz -> /usr/share/man/fr/man1/vim.1.gz
+│   ├── vi.it.1.gz -> /usr/share/man/it/man1/vim.1.gz
+│   ├── vi.ja.1.gz -> /usr/share/man/ja/man1/vim.1.gz
+│   ├── vim -> /usr/bin/vim.basic
+│   ├── vimdiff -> /usr/bin/vim.basic
+│   ├── vi.pl.1.gz -> /usr/share/man/pl/man1/vim.1.gz
+│   ├── vi.ru.1.gz -> /usr/share/man/ru/man1/vim.1.gz
+│   ├── vtrgb -> /etc/console-setup/vtrgb
+│   ├── which -> /usr/bin/which.debianutils
+│   ├── which.1.gz -> /usr/share/man/man1/which.debianutils.1.gz
+│   ├── which.de1.gz -> /usr/share/man/de/man1/which.debianutils.1.gz
+│   ├── which.es1.gz -> /usr/share/man/es/man1/which.debianutils.1.gz
+│   ├── which.fr1.gz -> /usr/share/man/fr/man1/which.debianutils.1.gz
+│   ├── which.it1.gz -> /usr/share/man/it/man1/which.debianutils.1.gz
+│   ├── which.ja1.gz -> /usr/share/man/ja/man1/which.debianutils.1.gz
+│   ├── which.pl1.gz -> /usr/share/man/pl/man1/which.debianutils.1.gz
+│   ├── which.sl1.gz -> /usr/share/man/sl/man1/which.debianutils.1.gz
+│   ├── write -> /usr/bin/write.ul
+│   └── write.1.gz -> /usr/share/man/man1/write.ul.1.gz
+├── apparmor
+│   ├── init
+│   │   └── network-interface-security
+│   │       └── sbin.dhclient -> ../../../apparmor.d/sbin.dhclient
+│   └── parser.conf
+├── apparmor.d
+│   ├── abi
+│   │   ├── 3.0
+│   │   ├── kernel-5.4-outoftree-network
+│   │   └── kernel-5.4-vanilla
+│   ├── abstractions
+│   │   ├── apache2-common
+│   │   ├── apparmor_api
+│   │   │   ├── change_profile
+│   │   │   ├── examine
+│   │   │   ├── find_mountpoint
+│   │   │   ├── introspect
+│   │   │   └── is_enabled
+│   │   ├── aspell
+│   │   ├── audio
+│   │   ├── authentication
+│   │   ├── base
+│   │   ├── bash
+│   │   ├── consoles
+│   │   ├── crypto
+│   │   ├── cups-client
+│   │   ├── dbus
+│   │   ├── dbus-accessibility
+│   │   ├── dbus-accessibility-strict
+│   │   ├── dbus-network-manager-strict
+│   │   ├── dbus-session
+│   │   ├── dbus-session-strict
+│   │   ├── dbus-strict
+│   │   ├── dconf
+│   │   ├── dovecot-common
+│   │   ├── dri-common
+│   │   ├── dri-enumerate
+│   │   ├── enchant
+│   │   ├── exo-open
+│   │   ├── fcitx
+│   │   ├── fcitx-strict
+│   │   ├── fonts
+│   │   ├── freedesktop.org
+│   │   ├── gio-open
+│   │   ├── gnome
+│   │   ├── gnupg
+│   │   ├── gtk
+│   │   ├── gvfs-open
+│   │   ├── hosts_access
+│   │   ├── ibus
+│   │   ├── kde
+│   │   ├── kde-globals-write
+│   │   ├── kde-icon-cache-write
+│   │   ├── kde-language-write
+│   │   ├── kde-open5
+│   │   ├── kerberosclient
+│   │   ├── ldapclient
+│   │   ├── libpam-systemd
+│   │   ├── likewise
+│   │   ├── mdns
+│   │   ├── mesa
+│   │   ├── mir
+│   │   ├── mozc
+│   │   ├── mysql
+│   │   ├── nameservice
+│   │   ├── nis
+│   │   ├── nss-systemd
+│   │   ├── nvidia
+│   │   ├── opencl
+│   │   ├── opencl-common
+│   │   ├── opencl-intel
+│   │   ├── opencl-mesa
+│   │   ├── opencl-nvidia
+│   │   ├── opencl-pocl
+│   │   ├── openssl
+│   │   ├── orbit2
+│   │   ├── p11-kit
+│   │   ├── perl
+│   │   ├── php
+│   │   ├── php5
+│   │   ├── php-worker
+│   │   ├── postfix-common
+│   │   ├── private-files
+│   │   ├── private-files-strict
+│   │   ├── python
+│   │   ├── qt5
+│   │   ├── qt5-compose-cache-write
+│   │   ├── qt5-settings-write
+│   │   ├── recent-documents-write
+│   │   ├── ruby
+│   │   ├── samba
+│   │   ├── smbpass
+│   │   ├── snap_browsers
+│   │   ├── ssl_certs
+│   │   ├── ssl_keys
+│   │   ├── svn-repositories
+│   │   ├── ubuntu-bittorrent-clients
+│   │   ├── ubuntu-browsers
+│   │   ├── ubuntu-browsers.d
+│   │   │   ├── chromium-browser
+│   │   │   ├── java
+│   │   │   ├── kde
+│   │   │   ├── mailto
+│   │   │   ├── multimedia
+│   │   │   ├── plugins-common
+│   │   │   ├── productivity
+│   │   │   ├── text-editors
+│   │   │   ├── ubuntu-integration
+│   │   │   ├── ubuntu-integration-xul
+│   │   │   └── user-files
+│   │   ├── ubuntu-console-browsers
+│   │   ├── ubuntu-console-email
+│   │   ├── ubuntu-email
+│   │   ├── ubuntu-feed-readers
+│   │   ├── ubuntu-gnome-terminal
+│   │   ├── ubuntu-helpers
+│   │   ├── ubuntu-konsole
+│   │   ├── ubuntu-media-players
+│   │   ├── ubuntu-unity7-base
+│   │   ├── ubuntu-unity7-launcher
+│   │   ├── ubuntu-unity7-messaging
+│   │   ├── ubuntu-xterm
+│   │   ├── user-download
+│   │   ├── user-mail
+│   │   ├── user-manpages
+│   │   ├── user-tmp
+│   │   ├── user-write
+│   │   ├── video
+│   │   ├── vulkan
+│   │   ├── wayland
+│   │   ├── web-data
+│   │   ├── winbind
+│   │   ├── wutmp
+│   │   ├── X
+│   │   ├── xad
+│   │   ├── xdg-desktop
+│   │   └── xdg-open
+│   ├── disable
+│   │   └── usr.sbin.rsyslogd -> /etc/apparmor.d/usr.sbin.rsyslogd
+│   ├── force-complain
+│   ├── local
+│   │   ├── lsb_release
+│   │   ├── nvidia_modprobe
+│   │   ├── README
+│   │   ├── sbin.dhclient
+│   │   ├── ubuntu_pro_apt_news
+│   │   ├── ubuntu_pro_esm_cache
+│   │   ├── usr.bin.man
+│   │   ├── usr.bin.tcpdump
+│   │   ├── usr.lib.snapd.snap-confine.real
+│   │   └── usr.sbin.rsyslogd
+│   ├── lsb_release
+│   ├── nvidia_modprobe
+│   ├── sbin.dhclient
+│   ├── tunables
+│   │   ├── alias
+│   │   ├── apparmorfs
+│   │   ├── dovecot
+│   │   ├── etc
+│   │   ├── global
+│   │   ├── home
+│   │   ├── home.d
+│   │   │   ├── site.local
+│   │   │   └── ubuntu
+│   │   ├── kernelvars
+│   │   ├── multiarch
+│   │   ├── multiarch.d
+│   │   │   └── site.local
+│   │   ├── proc
+│   │   ├── run
+│   │   ├── securityfs
+│   │   ├── share
+│   │   ├── sys
+│   │   ├── xdg-user-dirs
+│   │   └── xdg-user-dirs.d
+│   │       └── site.local
+│   ├── ubuntu_pro_apt_news
+│   ├── ubuntu_pro_esm_cache
+│   ├── usr.bin.man
+│   ├── usr.bin.tcpdump
+│   ├── usr.lib.snapd.snap-confine.real
+│   └── usr.sbin.rsyslogd
+├── apport
+│   ├── blacklist.d
+│   │   ├── apport
+│   │   └── README.blacklist
+│   └── crashdb.conf
+├── apt
+│   ├── apt.conf.d
+│   │   ├── 01autoremove
+│   │   ├── 01-vendor-ubuntu
+│   │   ├── 10periodic
+│   │   ├── 15update-stamp
+│   │   ├── 20apt-esm-hook.conf
+│   │   ├── 20archive
+│   │   ├── 20auto-upgrades
+│   │   ├── 20packagekit
+│   │   ├── 20snapd.conf
+│   │   ├── 50command-not-found
+│   │   ├── 50unattended-upgrades
+│   │   ├── 70debconf
+│   │   ├── 99needrestart
+│   │   ├── 99update-notifier
+│   │   └── zzzz-temp-installer-unattended-upgrade
+│   ├── auth.conf.d
+│   ├── keyrings
+│   ├── preferences.d
+│   │   ├── ubuntu-pro-esm-apps
+│   │   └── ubuntu-pro-esm-infra
+│   ├── preferences.d.save
+│   │   ├── ubuntu-pro-esm-apps
+│   │   └── ubuntu-pro-esm-infra
+│   ├── sources.list
+│   ├── sources.list.curtin.old
+│   ├── sources.list.d
+│   └── trusted.gpg.d
+│       ├── ubuntu-keyring-2012-cdimage.gpg
+│       └── ubuntu-keyring-2018-archive.gpg
+├── bash.bashrc
+├── bash_completion
+├── bash_completion.d
+│   ├── apport_completion
+│   └── git-prompt
+├── bindresvport.blacklist
+├── binfmt.d
+├── byobu
+│   ├── backend
+│   └── socketdir
+├── ca-certificates
+│   └── update.d
+├── ca-certificates.conf
+├── cloud
+│   ├── clean.d
+│   │   └── 99-installer
+│   ├── cloud.cfg
+│   ├── cloud.cfg.d
+│   │   ├── 05_logging.cfg
+│   │   ├── 90_dpkg.cfg
+│   │   ├── 99-installer.cfg
+│   │   ├── curtin-preserve-sources.cfg
+│   │   ├── README
+│   │   └── subiquity-disable-cloudinit-networking.cfg
+│   ├── ds-identify.cfg
+│   └── templates
+│       ├── chef_client.rb.tmpl
+│       ├── chrony.conf.alpine.tmpl
+│       ├── chrony.conf.centos.tmpl
+│       ├── chrony.conf.cos.tmpl
+│       ├── chrony.conf.debian.tmpl
+│       ├── chrony.conf.fedora.tmpl
+│       ├── chrony.conf.freebsd.tmpl
+│       ├── chrony.conf.opensuse-leap.tmpl
+│       ├── chrony.conf.opensuse-microos.tmpl
+│       ├── chrony.conf.opensuse.tmpl
+│       ├── chrony.conf.opensuse-tumbleweed.tmpl
+│       ├── chrony.conf.photon.tmpl
+│       ├── chrony.conf.rhel.tmpl
+│       ├── chrony.conf.sle_hpc.tmpl
+│       ├── chrony.conf.sle-micro.tmpl
+│       ├── chrony.conf.sles.tmpl
+│       ├── chrony.conf.ubuntu.tmpl
+│       ├── hosts.alpine.tmpl
+│       ├── hosts.arch.tmpl
+│       ├── hosts.debian.tmpl
+│       ├── hosts.freebsd.tmpl
+│       ├── hosts.gentoo.tmpl
+│       ├── hosts.mariner.tmpl
+│       ├── hosts.photon.tmpl
+│       ├── hosts.redhat.tmpl
+│       ├── hosts.suse.tmpl
+│       ├── ntp.conf.alpine.tmpl
+│       ├── ntp.conf.debian.tmpl
+│       ├── ntp.conf.fedora.tmpl
+│       ├── ntp.conf.freebsd.tmpl
+│       ├── ntp.conf.opensuse.tmpl
+│       ├── ntp.conf.photon.tmpl
+│       ├── ntp.conf.rhel.tmpl
+│       ├── ntp.conf.sles.tmpl
+│       ├── ntp.conf.ubuntu.tmpl
+│       ├── ntpd.conf.openbsd.tmpl
+│       ├── resolv.conf.tmpl
+│       ├── sources.list.debian.deb822.tmpl
+│       ├── sources.list.debian.tmpl
+│       ├── sources.list.ubuntu.deb822.tmpl
+│       ├── sources.list.ubuntu.tmpl
+│       ├── systemd.resolved.conf.tmpl
+│       └── timesyncd.conf.tmpl
+├── console-setup
+│   ├── cached_ISO-8859-1.acm.gz
+│   ├── cached_ISO-8859-1_del.kmap.gz
+│   ├── cached_setup_font.sh
+│   ├── cached_setup_keyboard.sh
+│   ├── cached_setup_terminal.sh
+│   ├── cached_Uni2-Fixed16.psf.gz
+│   ├── cached_UTF-8_del.kmap.gz
+│   ├── compose.ARMSCII-8.inc
+│   ├── compose.CP1251.inc
+│   ├── compose.CP1255.inc
+│   ├── compose.CP1256.inc
+│   ├── compose.GEORGIAN-ACADEMY.inc
+│   ├── compose.GEORGIAN-PS.inc
+│   ├── compose.IBM1133.inc
+│   ├── compose.ISIRI-3342.inc
+│   ├── compose.ISO-8859-10.inc
+│   ├── compose.ISO-8859-11.inc
+│   ├── compose.ISO-8859-13.inc
+│   ├── compose.ISO-8859-14.inc
+│   ├── compose.ISO-8859-15.inc
+│   ├── compose.ISO-8859-16.inc
+│   ├── compose.ISO-8859-1.inc
+│   ├── compose.ISO-8859-2.inc
+│   ├── compose.ISO-8859-3.inc
+│   ├── compose.ISO-8859-4.inc
+│   ├── compose.ISO-8859-5.inc
+│   ├── compose.ISO-8859-6.inc
+│   ├── compose.ISO-8859-7.inc
+│   ├── compose.ISO-8859-8.inc
+│   ├── compose.ISO-8859-9.inc
+│   ├── compose.KOI8-R.inc
+│   ├── compose.KOI8-U.inc
+│   ├── compose.TIS-620.inc
+│   ├── compose.VISCII.inc
+│   ├── ISO-8859-1.acm
+│   ├── remap.inc
+│   ├── Uni2-Fixed16.psf.gz
+│   ├── vtrgb
+│   └── vtrgb.vga
+├── cron.d
+│   └── e2scrub_all
+├── cron.daily
+│   ├── apport
+│   ├── apt-compat
+│   ├── dpkg
+│   ├── logrotate
+│   └── man-db
+├── cron.hourly
+├── cron.monthly
+├── crontab
+├── cron.weekly
+│   └── man-db
+├── cryptsetup-initramfs
+│   └── conf-hook
+├── crypttab
+├── dbus-1
+│   ├── session.d
+│   └── system.d
+│       ├── com.ubuntu.SoftwareProperties.conf
+│       ├── org.freedesktop.ModemManager1.conf
+│       ├── org.freedesktop.PackageKit.conf
+│       ├── org.freedesktop.thermald.conf
+│       └── wpa_supplicant.conf
+├── debconf.conf
+├── debian_version
+├── default
+│   ├── amd64-microcode
+│   ├── apport
+│   ├── console-setup
+│   ├── cron
+│   ├── cryptdisks
+│   ├── dbus
+│   ├── grub
+│   ├── grub.d
+│   │   └── init-select.cfg
+│   ├── grub.ucf-dist
+│   ├── intel-microcode
+│   ├── irqbalance
+│   ├── keyboard
+│   ├── locale
+│   ├── mdadm
+│   ├── motd-news
+│   ├── networkd-dispatcher
+│   ├── open-iscsi
+│   ├── pollinate
+│   ├── rsync
+│   ├── ssh
+│   ├── ufw
+│   └── useradd
+├── deluser.conf
+├── depmod.d
+│   └── ubuntu.conf
+├── dhcp
+│   ├── debug
+│   ├── dhclient.conf
+│   ├── dhclient-enter-hooks.d
+│   │   ├── debug -> ../debug
+│   │   └── resolved-enter
+│   └── dhclient-exit-hooks.d
+│       ├── debug -> ../debug
+│       ├── resolved
+│       ├── rfc3442-classless-routes
+│       └── timesyncd
+├── dpkg
+│   ├── dpkg.cfg
+│   ├── dpkg.cfg.d
+│   │   └── needrestart
+│   └── origins
+│       ├── debian
+│       ├── default -> ubuntu
+│       └── ubuntu
+├── e2scrub.conf
+├── environment
+├── ethertypes
+├── fstab
+├── fuse.conf
+├── fwupd
+│   ├── daemon.conf
+│   ├── msr.conf
+│   ├── redfish.conf
+│   ├── remotes.d
+│   │   ├── dell-esrt.conf
+│   │   ├── lvfs.conf
+│   │   ├── lvfs-testing.conf
+│   │   ├── vendor.conf
+│   │   └── vendor-directory.conf
+│   ├── thunderbolt.conf
+│   └── uefi_capsule.conf
+├── gai.conf
+├── groff
+│   ├── man.local
+│   └── mdoc.local
+├── group
+├── group-
+├── grub.d
+│   ├── 00_header
+│   ├── 05_debian_theme
+│   ├── 10_linux
+│   ├── 10_linux_zfs
+│   ├── 20_linux_xen
+│   ├── 30_os-prober
+│   ├── 30_uefi-firmware
+│   ├── 35_fwupd
+│   ├── 40_custom
+│   ├── 41_custom
+│   └── README
+├── gshadow
+├── gshadow-
+├── gss
+│   └── mech.d
+├── hdparm.conf
+├── host.conf
+├── hostname
+├── hosts
+├── hosts.allow
+├── hosts.deny
+├── ifplugd
+│   └── action.d
+│       └── action_wpa -> ../../wpa_supplicant/action_wpa.sh
+├── init.d
+│   ├── apparmor
+│   ├── apport
+│   ├── console-setup.sh
+│   ├── cron
+│   ├── cryptdisks
+│   ├── cryptdisks-early
+│   ├── dbus
+│   ├── grub-common
+│   ├── hwclock.sh
+│   ├── irqbalance
+│   ├── iscsid
+│   ├── keyboard-setup.sh
+│   ├── kmod
+│   ├── lvm2
+│   ├── lvm2-lvmpolld
+│   ├── open-iscsi
+│   ├── open-vm-tools
+│   ├── plymouth
+│   ├── plymouth-log
+│   ├── procps
+│   ├── rsync
+│   ├── screen-cleanup
+│   ├── ssh
+│   ├── udev
+│   ├── ufw
+│   ├── unattended-upgrades
+│   └── uuidd
+├── initramfs-tools
+│   ├── conf.d
+│   ├── hooks
+│   ├── initramfs.conf
+│   ├── modules
+│   ├── scripts
+│   │   ├── init-bottom
+│   │   ├── init-premount
+│   │   ├── init-top
+│   │   ├── local-bottom
+│   │   ├── local-premount
+│   │   ├── local-top
+│   │   ├── nfs-bottom
+│   │   ├── nfs-premount
+│   │   ├── nfs-top
+│   │   └── panic
+│   └── update-initramfs.conf
+├── inputrc
+├── iproute2
+│   ├── bpf_pinning
+│   ├── ematch_map
+│   ├── group
+│   ├── nl_protos
+│   ├── rt_dsfield
+│   ├── rt_protos
+│   ├── rt_protos.d
+│   │   └── README
+│   ├── rt_realms
+│   ├── rt_scopes
+│   ├── rt_tables
+│   └── rt_tables.d
+│       └── README
+├── iscsi
+│   ├── initiatorname.iscsi
+│   └── iscsid.conf
+├── issue
+├── issue.net
+├── kernel
+│   ├── install.d
+│   ├── postinst.d
+│   │   ├── initramfs-tools
+│   │   ├── unattended-upgrades
+│   │   ├── update-notifier -> /usr/share/update-notifier/notify-reboot-required
+│   │   ├── xx-update-initrd-links
+│   │   ├── zz-shim
+│   │   └── zz-update-grub
+│   ├── postrm.d
+│   │   ├── initramfs-tools
+│   │   └── zz-update-grub
+│   └── preinst.d
+│       └── intel-microcode
+├── landscape
+├── ldap
+│   └── ldap.conf
+├── ld.so.cache
+├── ld.so.conf
+├── ld.so.conf.d
+│   ├── libc.conf
+│   └── x86_64-linux-gnu.conf
+├── legal
+├── libaudit.conf
+├── libblockdev
+│   └── conf.d
+│       └── 00-default.cfg
+├── libnl-3
+│   ├── classid
+│   └── pktloc
+├── locale.alias
+├── locale.gen
+├── localtime -> /usr/share/zoneinfo/Etc/UTC
+├── logcheck
+│   ├── ignore.d.server
+│   │   ├── gpg-agent
+│   │   ├── libsasl2-modules
+│   │   ├── mdadm
+│   │   └── rsyslog
+│   └── violations.d
+│       └── mdadm
+├── login.defs
+├── logrotate.conf
+├── logrotate.d
+│   ├── alternatives
+│   ├── apport
+│   ├── apt
+│   ├── bootlog
+│   ├── btmp
+│   ├── cloud-init
+│   ├── dpkg
+│   ├── rsyslog
+│   ├── ubuntu-pro-client
+│   ├── ufw
+│   ├── unattended-upgrades
+│   └── wtmp
+├── lsb-release
+├── lvm
+│   ├── archive
+│   │   └── ubuntu-vg_00000-1333183968.vg
+│   ├── backup
+│   │   └── ubuntu-vg
+│   ├── lvm.conf
+│   ├── lvmlocal.conf
+│   └── profile
+│       ├── cache-mq.profile
+│       ├── cache-smq.profile
+│       ├── command_profile_template.profile
+│       ├── lvmdbusd.profile
+│       ├── metadata_profile_template.profile
+│       ├── thin-generic.profile
+│       ├── thin-performance.profile
+│       └── vdo-small.profile
+├── machine-id
+├── magic
+├── magic.mime
+├── manpath.config
+├── mdadm
+│   └── mdadm.conf
+├── mime.types
+├── mke2fs.conf
+├── ModemManager
+│   ├── connection.d
+│   └── fcc-unlock.d
+├── modprobe.d
+│   ├── amd64-microcode-blacklist.conf
+│   ├── blacklist-ath_pci.conf
+│   ├── blacklist.conf
+│   ├── blacklist-firewire.conf
+│   ├── blacklist-framebuffer.conf
+│   ├── blacklist-rare-network.conf
+│   ├── intel-microcode-blacklist.conf
+│   ├── iwlwifi.conf
+│   └── mdadm.conf
+├── modules
+├── modules-load.d
+│   └── modules.conf -> ../modules
+├── mtab -> ../proc/self/mounts
+├── multipath
+│   ├── bindings
+│   └── wwids
+├── multipath.conf
+├── nanorc
+├── needrestart
+│   ├── conf.d
+│   │   └── README.needrestart
+│   ├── hook.d
+│   │   ├── 10-dpkg
+│   │   ├── 20-rpm
+│   │   └── 90-none
+│   ├── iucode.sh
+│   ├── needrestart.conf
+│   ├── notify.conf
+│   ├── notify.d
+│   │   ├── 200-write
+│   │   ├── 400-notify-send
+│   │   ├── 600-mail
+│   │   └── README.needrestart
+│   └── restart.d
+│       ├── dbus.service
+│       ├── README.needrestart
+│       ├── systemd-manager
+│       └── sysv-init
+├── netconfig
+├── netplan
+│   ├── 00-installer-config-wifi.yaml
+│   └── 00-installer-config.yaml
+├── network
+│   ├── if-down.d
+│   │   └── wpasupplicant -> ../../wpa_supplicant/ifupdown.sh
+│   ├── if-post-down.d
+│   │   └── wpasupplicant -> ../../wpa_supplicant/ifupdown.sh
+│   ├── if-pre-up.d
+│   │   ├── ethtool
+│   │   └── wpasupplicant -> ../../wpa_supplicant/ifupdown.sh
+│   └── if-up.d
+│       ├── ethtool
+│       └── wpasupplicant -> ../../wpa_supplicant/ifupdown.sh
+├── networkd-dispatcher
+│   ├── carrier.d
+│   ├── degraded.d
+│   ├── dormant.d
+│   ├── no-carrier.d
+│   ├── off.d
+│   └── routable.d
+├── networks
+├── newt
+│   ├── palette -> /etc/alternatives/newt-palette
+│   ├── palette.original
+│   └── palette.ubuntu
+├── nftables.conf
+├── nsswitch.conf
+├── opt
+├── os-release -> ../usr/lib/os-release
+├── overlayroot.conf
+├── PackageKit
+│   ├── PackageKit.conf
+│   └── Vendor.conf
+├── pam.conf
+├── pam.d
+│   ├── chfn
+│   ├── chpasswd
+│   ├── chsh
+│   ├── common-account
+│   ├── common-auth
+│   ├── common-password
+│   ├── common-session
+│   ├── common-session-noninteractive
+│   ├── cron
+│   ├── login
+│   ├── newusers
+│   ├── other
+│   ├── passwd
+│   ├── polkit-1
+│   ├── runuser
+│   ├── runuser-l
+│   ├── sshd
+│   ├── su
+│   ├── sudo
+│   ├── sudo-i
+│   ├── su-l
+│   └── vmtoolsd
+├── passwd
+├── passwd-
+├── perl
+│   └── Net
+│       └── libnet.cfg
+├── pki
+│   ├── fwupd
+│   │   ├── GPG-KEY-Linux-Foundation-Firmware
+│   │   ├── GPG-KEY-Linux-Vendor-Firmware-Service
+│   │   └── LVFS-CA.pem
+│   └── fwupd-metadata
+│       ├── GPG-KEY-Linux-Foundation-Metadata
+│       ├── GPG-KEY-Linux-Vendor-Firmware-Service
+│       └── LVFS-CA.pem
+├── pm
+│   └── sleep.d
+│       ├── 10_grub-common
+│       └── 10_unattended-upgrades-hibernate
+├── polkit-1
+│   ├── localauthority
+│   │   ├── 10-vendor.d
+│   │   ├── 20-org.d
+│   │   ├── 30-site.d
+│   │   ├── 50-local.d
+│   │   └── 90-mandatory.d
+│   └── localauthority.conf.d
+│       ├── 50-localauthority.conf
+│       └── 51-ubuntu-admin.conf
+├── pollinate
+│   ├── add-user-agent
+│   └── entropy.ubuntu.com.pem
+├── profile
+├── profile.d
+│   ├── 01-locale-fix.sh
+│   ├── apps-bin-path.sh
+│   ├── bash_completion.sh
+│   ├── gawk.csh
+│   ├── gawk.sh
+│   ├── Z97-byobu.sh
+│   ├── Z99-cloudinit-warnings.sh
+│   └── Z99-cloud-locale-test.sh
+├── protocols
+├── python3
+│   └── debian_config
+├── python3.10
+│   └── sitecustomize.py
+├── rc0.d
+│   ├── K01cryptdisks -> ../init.d/cryptdisks
+│   ├── K01cryptdisks-early -> ../init.d/cryptdisks-early
+│   ├── K01irqbalance -> ../init.d/irqbalance
+│   ├── K01iscsid -> ../init.d/iscsid
+│   ├── K01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── K01open-iscsi -> ../init.d/open-iscsi
+│   ├── K01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── K01plymouth -> ../init.d/plymouth
+│   ├── K01udev -> ../init.d/udev
+│   ├── K01unattended-upgrades -> ../init.d/unattended-upgrades
+│   └── K01uuidd -> ../init.d/uuidd
+├── rc1.d
+│   ├── K01irqbalance -> ../init.d/irqbalance
+│   ├── K01iscsid -> ../init.d/iscsid
+│   ├── K01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── K01open-iscsi -> ../init.d/open-iscsi
+│   ├── K01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── K01ufw -> ../init.d/ufw
+│   └── K01uuidd -> ../init.d/uuidd
+├── rc2.d
+│   ├── S01apport -> ../init.d/apport
+│   ├── S01console-setup.sh -> ../init.d/console-setup.sh
+│   ├── S01cron -> ../init.d/cron
+│   ├── S01dbus -> ../init.d/dbus
+│   ├── S01grub-common -> ../init.d/grub-common
+│   ├── S01irqbalance -> ../init.d/irqbalance
+│   ├── S01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── S01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── S01plymouth -> ../init.d/plymouth
+│   ├── S01rsync -> ../init.d/rsync
+│   ├── S01ssh -> ../init.d/ssh
+│   ├── S01unattended-upgrades -> ../init.d/unattended-upgrades
+│   └── S01uuidd -> ../init.d/uuidd
+├── rc3.d
+│   ├── S01apport -> ../init.d/apport
+│   ├── S01console-setup.sh -> ../init.d/console-setup.sh
+│   ├── S01cron -> ../init.d/cron
+│   ├── S01dbus -> ../init.d/dbus
+│   ├── S01grub-common -> ../init.d/grub-common
+│   ├── S01irqbalance -> ../init.d/irqbalance
+│   ├── S01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── S01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── S01plymouth -> ../init.d/plymouth
+│   ├── S01rsync -> ../init.d/rsync
+│   ├── S01ssh -> ../init.d/ssh
+│   ├── S01unattended-upgrades -> ../init.d/unattended-upgrades
+│   └── S01uuidd -> ../init.d/uuidd
+├── rc4.d
+│   ├── S01apport -> ../init.d/apport
+│   ├── S01console-setup.sh -> ../init.d/console-setup.sh
+│   ├── S01cron -> ../init.d/cron
+│   ├── S01dbus -> ../init.d/dbus
+│   ├── S01grub-common -> ../init.d/grub-common
+│   ├── S01irqbalance -> ../init.d/irqbalance
+│   ├── S01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── S01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── S01plymouth -> ../init.d/plymouth
+│   ├── S01rsync -> ../init.d/rsync
+│   ├── S01ssh -> ../init.d/ssh
+│   ├── S01unattended-upgrades -> ../init.d/unattended-upgrades
+│   └── S01uuidd -> ../init.d/uuidd
+├── rc5.d
+│   ├── S01apport -> ../init.d/apport
+│   ├── S01console-setup.sh -> ../init.d/console-setup.sh
+│   ├── S01cron -> ../init.d/cron
+│   ├── S01dbus -> ../init.d/dbus
+│   ├── S01grub-common -> ../init.d/grub-common
+│   ├── S01irqbalance -> ../init.d/irqbalance
+│   ├── S01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── S01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── S01plymouth -> ../init.d/plymouth
+│   ├── S01rsync -> ../init.d/rsync
+│   ├── S01ssh -> ../init.d/ssh
+│   ├── S01unattended-upgrades -> ../init.d/unattended-upgrades
+│   └── S01uuidd -> ../init.d/uuidd
+├── rc6.d
+│   ├── K01cryptdisks -> ../init.d/cryptdisks
+│   ├── K01cryptdisks-early -> ../init.d/cryptdisks-early
+│   ├── K01irqbalance -> ../init.d/irqbalance
+│   ├── K01iscsid -> ../init.d/iscsid
+│   ├── K01lvm2-lvmpolld -> ../init.d/lvm2-lvmpolld
+│   ├── K01open-iscsi -> ../init.d/open-iscsi
+│   ├── K01open-vm-tools -> ../init.d/open-vm-tools
+│   ├── K01plymouth -> ../init.d/plymouth
+│   ├── K01udev -> ../init.d/udev
+│   ├── K01unattended-upgrades -> ../init.d/unattended-upgrades
+│   └── K01uuidd -> ../init.d/uuidd
+├── rcS.d
+│   ├── K01iscsid -> ../init.d/iscsid
+│   ├── K01open-iscsi -> ../init.d/open-iscsi
+│   ├── S01apparmor -> ../init.d/apparmor
+│   ├── S01cryptdisks -> ../init.d/cryptdisks
+│   ├── S01cryptdisks-early -> ../init.d/cryptdisks-early
+│   ├── S01keyboard-setup.sh -> ../init.d/keyboard-setup.sh
+│   ├── S01kmod -> ../init.d/kmod
+│   ├── S01lvm2 -> ../init.d/lvm2
+│   ├── S01plymouth-log -> ../init.d/plymouth-log
+│   ├── S01procps -> ../init.d/procps
+│   ├── S01screen-cleanup -> ../init.d/screen-cleanup
+│   ├── S01udev -> ../init.d/udev
+│   └── S01ufw -> ../init.d/ufw
+├── resolv.conf -> ../run/systemd/resolve/stub-resolv.conf
+├── rmt -> /usr/sbin/rmt
+├── rpc
+├── rsyslog.conf
+├── rsyslog.d
+│   ├── 20-ufw.conf
+│   ├── 21-cloudinit.conf
+│   └── 50-default.conf
+├── screenrc
+├── security
+│   ├── access.conf
+│   ├── capability.conf
+│   ├── faillock.conf
+│   ├── group.conf
+│   ├── limits.conf
+│   ├── limits.d
+│   ├── namespace.conf
+│   ├── namespace.d
+│   ├── namespace.init
+│   ├── opasswd
+│   ├── pam_env.conf
+│   ├── sepermit.conf
+│   └── time.conf
+├── selinux
+│   └── semanage.conf
+├── services
+├── shadow
+├── shadow-
+├── shells
+├── skel
+├── sos
+│   ├── cleaner
+│   ├── extras.d
+│   ├── groups.d
+│   ├── presets.d
+│   └── sos.conf
+├── ssh
+│   ├── moduli
+│   ├── ssh_config
+│   ├── ssh_config.d
+│   ├── sshd_config
+│   ├── sshd_config.d
+│   │   └── 50-cloud-init.conf
+│   ├── ssh_host_dsa_key
+│   ├── ssh_host_dsa_key.pub
+│   ├── ssh_host_ecdsa_key
+│   ├── ssh_host_ecdsa_key.pub
+│   ├── ssh_host_ed25519_key
+│   ├── ssh_host_ed25519_key.pub
+│   ├── ssh_host_rsa_key
+│   ├── ssh_host_rsa_key.pub
+│   └── ssh_import_id
+├── ssl
+│   ├── certs
+│   │   ├── 002c0b4f.0 -> GlobalSign_Root_R46.pem
+│   │   ├── 02265526.0 -> Entrust_Root_Certification_Authority_-_G2.pem
+│   │   ├── 062cdee6.0 -> GlobalSign_Root_CA_-_R3.pem
+│   │   ├── 064e0aa9.0 -> QuoVadis_Root_CA_2_G3.pem
+│   │   ├── 06dc52d5.0 -> SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+│   │   ├── 08063a00.0 -> Security_Communication_RootCA3.pem
+│   │   ├── 09789157.0 -> Starfield_Services_Root_Certificate_Authority_-_G2.pem
+│   │   ├── 0a775a30.0 -> GTS_Root_R3.pem
+│   │   ├── 0b1b94ef.0 -> CFCA_EV_ROOT.pem
+│   │   ├── 0b9bc432.0 -> ISRG_Root_X2.pem
+│   │   ├── 0bf05006.0 -> SSL.com_Root_Certification_Authority_ECC.pem
+│   │   ├── 0f5dc4f3.0 -> UCA_Extended_Validation_Root.pem
+│   │   ├── 0f6fa695.0 -> GDCA_TrustAUTH_R5_ROOT.pem
+│   │   ├── 1001acf7.0 -> GTS_Root_R1.pem
+│   │   ├── 106f3e4d.0 -> Entrust_Root_Certification_Authority_-_EC1.pem
+│   │   ├── 14bc7599.0 -> emSign_ECC_Root_CA_-_G3.pem
+│   │   ├── 18856ac4.0 -> SecureSign_RootCA11.pem
+│   │   ├── 1d3472b9.0 -> GlobalSign_ECC_Root_CA_-_R5.pem
+│   │   ├── 1e08bfd1.0 -> IdenTrust_Public_Sector_Root_CA_1.pem
+│   │   ├── 1e09d511.0 -> T-TeleSec_GlobalRoot_Class_2.pem
+│   │   ├── 244b5494.0 -> DigiCert_High_Assurance_EV_Root_CA.pem
+│   │   ├── 2923b3f9.0 -> emSign_Root_CA_-_G1.pem
+│   │   ├── 2ae6433e.0 -> CA_Disig_Root_R2.pem
+│   │   ├── 2b349938.0 -> AffirmTrust_Commercial.pem
+│   │   ├── 32888f65.0 -> Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+│   │   ├── 3513523f.0 -> DigiCert_Global_Root_CA.pem
+│   │   ├── 3bde41ac.0 -> Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+│   │   ├── 3bde41ac.1 -> Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068_2.pem
+│   │   ├── 3e45d192.0 -> Hongkong_Post_Root_CA_1.pem
+│   │   ├── 3fb36b73.0 -> NAVER_Global_Root_Certification_Authority.pem
+│   │   ├── 40193066.0 -> Certum_Trusted_Network_CA_2.pem
+│   │   ├── 4042bcee.0 -> ISRG_Root_X1.pem
+│   │   ├── 40547a79.0 -> COMODO_Certification_Authority.pem
+│   │   ├── 406c9bb1.0 -> emSign_Root_CA_-_C1.pem
+│   │   ├── 48bec511.0 -> Certum_Trusted_Network_CA.pem
+│   │   ├── 4b718d9b.0 -> emSign_ECC_Root_CA_-_C3.pem
+│   │   ├── 4bfab552.0 -> Starfield_Root_Certificate_Authority_-_G2.pem
+│   │   ├── 4f316efb.0 -> SwissSign_Gold_CA_-_G2.pem
+│   │   ├── 5273a94c.0 -> E-Tugra_Certification_Authority.pem
+│   │   ├── 5443e9e3.0 -> T-TeleSec_GlobalRoot_Class_3.pem
+│   │   ├── 54657681.0 -> Buypass_Class_2_Root_CA.pem
+│   │   ├── 57bcb2da.0 -> SwissSign_Silver_CA_-_G2.pem
+│   │   ├── 5860aaa6.0 -> Security_Communication_ECC_RootCA1.pem
+│   │   ├── 5931b5bc.0 -> D-TRUST_EV_Root_CA_1_2020.pem
+│   │   ├── 5a7722fb.0 -> E-Tugra_Global_Root_CA_ECC_v3.pem
+│   │   ├── 5ad8a5d6.0 -> GlobalSign_Root_CA.pem
+│   │   ├── 5cd81ad7.0 -> TeliaSonera_Root_CA_v1.pem
+│   │   ├── 5e98733a.0 -> Entrust_Root_Certification_Authority_-_G4.pem
+│   │   ├── 5f15c80c.0 -> TWCA_Global_Root_CA.pem
+│   │   ├── 5f618aec.0 -> certSIGN_Root_CA_G2.pem
+│   │   ├── 607986c7.0 -> DigiCert_Global_Root_G2.pem
+│   │   ├── 626dceaf.0 -> GTS_Root_R2.pem
+│   │   ├── 653b494a.0 -> Baltimore_CyberTrust_Root.pem
+│   │   ├── 66445960.0 -> E-Tugra_Global_Root_CA_RSA_v3.pem
+│   │   ├── 68dd7389.0 -> Hongkong_Post_Root_CA_3.pem
+│   │   ├── 6b99d060.0 -> Entrust_Root_Certification_Authority.pem
+│   │   ├── 6d41d539.0 -> Amazon_Root_CA_2.pem
+│   │   ├── 6fa5da56.0 -> SSL.com_Root_Certification_Authority_RSA.pem
+│   │   ├── 706f604c.0 -> XRamp_Global_CA_Root.pem
+│   │   ├── 749e9e03.0 -> QuoVadis_Root_CA_1_G3.pem
+│   │   ├── 75d1b2ed.0 -> DigiCert_Trusted_Root_G4.pem
+│   │   ├── 76faf6c0.0 -> QuoVadis_Root_CA_3.pem
+│   │   ├── 7719f463.0 -> Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+│   │   ├── 773e07ad.0 -> OISTE_WISeKey_Global_Root_GC_CA.pem
+│   │   ├── 7a3adc42.0 -> vTrus_Root_CA.pem
+│   │   ├── 7a780d93.0 -> Certainly_Root_R1.pem
+│   │   ├── 7f3d5d1d.0 -> DigiCert_Assured_ID_Root_G3.pem
+│   │   ├── 8160b96c.0 -> Microsec_e-Szigno_Root_CA_2009.pem
+│   │   ├── 8508e720.0 -> Certainly_Root_E1.pem
+│   │   ├── 8cb5ee0f.0 -> Amazon_Root_CA_3.pem
+│   │   ├── 8d86cdd1.0 -> certSIGN_ROOT_CA.pem
+│   │   ├── 8d89cda1.0 -> Microsoft_ECC_Root_Certificate_Authority_2017.pem
+│   │   ├── 8f103249.0 -> Telia_Root_CA_v2.pem
+│   │   ├── 90c5a3c8.0 -> HiPKI_Root_CA_-_G1.pem
+│   │   ├── 930ac5d2.0 -> Actalis_Authentication_Root_CA.pem
+│   │   ├── 93bc0acc.0 -> AffirmTrust_Networking.pem
+│   │   ├── 9482e63a.0 -> Certum_EC-384_CA.pem
+│   │   ├── 9846683b.0 -> DigiCert_TLS_ECC_P384_Root_G5.pem
+│   │   ├── 988a38cb.0 -> NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+│   │   ├── 9b5697b0.0 -> Trustwave_Global_ECC_P256_Certification_Authority.pem
+│   │   ├── 9c8dfbd4.0 -> AffirmTrust_Premium_ECC.pem
+│   │   ├── 9d04f354.0 -> DigiCert_Assured_ID_Root_G2.pem
+│   │   ├── 9ef4a08a.0 -> D-TRUST_BR_Root_CA_1_2020.pem
+│   │   ├── 9f727ac7.0 -> HARICA_TLS_RSA_Root_CA_2021.pem
+│   │   ├── a3418fda.0 -> GTS_Root_R4.pem
+│   │   ├── a94d09e5.0 -> ACCVRAIZ1.pem
+│   │   ├── ACCVRAIZ1.pem -> /usr/share/ca-certificates/mozilla/ACCVRAIZ1.crt
+│   │   ├── AC_RAIZ_FNMT-RCM.pem -> /usr/share/ca-certificates/mozilla/AC_RAIZ_FNMT-RCM.crt
+│   │   ├── AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem -> /usr/share/ca-certificates/mozilla/AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.crt
+│   │   ├── Actalis_Authentication_Root_CA.pem -> /usr/share/ca-certificates/mozilla/Actalis_Authentication_Root_CA.crt
+│   │   ├── aee5f10d.0 -> Entrust.net_Premium_2048_Secure_Server_CA.pem
+│   │   ├── AffirmTrust_Commercial.pem -> /usr/share/ca-certificates/mozilla/AffirmTrust_Commercial.crt
+│   │   ├── AffirmTrust_Networking.pem -> /usr/share/ca-certificates/mozilla/AffirmTrust_Networking.crt
+│   │   ├── AffirmTrust_Premium_ECC.pem -> /usr/share/ca-certificates/mozilla/AffirmTrust_Premium_ECC.crt
+│   │   ├── AffirmTrust_Premium.pem -> /usr/share/ca-certificates/mozilla/AffirmTrust_Premium.crt
+│   │   ├── Amazon_Root_CA_1.pem -> /usr/share/ca-certificates/mozilla/Amazon_Root_CA_1.crt
+│   │   ├── Amazon_Root_CA_2.pem -> /usr/share/ca-certificates/mozilla/Amazon_Root_CA_2.crt
+│   │   ├── Amazon_Root_CA_3.pem -> /usr/share/ca-certificates/mozilla/Amazon_Root_CA_3.crt
+│   │   ├── Amazon_Root_CA_4.pem -> /usr/share/ca-certificates/mozilla/Amazon_Root_CA_4.crt
+│   │   ├── ANF_Secure_Server_Root_CA.pem -> /usr/share/ca-certificates/mozilla/ANF_Secure_Server_Root_CA.crt
+│   │   ├── Atos_TrustedRoot_2011.pem -> /usr/share/ca-certificates/mozilla/Atos_TrustedRoot_2011.crt
+│   │   ├── Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068_2.pem -> /usr/share/ca-certificates/mozilla/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068_2.crt
+│   │   ├── Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem -> /usr/share/ca-certificates/mozilla/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.crt
+│   │   ├── b0e59380.0 -> GlobalSign_ECC_Root_CA_-_R4.pem
+│   │   ├── b1159c4c.0 -> DigiCert_Assured_ID_Root_CA.pem
+│   │   ├── b433981b.0 -> ANF_Secure_Server_Root_CA.pem
+│   │   ├── b66938e9.0 -> Secure_Global_CA.pem
+│   │   ├── b727005e.0 -> AffirmTrust_Premium.pem
+│   │   ├── b7a5b843.0 -> TWCA_Root_Certification_Authority.pem
+│   │   ├── b81b93f0.0 -> AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+│   │   ├── Baltimore_CyberTrust_Root.pem -> /usr/share/ca-certificates/mozilla/Baltimore_CyberTrust_Root.crt
+│   │   ├── bf53fb88.0 -> Microsoft_RSA_Root_Certificate_Authority_2017.pem
+│   │   ├── Buypass_Class_2_Root_CA.pem -> /usr/share/ca-certificates/mozilla/Buypass_Class_2_Root_CA.crt
+│   │   ├── Buypass_Class_3_Root_CA.pem -> /usr/share/ca-certificates/mozilla/Buypass_Class_3_Root_CA.crt
+│   │   ├── c01eb047.0 -> UCA_Global_G2_Root.pem
+│   │   ├── c28a8a30.0 -> D-TRUST_Root_Class_3_CA_2_2009.pem
+│   │   ├── ca6e4ad9.0 -> ePKI_Root_Certification_Authority.pem
+│   │   ├── ca-certificates.crt
+│   │   ├── CA_Disig_Root_R2.pem -> /usr/share/ca-certificates/mozilla/CA_Disig_Root_R2.crt
+│   │   ├── cbf06781.0 -> Go_Daddy_Root_Certificate_Authority_-_G2.pem
+│   │   ├── cc450945.0 -> Izenpe.com.pem
+│   │   ├── cd58d51e.0 -> Security_Communication_RootCA2.pem
+│   │   ├── cd8c0d63.0 -> AC_RAIZ_FNMT-RCM.pem
+│   │   ├── ce5e74ef.0 -> Amazon_Root_CA_1.pem
+│   │   ├── Certainly_Root_E1.pem -> /usr/share/ca-certificates/mozilla/Certainly_Root_E1.crt
+│   │   ├── Certainly_Root_R1.pem -> /usr/share/ca-certificates/mozilla/Certainly_Root_R1.crt
+│   │   ├── Certigna.pem -> /usr/share/ca-certificates/mozilla/Certigna.crt
+│   │   ├── Certigna_Root_CA.pem -> /usr/share/ca-certificates/mozilla/Certigna_Root_CA.crt
+│   │   ├── certSIGN_Root_CA_G2.pem -> /usr/share/ca-certificates/mozilla/certSIGN_Root_CA_G2.crt
+│   │   ├── certSIGN_ROOT_CA.pem -> /usr/share/ca-certificates/mozilla/certSIGN_ROOT_CA.crt
+│   │   ├── Certum_EC-384_CA.pem -> /usr/share/ca-certificates/mozilla/Certum_EC-384_CA.crt
+│   │   ├── Certum_Trusted_Network_CA_2.pem -> /usr/share/ca-certificates/mozilla/Certum_Trusted_Network_CA_2.crt
+│   │   ├── Certum_Trusted_Network_CA.pem -> /usr/share/ca-certificates/mozilla/Certum_Trusted_Network_CA.crt
+│   │   ├── Certum_Trusted_Root_CA.pem -> /usr/share/ca-certificates/mozilla/Certum_Trusted_Root_CA.crt
+│   │   ├── CFCA_EV_ROOT.pem -> /usr/share/ca-certificates/mozilla/CFCA_EV_ROOT.crt
+│   │   ├── Comodo_AAA_Services_root.pem -> /usr/share/ca-certificates/mozilla/Comodo_AAA_Services_root.crt
+│   │   ├── COMODO_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/COMODO_Certification_Authority.crt
+│   │   ├── COMODO_ECC_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/COMODO_ECC_Certification_Authority.crt
+│   │   ├── COMODO_RSA_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/COMODO_RSA_Certification_Authority.crt
+│   │   ├── d4dae3dd.0 -> D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+│   │   ├── d52c538d.0 -> DigiCert_TLS_RSA4096_Root_G5.pem
+│   │   ├── d6325660.0 -> COMODO_RSA_Certification_Authority.pem
+│   │   ├── d7e8dc79.0 -> QuoVadis_Root_CA_2.pem
+│   │   ├── d887a5bb.0 -> Trustwave_Global_ECC_P384_Certification_Authority.pem
+│   │   ├── dc4d6a89.0 -> GlobalSign_Root_CA_-_R6.pem
+│   │   ├── dd8e9d41.0 -> DigiCert_Global_Root_G3.pem
+│   │   ├── de6d66f3.0 -> Amazon_Root_CA_4.pem
+│   │   ├── DigiCert_Assured_ID_Root_CA.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Assured_ID_Root_CA.crt
+│   │   ├── DigiCert_Assured_ID_Root_G2.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Assured_ID_Root_G2.crt
+│   │   ├── DigiCert_Assured_ID_Root_G3.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Assured_ID_Root_G3.crt
+│   │   ├── DigiCert_Global_Root_CA.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Global_Root_CA.crt
+│   │   ├── DigiCert_Global_Root_G2.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Global_Root_G2.crt
+│   │   ├── DigiCert_Global_Root_G3.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Global_Root_G3.crt
+│   │   ├── DigiCert_High_Assurance_EV_Root_CA.pem -> /usr/share/ca-certificates/mozilla/DigiCert_High_Assurance_EV_Root_CA.crt
+│   │   ├── DigiCert_TLS_ECC_P384_Root_G5.pem -> /usr/share/ca-certificates/mozilla/DigiCert_TLS_ECC_P384_Root_G5.crt
+│   │   ├── DigiCert_TLS_RSA4096_Root_G5.pem -> /usr/share/ca-certificates/mozilla/DigiCert_TLS_RSA4096_Root_G5.crt
+│   │   ├── DigiCert_Trusted_Root_G4.pem -> /usr/share/ca-certificates/mozilla/DigiCert_Trusted_Root_G4.crt
+│   │   ├── D-TRUST_BR_Root_CA_1_2020.pem -> /usr/share/ca-certificates/mozilla/D-TRUST_BR_Root_CA_1_2020.crt
+│   │   ├── D-TRUST_EV_Root_CA_1_2020.pem -> /usr/share/ca-certificates/mozilla/D-TRUST_EV_Root_CA_1_2020.crt
+│   │   ├── D-TRUST_Root_Class_3_CA_2_2009.pem -> /usr/share/ca-certificates/mozilla/D-TRUST_Root_Class_3_CA_2_2009.crt
+│   │   ├── D-TRUST_Root_Class_3_CA_2_EV_2009.pem -> /usr/share/ca-certificates/mozilla/D-TRUST_Root_Class_3_CA_2_EV_2009.crt
+│   │   ├── e113c810.0 -> Certigna.pem
+│   │   ├── e18bfb83.0 -> QuoVadis_Root_CA_3_G3.pem
+│   │   ├── e35234b1.0 -> Certum_Trusted_Root_CA.pem
+│   │   ├── e36a6752.0 -> Atos_TrustedRoot_2011.pem
+│   │   ├── e73d606e.0 -> OISTE_WISeKey_Global_Root_GB_CA.pem
+│   │   ├── e868b802.0 -> e-Szigno_Root_CA_2017.pem
+│   │   ├── e8de2f56.0 -> Buypass_Class_3_Root_CA.pem
+│   │   ├── ecccd8db.0 -> HARICA_TLS_ECC_Root_CA_2021.pem
+│   │   ├── ed858448.0 -> vTrus_ECC_Root_CA.pem
+│   │   ├── ee64a828.0 -> Comodo_AAA_Services_root.pem
+│   │   ├── eed8c118.0 -> COMODO_ECC_Certification_Authority.pem
+│   │   ├── ef954a4e.0 -> IdenTrust_Commercial_Root_CA_1.pem
+│   │   ├── emSign_ECC_Root_CA_-_C3.pem -> /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_C3.crt
+│   │   ├── emSign_ECC_Root_CA_-_G3.pem -> /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt
+│   │   ├── emSign_Root_CA_-_C1.pem -> /usr/share/ca-certificates/mozilla/emSign_Root_CA_-_C1.crt
+│   │   ├── emSign_Root_CA_-_G1.pem -> /usr/share/ca-certificates/mozilla/emSign_Root_CA_-_G1.crt
+│   │   ├── Entrust.net_Premium_2048_Secure_Server_CA.pem -> /usr/share/ca-certificates/mozilla/Entrust.net_Premium_2048_Secure_Server_CA.crt
+│   │   ├── Entrust_Root_Certification_Authority_-_EC1.pem -> /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_EC1.crt
+│   │   ├── Entrust_Root_Certification_Authority_-_G2.pem -> /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G2.crt
+│   │   ├── Entrust_Root_Certification_Authority_-_G4.pem -> /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority_-_G4.crt
+│   │   ├── Entrust_Root_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/Entrust_Root_Certification_Authority.crt
+│   │   ├── ePKI_Root_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/ePKI_Root_Certification_Authority.crt
+│   │   ├── e-Szigno_Root_CA_2017.pem -> /usr/share/ca-certificates/mozilla/e-Szigno_Root_CA_2017.crt
+│   │   ├── E-Tugra_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/E-Tugra_Certification_Authority.crt
+│   │   ├── E-Tugra_Global_Root_CA_ECC_v3.pem -> /usr/share/ca-certificates/mozilla/E-Tugra_Global_Root_CA_ECC_v3.crt
+│   │   ├── E-Tugra_Global_Root_CA_RSA_v3.pem -> /usr/share/ca-certificates/mozilla/E-Tugra_Global_Root_CA_RSA_v3.crt
+│   │   ├── f081611a.0 -> Go_Daddy_Class_2_CA.pem
+│   │   ├── f0c70a8d.0 -> SSL.com_EV_Root_Certification_Authority_ECC.pem
+│   │   ├── f249de83.0 -> Trustwave_Global_Certification_Authority.pem
+│   │   ├── f30dd6ad.0 -> USERTrust_ECC_Certification_Authority.pem
+│   │   ├── f3377b1b.0 -> Security_Communication_Root_CA.pem
+│   │   ├── f387163d.0 -> Starfield_Class_2_CA.pem
+│   │   ├── f39fc864.0 -> SecureTrust_CA.pem
+│   │   ├── f51bb24c.0 -> Certigna_Root_CA.pem
+│   │   ├── fa5da96b.0 -> GLOBALTRUST_2020.pem
+│   │   ├── fc5a8f99.0 -> USERTrust_RSA_Certification_Authority.pem
+│   │   ├── fd64f3fc.0 -> TunTrust_Root_CA.pem
+│   │   ├── fe8a2cd8.0 -> SZAFIR_ROOT_CA2.pem
+│   │   ├── feffd413.0 -> GlobalSign_Root_E46.pem
+│   │   ├── ff34af3f.0 -> TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+│   │   ├── GDCA_TrustAUTH_R5_ROOT.pem -> /usr/share/ca-certificates/mozilla/GDCA_TrustAUTH_R5_ROOT.crt
+│   │   ├── GlobalSign_ECC_Root_CA_-_R4.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_ECC_Root_CA_-_R4.crt
+│   │   ├── GlobalSign_ECC_Root_CA_-_R5.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_ECC_Root_CA_-_R5.crt
+│   │   ├── GlobalSign_Root_CA.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_Root_CA.crt
+│   │   ├── GlobalSign_Root_CA_-_R3.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_Root_CA_-_R3.crt
+│   │   ├── GlobalSign_Root_CA_-_R6.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_Root_CA_-_R6.crt
+│   │   ├── GlobalSign_Root_E46.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_Root_E46.crt
+│   │   ├── GlobalSign_Root_R46.pem -> /usr/share/ca-certificates/mozilla/GlobalSign_Root_R46.crt
+│   │   ├── GLOBALTRUST_2020.pem -> /usr/share/ca-certificates/mozilla/GLOBALTRUST_2020.crt
+│   │   ├── Go_Daddy_Class_2_CA.pem -> /usr/share/ca-certificates/mozilla/Go_Daddy_Class_2_CA.crt
+│   │   ├── Go_Daddy_Root_Certificate_Authority_-_G2.pem -> /usr/share/ca-certificates/mozilla/Go_Daddy_Root_Certificate_Authority_-_G2.crt
+│   │   ├── GTS_Root_R1.pem -> /usr/share/ca-certificates/mozilla/GTS_Root_R1.crt
+│   │   ├── GTS_Root_R2.pem -> /usr/share/ca-certificates/mozilla/GTS_Root_R2.crt
+│   │   ├── GTS_Root_R3.pem -> /usr/share/ca-certificates/mozilla/GTS_Root_R3.crt
+│   │   ├── GTS_Root_R4.pem -> /usr/share/ca-certificates/mozilla/GTS_Root_R4.crt
+│   │   ├── HARICA_TLS_ECC_Root_CA_2021.pem -> /usr/share/ca-certificates/mozilla/HARICA_TLS_ECC_Root_CA_2021.crt
+│   │   ├── HARICA_TLS_RSA_Root_CA_2021.pem -> /usr/share/ca-certificates/mozilla/HARICA_TLS_RSA_Root_CA_2021.crt
+│   │   ├── Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem -> /usr/share/ca-certificates/mozilla/Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.crt
+│   │   ├── Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem -> /usr/share/ca-certificates/mozilla/Hellenic_Academic_and_Research_Institutions_RootCA_2015.crt
+│   │   ├── HiPKI_Root_CA_-_G1.pem -> /usr/share/ca-certificates/mozilla/HiPKI_Root_CA_-_G1.crt
+│   │   ├── Hongkong_Post_Root_CA_1.pem -> /usr/share/ca-certificates/mozilla/Hongkong_Post_Root_CA_1.crt
+│   │   ├── Hongkong_Post_Root_CA_3.pem -> /usr/share/ca-certificates/mozilla/Hongkong_Post_Root_CA_3.crt
+│   │   ├── IdenTrust_Commercial_Root_CA_1.pem -> /usr/share/ca-certificates/mozilla/IdenTrust_Commercial_Root_CA_1.crt
+│   │   ├── IdenTrust_Public_Sector_Root_CA_1.pem -> /usr/share/ca-certificates/mozilla/IdenTrust_Public_Sector_Root_CA_1.crt
+│   │   ├── ISRG_Root_X1.pem -> /usr/share/ca-certificates/mozilla/ISRG_Root_X1.crt
+│   │   ├── ISRG_Root_X2.pem -> /usr/share/ca-certificates/mozilla/ISRG_Root_X2.crt
+│   │   ├── Izenpe.com.pem -> /usr/share/ca-certificates/mozilla/Izenpe.com.crt
+│   │   ├── Microsec_e-Szigno_Root_CA_2009.pem -> /usr/share/ca-certificates/mozilla/Microsec_e-Szigno_Root_CA_2009.crt
+│   │   ├── Microsoft_ECC_Root_Certificate_Authority_2017.pem -> /usr/share/ca-certificates/mozilla/Microsoft_ECC_Root_Certificate_Authority_2017.crt
+│   │   ├── Microsoft_RSA_Root_Certificate_Authority_2017.pem -> /usr/share/ca-certificates/mozilla/Microsoft_RSA_Root_Certificate_Authority_2017.crt
+│   │   ├── NAVER_Global_Root_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/NAVER_Global_Root_Certification_Authority.crt
+│   │   ├── NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem -> /usr/share/ca-certificates/mozilla/NetLock_Arany_=Class_Gold=_Főtanúsítvány.crt
+│   │   ├── OISTE_WISeKey_Global_Root_GB_CA.pem -> /usr/share/ca-certificates/mozilla/OISTE_WISeKey_Global_Root_GB_CA.crt
+│   │   ├── OISTE_WISeKey_Global_Root_GC_CA.pem -> /usr/share/ca-certificates/mozilla/OISTE_WISeKey_Global_Root_GC_CA.crt
+│   │   ├── QuoVadis_Root_CA_1_G3.pem -> /usr/share/ca-certificates/mozilla/QuoVadis_Root_CA_1_G3.crt
+│   │   ├── QuoVadis_Root_CA_2_G3.pem -> /usr/share/ca-certificates/mozilla/QuoVadis_Root_CA_2_G3.crt
+│   │   ├── QuoVadis_Root_CA_2.pem -> /usr/share/ca-certificates/mozilla/QuoVadis_Root_CA_2.crt
+│   │   ├── QuoVadis_Root_CA_3_G3.pem -> /usr/share/ca-certificates/mozilla/QuoVadis_Root_CA_3_G3.crt
+│   │   ├── QuoVadis_Root_CA_3.pem -> /usr/share/ca-certificates/mozilla/QuoVadis_Root_CA_3.crt
+│   │   ├── Secure_Global_CA.pem -> /usr/share/ca-certificates/mozilla/Secure_Global_CA.crt
+│   │   ├── SecureSign_RootCA11.pem -> /usr/share/ca-certificates/mozilla/SecureSign_RootCA11.crt
+│   │   ├── SecureTrust_CA.pem -> /usr/share/ca-certificates/mozilla/SecureTrust_CA.crt
+│   │   ├── Security_Communication_ECC_RootCA1.pem -> /usr/share/ca-certificates/mozilla/Security_Communication_ECC_RootCA1.crt
+│   │   ├── Security_Communication_RootCA2.pem -> /usr/share/ca-certificates/mozilla/Security_Communication_RootCA2.crt
+│   │   ├── Security_Communication_RootCA3.pem -> /usr/share/ca-certificates/mozilla/Security_Communication_RootCA3.crt
+│   │   ├── Security_Communication_Root_CA.pem -> /usr/share/ca-certificates/mozilla/Security_Communication_Root_CA.crt
+│   │   ├── SSL.com_EV_Root_Certification_Authority_ECC.pem -> /usr/share/ca-certificates/mozilla/SSL.com_EV_Root_Certification_Authority_ECC.crt
+│   │   ├── SSL.com_EV_Root_Certification_Authority_RSA_R2.pem -> /usr/share/ca-certificates/mozilla/SSL.com_EV_Root_Certification_Authority_RSA_R2.crt
+│   │   ├── SSL.com_Root_Certification_Authority_ECC.pem -> /usr/share/ca-certificates/mozilla/SSL.com_Root_Certification_Authority_ECC.crt
+│   │   ├── SSL.com_Root_Certification_Authority_RSA.pem -> /usr/share/ca-certificates/mozilla/SSL.com_Root_Certification_Authority_RSA.crt
+│   │   ├── Starfield_Class_2_CA.pem -> /usr/share/ca-certificates/mozilla/Starfield_Class_2_CA.crt
+│   │   ├── Starfield_Root_Certificate_Authority_-_G2.pem -> /usr/share/ca-certificates/mozilla/Starfield_Root_Certificate_Authority_-_G2.crt
+│   │   ├── Starfield_Services_Root_Certificate_Authority_-_G2.pem -> /usr/share/ca-certificates/mozilla/Starfield_Services_Root_Certificate_Authority_-_G2.crt
+│   │   ├── SwissSign_Gold_CA_-_G2.pem -> /usr/share/ca-certificates/mozilla/SwissSign_Gold_CA_-_G2.crt
+│   │   ├── SwissSign_Silver_CA_-_G2.pem -> /usr/share/ca-certificates/mozilla/SwissSign_Silver_CA_-_G2.crt
+│   │   ├── SZAFIR_ROOT_CA2.pem -> /usr/share/ca-certificates/mozilla/SZAFIR_ROOT_CA2.crt
+│   │   ├── Telia_Root_CA_v2.pem -> /usr/share/ca-certificates/mozilla/Telia_Root_CA_v2.crt
+│   │   ├── TeliaSonera_Root_CA_v1.pem -> /usr/share/ca-certificates/mozilla/TeliaSonera_Root_CA_v1.crt
+│   │   ├── Trustwave_Global_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/Trustwave_Global_Certification_Authority.crt
+│   │   ├── Trustwave_Global_ECC_P256_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/Trustwave_Global_ECC_P256_Certification_Authority.crt
+│   │   ├── Trustwave_Global_ECC_P384_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/Trustwave_Global_ECC_P384_Certification_Authority.crt
+│   │   ├── T-TeleSec_GlobalRoot_Class_2.pem -> /usr/share/ca-certificates/mozilla/T-TeleSec_GlobalRoot_Class_2.crt
+│   │   ├── T-TeleSec_GlobalRoot_Class_3.pem -> /usr/share/ca-certificates/mozilla/T-TeleSec_GlobalRoot_Class_3.crt
+│   │   ├── TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem -> /usr/share/ca-certificates/mozilla/TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.crt
+│   │   ├── TunTrust_Root_CA.pem -> /usr/share/ca-certificates/mozilla/TunTrust_Root_CA.crt
+│   │   ├── TWCA_Global_Root_CA.pem -> /usr/share/ca-certificates/mozilla/TWCA_Global_Root_CA.crt
+│   │   ├── TWCA_Root_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/TWCA_Root_Certification_Authority.crt
+│   │   ├── UCA_Extended_Validation_Root.pem -> /usr/share/ca-certificates/mozilla/UCA_Extended_Validation_Root.crt
+│   │   ├── UCA_Global_G2_Root.pem -> /usr/share/ca-certificates/mozilla/UCA_Global_G2_Root.crt
+│   │   ├── USERTrust_ECC_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/USERTrust_ECC_Certification_Authority.crt
+│   │   ├── USERTrust_RSA_Certification_Authority.pem -> /usr/share/ca-certificates/mozilla/USERTrust_RSA_Certification_Authority.crt
+│   │   ├── vTrus_ECC_Root_CA.pem -> /usr/share/ca-certificates/mozilla/vTrus_ECC_Root_CA.crt
+│   │   ├── vTrus_Root_CA.pem -> /usr/share/ca-certificates/mozilla/vTrus_Root_CA.crt
+│   │   └── XRamp_Global_CA_Root.pem -> /usr/share/ca-certificates/mozilla/XRamp_Global_CA_Root.crt
+│   ├── openssl.cnf
+│   └── private
+├── subgid
+├── subgid-
+├── subuid
+├── subuid-
+├── sudo.conf
+├── sudoers
+├── sudoers.d
+│   └── README
+├── sudo_logsrvd.conf
+├── sysctl.conf
+├── sysctl.d
+│   ├── 10-console-messages.conf
+│   ├── 10-ipv6-privacy.conf
+│   ├── 10-kernel-hardening.conf
+│   ├── 10-magic-sysrq.conf
+│   ├── 10-network-security.conf
+│   ├── 10-ptrace.conf
+│   ├── 10-zeropage.conf
+│   ├── 99-sysctl.conf -> ../sysctl.conf
+│   └── README.sysctl
+├── systemd
+│   ├── journald.conf
+│   ├── logind.conf
+│   ├── network
+│   ├── networkd.conf
+│   ├── pstore.conf
+│   ├── resolved.conf
+│   ├── sleep.conf
+│   ├── system
+│   │   ├── cloud-final.service.wants
+│   │   │   └── snapd.seeded.service -> /lib/systemd/system/snapd.seeded.service
+│   │   ├── cloud-init.target.wants
+│   │   │   ├── cloud-config.service -> /lib/systemd/system/cloud-config.service
+│   │   │   ├── cloud-final.service -> /lib/systemd/system/cloud-final.service
+│   │   │   ├── cloud-init-hotplugd.socket -> /lib/systemd/system/cloud-init-hotplugd.socket
+│   │   │   ├── cloud-init-local.service -> /lib/systemd/system/cloud-init-local.service
+│   │   │   └── cloud-init.service -> /lib/systemd/system/cloud-init.service
+│   │   ├── dbus-fi.w1.wpa_supplicant1.service -> /lib/systemd/system/wpa_supplicant.service
+│   │   ├── dbus-org.freedesktop.ModemManager1.service -> /lib/systemd/system/ModemManager.service
+│   │   ├── dbus-org.freedesktop.resolve1.service -> /lib/systemd/system/systemd-resolved.service
+│   │   ├── dbus-org.freedesktop.thermald.service -> /lib/systemd/system/thermald.service
+│   │   ├── dbus-org.freedesktop.timesync1.service -> /lib/systemd/system/systemd-timesyncd.service
+│   │   ├── display-manager.service.wants
+│   │   │   └── gpu-manager.service -> /lib/systemd/system/gpu-manager.service
+│   │   ├── emergency.target.wants
+│   │   │   └── grub-initrd-fallback.service -> /lib/systemd/system/grub-initrd-fallback.service
+│   │   ├── final.target.wants
+│   │   │   └── snapd.system-shutdown.service -> /lib/systemd/system/snapd.system-shutdown.service
+│   │   ├── getty.target.wants
+│   │   │   └── getty@tty1.service -> /lib/systemd/system/getty@.service
+│   │   ├── graphical.target.wants
+│   │   │   └── udisks2.service -> /lib/systemd/system/udisks2.service
+│   │   ├── iscsi.service -> /lib/systemd/system/open-iscsi.service
+│   │   ├── mdmonitor.service.wants
+│   │   │   ├── mdcheck_continue.timer -> /lib/systemd/system/mdcheck_continue.timer
+│   │   │   ├── mdcheck_start.timer -> /lib/systemd/system/mdcheck_start.timer
+│   │   │   └── mdmonitor-oneshot.timer -> /lib/systemd/system/mdmonitor-oneshot.timer
+│   │   ├── multipath-tools.service -> /lib/systemd/system/multipathd.service
+│   │   ├── multi-user.target.wants
+│   │   │   ├── console-setup.service -> /lib/systemd/system/console-setup.service
+│   │   │   ├── cron.service -> /lib/systemd/system/cron.service
+│   │   │   ├── dmesg.service -> /lib/systemd/system/dmesg.service
+│   │   │   ├── e2scrub_reap.service -> /lib/systemd/system/e2scrub_reap.service
+│   │   │   ├── grub-common.service -> /lib/systemd/system/grub-common.service
+│   │   │   ├── grub-initrd-fallback.service -> /lib/systemd/system/grub-initrd-fallback.service
+│   │   │   ├── irqbalance.service -> /lib/systemd/system/irqbalance.service
+│   │   │   ├── lxd-agent.service -> /lib/systemd/system/lxd-agent.service
+│   │   │   ├── ModemManager.service -> /lib/systemd/system/ModemManager.service
+│   │   │   ├── networkd-dispatcher.service -> /lib/systemd/system/networkd-dispatcher.service
+│   │   │   ├── open-vm-tools.service -> /lib/systemd/system/open-vm-tools.service
+│   │   │   ├── pollinate.service -> /lib/systemd/system/pollinate.service
+│   │   │   ├── remote-fs.target -> /lib/systemd/system/remote-fs.target
+│   │   │   ├── rsyslog.service -> /lib/systemd/system/rsyslog.service
+│   │   │   ├── secureboot-db.service -> /lib/systemd/system/secureboot-db.service
+│   │   │   ├── snap-core20-2105.mount -> /etc/systemd/system/snap-core20-2105.mount
+│   │   │   ├── snapd.aa-prompt-listener.service -> /lib/systemd/system/snapd.aa-prompt-listener.service
+│   │   │   ├── snapd.apparmor.service -> /lib/systemd/system/snapd.apparmor.service
+│   │   │   ├── snapd.autoimport.service -> /lib/systemd/system/snapd.autoimport.service
+│   │   │   ├── snapd.core-fixup.service -> /lib/systemd/system/snapd.core-fixup.service
+│   │   │   ├── snapd.recovery-chooser-trigger.service -> /lib/systemd/system/snapd.recovery-chooser-trigger.service
+│   │   │   ├── snapd.seeded.service -> /lib/systemd/system/snapd.seeded.service
+│   │   │   ├── snapd.service -> /lib/systemd/system/snapd.service
+│   │   │   ├── snap-lxd-27037.mount -> /etc/systemd/system/snap-lxd-27037.mount
+│   │   │   ├── snap.lxd.activate.service -> /etc/systemd/system/snap.lxd.activate.service
+│   │   │   ├── snap-snapd-20671.mount -> /etc/systemd/system/snap-snapd-20671.mount
+│   │   │   ├── ssh.service -> /lib/systemd/system/ssh.service
+│   │   │   ├── systemd-networkd.service -> /lib/systemd/system/systemd-networkd.service
+│   │   │   ├── systemd-resolved.service -> /lib/systemd/system/systemd-resolved.service
+│   │   │   ├── thermald.service -> /lib/systemd/system/thermald.service
+│   │   │   ├── ua-reboot-cmds.service -> /lib/systemd/system/ua-reboot-cmds.service
+│   │   │   ├── ubuntu-advantage.service -> /lib/systemd/system/ubuntu-advantage.service
+│   │   │   ├── ufw.service -> /lib/systemd/system/ufw.service
+│   │   │   ├── unattended-upgrades.service -> /lib/systemd/system/unattended-upgrades.service
+│   │   │   └── wpa_supplicant.service -> /lib/systemd/system/wpa_supplicant.service
+│   │   ├── network-online.target.wants
+│   │   │   └── systemd-networkd-wait-online.service -> /lib/systemd/system/systemd-networkd-wait-online.service
+│   │   ├── oem-config.service.wants
+│   │   │   └── gpu-manager.service -> /lib/systemd/system/gpu-manager.service
+│   │   ├── open-vm-tools.service.requires
+│   │   │   └── vgauth.service -> /lib/systemd/system/vgauth.service
+│   │   ├── paths.target.wants
+│   │   │   └── apport-autoreport.path -> /lib/systemd/system/apport-autoreport.path
+│   │   ├── rescue.target.wants
+│   │   │   └── grub-initrd-fallback.service -> /lib/systemd/system/grub-initrd-fallback.service
+│   │   ├── sleep.target.wants
+│   │   │   ├── grub-common.service -> /lib/systemd/system/grub-common.service
+│   │   │   └── grub-initrd-fallback.service -> /lib/systemd/system/grub-initrd-fallback.service
+│   │   ├── snap-core20-2105.mount
+│   │   ├── snapd.mounts.target.wants
+│   │   │   ├── snap-core20-2105.mount -> /etc/systemd/system/snap-core20-2105.mount
+│   │   │   ├── snap-lxd-27037.mount -> /etc/systemd/system/snap-lxd-27037.mount
+│   │   │   └── snap-snapd-20671.mount -> /etc/systemd/system/snap-snapd-20671.mount
+│   │   ├── snap-lxd-27037.mount
+│   │   ├── snap.lxd.activate.service
+│   │   ├── snap.lxd.daemon.service
+│   │   ├── snap.lxd.daemon.unix.socket
+│   │   ├── snap.lxd.user-daemon.service
+│   │   ├── snap.lxd.user-daemon.unix.socket
+│   │   ├── snap-snapd-20671.mount
+│   │   ├── sockets.target.wants
+│   │   │   ├── apport-forward.socket -> /lib/systemd/system/apport-forward.socket
+│   │   │   ├── dm-event.socket -> /lib/systemd/system/dm-event.socket
+│   │   │   ├── iscsid.socket -> /lib/systemd/system/iscsid.socket
+│   │   │   ├── multipathd.socket -> /lib/systemd/system/multipathd.socket
+│   │   │   ├── snapd.socket -> /lib/systemd/system/snapd.socket
+│   │   │   ├── snap.lxd.daemon.unix.socket -> /etc/systemd/system/snap.lxd.daemon.unix.socket
+│   │   │   ├── snap.lxd.user-daemon.unix.socket -> /etc/systemd/system/snap.lxd.user-daemon.unix.socket
+│   │   │   ├── systemd-networkd.socket -> /lib/systemd/system/systemd-networkd.socket
+│   │   │   └── uuidd.socket -> /lib/systemd/system/uuidd.socket
+│   │   ├── sshd-keygen@.service.d
+│   │   │   └── disable-sshd-keygen-if-cloud-init-active.conf
+│   │   ├── sshd.service -> /lib/systemd/system/ssh.service
+│   │   ├── sudo.service -> /dev/null
+│   │   ├── sysinit.target.wants
+│   │   │   ├── apparmor.service -> /lib/systemd/system/apparmor.service
+│   │   │   ├── blk-availability.service -> /lib/systemd/system/blk-availability.service
+│   │   │   ├── finalrd.service -> /lib/systemd/system/finalrd.service
+│   │   │   ├── keyboard-setup.service -> /lib/systemd/system/keyboard-setup.service
+│   │   │   ├── lvm2-lvmpolld.socket -> /lib/systemd/system/lvm2-lvmpolld.socket
+│   │   │   ├── lvm2-monitor.service -> /lib/systemd/system/lvm2-monitor.service
+│   │   │   ├── multipathd.service -> /lib/systemd/system/multipathd.service
+│   │   │   ├── open-iscsi.service -> /lib/systemd/system/open-iscsi.service
+│   │   │   ├── setvtrgb.service -> /lib/systemd/system/setvtrgb.service
+│   │   │   ├── systemd-pstore.service -> /lib/systemd/system/systemd-pstore.service
+│   │   │   └── systemd-timesyncd.service -> /lib/systemd/system/systemd-timesyncd.service
+│   │   ├── syslog.service -> /lib/systemd/system/rsyslog.service
+│   │   ├── timers.target.wants
+│   │   │   ├── apport-autoreport.timer -> /lib/systemd/system/apport-autoreport.timer
+│   │   │   ├── apt-daily.timer -> /lib/systemd/system/apt-daily.timer
+│   │   │   ├── apt-daily-upgrade.timer -> /lib/systemd/system/apt-daily-upgrade.timer
+│   │   │   ├── dpkg-db-backup.timer -> /lib/systemd/system/dpkg-db-backup.timer
+│   │   │   ├── e2scrub_all.timer -> /lib/systemd/system/e2scrub_all.timer
+│   │   │   ├── fstrim.timer -> /lib/systemd/system/fstrim.timer
+│   │   │   ├── fwupd-refresh.timer -> /lib/systemd/system/fwupd-refresh.timer
+│   │   │   ├── logrotate.timer -> /lib/systemd/system/logrotate.timer
+│   │   │   ├── man-db.timer -> /lib/systemd/system/man-db.timer
+│   │   │   ├── motd-news.timer -> /lib/systemd/system/motd-news.timer
+│   │   │   ├── snapd.snap-repair.timer -> /lib/systemd/system/snapd.snap-repair.timer
+│   │   │   ├── ua-timer.timer -> /lib/systemd/system/ua-timer.timer
+│   │   │   ├── update-notifier-download.timer -> /lib/systemd/system/update-notifier-download.timer
+│   │   │   └── update-notifier-motd.timer -> /lib/systemd/system/update-notifier-motd.timer
+│   │   └── vmtoolsd.service -> /lib/systemd/system/open-vm-tools.service
+│   ├── system.conf
+│   ├── timesyncd.conf
+│   ├── user
+│   │   └── sockets.target.wants
+│   │       ├── dirmngr.socket -> /usr/lib/systemd/user/dirmngr.socket
+│   │       ├── gpg-agent-browser.socket -> /usr/lib/systemd/user/gpg-agent-browser.socket
+│   │       ├── gpg-agent-extra.socket -> /usr/lib/systemd/user/gpg-agent-extra.socket
+│   │       ├── gpg-agent.socket -> /usr/lib/systemd/user/gpg-agent.socket
+│   │       ├── gpg-agent-ssh.socket -> /usr/lib/systemd/user/gpg-agent-ssh.socket
+│   │       └── pk-debconf-helper.socket -> /usr/lib/systemd/user/pk-debconf-helper.socket
+│   └── user.conf
+├── terminfo
+│   └── README
+├── thermald
+│   └── thermal-cpu-cdev-order.xml
+├── timezone
+├── tmpfiles.d
+│   └── screen-cleanup.conf
+├── ubuntu-advantage
+│   └── uaclient.conf
+├── ucf.conf
+├── udev
+│   ├── hwdb.d
+│   ├── rules.d
+│   │   ├── 70-snap.snapd.rules
+│   │   └── ubuntu--vg-ubuntu--lv.rules
+│   └── udev.conf
+├── udisks2
+│   ├── mount_options.conf.example
+│   └── udisks2.conf
+├── ufw
+│   ├── after6.rules
+│   ├── after.init
+│   ├── after.rules
+│   ├── applications.d
+│   │   └── openssh-server
+│   ├── before6.rules
+│   ├── before.init
+│   ├── before.rules
+│   ├── sysctl.conf
+│   ├── ufw.conf
+│   ├── user6.rules
+│   └── user.rules
+├── update-manager
+│   ├── meta-release
+│   ├── release-upgrades
+│   └── release-upgrades.d
+│       └── ubuntu-advantage-upgrades.cfg
+├── update-motd.d
+│   ├── 00-header
+│   ├── 10-help-text
+│   ├── 50-landscape-sysinfo -> /usr/share/landscape/landscape-sysinfo.wrapper
+│   ├── 50-motd-news
+│   ├── 85-fwupd
+│   ├── 90-updates-available
+│   ├── 91-contract-ua-esm-status
+│   ├── 91-release-upgrade
+│   ├── 92-unattended-upgrades
+│   ├── 95-hwe-eol
+│   ├── 97-overlayroot
+│   ├── 98-fsck-at-reboot
+│   └── 98-reboot-required
+├── update-notifier
+├── UPower
+│   └── UPower.conf
+├── usb_modeswitch.conf
+├── usb_modeswitch.d
+├── vim
+│   ├── vimrc
+│   └── vimrc.tiny
+├── vmware-tools
+│   ├── poweroff-vm-default
+│   ├── poweron-vm-default
+│   ├── resume-vm-default
+│   ├── scripts
+│   │   └── vmware
+│   │       └── network
+│   ├── statechange.subr
+│   ├── suspend-vm-default
+│   ├── tools.conf
+│   ├── tools.conf.example
+│   ├── vgauth
+│   │   └── schemas
+│   │       ├── catalog.xml
+│   │       ├── datatypes.dtd
+│   │       ├── saml-schema-assertion-2.0.xsd
+│   │       ├── xenc-schema.xsd
+│   │       ├── xmldsig-core-schema.xsd
+│   │       ├── XMLSchema.dtd
+│   │       ├── XMLSchema-hasFacetAndProperty.xsd
+│   │       ├── XMLSchema-instance.xsd
+│   │       ├── XMLSchema.xsd
+│   │       └── xml.xsd
+│   └── vgauth.conf
+├── vtrgb -> /etc/alternatives/vtrgb
+├── wgetrc
+├── wpa_supplicant
+│   ├── action_wpa.sh
+│   ├── functions.sh
+│   └── ifupdown.sh
+├── X11
+│   ├── xkb
+│   └── Xsession.d
+│       ├── 20dbus_xdg-runtime
+│       └── 90gpg-agent
+├── xattr.conf
+├── xdg
+│   ├── autostart
+│   │   ├── snap-userd-autostart.desktop
+│   │   └── xdg-user-dirs.desktop
+│   ├── systemd
+│   │   └── user -> ../../systemd/user
+│   ├── user-dirs.conf
+│   └── user-dirs.defaults
+└── zsh_command_not_found
+
+230 directories, 1336 files

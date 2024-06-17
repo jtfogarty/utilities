@@ -1,0 +1,231 @@
+ansible % ansible-playbook -i hosts.ini rke2.yml                                                                 
+
+PLAY [Install and configure RKE2 on all nodes] **************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [node3]
+ok: [node2]
+ok: [node1]
+ok: [node4]
+ok: [node7]
+ok: [node8]
+ok: [node9]
+ok: [node5]
+ok: [node6]
+
+TASK [Install dependencies] *********************************************************************************************************************************************************************
+ok: [node5] => (item=curl)
+ok: [node5] => (item=sudo)
+ok: [node3] => (item=curl)
+ok: [node2] => (item=curl)
+ok: [node1] => (item=curl)
+ok: [node4] => (item=curl)
+ok: [node5] => (item=apt-transport-https)
+ok: [node5] => (item=ca-certificates)
+ok: [node3] => (item=sudo)
+ok: [node1] => (item=sudo)
+ok: [node2] => (item=sudo)
+ok: [node4] => (item=sudo)
+ok: [node6] => (item=curl)
+ok: [node6] => (item=sudo)
+ok: [node3] => (item=apt-transport-https)
+ok: [node1] => (item=apt-transport-https)
+ok: [node2] => (item=apt-transport-https)
+ok: [node4] => (item=apt-transport-https)
+ok: [node6] => (item=apt-transport-https)
+ok: [node6] => (item=ca-certificates)
+ok: [node3] => (item=ca-certificates)
+ok: [node1] => (item=ca-certificates)
+ok: [node2] => (item=ca-certificates)
+ok: [node4] => (item=ca-certificates)
+ok: [node7] => (item=curl)
+ok: [node8] => (item=curl)
+ok: [node9] => (item=curl)
+ok: [node7] => (item=sudo)
+ok: [node8] => (item=sudo)
+ok: [node9] => (item=sudo)
+ok: [node7] => (item=apt-transport-https)
+ok: [node8] => (item=apt-transport-https)
+ok: [node9] => (item=apt-transport-https)
+ok: [node7] => (item=ca-certificates)
+ok: [node8] => (item=ca-certificates)
+ok: [node9] => (item=ca-certificates)
+
+TASK [Set the network IP address] ***************************************************************************************************************************************************************
+ok: [node2]
+ok: [node1]
+ok: [node3]
+ok: [node5]
+ok: [node8]
+ok: [node4]
+ok: [node7]
+ok: [node6]
+ok: [node9]
+
+TASK [Install RKE2 server or agent] *************************************************************************************************************************************************************
+changed: [node1]
+changed: [node2]
+changed: [node3]
+changed: [node6]
+changed: [node4]
+changed: [node5]
+changed: [node7]
+changed: [node9]
+changed: [node8]
+
+TASK [Enable and start RKE2 service] ************************************************************************************************************************************************************
+ok: [node5]
+ok: [node3]
+ok: [node2]
+ok: [node1]
+ok: [node4]
+ok: [node6]
+ok: [node9]
+ok: [node7]
+ok: [node8]
+
+TASK [Log RKE2 service status to a file] ********************************************************************************************************************************************************
+changed: [node5]
+changed: [node1]
+changed: [node2]
+changed: [node3]
+changed: [node4]
+changed: [node6]
+changed: [node8]
+changed: [node9]
+changed: [node7]
+
+TASK [Create RKE2 config directory] *************************************************************************************************************************************************************
+ok: [node5]
+ok: [node3]
+ok: [node2]
+ok: [node1]
+ok: [node4]
+ok: [node6]
+ok: [node7]
+ok: [node8]
+ok: [node9]
+
+TASK [Ensure token directory exists on all nodes] ***********************************************************************************************************************************************
+ok: [node1]
+ok: [node3]
+ok: [node2]
+ok: [node5]
+ok: [node4]
+ok: [node6]
+ok: [node7]
+ok: [node8]
+ok: [node9]
+
+TASK [Fetch node token from the control plane node] *********************************************************************************************************************************************
+skipping: [node2]
+skipping: [node3]
+skipping: [node4]
+skipping: [node5]
+skipping: [node6]
+skipping: [node7]
+skipping: [node8]
+skipping: [node9]
+ok: [node1]
+
+TASK [Distribute node token to other nodes] *****************************************************************************************************************************************************
+skipping: [node1]
+ok: [node6]
+ok: [node5]
+ok: [node3]
+ok: [node4]
+ok: [node2]
+ok: [node7]
+ok: [node8]
+ok: [node9]
+
+TASK [Configure RKE2 on all nodes] **************************************************************************************************************************************************************
+ok: [node5]
+ok: [node1]
+ok: [node2]
+ok: [node3]
+ok: [node4]
+ok: [node6]
+ok: [node7]
+ok: [node8]
+ok: [node9]
+
+TASK [Ensure hostname resolution] ***************************************************************************************************************************************************************
+ok: [node5]
+ok: [node2]
+ok: [node3]
+ok: [node1]
+ok: [node4]
+ok: [node6]
+ok: [node7]
+ok: [node8]
+ok: [node9]
+
+TASK [Restart RKE2 server service] **************************************************************************************************************************************************************
+skipping: [node4]
+skipping: [node5]
+skipping: [node6]
+skipping: [node7]
+skipping: [node8]
+skipping: [node9]
+fatal: [node1]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-server: Job for rke2-server.service failed because the control process exited with error code.\nSee \"systemctl status rke2-server.service\" and \"journalctl -xeu rke2-server.service\" for details.\n"}
+...ignoring
+fatal: [node2]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-server: Job for rke2-server.service failed because the control process exited with error code.\nSee \"systemctl status rke2-server.service\" and \"journalctl -xeu rke2-server.service\" for details.\n"}
+...ignoring
+fatal: [node3]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-server: Job for rke2-server.service failed because the control process exited with error code.\nSee \"systemctl status rke2-server.service\" and \"journalctl -xeu rke2-server.service\" for details.\n"}
+...ignoring
+
+TASK [Debug server restart status] **************************************************************************************************************************************************************
+ok: [node1] => {
+    "msg": "Failed to restart rke2-server service. Check 'systemctl status rke2-server.service' and 'journalctl -xeu rke2-server.service' for details."
+}
+ok: [node2] => {
+    "msg": "Failed to restart rke2-server service. Check 'systemctl status rke2-server.service' and 'journalctl -xeu rke2-server.service' for details."
+}
+ok: [node3] => {
+    "msg": "Failed to restart rke2-server service. Check 'systemctl status rke2-server.service' and 'journalctl -xeu rke2-server.service' for details."
+}
+skipping: [node4]
+skipping: [node5]
+skipping: [node6]
+skipping: [node7]
+skipping: [node8]
+skipping: [node9]
+
+TASK [Restart RKE2 agent service] ***************************************************************************************************************************************************************
+skipping: [node1]
+skipping: [node2]
+skipping: [node3]
+fatal: [node6]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-agent: Job for rke2-agent.service failed because the control process exited with error code.\nSee \"systemctl status rke2-agent.service\" and \"journalctl -xeu rke2-agent.service\" for details.\n"}
+fatal: [node5]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-agent: Job for rke2-agent.service failed because the control process exited with error code.\nSee \"systemctl status rke2-agent.service\" and \"journalctl -xeu rke2-agent.service\" for details.\n"}
+fatal: [node4]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-agent: Job for rke2-agent.service failed because the control process exited with error code.\nSee \"systemctl status rke2-agent.service\" and \"journalctl -xeu rke2-agent.service\" for details.\n"}
+fatal: [node7]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-agent: Job for rke2-agent.service failed because the control process exited with error code.\nSee \"systemctl status rke2-agent.service\" and \"journalctl -xeu rke2-agent.service\" for details.\n"}
+fatal: [node8]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-agent: Job for rke2-agent.service failed because the control process exited with error code.\nSee \"systemctl status rke2-agent.service\" and \"journalctl -xeu rke2-agent.service\" for details.\n"}
+fatal: [node9]: FAILED! => {"changed": false, "msg": "Unable to restart service rke2-agent: Job for rke2-agent.service failed because the control process exited with error code.\nSee \"systemctl status rke2-agent.service\" and \"journalctl -xeu rke2-agent.service\" for details.\n"}
+
+TASK [Verify network connectivity to control plane from all nodes] ******************************************************************************************************************************
+changed: [node3]
+changed: [node1]
+changed: [node2]
+
+TASK [Debug curl output] ************************************************************************************************************************************************************************
+ok: [node1] => {
+    "curl_output.stdout": "Failed to connect to https://k8s-rancher-01:9345"
+}
+ok: [node2] => {
+    "curl_output.stdout": "Failed to connect to https://k8s-rancher-01:9345"
+}
+ok: [node3] => {
+    "curl_output.stdout": "Failed to connect to https://k8s-rancher-01:9345"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+node1                      : ok=15   changed=3    unreachable=0    failed=0    skipped=2    rescued=0    ignored=1   
+node2                      : ok=15   changed=3    unreachable=0    failed=0    skipped=2    rescued=0    ignored=1   
+node3                      : ok=15   changed=3    unreachable=0    failed=0    skipped=2    rescued=0    ignored=1   
+node4                      : ok=11   changed=2    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   
+node5                      : ok=11   changed=2    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   
+node6                      : ok=11   changed=2    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   
+node7                      : ok=11   changed=2    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   
+node8                      : ok=11   changed=2    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   
+node9                      : ok=11   changed=2    unreachable=0    failed=1    skipped=3    rescued=0    ignored=0   

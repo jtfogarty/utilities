@@ -1,0 +1,3767 @@
+/var
+├── backups
+├── cache
+│   ├── apparmor
+│   │   ├── 72e9179b.0
+│   │   │   ├── lsb_release
+│   │   │   ├── nvidia_modprobe
+│   │   │   ├── sbin.dhclient
+│   │   │   ├── snap-confine.snapd.20671
+│   │   │   ├── snap.lxd.activate
+│   │   │   ├── snap.lxd.benchmark
+│   │   │   ├── snap.lxd.buginfo
+│   │   │   ├── snap.lxd.check-kernel
+│   │   │   ├── snap.lxd.daemon
+│   │   │   ├── snap.lxd.hook.configure
+│   │   │   ├── snap.lxd.hook.install
+│   │   │   ├── snap.lxd.hook.remove
+│   │   │   ├── snap.lxd.lxc
+│   │   │   ├── snap.lxd.lxc-to-lxd
+│   │   │   ├── snap.lxd.lxd
+│   │   │   ├── snap.lxd.migrate
+│   │   │   ├── snap.lxd.user-daemon
+│   │   │   ├── snap-update-ns.lxd
+│   │   │   ├── ubuntu_pro_apt_news
+│   │   │   ├── ubuntu_pro_esm_cache
+│   │   │   ├── usr.bin.man
+│   │   │   ├── usr.bin.tcpdump
+│   │   │   └── usr.lib.snapd.snap-confine.real
+│   │   └── e10c1cf9.0
+│   │       ├── lsb_release
+│   │       ├── nvidia_modprobe
+│   │       ├── sbin.dhclient
+│   │       ├── snap-confine.snapd.20671
+│   │       ├── snap.lxd.activate
+│   │       ├── snap.lxd.benchmark
+│   │       ├── snap.lxd.buginfo
+│   │       ├── snap.lxd.check-kernel
+│   │       ├── snap.lxd.daemon
+│   │       ├── snap.lxd.hook.configure
+│   │       ├── snap.lxd.hook.install
+│   │       ├── snap.lxd.hook.remove
+│   │       ├── snap.lxd.lxc
+│   │       ├── snap.lxd.lxc-to-lxd
+│   │       ├── snap.lxd.lxd
+│   │       ├── snap.lxd.migrate
+│   │       ├── snap.lxd.user-daemon
+│   │       ├── snap-update-ns.lxd
+│   │       ├── usr.bin.man
+│   │       ├── usr.bin.tcpdump
+│   │       └── usr.lib.snapd.snap-confine.real
+│   ├── app-info
+│   │   └── xmls
+│   ├── apt
+│   │   ├── archives
+│   │   │   ├── apt_2.4.12_amd64.deb
+│   │   │   ├── apt-utils_2.4.12_amd64.deb
+│   │   │   ├── bind9-dnsutils_1%3a9.18.24-0ubuntu0.22.04.1_amd64.deb
+│   │   │   ├── bind9-host_1%3a9.18.24-0ubuntu0.22.04.1_amd64.deb
+│   │   │   ├── bind9-libs_1%3a9.18.24-0ubuntu0.22.04.1_amd64.deb
+│   │   │   ├── cloud-init_24.1.3-0ubuntu1~22.04.5_all.deb
+│   │   │   ├── coreutils_8.32-4.1ubuntu1.2_amd64.deb
+│   │   │   ├── dpkg_1.21.1ubuntu2.3_amd64.deb
+│   │   │   ├── ethtool_1%3a5.16-1ubuntu0.1_amd64.deb
+│   │   │   ├── landscape-common_23.02-0ubuntu1~22.04.2_amd64.deb
+│   │   │   ├── libapt-pkg6.0_2.4.12_amd64.deb
+│   │   │   ├── libgpgme11_1.16.0-1.2ubuntu4.2_amd64.deb
+│   │   │   ├── libldap-2.5-0_2.5.17+dfsg-0ubuntu0.22.04.1_amd64.deb
+│   │   │   ├── libldap-common_2.5.17+dfsg-0ubuntu0.22.04.1_all.deb
+│   │   │   ├── lock
+│   │   │   ├── partial
+│   │   │   ├── snapd_2.63+22.04_amd64.deb
+│   │   │   ├── tcpdump_4.99.1-3ubuntu0.2_amd64.deb
+│   │   │   ├── tree_2.0.2-1_amd64.deb
+│   │   │   ├── ubuntu-advantage-tools_32.3~22.04_all.deb
+│   │   │   ├── ubuntu-pro-client_32.3~22.04_amd64.deb
+│   │   │   ├── ubuntu-pro-client-l10n_32.3~22.04_amd64.deb
+│   │   │   ├── update-notifier-common_3.192.54.8_all.deb
+│   │   │   ├── vim_2%3a8.2.3995-1ubuntu2.17_amd64.deb
+│   │   │   ├── vim-common_2%3a8.2.3995-1ubuntu2.17_all.deb
+│   │   │   ├── vim-runtime_2%3a8.2.3995-1ubuntu2.17_all.deb
+│   │   │   ├── vim-tiny_2%3a8.2.3995-1ubuntu2.17_amd64.deb
+│   │   │   └── xxd_2%3a8.2.3995-1ubuntu2.17_amd64.deb
+│   │   ├── pkgcache.bin
+│   │   └── srcpkgcache.bin
+│   ├── debconf
+│   │   ├── config.dat
+│   │   ├── config.dat-old
+│   │   ├── passwords.dat
+│   │   ├── templates.dat
+│   │   └── templates.dat-old
+│   ├── ldconfig
+│   │   └── aux-cache
+│   ├── man
+│   │   ├── CACHEDIR.TAG
+│   │   ├── cat1
+│   │   ├── cat2
+│   │   ├── cat3
+│   │   ├── cat4
+│   │   ├── cat5
+│   │   ├── cat6
+│   │   ├── cat7
+│   │   ├── cat8
+│   │   ├── cs
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── da
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── de
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── es
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── fi
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   └── index.db
+│   │   ├── fr
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── hu
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── id
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── index.db
+│   │   ├── it
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── ja
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── ko
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── nl
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat7
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── pl
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── pt
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat7
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── pt_BR
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── ro
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── ru
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── sl
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── sr
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── sv
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── tr
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── uk
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   ├── zh_CN
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   ├── cat1
+│   │   │   ├── cat5
+│   │   │   ├── cat8
+│   │   │   └── index.db
+│   │   └── zh_TW
+│   │       ├── CACHEDIR.TAG
+│   │       ├── cat1
+│   │       ├── cat5
+│   │       ├── cat8
+│   │       └── index.db
+│   ├── motd-news
+│   ├── PackageKit
+│   │   └── downloads
+│   ├── pollinate
+│   │   └── seeded
+│   ├── private
+│   └── snapd
+│       ├── aux
+│       │   ├── DLqre5XGLbDqg9jPtiAhRRjDuPVa5X1q.json
+│       │   ├── J60k4JY0HppjwOjW8dZdYc8obXKxujRu.json
+│       │   └── PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4.json
+│       ├── commands.db
+│       ├── names
+│       └── sections
+├── crash
+├── lib
+│   ├── apport
+│   │   └── coredump
+│   ├── apt
+│   │   ├── extended_states
+│   │   ├── lists
+│   │   │   ├── auxfiles
+│   │   │   ├── lock
+│   │   │   ├── partial
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_InRelease
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_main_binary-amd64_Packages
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_main_cnf_Commands-amd64
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_main_i18n_Translation-en
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_multiverse_binary-amd64_Packages
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_multiverse_cnf_Commands-amd64
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_multiverse_i18n_Translation-en
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_restricted_binary-amd64_Packages
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_restricted_cnf_Commands-amd64
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_restricted_i18n_Translation-en
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_universe_binary-amd64_Packages
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_universe_cnf_Commands-amd64
+│   │   │   ├── security.ubuntu.com_ubuntu_dists_jammy-security_universe_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_InRelease
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_main_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_main_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_main_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_multiverse_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_restricted_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_universe_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_universe_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-backports_universe_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_InRelease
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_main_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_main_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_main_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_multiverse_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_multiverse_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_multiverse_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_restricted_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_restricted_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_restricted_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_universe_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_universe_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy_universe_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_InRelease
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_main_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_main_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_main_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_multiverse_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_multiverse_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_multiverse_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_restricted_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_restricted_cnf_Commands-amd64
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_restricted_i18n_Translation-en
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_universe_binary-amd64_Packages
+│   │   │   ├── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_universe_cnf_Commands-amd64
+│   │   │   └── us.archive.ubuntu.com_ubuntu_dists_jammy-updates_universe_i18n_Translation-en
+│   │   ├── mirrors
+│   │   │   └── partial
+│   │   └── periodic
+│   │       ├── unattended-upgrades-stamp
+│   │       └── update-success-stamp
+│   ├── boltd
+│   ├── cloud
+│   │   ├── data
+│   │   │   ├── instance-id
+│   │   │   ├── previous-datasource
+│   │   │   ├── previous-instance-id
+│   │   │   ├── python-version
+│   │   │   ├── result.json
+│   │   │   └── status.json
+│   │   ├── handlers
+│   │   ├── instance -> /var/lib/cloud/instances/iid-datasource-none
+│   │   ├── instances
+│   │   │   └── iid-datasource-none
+│   │   │       ├── boot-finished
+│   │   │       ├── cloud-config.txt
+│   │   │       ├── datasource
+│   │   │       ├── handlers
+│   │   │       ├── obj.pkl
+│   │   │       ├── scripts
+│   │   │       ├── sem
+│   │   │       │   ├── config_apt_configure
+│   │   │       │   ├── config_byobu
+│   │   │       │   ├── config_grub_dpkg
+│   │   │       │   ├── config_install_hotplug
+│   │   │       │   ├── config_keys_to_console
+│   │   │       │   ├── config_locale
+│   │   │       │   ├── config_mounts
+│   │   │       │   ├── config_reset_rmc
+│   │   │       │   ├── config_rightscale_userdata
+│   │   │       │   ├── config_scripts_per_instance
+│   │   │       │   ├── config_scripts_user
+│   │   │       │   ├── config_scripts_vendor
+│   │   │       │   ├── config_seed_random
+│   │   │       │   ├── config_set_hostname
+│   │   │       │   ├── config_set_passwords
+│   │   │       │   ├── config_ssh
+│   │   │       │   ├── config_ssh_authkey_fingerprints
+│   │   │       │   ├── config_ssh_import_id
+│   │   │       │   ├── config_users_groups
+│   │   │       │   └── consume_data
+│   │   │       ├── user-data.txt
+│   │   │       ├── user-data.txt.i
+│   │   │       ├── vendor-data2.txt
+│   │   │       ├── vendor-data2.txt.i
+│   │   │       ├── vendor-data.txt
+│   │   │       └── vendor-data.txt.i
+│   │   ├── scripts
+│   │   │   ├── per-boot
+│   │   │   ├── per-instance
+│   │   │   ├── per-once
+│   │   │   └── vendor
+│   │   ├── seed
+│   │   └── sem
+│   │       └── config_scripts_per_once.once
+│   ├── command-not-found
+│   │   ├── commands.db
+│   │   └── commands.db.metadata
+│   ├── dbus
+│   │   └── machine-id -> /etc/machine-id
+│   ├── dhcp
+│   ├── dpkg
+│   │   ├── alternatives
+│   │   │   ├── arptables
+│   │   │   ├── awk
+│   │   │   ├── builtins.7.gz
+│   │   │   ├── ebtables
+│   │   │   ├── editor
+│   │   │   ├── ex
+│   │   │   ├── ftp
+│   │   │   ├── infobrowser
+│   │   │   ├── ip6tables
+│   │   │   ├── iptables
+│   │   │   ├── jsondiff
+│   │   │   ├── lzma
+│   │   │   ├── mt
+│   │   │   ├── nc
+│   │   │   ├── newt-palette
+│   │   │   ├── pager
+│   │   │   ├── pico
+│   │   │   ├── pinentry
+│   │   │   ├── pybabel
+│   │   │   ├── rcp
+│   │   │   ├── rlogin
+│   │   │   ├── rmt
+│   │   │   ├── rsh
+│   │   │   ├── rview
+│   │   │   ├── rvim
+│   │   │   ├── shimx64.efi.signed
+│   │   │   ├── telnet
+│   │   │   ├── text.plymouth
+│   │   │   ├── vi
+│   │   │   ├── view
+│   │   │   ├── vim
+│   │   │   ├── vimdiff
+│   │   │   ├── vtrgb
+│   │   │   ├── which
+│   │   │   └── write
+│   │   ├── available
+│   │   ├── cmethopt
+│   │   ├── diversions
+│   │   ├── diversions-old
+│   │   ├── info
+│   │   │   ├── adduser.conffiles
+│   │   │   ├── adduser.config
+│   │   │   ├── adduser.list
+│   │   │   ├── adduser.md5sums
+│   │   │   ├── adduser.postinst
+│   │   │   ├── adduser.postrm
+│   │   │   ├── adduser.templates
+│   │   │   ├── amd64-microcode.conffiles
+│   │   │   ├── amd64-microcode.list
+│   │   │   ├── amd64-microcode.md5sums
+│   │   │   ├── amd64-microcode.postinst
+│   │   │   ├── amd64-microcode.postrm
+│   │   │   ├── apparmor.conffiles
+│   │   │   ├── apparmor.config
+│   │   │   ├── apparmor.list
+│   │   │   ├── apparmor.md5sums
+│   │   │   ├── apparmor.postinst
+│   │   │   ├── apparmor.postrm
+│   │   │   ├── apparmor.preinst
+│   │   │   ├── apparmor.prerm
+│   │   │   ├── apparmor.templates
+│   │   │   ├── apport.conffiles
+│   │   │   ├── apport.list
+│   │   │   ├── apport.md5sums
+│   │   │   ├── apport.postinst
+│   │   │   ├── apport.postrm
+│   │   │   ├── apport.preinst
+│   │   │   ├── apport.prerm
+│   │   │   ├── apport-symptoms.list
+│   │   │   ├── apport-symptoms.md5sums
+│   │   │   ├── apt.conffiles
+│   │   │   ├── apt.list
+│   │   │   ├── apt.md5sums
+│   │   │   ├── apt.postinst
+│   │   │   ├── apt.postrm
+│   │   │   ├── apt.preinst
+│   │   │   ├── apt.prerm
+│   │   │   ├── apt.shlibs
+│   │   │   ├── apt.triggers
+│   │   │   ├── apt-utils.list
+│   │   │   ├── apt-utils.md5sums
+│   │   │   ├── base-files.conffiles
+│   │   │   ├── base-files.list
+│   │   │   ├── base-files.md5sums
+│   │   │   ├── base-files.postinst
+│   │   │   ├── base-files.postrm
+│   │   │   ├── base-files.preinst
+│   │   │   ├── base-files.prerm
+│   │   │   ├── base-passwd.list
+│   │   │   ├── base-passwd.md5sums
+│   │   │   ├── base-passwd.postinst
+│   │   │   ├── base-passwd.postrm
+│   │   │   ├── base-passwd.preinst
+│   │   │   ├── base-passwd.templates
+│   │   │   ├── bash-completion.conffiles
+│   │   │   ├── bash-completion.list
+│   │   │   ├── bash-completion.md5sums
+│   │   │   ├── bash-completion.postinst
+│   │   │   ├── bash-completion.postrm
+│   │   │   ├── bash-completion.preinst
+│   │   │   ├── bash.conffiles
+│   │   │   ├── bash.list
+│   │   │   ├── bash.md5sums
+│   │   │   ├── bash.postinst
+│   │   │   ├── bash.postrm
+│   │   │   ├── bash.prerm
+│   │   │   ├── bcache-tools.list
+│   │   │   ├── bcache-tools.md5sums
+│   │   │   ├── bcache-tools.triggers
+│   │   │   ├── bc.list
+│   │   │   ├── bc.md5sums
+│   │   │   ├── bc.postinst
+│   │   │   ├── bc.postrm
+│   │   │   ├── bind9-dnsutils.list
+│   │   │   ├── bind9-dnsutils.md5sums
+│   │   │   ├── bind9-host.list
+│   │   │   ├── bind9-host.md5sums
+│   │   │   ├── bind9-libs:amd64.list
+│   │   │   ├── bind9-libs:amd64.md5sums
+│   │   │   ├── bind9-libs:amd64.shlibs
+│   │   │   ├── bind9-libs:amd64.triggers
+│   │   │   ├── binutils-common:amd64.list
+│   │   │   ├── binutils-common:amd64.md5sums
+│   │   │   ├── binutils.list
+│   │   │   ├── binutils.md5sums
+│   │   │   ├── binutils-x86-64-linux-gnu.list
+│   │   │   ├── binutils-x86-64-linux-gnu.md5sums
+│   │   │   ├── bolt.list
+│   │   │   ├── bolt.md5sums
+│   │   │   ├── bolt.postinst
+│   │   │   ├── bolt.postrm
+│   │   │   ├── bolt.preinst
+│   │   │   ├── bolt.prerm
+│   │   │   ├── bsdextrautils.list
+│   │   │   ├── bsdextrautils.md5sums
+│   │   │   ├── bsdextrautils.postinst
+│   │   │   ├── bsdextrautils.prerm
+│   │   │   ├── bsdutils.list
+│   │   │   ├── bsdutils.md5sums
+│   │   │   ├── btrfs-progs.list
+│   │   │   ├── btrfs-progs.md5sums
+│   │   │   ├── btrfs-progs.triggers
+│   │   │   ├── busybox-initramfs.list
+│   │   │   ├── busybox-initramfs.md5sums
+│   │   │   ├── busybox-static.list
+│   │   │   ├── busybox-static.md5sums
+│   │   │   ├── busybox-static.triggers
+│   │   │   ├── byobu.conffiles
+│   │   │   ├── byobu.config
+│   │   │   ├── byobu.list
+│   │   │   ├── byobu.md5sums
+│   │   │   ├── byobu.postinst
+│   │   │   ├── byobu.postrm
+│   │   │   ├── byobu.prerm
+│   │   │   ├── byobu.templates
+│   │   │   ├── ca-certificates.config
+│   │   │   ├── ca-certificates.list
+│   │   │   ├── ca-certificates.md5sums
+│   │   │   ├── ca-certificates.postinst
+│   │   │   ├── ca-certificates.postrm
+│   │   │   ├── ca-certificates.templates
+│   │   │   ├── ca-certificates.triggers
+│   │   │   ├── cloud-guest-utils.list
+│   │   │   ├── cloud-guest-utils.md5sums
+│   │   │   ├── cloud-init.conffiles
+│   │   │   ├── cloud-init.config
+│   │   │   ├── cloud-init.list
+│   │   │   ├── cloud-init.md5sums
+│   │   │   ├── cloud-init.postinst
+│   │   │   ├── cloud-init.postrm
+│   │   │   ├── cloud-init.preinst
+│   │   │   ├── cloud-init.prerm
+│   │   │   ├── cloud-initramfs-copymods.list
+│   │   │   ├── cloud-initramfs-copymods.md5sums
+│   │   │   ├── cloud-initramfs-copymods.postinst
+│   │   │   ├── cloud-initramfs-copymods.postrm
+│   │   │   ├── cloud-initramfs-dyn-netconf.list
+│   │   │   ├── cloud-initramfs-dyn-netconf.md5sums
+│   │   │   ├── cloud-initramfs-dyn-netconf.postinst
+│   │   │   ├── cloud-initramfs-dyn-netconf.postrm
+│   │   │   ├── cloud-init.templates
+│   │   │   ├── command-not-found.conffiles
+│   │   │   ├── command-not-found.list
+│   │   │   ├── command-not-found.md5sums
+│   │   │   ├── console-setup.config
+│   │   │   ├── console-setup-linux.conffiles
+│   │   │   ├── console-setup-linux.list
+│   │   │   ├── console-setup-linux.md5sums
+│   │   │   ├── console-setup-linux.postinst
+│   │   │   ├── console-setup-linux.postrm
+│   │   │   ├── console-setup-linux.prerm
+│   │   │   ├── console-setup.list
+│   │   │   ├── console-setup.md5sums
+│   │   │   ├── console-setup.postinst
+│   │   │   ├── console-setup.postrm
+│   │   │   ├── console-setup.templates
+│   │   │   ├── coreutils.list
+│   │   │   ├── coreutils.md5sums
+│   │   │   ├── coreutils.postinst
+│   │   │   ├── coreutils.postrm
+│   │   │   ├── cpio.list
+│   │   │   ├── cpio.md5sums
+│   │   │   ├── cpio.postinst
+│   │   │   ├── cpio.prerm
+│   │   │   ├── cron.conffiles
+│   │   │   ├── cron.list
+│   │   │   ├── cron.md5sums
+│   │   │   ├── cron.postinst
+│   │   │   ├── cron.postrm
+│   │   │   ├── cron.prerm
+│   │   │   ├── cryptsetup-bin.list
+│   │   │   ├── cryptsetup-bin.md5sums
+│   │   │   ├── cryptsetup-bin.postinst
+│   │   │   ├── cryptsetup.conffiles
+│   │   │   ├── cryptsetup-initramfs.conffiles
+│   │   │   ├── cryptsetup-initramfs.list
+│   │   │   ├── cryptsetup-initramfs.md5sums
+│   │   │   ├── cryptsetup-initramfs.postinst
+│   │   │   ├── cryptsetup-initramfs.postrm
+│   │   │   ├── cryptsetup-initramfs.prerm
+│   │   │   ├── cryptsetup-initramfs.templates
+│   │   │   ├── cryptsetup-initramfs.triggers
+│   │   │   ├── cryptsetup.list
+│   │   │   ├── cryptsetup.md5sums
+│   │   │   ├── cryptsetup.postinst
+│   │   │   ├── cryptsetup.postrm
+│   │   │   ├── cryptsetup.preinst
+│   │   │   ├── cryptsetup.prerm
+│   │   │   ├── cryptsetup.templates
+│   │   │   ├── curl.list
+│   │   │   ├── curl.md5sums
+│   │   │   ├── dash.config
+│   │   │   ├── dash.list
+│   │   │   ├── dash.md5sums
+│   │   │   ├── dash.postinst
+│   │   │   ├── dash.postrm
+│   │   │   ├── dash.prerm
+│   │   │   ├── dash.templates
+│   │   │   ├── dbus.conffiles
+│   │   │   ├── dbus.list
+│   │   │   ├── dbus.md5sums
+│   │   │   ├── dbus.postinst
+│   │   │   ├── dbus.postrm
+│   │   │   ├── dbus.preinst
+│   │   │   ├── dbus.prerm
+│   │   │   ├── dbus.triggers
+│   │   │   ├── dbus-user-session.conffiles
+│   │   │   ├── dbus-user-session.list
+│   │   │   ├── dbus-user-session.md5sums
+│   │   │   ├── debconf.conffiles
+│   │   │   ├── debconf.config
+│   │   │   ├── debconf-i18n.list
+│   │   │   ├── debconf-i18n.md5sums
+│   │   │   ├── debconf.list
+│   │   │   ├── debconf.md5sums
+│   │   │   ├── debconf.postinst
+│   │   │   ├── debconf.templates
+│   │   │   ├── debianutils.list
+│   │   │   ├── debianutils.md5sums
+│   │   │   ├── debianutils.postinst
+│   │   │   ├── debianutils.postrm
+│   │   │   ├── debianutils.prerm
+│   │   │   ├── debianutils.triggers
+│   │   │   ├── diffutils.list
+│   │   │   ├── diffutils.md5sums
+│   │   │   ├── dirmngr.list
+│   │   │   ├── dirmngr.md5sums
+│   │   │   ├── dirmngr.postinst
+│   │   │   ├── dirmngr.postrm
+│   │   │   ├── dirmngr.preinst
+│   │   │   ├── dirmngr.prerm
+│   │   │   ├── distro-info-data.list
+│   │   │   ├── distro-info-data.md5sums
+│   │   │   ├── distro-info.list
+│   │   │   ├── distro-info.md5sums
+│   │   │   ├── dmeventd.list
+│   │   │   ├── dmeventd.md5sums
+│   │   │   ├── dmeventd.postinst
+│   │   │   ├── dmeventd.postrm
+│   │   │   ├── dmeventd.prerm
+│   │   │   ├── dmeventd.shlibs
+│   │   │   ├── dmeventd.triggers
+│   │   │   ├── dmidecode.list
+│   │   │   ├── dmidecode.md5sums
+│   │   │   ├── dmsetup.list
+│   │   │   ├── dmsetup.md5sums
+│   │   │   ├── dmsetup.postinst
+│   │   │   ├── dmsetup.triggers
+│   │   │   ├── dosfstools.list
+│   │   │   ├── dosfstools.md5sums
+│   │   │   ├── dpkg.conffiles
+│   │   │   ├── dpkg.list
+│   │   │   ├── dpkg.md5sums
+│   │   │   ├── dpkg.postinst
+│   │   │   ├── dpkg.postrm
+│   │   │   ├── dpkg.prerm
+│   │   │   ├── e2fsprogs.conffiles
+│   │   │   ├── e2fsprogs.list
+│   │   │   ├── e2fsprogs.md5sums
+│   │   │   ├── e2fsprogs.postinst
+│   │   │   ├── e2fsprogs.postrm
+│   │   │   ├── e2fsprogs.preinst
+│   │   │   ├── e2fsprogs.prerm
+│   │   │   ├── eatmydata.list
+│   │   │   ├── eatmydata.md5sums
+│   │   │   ├── ed.list
+│   │   │   ├── ed.md5sums
+│   │   │   ├── ed.postinst
+│   │   │   ├── ed.prerm
+│   │   │   ├── efibootmgr.list
+│   │   │   ├── efibootmgr.md5sums
+│   │   │   ├── eject.list
+│   │   │   ├── eject.md5sums
+│   │   │   ├── ethtool.conffiles
+│   │   │   ├── ethtool.list
+│   │   │   ├── ethtool.md5sums
+│   │   │   ├── fdisk.list
+│   │   │   ├── fdisk.md5sums
+│   │   │   ├── file.list
+│   │   │   ├── file.md5sums
+│   │   │   ├── finalrd.list
+│   │   │   ├── finalrd.md5sums
+│   │   │   ├── finalrd.postinst
+│   │   │   ├── finalrd.postrm
+│   │   │   ├── finalrd.prerm
+│   │   │   ├── findutils.list
+│   │   │   ├── findutils.md5sums
+│   │   │   ├── firmware-sof-signed.list
+│   │   │   ├── firmware-sof-signed.md5sums
+│   │   │   ├── fonts-ubuntu-console.list
+│   │   │   ├── fonts-ubuntu-console.md5sums
+│   │   │   ├── format
+│   │   │   ├── friendly-recovery.list
+│   │   │   ├── friendly-recovery.md5sums
+│   │   │   ├── friendly-recovery.postinst
+│   │   │   ├── friendly-recovery.postrm
+│   │   │   ├── friendly-recovery.preinst
+│   │   │   ├── friendly-recovery.prerm
+│   │   │   ├── ftp.list
+│   │   │   ├── ftp.md5sums
+│   │   │   ├── ftp.preinst
+│   │   │   ├── fuse3.conffiles
+│   │   │   ├── fuse3.list
+│   │   │   ├── fuse3.md5sums
+│   │   │   ├── fuse3.postinst
+│   │   │   ├── fuse3.postrm
+│   │   │   ├── fuse3.triggers
+│   │   │   ├── fwupd.conffiles
+│   │   │   ├── fwupd.list
+│   │   │   ├── fwupd.md5sums
+│   │   │   ├── fwupd.postinst
+│   │   │   ├── fwupd.postrm
+│   │   │   ├── fwupd.preinst
+│   │   │   ├── fwupd.prerm
+│   │   │   ├── fwupd-signed.list
+│   │   │   ├── fwupd-signed.md5sums
+│   │   │   ├── gawk.conffiles
+│   │   │   ├── gawk.list
+│   │   │   ├── gawk.md5sums
+│   │   │   ├── gawk.postinst
+│   │   │   ├── gawk.prerm
+│   │   │   ├── gcc-12-base:amd64.list
+│   │   │   ├── gcc-12-base:amd64.md5sums
+│   │   │   ├── gdisk.list
+│   │   │   ├── gdisk.md5sums
+│   │   │   ├── gettext-base.list
+│   │   │   ├── gettext-base.md5sums
+│   │   │   ├── gir1.2-glib-2.0:amd64.list
+│   │   │   ├── gir1.2-glib-2.0:amd64.md5sums
+│   │   │   ├── gir1.2-packagekitglib-1.0.list
+│   │   │   ├── gir1.2-packagekitglib-1.0.md5sums
+│   │   │   ├── git.conffiles
+│   │   │   ├── git.list
+│   │   │   ├── git-man.list
+│   │   │   ├── git-man.md5sums
+│   │   │   ├── git.md5sums
+│   │   │   ├── git.postinst
+│   │   │   ├── git.postrm
+│   │   │   ├── git.preinst
+│   │   │   ├── git.prerm
+│   │   │   ├── gnupg-l10n.list
+│   │   │   ├── gnupg-l10n.md5sums
+│   │   │   ├── gnupg.list
+│   │   │   ├── gnupg.md5sums
+│   │   │   ├── gnupg-utils.list
+│   │   │   ├── gnupg-utils.md5sums
+│   │   │   ├── gpg-agent.conffiles
+│   │   │   ├── gpg-agent.list
+│   │   │   ├── gpg-agent.md5sums
+│   │   │   ├── gpg-agent.postinst
+│   │   │   ├── gpg-agent.postrm
+│   │   │   ├── gpgconf.list
+│   │   │   ├── gpgconf.md5sums
+│   │   │   ├── gpg.list
+│   │   │   ├── gpg.md5sums
+│   │   │   ├── gpgsm.list
+│   │   │   ├── gpgsm.md5sums
+│   │   │   ├── gpgv.list
+│   │   │   ├── gpgv.md5sums
+│   │   │   ├── gpg-wks-client.list
+│   │   │   ├── gpg-wks-client.md5sums
+│   │   │   ├── gpg-wks-server.list
+│   │   │   ├── gpg-wks-server.md5sums
+│   │   │   ├── grep.list
+│   │   │   ├── grep.md5sums
+│   │   │   ├── groff-base.conffiles
+│   │   │   ├── groff-base.list
+│   │   │   ├── groff-base.md5sums
+│   │   │   ├── grub2-common.conffiles
+│   │   │   ├── grub2-common.list
+│   │   │   ├── grub2-common.md5sums
+│   │   │   ├── grub-common.conffiles
+│   │   │   ├── grub-common.list
+│   │   │   ├── grub-common.md5sums
+│   │   │   ├── grub-common.postinst
+│   │   │   ├── grub-common.postrm
+│   │   │   ├── grub-common.preinst
+│   │   │   ├── grub-common.prerm
+│   │   │   ├── grub-common.templates
+│   │   │   ├── grub-efi-amd64-bin.list
+│   │   │   ├── grub-efi-amd64-bin.md5sums
+│   │   │   ├── grub-efi-amd64-bin.postinst
+│   │   │   ├── grub-efi-amd64-bin.postrm
+│   │   │   ├── grub-efi-amd64-bin.preinst
+│   │   │   ├── grub-efi-amd64-bin.prerm
+│   │   │   ├── grub-efi-amd64.config
+│   │   │   ├── grub-efi-amd64.list
+│   │   │   ├── grub-efi-amd64.md5sums
+│   │   │   ├── grub-efi-amd64.postinst
+│   │   │   ├── grub-efi-amd64.postrm
+│   │   │   ├── grub-efi-amd64.preinst
+│   │   │   ├── grub-efi-amd64.prerm
+│   │   │   ├── grub-efi-amd64-signed.list
+│   │   │   ├── grub-efi-amd64-signed.md5sums
+│   │   │   ├── grub-efi-amd64-signed.postinst
+│   │   │   ├── grub-efi-amd64.templates
+│   │   │   ├── gzip.list
+│   │   │   ├── gzip.md5sums
+│   │   │   ├── hdparm.conffiles
+│   │   │   ├── hdparm.list
+│   │   │   ├── hdparm.md5sums
+│   │   │   ├── hdparm.postinst
+│   │   │   ├── hdparm.postrm
+│   │   │   ├── hdparm.preinst
+│   │   │   ├── hdparm.prerm
+│   │   │   ├── hostname.list
+│   │   │   ├── hostname.md5sums
+│   │   │   ├── htop.list
+│   │   │   ├── htop.md5sums
+│   │   │   ├── info.list
+│   │   │   ├── info.md5sums
+│   │   │   ├── info.postinst
+│   │   │   ├── info.prerm
+│   │   │   ├── init.list
+│   │   │   ├── init.md5sums
+│   │   │   ├── initramfs-tools-bin.list
+│   │   │   ├── initramfs-tools-bin.md5sums
+│   │   │   ├── initramfs-tools.conffiles
+│   │   │   ├── initramfs-tools-core.conffiles
+│   │   │   ├── initramfs-tools-core.list
+│   │   │   ├── initramfs-tools-core.md5sums
+│   │   │   ├── initramfs-tools-core.postinst
+│   │   │   ├── initramfs-tools-core.postrm
+│   │   │   ├── initramfs-tools.list
+│   │   │   ├── initramfs-tools.md5sums
+│   │   │   ├── initramfs-tools.postinst
+│   │   │   ├── initramfs-tools.postrm
+│   │   │   ├── initramfs-tools.preinst
+│   │   │   ├── initramfs-tools.prerm
+│   │   │   ├── initramfs-tools.triggers
+│   │   │   ├── init-system-helpers.list
+│   │   │   ├── init-system-helpers.md5sums
+│   │   │   ├── install-info.list
+│   │   │   ├── install-info.md5sums
+│   │   │   ├── install-info.postinst
+│   │   │   ├── install-info.triggers
+│   │   │   ├── intel-microcode.conffiles
+│   │   │   ├── intel-microcode.list
+│   │   │   ├── intel-microcode.md5sums
+│   │   │   ├── intel-microcode.postinst
+│   │   │   ├── intel-microcode.postrm
+│   │   │   ├── iproute2.conffiles
+│   │   │   ├── iproute2.config
+│   │   │   ├── iproute2.list
+│   │   │   ├── iproute2.md5sums
+│   │   │   ├── iproute2.postinst
+│   │   │   ├── iproute2.postrm
+│   │   │   ├── iproute2.templates
+│   │   │   ├── iptables.list
+│   │   │   ├── iptables.md5sums
+│   │   │   ├── iptables.postinst
+│   │   │   ├── iptables.prerm
+│   │   │   ├── iputils-ping.list
+│   │   │   ├── iputils-ping.md5sums
+│   │   │   ├── iputils-ping.postinst
+│   │   │   ├── iputils-tracepath.list
+│   │   │   ├── iputils-tracepath.md5sums
+│   │   │   ├── iputils-tracepath.preinst
+│   │   │   ├── irqbalance.conffiles
+│   │   │   ├── irqbalance.list
+│   │   │   ├── irqbalance.md5sums
+│   │   │   ├── irqbalance.postinst
+│   │   │   ├── irqbalance.postrm
+│   │   │   ├── irqbalance.preinst
+│   │   │   ├── irqbalance.prerm
+│   │   │   ├── isc-dhcp-client.conffiles
+│   │   │   ├── isc-dhcp-client.list
+│   │   │   ├── isc-dhcp-client.md5sums
+│   │   │   ├── isc-dhcp-client.postinst
+│   │   │   ├── isc-dhcp-client.postrm
+│   │   │   ├── isc-dhcp-common.list
+│   │   │   ├── isc-dhcp-common.md5sums
+│   │   │   ├── iso-codes.list
+│   │   │   ├── iso-codes.md5sums
+│   │   │   ├── iucode-tool.list
+│   │   │   ├── iucode-tool.md5sums
+│   │   │   ├── kbd.list
+│   │   │   ├── kbd.md5sums
+│   │   │   ├── kbd.postinst
+│   │   │   ├── kbd.postrm
+│   │   │   ├── keyboard-configuration.config
+│   │   │   ├── keyboard-configuration.list
+│   │   │   ├── keyboard-configuration.md5sums
+│   │   │   ├── keyboard-configuration.postinst
+│   │   │   ├── keyboard-configuration.postrm
+│   │   │   ├── keyboard-configuration.preinst
+│   │   │   ├── keyboard-configuration.templates
+│   │   │   ├── klibc-utils.list
+│   │   │   ├── klibc-utils.md5sums
+│   │   │   ├── klibc-utils.postinst
+│   │   │   ├── klibc-utils.triggers
+│   │   │   ├── kmod.conffiles
+│   │   │   ├── kmod.list
+│   │   │   ├── kmod.md5sums
+│   │   │   ├── kmod.postinst
+│   │   │   ├── kmod.postrm
+│   │   │   ├── kmod.triggers
+│   │   │   ├── kpartx.list
+│   │   │   ├── kpartx.md5sums
+│   │   │   ├── landscape-common.config
+│   │   │   ├── landscape-common.list
+│   │   │   ├── landscape-common.md5sums
+│   │   │   ├── landscape-common.postinst
+│   │   │   ├── landscape-common.postrm
+│   │   │   ├── landscape-common.prerm
+│   │   │   ├── landscape-common.templates
+│   │   │   ├── less.list
+│   │   │   ├── less.md5sums
+│   │   │   ├── less.postinst
+│   │   │   ├── less.preinst
+│   │   │   ├── less.prerm
+│   │   │   ├── libacl1:amd64.list
+│   │   │   ├── libacl1:amd64.md5sums
+│   │   │   ├── libacl1:amd64.shlibs
+│   │   │   ├── libacl1:amd64.symbols
+│   │   │   ├── libacl1:amd64.triggers
+│   │   │   ├── libaio1:amd64.list
+│   │   │   ├── libaio1:amd64.md5sums
+│   │   │   ├── libaio1:amd64.shlibs
+│   │   │   ├── libaio1:amd64.symbols
+│   │   │   ├── libaio1:amd64.triggers
+│   │   │   ├── libapparmor1:amd64.list
+│   │   │   ├── libapparmor1:amd64.md5sums
+│   │   │   ├── libapparmor1:amd64.shlibs
+│   │   │   ├── libapparmor1:amd64.symbols
+│   │   │   ├── libapparmor1:amd64.triggers
+│   │   │   ├── libappstream4:amd64.list
+│   │   │   ├── libappstream4:amd64.md5sums
+│   │   │   ├── libappstream4:amd64.shlibs
+│   │   │   ├── libappstream4:amd64.symbols
+│   │   │   ├── libappstream4:amd64.triggers
+│   │   │   ├── libapt-pkg6.0:amd64.list
+│   │   │   ├── libapt-pkg6.0:amd64.md5sums
+│   │   │   ├── libapt-pkg6.0:amd64.shlibs
+│   │   │   ├── libapt-pkg6.0:amd64.symbols
+│   │   │   ├── libapt-pkg6.0:amd64.triggers
+│   │   │   ├── libarchive13:amd64.list
+│   │   │   ├── libarchive13:amd64.md5sums
+│   │   │   ├── libarchive13:amd64.shlibs
+│   │   │   ├── libarchive13:amd64.symbols
+│   │   │   ├── libarchive13:amd64.triggers
+│   │   │   ├── libargon2-1:amd64.list
+│   │   │   ├── libargon2-1:amd64.md5sums
+│   │   │   ├── libargon2-1:amd64.shlibs
+│   │   │   ├── libargon2-1:amd64.symbols
+│   │   │   ├── libargon2-1:amd64.triggers
+│   │   │   ├── libassuan0:amd64.list
+│   │   │   ├── libassuan0:amd64.md5sums
+│   │   │   ├── libassuan0:amd64.shlibs
+│   │   │   ├── libassuan0:amd64.symbols
+│   │   │   ├── libassuan0:amd64.triggers
+│   │   │   ├── libatasmart4:amd64.list
+│   │   │   ├── libatasmart4:amd64.md5sums
+│   │   │   ├── libatasmart4:amd64.shlibs
+│   │   │   ├── libatasmart4:amd64.symbols
+│   │   │   ├── libatasmart4:amd64.triggers
+│   │   │   ├── libatm1:amd64.list
+│   │   │   ├── libatm1:amd64.md5sums
+│   │   │   ├── libatm1:amd64.shlibs
+│   │   │   ├── libatm1:amd64.symbols
+│   │   │   ├── libatm1:amd64.triggers
+│   │   │   ├── libattr1:amd64.conffiles
+│   │   │   ├── libattr1:amd64.list
+│   │   │   ├── libattr1:amd64.md5sums
+│   │   │   ├── libattr1:amd64.shlibs
+│   │   │   ├── libattr1:amd64.symbols
+│   │   │   ├── libattr1:amd64.triggers
+│   │   │   ├── libaudit1:amd64.list
+│   │   │   ├── libaudit1:amd64.md5sums
+│   │   │   ├── libaudit1:amd64.shlibs
+│   │   │   ├── libaudit1:amd64.symbols
+│   │   │   ├── libaudit1:amd64.triggers
+│   │   │   ├── libaudit-common.conffiles
+│   │   │   ├── libaudit-common.list
+│   │   │   ├── libaudit-common.md5sums
+│   │   │   ├── libbinutils:amd64.list
+│   │   │   ├── libbinutils:amd64.md5sums
+│   │   │   ├── libbinutils:amd64.shlibs
+│   │   │   ├── libbinutils:amd64.triggers
+│   │   │   ├── libblkid1:amd64.list
+│   │   │   ├── libblkid1:amd64.md5sums
+│   │   │   ├── libblkid1:amd64.shlibs
+│   │   │   ├── libblkid1:amd64.symbols
+│   │   │   ├── libblkid1:amd64.triggers
+│   │   │   ├── libblockdev2:amd64.conffiles
+│   │   │   ├── libblockdev2:amd64.list
+│   │   │   ├── libblockdev2:amd64.md5sums
+│   │   │   ├── libblockdev2:amd64.shlibs
+│   │   │   ├── libblockdev2:amd64.symbols
+│   │   │   ├── libblockdev2:amd64.triggers
+│   │   │   ├── libblockdev-crypto2:amd64.list
+│   │   │   ├── libblockdev-crypto2:amd64.md5sums
+│   │   │   ├── libblockdev-crypto2:amd64.shlibs
+│   │   │   ├── libblockdev-crypto2:amd64.symbols
+│   │   │   ├── libblockdev-crypto2:amd64.triggers
+│   │   │   ├── libblockdev-fs2:amd64.list
+│   │   │   ├── libblockdev-fs2:amd64.md5sums
+│   │   │   ├── libblockdev-fs2:amd64.shlibs
+│   │   │   ├── libblockdev-fs2:amd64.symbols
+│   │   │   ├── libblockdev-fs2:amd64.triggers
+│   │   │   ├── libblockdev-loop2:amd64.list
+│   │   │   ├── libblockdev-loop2:amd64.md5sums
+│   │   │   ├── libblockdev-loop2:amd64.shlibs
+│   │   │   ├── libblockdev-loop2:amd64.symbols
+│   │   │   ├── libblockdev-loop2:amd64.triggers
+│   │   │   ├── libblockdev-part2:amd64.list
+│   │   │   ├── libblockdev-part2:amd64.md5sums
+│   │   │   ├── libblockdev-part2:amd64.shlibs
+│   │   │   ├── libblockdev-part2:amd64.symbols
+│   │   │   ├── libblockdev-part2:amd64.triggers
+│   │   │   ├── libblockdev-part-err2:amd64.list
+│   │   │   ├── libblockdev-part-err2:amd64.md5sums
+│   │   │   ├── libblockdev-part-err2:amd64.shlibs
+│   │   │   ├── libblockdev-part-err2:amd64.symbols
+│   │   │   ├── libblockdev-part-err2:amd64.triggers
+│   │   │   ├── libblockdev-swap2:amd64.list
+│   │   │   ├── libblockdev-swap2:amd64.md5sums
+│   │   │   ├── libblockdev-swap2:amd64.shlibs
+│   │   │   ├── libblockdev-swap2:amd64.symbols
+│   │   │   ├── libblockdev-swap2:amd64.triggers
+│   │   │   ├── libblockdev-utils2:amd64.list
+│   │   │   ├── libblockdev-utils2:amd64.md5sums
+│   │   │   ├── libblockdev-utils2:amd64.shlibs
+│   │   │   ├── libblockdev-utils2:amd64.symbols
+│   │   │   ├── libblockdev-utils2:amd64.triggers
+│   │   │   ├── libbpf0:amd64.list
+│   │   │   ├── libbpf0:amd64.md5sums
+│   │   │   ├── libbpf0:amd64.shlibs
+│   │   │   ├── libbpf0:amd64.symbols
+│   │   │   ├── libbpf0:amd64.triggers
+│   │   │   ├── libbrotli1:amd64.list
+│   │   │   ├── libbrotli1:amd64.md5sums
+│   │   │   ├── libbrotli1:amd64.shlibs
+│   │   │   ├── libbrotli1:amd64.symbols
+│   │   │   ├── libbrotli1:amd64.triggers
+│   │   │   ├── libbsd0:amd64.list
+│   │   │   ├── libbsd0:amd64.md5sums
+│   │   │   ├── libbsd0:amd64.shlibs
+│   │   │   ├── libbsd0:amd64.symbols
+│   │   │   ├── libbsd0:amd64.triggers
+│   │   │   ├── libbz2-1.0:amd64.list
+│   │   │   ├── libbz2-1.0:amd64.md5sums
+│   │   │   ├── libbz2-1.0:amd64.shlibs
+│   │   │   ├── libbz2-1.0:amd64.triggers
+│   │   │   ├── libc6:amd64.conffiles
+│   │   │   ├── libc6:amd64.list
+│   │   │   ├── libc6:amd64.md5sums
+│   │   │   ├── libc6:amd64.postinst
+│   │   │   ├── libc6:amd64.postrm
+│   │   │   ├── libc6:amd64.preinst
+│   │   │   ├── libc6:amd64.shlibs
+│   │   │   ├── libc6:amd64.symbols
+│   │   │   ├── libc6:amd64.templates
+│   │   │   ├── libc6:amd64.triggers
+│   │   │   ├── libcap2:amd64.list
+│   │   │   ├── libcap2:amd64.md5sums
+│   │   │   ├── libcap2:amd64.shlibs
+│   │   │   ├── libcap2:amd64.symbols
+│   │   │   ├── libcap2:amd64.triggers
+│   │   │   ├── libcap2-bin.list
+│   │   │   ├── libcap2-bin.md5sums
+│   │   │   ├── libcap-ng0:amd64.list
+│   │   │   ├── libcap-ng0:amd64.md5sums
+│   │   │   ├── libcap-ng0:amd64.shlibs
+│   │   │   ├── libcap-ng0:amd64.symbols
+│   │   │   ├── libcap-ng0:amd64.triggers
+│   │   │   ├── libc-bin.conffiles
+│   │   │   ├── libc-bin.list
+│   │   │   ├── libc-bin.md5sums
+│   │   │   ├── libc-bin.postinst
+│   │   │   ├── libc-bin.triggers
+│   │   │   ├── libcbor0.8:amd64.list
+│   │   │   ├── libcbor0.8:amd64.md5sums
+│   │   │   ├── libcbor0.8:amd64.shlibs
+│   │   │   ├── libcbor0.8:amd64.symbols
+│   │   │   ├── libcbor0.8:amd64.triggers
+│   │   │   ├── libcom-err2:amd64.list
+│   │   │   ├── libcom-err2:amd64.md5sums
+│   │   │   ├── libcom-err2:amd64.shlibs
+│   │   │   ├── libcom-err2:amd64.symbols
+│   │   │   ├── libcom-err2:amd64.triggers
+│   │   │   ├── libcrypt1:amd64.list
+│   │   │   ├── libcrypt1:amd64.md5sums
+│   │   │   ├── libcrypt1:amd64.shlibs
+│   │   │   ├── libcrypt1:amd64.symbols
+│   │   │   ├── libcrypt1:amd64.triggers
+│   │   │   ├── libcryptsetup12:amd64.list
+│   │   │   ├── libcryptsetup12:amd64.md5sums
+│   │   │   ├── libcryptsetup12:amd64.shlibs
+│   │   │   ├── libcryptsetup12:amd64.symbols
+│   │   │   ├── libcryptsetup12:amd64.triggers
+│   │   │   ├── libctf0:amd64.list
+│   │   │   ├── libctf0:amd64.md5sums
+│   │   │   ├── libctf0:amd64.symbols
+│   │   │   ├── libctf0:amd64.triggers
+│   │   │   ├── libctf-nobfd0:amd64.list
+│   │   │   ├── libctf-nobfd0:amd64.md5sums
+│   │   │   ├── libctf-nobfd0:amd64.symbols
+│   │   │   ├── libctf-nobfd0:amd64.triggers
+│   │   │   ├── libcurl3-gnutls:amd64.list
+│   │   │   ├── libcurl3-gnutls:amd64.md5sums
+│   │   │   ├── libcurl3-gnutls:amd64.shlibs
+│   │   │   ├── libcurl3-gnutls:amd64.symbols
+│   │   │   ├── libcurl3-gnutls:amd64.triggers
+│   │   │   ├── libcurl4:amd64.list
+│   │   │   ├── libcurl4:amd64.md5sums
+│   │   │   ├── libcurl4:amd64.shlibs
+│   │   │   ├── libcurl4:amd64.symbols
+│   │   │   ├── libcurl4:amd64.triggers
+│   │   │   ├── libdb5.3:amd64.list
+│   │   │   ├── libdb5.3:amd64.md5sums
+│   │   │   ├── libdb5.3:amd64.shlibs
+│   │   │   ├── libdb5.3:amd64.triggers
+│   │   │   ├── libdbus-1-3:amd64.list
+│   │   │   ├── libdbus-1-3:amd64.md5sums
+│   │   │   ├── libdbus-1-3:amd64.shlibs
+│   │   │   ├── libdbus-1-3:amd64.symbols
+│   │   │   ├── libdbus-1-3:amd64.triggers
+│   │   │   ├── libdbus-glib-1-2:amd64.list
+│   │   │   ├── libdbus-glib-1-2:amd64.md5sums
+│   │   │   ├── libdbus-glib-1-2:amd64.shlibs
+│   │   │   ├── libdbus-glib-1-2:amd64.symbols
+│   │   │   ├── libdbus-glib-1-2:amd64.triggers
+│   │   │   ├── libdebconfclient0:amd64.list
+│   │   │   ├── libdebconfclient0:amd64.md5sums
+│   │   │   ├── libdebconfclient0:amd64.shlibs
+│   │   │   ├── libdebconfclient0:amd64.symbols
+│   │   │   ├── libdebconfclient0:amd64.triggers
+│   │   │   ├── libdevmapper1.02.1:amd64.list
+│   │   │   ├── libdevmapper1.02.1:amd64.md5sums
+│   │   │   ├── libdevmapper1.02.1:amd64.shlibs
+│   │   │   ├── libdevmapper1.02.1:amd64.symbols
+│   │   │   ├── libdevmapper1.02.1:amd64.triggers
+│   │   │   ├── libdevmapper-event1.02.1:amd64.list
+│   │   │   ├── libdevmapper-event1.02.1:amd64.md5sums
+│   │   │   ├── libdevmapper-event1.02.1:amd64.shlibs
+│   │   │   ├── libdevmapper-event1.02.1:amd64.symbols
+│   │   │   ├── libdevmapper-event1.02.1:amd64.triggers
+│   │   │   ├── libdns-export1110.list
+│   │   │   ├── libdns-export1110.md5sums
+│   │   │   ├── libdns-export1110.shlibs
+│   │   │   ├── libdns-export1110.triggers
+│   │   │   ├── libdrm2:amd64.list
+│   │   │   ├── libdrm2:amd64.md5sums
+│   │   │   ├── libdrm2:amd64.shlibs
+│   │   │   ├── libdrm2:amd64.symbols
+│   │   │   ├── libdrm2:amd64.triggers
+│   │   │   ├── libdrm-common.list
+│   │   │   ├── libdrm-common.md5sums
+│   │   │   ├── libdw1:amd64.list
+│   │   │   ├── libdw1:amd64.md5sums
+│   │   │   ├── libdw1:amd64.shlibs
+│   │   │   ├── libdw1:amd64.symbols
+│   │   │   ├── libdw1:amd64.triggers
+│   │   │   ├── libeatmydata1:amd64.list
+│   │   │   ├── libeatmydata1:amd64.md5sums
+│   │   │   ├── libeatmydata1:amd64.shlibs
+│   │   │   ├── libeatmydata1:amd64.symbols
+│   │   │   ├── libeatmydata1:amd64.triggers
+│   │   │   ├── libedit2:amd64.list
+│   │   │   ├── libedit2:amd64.md5sums
+│   │   │   ├── libedit2:amd64.shlibs
+│   │   │   ├── libedit2:amd64.symbols
+│   │   │   ├── libedit2:amd64.triggers
+│   │   │   ├── libefiboot1:amd64.list
+│   │   │   ├── libefiboot1:amd64.md5sums
+│   │   │   ├── libefiboot1:amd64.shlibs
+│   │   │   ├── libefiboot1:amd64.triggers
+│   │   │   ├── libefivar1:amd64.list
+│   │   │   ├── libefivar1:amd64.md5sums
+│   │   │   ├── libefivar1:amd64.shlibs
+│   │   │   ├── libefivar1:amd64.triggers
+│   │   │   ├── libelf1:amd64.list
+│   │   │   ├── libelf1:amd64.md5sums
+│   │   │   ├── libelf1:amd64.shlibs
+│   │   │   ├── libelf1:amd64.symbols
+│   │   │   ├── libelf1:amd64.triggers
+│   │   │   ├── liberror-perl.list
+│   │   │   ├── liberror-perl.md5sums
+│   │   │   ├── libestr0:amd64.list
+│   │   │   ├── libestr0:amd64.md5sums
+│   │   │   ├── libestr0:amd64.shlibs
+│   │   │   ├── libestr0:amd64.symbols
+│   │   │   ├── libestr0:amd64.triggers
+│   │   │   ├── libevdev2:amd64.list
+│   │   │   ├── libevdev2:amd64.md5sums
+│   │   │   ├── libevdev2:amd64.shlibs
+│   │   │   ├── libevdev2:amd64.symbols
+│   │   │   ├── libevdev2:amd64.triggers
+│   │   │   ├── libevent-core-2.1-7:amd64.list
+│   │   │   ├── libevent-core-2.1-7:amd64.md5sums
+│   │   │   ├── libevent-core-2.1-7:amd64.shlibs
+│   │   │   ├── libevent-core-2.1-7:amd64.symbols
+│   │   │   ├── libevent-core-2.1-7:amd64.triggers
+│   │   │   ├── libexpat1:amd64.list
+│   │   │   ├── libexpat1:amd64.md5sums
+│   │   │   ├── libexpat1:amd64.shlibs
+│   │   │   ├── libexpat1:amd64.symbols
+│   │   │   ├── libexpat1:amd64.triggers
+│   │   │   ├── libext2fs2:amd64.list
+│   │   │   ├── libext2fs2:amd64.md5sums
+│   │   │   ├── libext2fs2:amd64.shlibs
+│   │   │   ├── libext2fs2:amd64.symbols
+│   │   │   ├── libext2fs2:amd64.triggers
+│   │   │   ├── libfastjson4:amd64.list
+│   │   │   ├── libfastjson4:amd64.md5sums
+│   │   │   ├── libfastjson4:amd64.shlibs
+│   │   │   ├── libfastjson4:amd64.symbols
+│   │   │   ├── libfastjson4:amd64.triggers
+│   │   │   ├── libfdisk1:amd64.list
+│   │   │   ├── libfdisk1:amd64.md5sums
+│   │   │   ├── libfdisk1:amd64.shlibs
+│   │   │   ├── libfdisk1:amd64.symbols
+│   │   │   ├── libfdisk1:amd64.triggers
+│   │   │   ├── libffi8:amd64.list
+│   │   │   ├── libffi8:amd64.md5sums
+│   │   │   ├── libffi8:amd64.shlibs
+│   │   │   ├── libffi8:amd64.symbols
+│   │   │   ├── libffi8:amd64.triggers
+│   │   │   ├── libfido2-1:amd64.list
+│   │   │   ├── libfido2-1:amd64.md5sums
+│   │   │   ├── libfido2-1:amd64.shlibs
+│   │   │   ├── libfido2-1:amd64.symbols
+│   │   │   ├── libfido2-1:amd64.triggers
+│   │   │   ├── libflashrom1:amd64.list
+│   │   │   ├── libflashrom1:amd64.md5sums
+│   │   │   ├── libflashrom1:amd64.shlibs
+│   │   │   ├── libflashrom1:amd64.triggers
+│   │   │   ├── libfreetype6:amd64.list
+│   │   │   ├── libfreetype6:amd64.md5sums
+│   │   │   ├── libfreetype6:amd64.shlibs
+│   │   │   ├── libfreetype6:amd64.symbols
+│   │   │   ├── libfreetype6:amd64.triggers
+│   │   │   ├── libfribidi0:amd64.list
+│   │   │   ├── libfribidi0:amd64.md5sums
+│   │   │   ├── libfribidi0:amd64.shlibs
+│   │   │   ├── libfribidi0:amd64.symbols
+│   │   │   ├── libfribidi0:amd64.triggers
+│   │   │   ├── libftdi1-2:amd64.list
+│   │   │   ├── libftdi1-2:amd64.md5sums
+│   │   │   ├── libftdi1-2:amd64.shlibs
+│   │   │   ├── libftdi1-2:amd64.symbols
+│   │   │   ├── libftdi1-2:amd64.triggers
+│   │   │   ├── libfuse3-3:amd64.list
+│   │   │   ├── libfuse3-3:amd64.md5sums
+│   │   │   ├── libfuse3-3:amd64.shlibs
+│   │   │   ├── libfuse3-3:amd64.symbols
+│   │   │   ├── libfuse3-3:amd64.triggers
+│   │   │   ├── libfwupd2:amd64.list
+│   │   │   ├── libfwupd2:amd64.md5sums
+│   │   │   ├── libfwupd2:amd64.shlibs
+│   │   │   ├── libfwupd2:amd64.symbols
+│   │   │   ├── libfwupd2:amd64.triggers
+│   │   │   ├── libfwupdplugin5:amd64.list
+│   │   │   ├── libfwupdplugin5:amd64.md5sums
+│   │   │   ├── libfwupdplugin5:amd64.shlibs
+│   │   │   ├── libfwupdplugin5:amd64.symbols
+│   │   │   ├── libfwupdplugin5:amd64.triggers
+│   │   │   ├── libgcab-1.0-0:amd64.list
+│   │   │   ├── libgcab-1.0-0:amd64.md5sums
+│   │   │   ├── libgcab-1.0-0:amd64.shlibs
+│   │   │   ├── libgcab-1.0-0:amd64.symbols
+│   │   │   ├── libgcab-1.0-0:amd64.triggers
+│   │   │   ├── libgcc-s1:amd64.list
+│   │   │   ├── libgcc-s1:amd64.md5sums
+│   │   │   ├── libgcc-s1:amd64.shlibs
+│   │   │   ├── libgcc-s1:amd64.symbols
+│   │   │   ├── libgcc-s1:amd64.triggers
+│   │   │   ├── libgcrypt20:amd64.list
+│   │   │   ├── libgcrypt20:amd64.md5sums
+│   │   │   ├── libgcrypt20:amd64.shlibs
+│   │   │   ├── libgcrypt20:amd64.symbols
+│   │   │   ├── libgcrypt20:amd64.triggers
+│   │   │   ├── libgdbm6:amd64.list
+│   │   │   ├── libgdbm6:amd64.md5sums
+│   │   │   ├── libgdbm6:amd64.shlibs
+│   │   │   ├── libgdbm6:amd64.symbols
+│   │   │   ├── libgdbm6:amd64.triggers
+│   │   │   ├── libgdbm-compat4:amd64.list
+│   │   │   ├── libgdbm-compat4:amd64.md5sums
+│   │   │   ├── libgdbm-compat4:amd64.shlibs
+│   │   │   ├── libgdbm-compat4:amd64.symbols
+│   │   │   ├── libgdbm-compat4:amd64.triggers
+│   │   │   ├── libgirepository-1.0-1:amd64.list
+│   │   │   ├── libgirepository-1.0-1:amd64.md5sums
+│   │   │   ├── libgirepository-1.0-1:amd64.shlibs
+│   │   │   ├── libgirepository-1.0-1:amd64.symbols
+│   │   │   ├── libgirepository-1.0-1:amd64.triggers
+│   │   │   ├── libglib2.0-0:amd64.list
+│   │   │   ├── libglib2.0-0:amd64.md5sums
+│   │   │   ├── libglib2.0-0:amd64.postinst
+│   │   │   ├── libglib2.0-0:amd64.postrm
+│   │   │   ├── libglib2.0-0:amd64.shlibs
+│   │   │   ├── libglib2.0-0:amd64.symbols
+│   │   │   ├── libglib2.0-0:amd64.triggers
+│   │   │   ├── libglib2.0-bin.list
+│   │   │   ├── libglib2.0-bin.md5sums
+│   │   │   ├── libglib2.0-data.list
+│   │   │   ├── libglib2.0-data.md5sums
+│   │   │   ├── libgmp10:amd64.list
+│   │   │   ├── libgmp10:amd64.md5sums
+│   │   │   ├── libgmp10:amd64.shlibs
+│   │   │   ├── libgmp10:amd64.triggers
+│   │   │   ├── libgnutls30:amd64.list
+│   │   │   ├── libgnutls30:amd64.md5sums
+│   │   │   ├── libgnutls30:amd64.shlibs
+│   │   │   ├── libgnutls30:amd64.symbols
+│   │   │   ├── libgnutls30:amd64.triggers
+│   │   │   ├── libgpg-error0:amd64.list
+│   │   │   ├── libgpg-error0:amd64.md5sums
+│   │   │   ├── libgpg-error0:amd64.shlibs
+│   │   │   ├── libgpg-error0:amd64.symbols
+│   │   │   ├── libgpg-error0:amd64.triggers
+│   │   │   ├── libgpgme11:amd64.list
+│   │   │   ├── libgpgme11:amd64.md5sums
+│   │   │   ├── libgpgme11:amd64.shlibs
+│   │   │   ├── libgpgme11:amd64.symbols
+│   │   │   ├── libgpgme11:amd64.triggers
+│   │   │   ├── libgpm2:amd64.list
+│   │   │   ├── libgpm2:amd64.md5sums
+│   │   │   ├── libgpm2:amd64.shlibs
+│   │   │   ├── libgpm2:amd64.symbols
+│   │   │   ├── libgpm2:amd64.triggers
+│   │   │   ├── libgssapi-krb5-2:amd64.list
+│   │   │   ├── libgssapi-krb5-2:amd64.md5sums
+│   │   │   ├── libgssapi-krb5-2:amd64.postinst
+│   │   │   ├── libgssapi-krb5-2:amd64.postrm
+│   │   │   ├── libgssapi-krb5-2:amd64.shlibs
+│   │   │   ├── libgssapi-krb5-2:amd64.symbols
+│   │   │   ├── libgssapi-krb5-2:amd64.triggers
+│   │   │   ├── libgstreamer1.0-0:amd64.list
+│   │   │   ├── libgstreamer1.0-0:amd64.md5sums
+│   │   │   ├── libgstreamer1.0-0:amd64.postinst
+│   │   │   ├── libgstreamer1.0-0:amd64.shlibs
+│   │   │   ├── libgstreamer1.0-0:amd64.symbols
+│   │   │   ├── libgstreamer1.0-0:amd64.triggers
+│   │   │   ├── libgudev-1.0-0:amd64.list
+│   │   │   ├── libgudev-1.0-0:amd64.md5sums
+│   │   │   ├── libgudev-1.0-0:amd64.shlibs
+│   │   │   ├── libgudev-1.0-0:amd64.symbols
+│   │   │   ├── libgudev-1.0-0:amd64.triggers
+│   │   │   ├── libgusb2:amd64.list
+│   │   │   ├── libgusb2:amd64.md5sums
+│   │   │   ├── libgusb2:amd64.shlibs
+│   │   │   ├── libgusb2:amd64.symbols
+│   │   │   ├── libgusb2:amd64.triggers
+│   │   │   ├── libhogweed6:amd64.list
+│   │   │   ├── libhogweed6:amd64.md5sums
+│   │   │   ├── libhogweed6:amd64.shlibs
+│   │   │   ├── libhogweed6:amd64.symbols
+│   │   │   ├── libhogweed6:amd64.triggers
+│   │   │   ├── libicu70:amd64.list
+│   │   │   ├── libicu70:amd64.md5sums
+│   │   │   ├── libicu70:amd64.shlibs
+│   │   │   ├── libicu70:amd64.triggers
+│   │   │   ├── libidn2-0:amd64.list
+│   │   │   ├── libidn2-0:amd64.md5sums
+│   │   │   ├── libidn2-0:amd64.shlibs
+│   │   │   ├── libidn2-0:amd64.symbols
+│   │   │   ├── libidn2-0:amd64.triggers
+│   │   │   ├── libimobiledevice6:amd64.list
+│   │   │   ├── libimobiledevice6:amd64.md5sums
+│   │   │   ├── libimobiledevice6:amd64.shlibs
+│   │   │   ├── libimobiledevice6:amd64.symbols
+│   │   │   ├── libimobiledevice6:amd64.triggers
+│   │   │   ├── libinih1:amd64.list
+│   │   │   ├── libinih1:amd64.md5sums
+│   │   │   ├── libinih1:amd64.shlibs
+│   │   │   ├── libinih1:amd64.symbols
+│   │   │   ├── libinih1:amd64.triggers
+│   │   │   ├── libintl-perl.list
+│   │   │   ├── libintl-perl.md5sums
+│   │   │   ├── libintl-xs-perl.list
+│   │   │   ├── libintl-xs-perl.md5sums
+│   │   │   ├── libip4tc2:amd64.list
+│   │   │   ├── libip4tc2:amd64.md5sums
+│   │   │   ├── libip4tc2:amd64.shlibs
+│   │   │   ├── libip4tc2:amd64.symbols
+│   │   │   ├── libip4tc2:amd64.triggers
+│   │   │   ├── libip6tc2:amd64.list
+│   │   │   ├── libip6tc2:amd64.md5sums
+│   │   │   ├── libip6tc2:amd64.shlibs
+│   │   │   ├── libip6tc2:amd64.symbols
+│   │   │   ├── libip6tc2:amd64.triggers
+│   │   │   ├── libisc-export1105:amd64.list
+│   │   │   ├── libisc-export1105:amd64.md5sums
+│   │   │   ├── libisc-export1105:amd64.shlibs
+│   │   │   ├── libisc-export1105:amd64.triggers
+│   │   │   ├── libisns0:amd64.list
+│   │   │   ├── libisns0:amd64.md5sums
+│   │   │   ├── libisns0:amd64.shlibs
+│   │   │   ├── libisns0:amd64.triggers
+│   │   │   ├── libjansson4:amd64.list
+│   │   │   ├── libjansson4:amd64.md5sums
+│   │   │   ├── libjansson4:amd64.shlibs
+│   │   │   ├── libjansson4:amd64.symbols
+│   │   │   ├── libjansson4:amd64.triggers
+│   │   │   ├── libjcat1:amd64.list
+│   │   │   ├── libjcat1:amd64.md5sums
+│   │   │   ├── libjcat1:amd64.shlibs
+│   │   │   ├── libjcat1:amd64.symbols
+│   │   │   ├── libjcat1:amd64.triggers
+│   │   │   ├── libjson-c5:amd64.list
+│   │   │   ├── libjson-c5:amd64.md5sums
+│   │   │   ├── libjson-c5:amd64.shlibs
+│   │   │   ├── libjson-c5:amd64.symbols
+│   │   │   ├── libjson-c5:amd64.triggers
+│   │   │   ├── libjson-glib-1.0-0:amd64.list
+│   │   │   ├── libjson-glib-1.0-0:amd64.md5sums
+│   │   │   ├── libjson-glib-1.0-0:amd64.shlibs
+│   │   │   ├── libjson-glib-1.0-0:amd64.symbols
+│   │   │   ├── libjson-glib-1.0-0:amd64.triggers
+│   │   │   ├── libjson-glib-1.0-common.list
+│   │   │   ├── libjson-glib-1.0-common.md5sums
+│   │   │   ├── libk5crypto3:amd64.list
+│   │   │   ├── libk5crypto3:amd64.md5sums
+│   │   │   ├── libk5crypto3:amd64.shlibs
+│   │   │   ├── libk5crypto3:amd64.symbols
+│   │   │   ├── libk5crypto3:amd64.triggers
+│   │   │   ├── libkeyutils1:amd64.list
+│   │   │   ├── libkeyutils1:amd64.md5sums
+│   │   │   ├── libkeyutils1:amd64.shlibs
+│   │   │   ├── libkeyutils1:amd64.symbols
+│   │   │   ├── libkeyutils1:amd64.triggers
+│   │   │   ├── libklibc:amd64.list
+│   │   │   ├── libklibc:amd64.md5sums
+│   │   │   ├── libkmod2:amd64.list
+│   │   │   ├── libkmod2:amd64.md5sums
+│   │   │   ├── libkmod2:amd64.shlibs
+│   │   │   ├── libkmod2:amd64.symbols
+│   │   │   ├── libkmod2:amd64.triggers
+│   │   │   ├── libkrb5-3:amd64.list
+│   │   │   ├── libkrb5-3:amd64.md5sums
+│   │   │   ├── libkrb5-3:amd64.shlibs
+│   │   │   ├── libkrb5-3:amd64.symbols
+│   │   │   ├── libkrb5-3:amd64.triggers
+│   │   │   ├── libkrb5support0:amd64.list
+│   │   │   ├── libkrb5support0:amd64.md5sums
+│   │   │   ├── libkrb5support0:amd64.shlibs
+│   │   │   ├── libkrb5support0:amd64.symbols
+│   │   │   ├── libkrb5support0:amd64.triggers
+│   │   │   ├── libksba8:amd64.list
+│   │   │   ├── libksba8:amd64.md5sums
+│   │   │   ├── libksba8:amd64.shlibs
+│   │   │   ├── libksba8:amd64.symbols
+│   │   │   ├── libksba8:amd64.triggers
+│   │   │   ├── libldap-2.5-0:amd64.list
+│   │   │   ├── libldap-2.5-0:amd64.md5sums
+│   │   │   ├── libldap-2.5-0:amd64.shlibs
+│   │   │   ├── libldap-2.5-0:amd64.symbols
+│   │   │   ├── libldap-2.5-0:amd64.triggers
+│   │   │   ├── libldap-common.conffiles
+│   │   │   ├── libldap-common.list
+│   │   │   ├── libldap-common.md5sums
+│   │   │   ├── liblmdb0:amd64.list
+│   │   │   ├── liblmdb0:amd64.md5sums
+│   │   │   ├── liblmdb0:amd64.shlibs
+│   │   │   ├── liblmdb0:amd64.symbols
+│   │   │   ├── liblmdb0:amd64.triggers
+│   │   │   ├── liblocale-gettext-perl.list
+│   │   │   ├── liblocale-gettext-perl.md5sums
+│   │   │   ├── liblvm2cmd2.03:amd64.list
+│   │   │   ├── liblvm2cmd2.03:amd64.md5sums
+│   │   │   ├── liblvm2cmd2.03:amd64.shlibs
+│   │   │   ├── liblvm2cmd2.03:amd64.triggers
+│   │   │   ├── liblz4-1:amd64.list
+│   │   │   ├── liblz4-1:amd64.md5sums
+│   │   │   ├── liblz4-1:amd64.shlibs
+│   │   │   ├── liblz4-1:amd64.symbols
+│   │   │   ├── liblz4-1:amd64.triggers
+│   │   │   ├── liblzma5:amd64.list
+│   │   │   ├── liblzma5:amd64.md5sums
+│   │   │   ├── liblzma5:amd64.shlibs
+│   │   │   ├── liblzma5:amd64.symbols
+│   │   │   ├── liblzma5:amd64.triggers
+│   │   │   ├── liblzo2-2:amd64.list
+│   │   │   ├── liblzo2-2:amd64.md5sums
+│   │   │   ├── liblzo2-2:amd64.shlibs
+│   │   │   ├── liblzo2-2:amd64.symbols
+│   │   │   ├── liblzo2-2:amd64.triggers
+│   │   │   ├── libmagic1:amd64.conffiles
+│   │   │   ├── libmagic1:amd64.list
+│   │   │   ├── libmagic1:amd64.md5sums
+│   │   │   ├── libmagic1:amd64.shlibs
+│   │   │   ├── libmagic1:amd64.symbols
+│   │   │   ├── libmagic1:amd64.triggers
+│   │   │   ├── libmagic-mgc.list
+│   │   │   ├── libmagic-mgc.md5sums
+│   │   │   ├── libmaxminddb0:amd64.list
+│   │   │   ├── libmaxminddb0:amd64.md5sums
+│   │   │   ├── libmaxminddb0:amd64.shlibs
+│   │   │   ├── libmaxminddb0:amd64.symbols
+│   │   │   ├── libmaxminddb0:amd64.triggers
+│   │   │   ├── libmbim-glib4:amd64.list
+│   │   │   ├── libmbim-glib4:amd64.md5sums
+│   │   │   ├── libmbim-glib4:amd64.shlibs
+│   │   │   ├── libmbim-glib4:amd64.symbols
+│   │   │   ├── libmbim-glib4:amd64.triggers
+│   │   │   ├── libmbim-proxy.list
+│   │   │   ├── libmbim-proxy.md5sums
+│   │   │   ├── libmd0:amd64.list
+│   │   │   ├── libmd0:amd64.md5sums
+│   │   │   ├── libmd0:amd64.shlibs
+│   │   │   ├── libmd0:amd64.symbols
+│   │   │   ├── libmd0:amd64.triggers
+│   │   │   ├── libmm-glib0:amd64.list
+│   │   │   ├── libmm-glib0:amd64.md5sums
+│   │   │   ├── libmm-glib0:amd64.shlibs
+│   │   │   ├── libmm-glib0:amd64.symbols
+│   │   │   ├── libmm-glib0:amd64.triggers
+│   │   │   ├── libmnl0:amd64.list
+│   │   │   ├── libmnl0:amd64.md5sums
+│   │   │   ├── libmnl0:amd64.shlibs
+│   │   │   ├── libmnl0:amd64.symbols
+│   │   │   ├── libmnl0:amd64.triggers
+│   │   │   ├── libmodule-find-perl.list
+│   │   │   ├── libmodule-find-perl.md5sums
+│   │   │   ├── libmodule-scandeps-perl.list
+│   │   │   ├── libmodule-scandeps-perl.md5sums
+│   │   │   ├── libmount1:amd64.list
+│   │   │   ├── libmount1:amd64.md5sums
+│   │   │   ├── libmount1:amd64.shlibs
+│   │   │   ├── libmount1:amd64.symbols
+│   │   │   ├── libmount1:amd64.triggers
+│   │   │   ├── libmpdec3:amd64.list
+│   │   │   ├── libmpdec3:amd64.md5sums
+│   │   │   ├── libmpdec3:amd64.shlibs
+│   │   │   ├── libmpdec3:amd64.symbols
+│   │   │   ├── libmpdec3:amd64.triggers
+│   │   │   ├── libmpfr6:amd64.list
+│   │   │   ├── libmpfr6:amd64.md5sums
+│   │   │   ├── libmpfr6:amd64.shlibs
+│   │   │   ├── libmpfr6:amd64.symbols
+│   │   │   ├── libmpfr6:amd64.triggers
+│   │   │   ├── libmspack0:amd64.list
+│   │   │   ├── libmspack0:amd64.md5sums
+│   │   │   ├── libmspack0:amd64.shlibs
+│   │   │   ├── libmspack0:amd64.symbols
+│   │   │   ├── libmspack0:amd64.triggers
+│   │   │   ├── libncurses6:amd64.list
+│   │   │   ├── libncurses6:amd64.md5sums
+│   │   │   ├── libncurses6:amd64.shlibs
+│   │   │   ├── libncurses6:amd64.symbols
+│   │   │   ├── libncurses6:amd64.triggers
+│   │   │   ├── libncursesw6:amd64.list
+│   │   │   ├── libncursesw6:amd64.md5sums
+│   │   │   ├── libncursesw6:amd64.shlibs
+│   │   │   ├── libncursesw6:amd64.symbols
+│   │   │   ├── libncursesw6:amd64.triggers
+│   │   │   ├── libnetfilter-conntrack3:amd64.list
+│   │   │   ├── libnetfilter-conntrack3:amd64.md5sums
+│   │   │   ├── libnetfilter-conntrack3:amd64.shlibs
+│   │   │   ├── libnetfilter-conntrack3:amd64.symbols
+│   │   │   ├── libnetfilter-conntrack3:amd64.triggers
+│   │   │   ├── libnetplan0:amd64.list
+│   │   │   ├── libnetplan0:amd64.md5sums
+│   │   │   ├── libnetplan0:amd64.shlibs
+│   │   │   ├── libnetplan0:amd64.symbols
+│   │   │   ├── libnetplan0:amd64.triggers
+│   │   │   ├── libnettle8:amd64.list
+│   │   │   ├── libnettle8:amd64.md5sums
+│   │   │   ├── libnettle8:amd64.shlibs
+│   │   │   ├── libnettle8:amd64.symbols
+│   │   │   ├── libnettle8:amd64.triggers
+│   │   │   ├── libnewt0.52:amd64.conffiles
+│   │   │   ├── libnewt0.52:amd64.list
+│   │   │   ├── libnewt0.52:amd64.md5sums
+│   │   │   ├── libnewt0.52:amd64.postinst
+│   │   │   ├── libnewt0.52:amd64.prerm
+│   │   │   ├── libnewt0.52:amd64.shlibs
+│   │   │   ├── libnewt0.52:amd64.triggers
+│   │   │   ├── libnfnetlink0:amd64.list
+│   │   │   ├── libnfnetlink0:amd64.md5sums
+│   │   │   ├── libnfnetlink0:amd64.shlibs
+│   │   │   ├── libnfnetlink0:amd64.triggers
+│   │   │   ├── libnftables1:amd64.list
+│   │   │   ├── libnftables1:amd64.md5sums
+│   │   │   ├── libnftables1:amd64.shlibs
+│   │   │   ├── libnftables1:amd64.symbols
+│   │   │   ├── libnftables1:amd64.triggers
+│   │   │   ├── libnftnl11:amd64.list
+│   │   │   ├── libnftnl11:amd64.md5sums
+│   │   │   ├── libnftnl11:amd64.shlibs
+│   │   │   ├── libnftnl11:amd64.symbols
+│   │   │   ├── libnftnl11:amd64.triggers
+│   │   │   ├── libnghttp2-14:amd64.list
+│   │   │   ├── libnghttp2-14:amd64.md5sums
+│   │   │   ├── libnghttp2-14:amd64.shlibs
+│   │   │   ├── libnghttp2-14:amd64.symbols
+│   │   │   ├── libnghttp2-14:amd64.triggers
+│   │   │   ├── libnl-3-200:amd64.conffiles
+│   │   │   ├── libnl-3-200:amd64.list
+│   │   │   ├── libnl-3-200:amd64.md5sums
+│   │   │   ├── libnl-3-200:amd64.shlibs
+│   │   │   ├── libnl-3-200:amd64.symbols
+│   │   │   ├── libnl-3-200:amd64.triggers
+│   │   │   ├── libnl-genl-3-200:amd64.list
+│   │   │   ├── libnl-genl-3-200:amd64.md5sums
+│   │   │   ├── libnl-genl-3-200:amd64.shlibs
+│   │   │   ├── libnl-genl-3-200:amd64.symbols
+│   │   │   ├── libnl-genl-3-200:amd64.triggers
+│   │   │   ├── libnl-route-3-200:amd64.list
+│   │   │   ├── libnl-route-3-200:amd64.md5sums
+│   │   │   ├── libnl-route-3-200:amd64.shlibs
+│   │   │   ├── libnl-route-3-200:amd64.symbols
+│   │   │   ├── libnl-route-3-200:amd64.triggers
+│   │   │   ├── libnpth0:amd64.list
+│   │   │   ├── libnpth0:amd64.md5sums
+│   │   │   ├── libnpth0:amd64.shlibs
+│   │   │   ├── libnpth0:amd64.symbols
+│   │   │   ├── libnpth0:amd64.triggers
+│   │   │   ├── libnsl2:amd64.list
+│   │   │   ├── libnsl2:amd64.md5sums
+│   │   │   ├── libnsl2:amd64.shlibs
+│   │   │   ├── libnsl2:amd64.symbols
+│   │   │   ├── libnsl2:amd64.triggers
+│   │   │   ├── libnspr4:amd64.list
+│   │   │   ├── libnspr4:amd64.md5sums
+│   │   │   ├── libnspr4:amd64.symbols
+│   │   │   ├── libnspr4:amd64.triggers
+│   │   │   ├── libnss3:amd64.list
+│   │   │   ├── libnss3:amd64.md5sums
+│   │   │   ├── libnss3:amd64.symbols
+│   │   │   ├── libnss3:amd64.triggers
+│   │   │   ├── libnss-systemd:amd64.list
+│   │   │   ├── libnss-systemd:amd64.md5sums
+│   │   │   ├── libnss-systemd:amd64.postinst
+│   │   │   ├── libnss-systemd:amd64.postrm
+│   │   │   ├── libnss-systemd:amd64.shlibs
+│   │   │   ├── libnss-systemd:amd64.triggers
+│   │   │   ├── libntfs-3g89.list
+│   │   │   ├── libntfs-3g89.md5sums
+│   │   │   ├── libntfs-3g89.shlibs
+│   │   │   ├── libntfs-3g89.triggers
+│   │   │   ├── libnuma1:amd64.list
+│   │   │   ├── libnuma1:amd64.md5sums
+│   │   │   ├── libnuma1:amd64.shlibs
+│   │   │   ├── libnuma1:amd64.symbols
+│   │   │   ├── libnuma1:amd64.triggers
+│   │   │   ├── libopeniscsiusr.list
+│   │   │   ├── libopeniscsiusr.md5sums
+│   │   │   ├── libopeniscsiusr.shlibs
+│   │   │   ├── libopeniscsiusr.triggers
+│   │   │   ├── libp11-kit0:amd64.list
+│   │   │   ├── libp11-kit0:amd64.md5sums
+│   │   │   ├── libp11-kit0:amd64.shlibs
+│   │   │   ├── libp11-kit0:amd64.symbols
+│   │   │   ├── libp11-kit0:amd64.triggers
+│   │   │   ├── libpackagekit-glib2-18:amd64.list
+│   │   │   ├── libpackagekit-glib2-18:amd64.md5sums
+│   │   │   ├── libpackagekit-glib2-18:amd64.shlibs
+│   │   │   ├── libpackagekit-glib2-18:amd64.symbols
+│   │   │   ├── libpackagekit-glib2-18:amd64.triggers
+│   │   │   ├── libpam0g:amd64.list
+│   │   │   ├── libpam0g:amd64.md5sums
+│   │   │   ├── libpam0g:amd64.postinst
+│   │   │   ├── libpam0g:amd64.postrm
+│   │   │   ├── libpam0g:amd64.shlibs
+│   │   │   ├── libpam0g:amd64.symbols
+│   │   │   ├── libpam0g:amd64.templates
+│   │   │   ├── libpam0g:amd64.triggers
+│   │   │   ├── libpam-cap:amd64.conffiles
+│   │   │   ├── libpam-cap:amd64.list
+│   │   │   ├── libpam-cap:amd64.md5sums
+│   │   │   ├── libpam-cap:amd64.postinst
+│   │   │   ├── libpam-cap:amd64.prerm
+│   │   │   ├── libpam-modules:amd64.conffiles
+│   │   │   ├── libpam-modules:amd64.list
+│   │   │   ├── libpam-modules:amd64.md5sums
+│   │   │   ├── libpam-modules:amd64.postinst
+│   │   │   ├── libpam-modules:amd64.postrm
+│   │   │   ├── libpam-modules:amd64.preinst
+│   │   │   ├── libpam-modules:amd64.templates
+│   │   │   ├── libpam-modules-bin.list
+│   │   │   ├── libpam-modules-bin.md5sums
+│   │   │   ├── libpam-runtime.conffiles
+│   │   │   ├── libpam-runtime.list
+│   │   │   ├── libpam-runtime.md5sums
+│   │   │   ├── libpam-runtime.postinst
+│   │   │   ├── libpam-runtime.postrm
+│   │   │   ├── libpam-runtime.prerm
+│   │   │   ├── libpam-runtime.templates
+│   │   │   ├── libpam-systemd:amd64.list
+│   │   │   ├── libpam-systemd:amd64.md5sums
+│   │   │   ├── libpam-systemd:amd64.postinst
+│   │   │   ├── libpam-systemd:amd64.prerm
+│   │   │   ├── libparted2:amd64.list
+│   │   │   ├── libparted2:amd64.md5sums
+│   │   │   ├── libparted2:amd64.shlibs
+│   │   │   ├── libparted2:amd64.symbols
+│   │   │   ├── libparted2:amd64.triggers
+│   │   │   ├── libparted-fs-resize0:amd64.list
+│   │   │   ├── libparted-fs-resize0:amd64.md5sums
+│   │   │   ├── libparted-fs-resize0:amd64.shlibs
+│   │   │   ├── libparted-fs-resize0:amd64.symbols
+│   │   │   ├── libparted-fs-resize0:amd64.triggers
+│   │   │   ├── libpcap0.8:amd64.list
+│   │   │   ├── libpcap0.8:amd64.md5sums
+│   │   │   ├── libpcap0.8:amd64.shlibs
+│   │   │   ├── libpcap0.8:amd64.symbols
+│   │   │   ├── libpcap0.8:amd64.triggers
+│   │   │   ├── libpci3:amd64.list
+│   │   │   ├── libpci3:amd64.md5sums
+│   │   │   ├── libpci3:amd64.shlibs
+│   │   │   ├── libpci3:amd64.symbols
+│   │   │   ├── libpci3:amd64.triggers
+│   │   │   ├── libpcre2-8-0:amd64.list
+│   │   │   ├── libpcre2-8-0:amd64.md5sums
+│   │   │   ├── libpcre2-8-0:amd64.shlibs
+│   │   │   ├── libpcre2-8-0:amd64.symbols
+│   │   │   ├── libpcre2-8-0:amd64.triggers
+│   │   │   ├── libpcre3:amd64.list
+│   │   │   ├── libpcre3:amd64.md5sums
+│   │   │   ├── libpcre3:amd64.shlibs
+│   │   │   ├── libpcre3:amd64.symbols
+│   │   │   ├── libpcre3:amd64.triggers
+│   │   │   ├── libpcsclite1:amd64.list
+│   │   │   ├── libpcsclite1:amd64.md5sums
+│   │   │   ├── libpcsclite1:amd64.shlibs
+│   │   │   ├── libpcsclite1:amd64.symbols
+│   │   │   ├── libpcsclite1:amd64.triggers
+│   │   │   ├── libperl5.34:amd64.list
+│   │   │   ├── libperl5.34:amd64.md5sums
+│   │   │   ├── libperl5.34:amd64.shlibs
+│   │   │   ├── libperl5.34:amd64.symbols
+│   │   │   ├── libperl5.34:amd64.triggers
+│   │   │   ├── libpipeline1:amd64.list
+│   │   │   ├── libpipeline1:amd64.md5sums
+│   │   │   ├── libpipeline1:amd64.shlibs
+│   │   │   ├── libpipeline1:amd64.symbols
+│   │   │   ├── libpipeline1:amd64.triggers
+│   │   │   ├── libplist3:amd64.list
+│   │   │   ├── libplist3:amd64.md5sums
+│   │   │   ├── libplist3:amd64.shlibs
+│   │   │   ├── libplist3:amd64.symbols
+│   │   │   ├── libplist3:amd64.triggers
+│   │   │   ├── libplymouth5:amd64.list
+│   │   │   ├── libplymouth5:amd64.md5sums
+│   │   │   ├── libplymouth5:amd64.shlibs
+│   │   │   ├── libplymouth5:amd64.symbols
+│   │   │   ├── libplymouth5:amd64.triggers
+│   │   │   ├── libpng16-16:amd64.list
+│   │   │   ├── libpng16-16:amd64.md5sums
+│   │   │   ├── libpng16-16:amd64.shlibs
+│   │   │   ├── libpng16-16:amd64.triggers
+│   │   │   ├── libpolkit-agent-1-0:amd64.list
+│   │   │   ├── libpolkit-agent-1-0:amd64.md5sums
+│   │   │   ├── libpolkit-agent-1-0:amd64.shlibs
+│   │   │   ├── libpolkit-agent-1-0:amd64.symbols
+│   │   │   ├── libpolkit-agent-1-0:amd64.triggers
+│   │   │   ├── libpolkit-gobject-1-0:amd64.list
+│   │   │   ├── libpolkit-gobject-1-0:amd64.md5sums
+│   │   │   ├── libpolkit-gobject-1-0:amd64.shlibs
+│   │   │   ├── libpolkit-gobject-1-0:amd64.symbols
+│   │   │   ├── libpolkit-gobject-1-0:amd64.triggers
+│   │   │   ├── libpopt0:amd64.list
+│   │   │   ├── libpopt0:amd64.md5sums
+│   │   │   ├── libpopt0:amd64.shlibs
+│   │   │   ├── libpopt0:amd64.symbols
+│   │   │   ├── libpopt0:amd64.triggers
+│   │   │   ├── libproc-processtable-perl:amd64.list
+│   │   │   ├── libproc-processtable-perl:amd64.md5sums
+│   │   │   ├── libprocps8:amd64.list
+│   │   │   ├── libprocps8:amd64.md5sums
+│   │   │   ├── libprocps8:amd64.shlibs
+│   │   │   ├── libprocps8:amd64.triggers
+│   │   │   ├── libpsl5:amd64.list
+│   │   │   ├── libpsl5:amd64.md5sums
+│   │   │   ├── libpsl5:amd64.shlibs
+│   │   │   ├── libpsl5:amd64.symbols
+│   │   │   ├── libpsl5:amd64.triggers
+│   │   │   ├── libpython3.10:amd64.list
+│   │   │   ├── libpython3.10:amd64.md5sums
+│   │   │   ├── libpython3.10:amd64.shlibs
+│   │   │   ├── libpython3.10:amd64.symbols
+│   │   │   ├── libpython3.10:amd64.triggers
+│   │   │   ├── libpython3.10-minimal:amd64.conffiles
+│   │   │   ├── libpython3.10-minimal:amd64.list
+│   │   │   ├── libpython3.10-minimal:amd64.md5sums
+│   │   │   ├── libpython3.10-minimal:amd64.postinst
+│   │   │   ├── libpython3.10-minimal:amd64.postrm
+│   │   │   ├── libpython3.10-minimal:amd64.prerm
+│   │   │   ├── libpython3.10-stdlib:amd64.list
+│   │   │   ├── libpython3.10-stdlib:amd64.md5sums
+│   │   │   ├── libpython3.10-stdlib:amd64.prerm
+│   │   │   ├── libpython3-stdlib:amd64.list
+│   │   │   ├── libpython3-stdlib:amd64.md5sums
+│   │   │   ├── libqmi-glib5:amd64.list
+│   │   │   ├── libqmi-glib5:amd64.md5sums
+│   │   │   ├── libqmi-glib5:amd64.shlibs
+│   │   │   ├── libqmi-glib5:amd64.symbols
+│   │   │   ├── libqmi-glib5:amd64.triggers
+│   │   │   ├── libqmi-proxy.list
+│   │   │   ├── libqmi-proxy.md5sums
+│   │   │   ├── libreadline8:amd64.list
+│   │   │   ├── libreadline8:amd64.md5sums
+│   │   │   ├── libreadline8:amd64.shlibs
+│   │   │   ├── libreadline8:amd64.symbols
+│   │   │   ├── libreadline8:amd64.triggers
+│   │   │   ├── librtmp1:amd64.list
+│   │   │   ├── librtmp1:amd64.md5sums
+│   │   │   ├── librtmp1:amd64.shlibs
+│   │   │   ├── librtmp1:amd64.symbols
+│   │   │   ├── librtmp1:amd64.triggers
+│   │   │   ├── libsasl2-2:amd64.list
+│   │   │   ├── libsasl2-2:amd64.md5sums
+│   │   │   ├── libsasl2-2:amd64.shlibs
+│   │   │   ├── libsasl2-2:amd64.triggers
+│   │   │   ├── libsasl2-modules:amd64.conffiles
+│   │   │   ├── libsasl2-modules:amd64.list
+│   │   │   ├── libsasl2-modules:amd64.md5sums
+│   │   │   ├── libsasl2-modules:amd64.postinst
+│   │   │   ├── libsasl2-modules-db:amd64.list
+│   │   │   ├── libsasl2-modules-db:amd64.md5sums
+│   │   │   ├── libseccomp2:amd64.list
+│   │   │   ├── libseccomp2:amd64.md5sums
+│   │   │   ├── libseccomp2:amd64.shlibs
+│   │   │   ├── libseccomp2:amd64.symbols
+│   │   │   ├── libseccomp2:amd64.triggers
+│   │   │   ├── libselinux1:amd64.list
+│   │   │   ├── libselinux1:amd64.md5sums
+│   │   │   ├── libselinux1:amd64.shlibs
+│   │   │   ├── libselinux1:amd64.symbols
+│   │   │   ├── libselinux1:amd64.triggers
+│   │   │   ├── libsemanage2:amd64.list
+│   │   │   ├── libsemanage2:amd64.md5sums
+│   │   │   ├── libsemanage2:amd64.shlibs
+│   │   │   ├── libsemanage2:amd64.symbols
+│   │   │   ├── libsemanage2:amd64.triggers
+│   │   │   ├── libsemanage-common.conffiles
+│   │   │   ├── libsemanage-common.list
+│   │   │   ├── libsemanage-common.md5sums
+│   │   │   ├── libsepol2:amd64.list
+│   │   │   ├── libsepol2:amd64.md5sums
+│   │   │   ├── libsepol2:amd64.shlibs
+│   │   │   ├── libsepol2:amd64.symbols
+│   │   │   ├── libsepol2:amd64.triggers
+│   │   │   ├── libsgutils2-2:amd64.list
+│   │   │   ├── libsgutils2-2:amd64.md5sums
+│   │   │   ├── libsgutils2-2:amd64.shlibs
+│   │   │   ├── libsgutils2-2:amd64.symbols
+│   │   │   ├── libsgutils2-2:amd64.triggers
+│   │   │   ├── libsigsegv2:amd64.list
+│   │   │   ├── libsigsegv2:amd64.md5sums
+│   │   │   ├── libsigsegv2:amd64.shlibs
+│   │   │   ├── libsigsegv2:amd64.symbols
+│   │   │   ├── libsigsegv2:amd64.triggers
+│   │   │   ├── libslang2:amd64.list
+│   │   │   ├── libslang2:amd64.md5sums
+│   │   │   ├── libslang2:amd64.shlibs
+│   │   │   ├── libslang2:amd64.symbols
+│   │   │   ├── libslang2:amd64.triggers
+│   │   │   ├── libsmartcols1:amd64.list
+│   │   │   ├── libsmartcols1:amd64.md5sums
+│   │   │   ├── libsmartcols1:amd64.shlibs
+│   │   │   ├── libsmartcols1:amd64.symbols
+│   │   │   ├── libsmartcols1:amd64.triggers
+│   │   │   ├── libsmbios-c2.list
+│   │   │   ├── libsmbios-c2.md5sums
+│   │   │   ├── libsmbios-c2.shlibs
+│   │   │   ├── libsmbios-c2.triggers
+│   │   │   ├── libsodium23:amd64.list
+│   │   │   ├── libsodium23:amd64.md5sums
+│   │   │   ├── libsodium23:amd64.shlibs
+│   │   │   ├── libsodium23:amd64.symbols
+│   │   │   ├── libsodium23:amd64.triggers
+│   │   │   ├── libsort-naturally-perl.list
+│   │   │   ├── libsort-naturally-perl.md5sums
+│   │   │   ├── libsqlite3-0:amd64.list
+│   │   │   ├── libsqlite3-0:amd64.md5sums
+│   │   │   ├── libsqlite3-0:amd64.shlibs
+│   │   │   ├── libsqlite3-0:amd64.symbols
+│   │   │   ├── libsqlite3-0:amd64.triggers
+│   │   │   ├── libss2:amd64.list
+│   │   │   ├── libss2:amd64.md5sums
+│   │   │   ├── libss2:amd64.shlibs
+│   │   │   ├── libss2:amd64.symbols
+│   │   │   ├── libss2:amd64.triggers
+│   │   │   ├── libssh-4:amd64.list
+│   │   │   ├── libssh-4:amd64.md5sums
+│   │   │   ├── libssh-4:amd64.shlibs
+│   │   │   ├── libssh-4:amd64.symbols
+│   │   │   ├── libssh-4:amd64.triggers
+│   │   │   ├── libssl3:amd64.list
+│   │   │   ├── libssl3:amd64.md5sums
+│   │   │   ├── libssl3:amd64.postinst
+│   │   │   ├── libssl3:amd64.postrm
+│   │   │   ├── libssl3:amd64.shlibs
+│   │   │   ├── libssl3:amd64.symbols
+│   │   │   ├── libssl3:amd64.templates
+│   │   │   ├── libssl3:amd64.triggers
+│   │   │   ├── libstdc++6:amd64.list
+│   │   │   ├── libstdc++6:amd64.md5sums
+│   │   │   ├── libstdc++6:amd64.prerm
+│   │   │   ├── libstdc++6:amd64.shlibs
+│   │   │   ├── libstdc++6:amd64.symbols
+│   │   │   ├── libstdc++6:amd64.triggers
+│   │   │   ├── libstemmer0d:amd64.list
+│   │   │   ├── libstemmer0d:amd64.md5sums
+│   │   │   ├── libstemmer0d:amd64.shlibs
+│   │   │   ├── libstemmer0d:amd64.symbols
+│   │   │   ├── libstemmer0d:amd64.triggers
+│   │   │   ├── libsystemd0:amd64.list
+│   │   │   ├── libsystemd0:amd64.md5sums
+│   │   │   ├── libsystemd0:amd64.shlibs
+│   │   │   ├── libsystemd0:amd64.symbols
+│   │   │   ├── libsystemd0:amd64.triggers
+│   │   │   ├── libtasn1-6:amd64.list
+│   │   │   ├── libtasn1-6:amd64.md5sums
+│   │   │   ├── libtasn1-6:amd64.shlibs
+│   │   │   ├── libtasn1-6:amd64.symbols
+│   │   │   ├── libtasn1-6:amd64.triggers
+│   │   │   ├── libtcl8.6:amd64.list
+│   │   │   ├── libtcl8.6:amd64.md5sums
+│   │   │   ├── libtcl8.6:amd64.symbols
+│   │   │   ├── libtcl8.6:amd64.triggers
+│   │   │   ├── libterm-readkey-perl.list
+│   │   │   ├── libterm-readkey-perl.md5sums
+│   │   │   ├── libtext-charwidth-perl.list
+│   │   │   ├── libtext-charwidth-perl.md5sums
+│   │   │   ├── libtext-iconv-perl.list
+│   │   │   ├── libtext-iconv-perl.md5sums
+│   │   │   ├── libtext-wrapi18n-perl.list
+│   │   │   ├── libtext-wrapi18n-perl.md5sums
+│   │   │   ├── libtinfo6:amd64.list
+│   │   │   ├── libtinfo6:amd64.md5sums
+│   │   │   ├── libtinfo6:amd64.shlibs
+│   │   │   ├── libtinfo6:amd64.symbols
+│   │   │   ├── libtinfo6:amd64.triggers
+│   │   │   ├── libtirpc3:amd64.list
+│   │   │   ├── libtirpc3:amd64.md5sums
+│   │   │   ├── libtirpc3:amd64.shlibs
+│   │   │   ├── libtirpc3:amd64.symbols
+│   │   │   ├── libtirpc3:amd64.triggers
+│   │   │   ├── libtirpc-common.conffiles
+│   │   │   ├── libtirpc-common.list
+│   │   │   ├── libtirpc-common.md5sums
+│   │   │   ├── libtss2-esys-3.0.2-0:amd64.list
+│   │   │   ├── libtss2-esys-3.0.2-0:amd64.md5sums
+│   │   │   ├── libtss2-esys-3.0.2-0:amd64.shlibs
+│   │   │   ├── libtss2-esys-3.0.2-0:amd64.symbols
+│   │   │   ├── libtss2-esys-3.0.2-0:amd64.triggers
+│   │   │   ├── libtss2-mu0:amd64.list
+│   │   │   ├── libtss2-mu0:amd64.md5sums
+│   │   │   ├── libtss2-mu0:amd64.shlibs
+│   │   │   ├── libtss2-mu0:amd64.symbols
+│   │   │   ├── libtss2-mu0:amd64.triggers
+│   │   │   ├── libtss2-sys1:amd64.list
+│   │   │   ├── libtss2-sys1:amd64.md5sums
+│   │   │   ├── libtss2-sys1:amd64.shlibs
+│   │   │   ├── libtss2-sys1:amd64.symbols
+│   │   │   ├── libtss2-sys1:amd64.triggers
+│   │   │   ├── libtss2-tcti-cmd0:amd64.list
+│   │   │   ├── libtss2-tcti-cmd0:amd64.md5sums
+│   │   │   ├── libtss2-tcti-cmd0:amd64.shlibs
+│   │   │   ├── libtss2-tcti-cmd0:amd64.symbols
+│   │   │   ├── libtss2-tcti-cmd0:amd64.triggers
+│   │   │   ├── libtss2-tcti-device0:amd64.list
+│   │   │   ├── libtss2-tcti-device0:amd64.md5sums
+│   │   │   ├── libtss2-tcti-device0:amd64.shlibs
+│   │   │   ├── libtss2-tcti-device0:amd64.symbols
+│   │   │   ├── libtss2-tcti-device0:amd64.triggers
+│   │   │   ├── libtss2-tcti-mssim0:amd64.list
+│   │   │   ├── libtss2-tcti-mssim0:amd64.md5sums
+│   │   │   ├── libtss2-tcti-mssim0:amd64.shlibs
+│   │   │   ├── libtss2-tcti-mssim0:amd64.symbols
+│   │   │   ├── libtss2-tcti-mssim0:amd64.triggers
+│   │   │   ├── libtss2-tcti-swtpm0:amd64.list
+│   │   │   ├── libtss2-tcti-swtpm0:amd64.md5sums
+│   │   │   ├── libtss2-tcti-swtpm0:amd64.shlibs
+│   │   │   ├── libtss2-tcti-swtpm0:amd64.symbols
+│   │   │   ├── libtss2-tcti-swtpm0:amd64.triggers
+│   │   │   ├── libuchardet0:amd64.list
+│   │   │   ├── libuchardet0:amd64.md5sums
+│   │   │   ├── libuchardet0:amd64.shlibs
+│   │   │   ├── libuchardet0:amd64.symbols
+│   │   │   ├── libuchardet0:amd64.triggers
+│   │   │   ├── libudev1:amd64.list
+│   │   │   ├── libudev1:amd64.md5sums
+│   │   │   ├── libudev1:amd64.shlibs
+│   │   │   ├── libudev1:amd64.symbols
+│   │   │   ├── libudev1:amd64.triggers
+│   │   │   ├── libudisks2-0:amd64.list
+│   │   │   ├── libudisks2-0:amd64.md5sums
+│   │   │   ├── libudisks2-0:amd64.shlibs
+│   │   │   ├── libudisks2-0:amd64.symbols
+│   │   │   ├── libudisks2-0:amd64.triggers
+│   │   │   ├── libunistring2:amd64.list
+│   │   │   ├── libunistring2:amd64.md5sums
+│   │   │   ├── libunistring2:amd64.shlibs
+│   │   │   ├── libunistring2:amd64.symbols
+│   │   │   ├── libunistring2:amd64.triggers
+│   │   │   ├── libunwind8:amd64.list
+│   │   │   ├── libunwind8:amd64.md5sums
+│   │   │   ├── libunwind8:amd64.shlibs
+│   │   │   ├── libunwind8:amd64.triggers
+│   │   │   ├── libupower-glib3:amd64.list
+│   │   │   ├── libupower-glib3:amd64.md5sums
+│   │   │   ├── libupower-glib3:amd64.shlibs
+│   │   │   ├── libupower-glib3:amd64.symbols
+│   │   │   ├── libupower-glib3:amd64.triggers
+│   │   │   ├── liburcu8:amd64.list
+│   │   │   ├── liburcu8:amd64.md5sums
+│   │   │   ├── liburcu8:amd64.shlibs
+│   │   │   ├── liburcu8:amd64.symbols
+│   │   │   ├── liburcu8:amd64.triggers
+│   │   │   ├── libusb-1.0-0:amd64.list
+│   │   │   ├── libusb-1.0-0:amd64.md5sums
+│   │   │   ├── libusb-1.0-0:amd64.shlibs
+│   │   │   ├── libusb-1.0-0:amd64.symbols
+│   │   │   ├── libusb-1.0-0:amd64.triggers
+│   │   │   ├── libusbmuxd6:amd64.list
+│   │   │   ├── libusbmuxd6:amd64.md5sums
+│   │   │   ├── libusbmuxd6:amd64.shlibs
+│   │   │   ├── libusbmuxd6:amd64.symbols
+│   │   │   ├── libusbmuxd6:amd64.triggers
+│   │   │   ├── libutempter0:amd64.list
+│   │   │   ├── libutempter0:amd64.md5sums
+│   │   │   ├── libutempter0:amd64.shlibs
+│   │   │   ├── libutempter0:amd64.symbols
+│   │   │   ├── libutempter0:amd64.triggers
+│   │   │   ├── libuuid1:amd64.list
+│   │   │   ├── libuuid1:amd64.md5sums
+│   │   │   ├── libuuid1:amd64.shlibs
+│   │   │   ├── libuuid1:amd64.symbols
+│   │   │   ├── libuuid1:amd64.triggers
+│   │   │   ├── libuv1:amd64.list
+│   │   │   ├── libuv1:amd64.md5sums
+│   │   │   ├── libuv1:amd64.shlibs
+│   │   │   ├── libuv1:amd64.symbols
+│   │   │   ├── libuv1:amd64.triggers
+│   │   │   ├── libvolume-key1.list
+│   │   │   ├── libvolume-key1.md5sums
+│   │   │   ├── libvolume-key1.shlibs
+│   │   │   ├── libvolume-key1.symbols
+│   │   │   ├── libvolume-key1.triggers
+│   │   │   ├── libwrap0:amd64.list
+│   │   │   ├── libwrap0:amd64.md5sums
+│   │   │   ├── libwrap0:amd64.postinst
+│   │   │   ├── libwrap0:amd64.postrm
+│   │   │   ├── libwrap0:amd64.shlibs
+│   │   │   ├── libwrap0:amd64.symbols
+│   │   │   ├── libwrap0:amd64.triggers
+│   │   │   ├── libx11-6:amd64.list
+│   │   │   ├── libx11-6:amd64.md5sums
+│   │   │   ├── libx11-6:amd64.shlibs
+│   │   │   ├── libx11-6:amd64.symbols
+│   │   │   ├── libx11-6:amd64.triggers
+│   │   │   ├── libx11-data.list
+│   │   │   ├── libx11-data.md5sums
+│   │   │   ├── libxau6:amd64.list
+│   │   │   ├── libxau6:amd64.md5sums
+│   │   │   ├── libxau6:amd64.shlibs
+│   │   │   ├── libxau6:amd64.triggers
+│   │   │   ├── libxcb1:amd64.list
+│   │   │   ├── libxcb1:amd64.md5sums
+│   │   │   ├── libxcb1:amd64.shlibs
+│   │   │   ├── libxcb1:amd64.symbols
+│   │   │   ├── libxcb1:amd64.triggers
+│   │   │   ├── libxdmcp6:amd64.list
+│   │   │   ├── libxdmcp6:amd64.md5sums
+│   │   │   ├── libxdmcp6:amd64.shlibs
+│   │   │   ├── libxdmcp6:amd64.triggers
+│   │   │   ├── libxext6:amd64.list
+│   │   │   ├── libxext6:amd64.md5sums
+│   │   │   ├── libxext6:amd64.shlibs
+│   │   │   ├── libxext6:amd64.symbols
+│   │   │   ├── libxext6:amd64.triggers
+│   │   │   ├── libxml2:amd64.list
+│   │   │   ├── libxml2:amd64.md5sums
+│   │   │   ├── libxml2:amd64.shlibs
+│   │   │   ├── libxml2:amd64.symbols
+│   │   │   ├── libxml2:amd64.triggers
+│   │   │   ├── libxmlb2:amd64.list
+│   │   │   ├── libxmlb2:amd64.md5sums
+│   │   │   ├── libxmlb2:amd64.shlibs
+│   │   │   ├── libxmlb2:amd64.symbols
+│   │   │   ├── libxmlb2:amd64.triggers
+│   │   │   ├── libxmlsec1:amd64.list
+│   │   │   ├── libxmlsec1:amd64.md5sums
+│   │   │   ├── libxmlsec1:amd64.shlibs
+│   │   │   ├── libxmlsec1:amd64.triggers
+│   │   │   ├── libxmlsec1-openssl:amd64.list
+│   │   │   ├── libxmlsec1-openssl:amd64.md5sums
+│   │   │   ├── libxmlsec1-openssl:amd64.shlibs
+│   │   │   ├── libxmlsec1-openssl:amd64.triggers
+│   │   │   ├── libxmuu1:amd64.list
+│   │   │   ├── libxmuu1:amd64.md5sums
+│   │   │   ├── libxmuu1:amd64.shlibs
+│   │   │   ├── libxmuu1:amd64.triggers
+│   │   │   ├── libxslt1.1:amd64.list
+│   │   │   ├── libxslt1.1:amd64.md5sums
+│   │   │   ├── libxslt1.1:amd64.shlibs
+│   │   │   ├── libxslt1.1:amd64.symbols
+│   │   │   ├── libxslt1.1:amd64.triggers
+│   │   │   ├── libxtables12:amd64.list
+│   │   │   ├── libxtables12:amd64.md5sums
+│   │   │   ├── libxtables12:amd64.shlibs
+│   │   │   ├── libxtables12:amd64.symbols
+│   │   │   ├── libxtables12:amd64.triggers
+│   │   │   ├── libxxhash0:amd64.list
+│   │   │   ├── libxxhash0:amd64.md5sums
+│   │   │   ├── libxxhash0:amd64.shlibs
+│   │   │   ├── libxxhash0:amd64.symbols
+│   │   │   ├── libxxhash0:amd64.triggers
+│   │   │   ├── libyaml-0-2:amd64.list
+│   │   │   ├── libyaml-0-2:amd64.md5sums
+│   │   │   ├── libyaml-0-2:amd64.shlibs
+│   │   │   ├── libyaml-0-2:amd64.symbols
+│   │   │   ├── libyaml-0-2:amd64.triggers
+│   │   │   ├── libzstd1:amd64.list
+│   │   │   ├── libzstd1:amd64.md5sums
+│   │   │   ├── libzstd1:amd64.shlibs
+│   │   │   ├── libzstd1:amd64.triggers
+│   │   │   ├── linux-base.conffiles
+│   │   │   ├── linux-base.list
+│   │   │   ├── linux-base.md5sums
+│   │   │   ├── linux-base.postinst
+│   │   │   ├── linux-base.postrm
+│   │   │   ├── linux-base.templates
+│   │   │   ├── linux-firmware.list
+│   │   │   ├── linux-firmware.md5sums
+│   │   │   ├── linux-firmware.postinst
+│   │   │   ├── linux-firmware.preinst
+│   │   │   ├── linux-generic.list
+│   │   │   ├── linux-generic.md5sums
+│   │   │   ├── linux-headers-5.15.0-112-generic.list
+│   │   │   ├── linux-headers-5.15.0-112-generic.md5sums
+│   │   │   ├── linux-headers-5.15.0-112-generic.postinst
+│   │   │   ├── linux-headers-5.15.0-112.list
+│   │   │   ├── linux-headers-5.15.0-112.md5sums
+│   │   │   ├── linux-headers-generic.list
+│   │   │   ├── linux-headers-generic.md5sums
+│   │   │   ├── linux-image-5.15.0-112-generic.list
+│   │   │   ├── linux-image-5.15.0-112-generic.md5sums
+│   │   │   ├── linux-image-5.15.0-112-generic.postinst
+│   │   │   ├── linux-image-5.15.0-112-generic.postrm
+│   │   │   ├── linux-image-5.15.0-112-generic.preinst
+│   │   │   ├── linux-image-5.15.0-112-generic.prerm
+│   │   │   ├── linux-image-5.15.0-112-generic.triggers
+│   │   │   ├── linux-image-generic.list
+│   │   │   ├── linux-image-generic.md5sums
+│   │   │   ├── linux-modules-5.15.0-112-generic.list
+│   │   │   ├── linux-modules-5.15.0-112-generic.md5sums
+│   │   │   ├── linux-modules-5.15.0-112-generic.postinst
+│   │   │   ├── linux-modules-5.15.0-112-generic.postrm
+│   │   │   ├── linux-modules-extra-5.15.0-112-generic.list
+│   │   │   ├── linux-modules-extra-5.15.0-112-generic.md5sums
+│   │   │   ├── linux-modules-extra-5.15.0-112-generic.postinst
+│   │   │   ├── linux-modules-extra-5.15.0-112-generic.postrm
+│   │   │   ├── locales.conffiles
+│   │   │   ├── locales.config
+│   │   │   ├── locales.list
+│   │   │   ├── locales.md5sums
+│   │   │   ├── locales.postinst
+│   │   │   ├── locales.postrm
+│   │   │   ├── locales.prerm
+│   │   │   ├── locales.templates
+│   │   │   ├── login.conffiles
+│   │   │   ├── login.list
+│   │   │   ├── login.md5sums
+│   │   │   ├── login.postinst
+│   │   │   ├── login.postrm
+│   │   │   ├── login.preinst
+│   │   │   ├── login.prerm
+│   │   │   ├── logrotate.conffiles
+│   │   │   ├── logrotate.list
+│   │   │   ├── logrotate.md5sums
+│   │   │   ├── logrotate.postinst
+│   │   │   ├── logrotate.postrm
+│   │   │   ├── logrotate.prerm
+│   │   │   ├── logsave.list
+│   │   │   ├── logsave.md5sums
+│   │   │   ├── lsb-base.list
+│   │   │   ├── lsb-base.md5sums
+│   │   │   ├── lsb-base.postinst
+│   │   │   ├── lsb-base.postrm
+│   │   │   ├── lsb-base.preinst
+│   │   │   ├── lsb-base.prerm
+│   │   │   ├── lsb-release.list
+│   │   │   ├── lsb-release.md5sums
+│   │   │   ├── lsb-release.postinst
+│   │   │   ├── lsb-release.postrm
+│   │   │   ├── lshw.list
+│   │   │   ├── lshw.md5sums
+│   │   │   ├── lsof.list
+│   │   │   ├── lsof.md5sums
+│   │   │   ├── lvm2.conffiles
+│   │   │   ├── lvm2.list
+│   │   │   ├── lvm2.md5sums
+│   │   │   ├── lvm2.postinst
+│   │   │   ├── lvm2.postrm
+│   │   │   ├── lvm2.preinst
+│   │   │   ├── lvm2.prerm
+│   │   │   ├── lvm2.triggers
+│   │   │   ├── lxd-agent-loader.list
+│   │   │   ├── lxd-agent-loader.md5sums
+│   │   │   ├── lxd-agent-loader.postinst
+│   │   │   ├── lxd-agent-loader.postrm
+│   │   │   ├── lxd-agent-loader.prerm
+│   │   │   ├── man-db.conffiles
+│   │   │   ├── man-db.config
+│   │   │   ├── man-db.list
+│   │   │   ├── man-db.md5sums
+│   │   │   ├── man-db.postinst
+│   │   │   ├── man-db.postrm
+│   │   │   ├── man-db.prerm
+│   │   │   ├── man-db.templates
+│   │   │   ├── man-db.triggers
+│   │   │   ├── manpages.list
+│   │   │   ├── manpages.md5sums
+│   │   │   ├── mawk.list
+│   │   │   ├── mawk.md5sums
+│   │   │   ├── mawk.postinst
+│   │   │   ├── mawk.prerm
+│   │   │   ├── mdadm.conffiles
+│   │   │   ├── mdadm.config
+│   │   │   ├── mdadm.list
+│   │   │   ├── mdadm.md5sums
+│   │   │   ├── mdadm.postinst
+│   │   │   ├── mdadm.postrm
+│   │   │   ├── mdadm.preinst
+│   │   │   ├── mdadm.prerm
+│   │   │   ├── mdadm.templates
+│   │   │   ├── media-types.conffiles
+│   │   │   ├── media-types.list
+│   │   │   ├── media-types.md5sums
+│   │   │   ├── modemmanager.conffiles
+│   │   │   ├── modemmanager.list
+│   │   │   ├── modemmanager.md5sums
+│   │   │   ├── modemmanager.postinst
+│   │   │   ├── modemmanager.postrm
+│   │   │   ├── modemmanager.prerm
+│   │   │   ├── mokutil.list
+│   │   │   ├── mokutil.md5sums
+│   │   │   ├── motd-news-config.conffiles
+│   │   │   ├── motd-news-config.list
+│   │   │   ├── motd-news-config.md5sums
+│   │   │   ├── motd-news-config.postinst
+│   │   │   ├── mount.list
+│   │   │   ├── mount.md5sums
+│   │   │   ├── mtr-tiny.list
+│   │   │   ├── mtr-tiny.md5sums
+│   │   │   ├── mtr-tiny.postinst
+│   │   │   ├── multipath-tools.conffiles
+│   │   │   ├── multipath-tools.list
+│   │   │   ├── multipath-tools.md5sums
+│   │   │   ├── multipath-tools.postinst
+│   │   │   ├── multipath-tools.postrm
+│   │   │   ├── multipath-tools.preinst
+│   │   │   ├── multipath-tools.prerm
+│   │   │   ├── multipath-tools.shlibs
+│   │   │   ├── multipath-tools.triggers
+│   │   │   ├── nano.conffiles
+│   │   │   ├── nano.list
+│   │   │   ├── nano.md5sums
+│   │   │   ├── nano.postinst
+│   │   │   ├── nano.prerm
+│   │   │   ├── ncurses-base.conffiles
+│   │   │   ├── ncurses-base.list
+│   │   │   ├── ncurses-base.md5sums
+│   │   │   ├── ncurses-bin.list
+│   │   │   ├── ncurses-bin.md5sums
+│   │   │   ├── ncurses-term.list
+│   │   │   ├── ncurses-term.md5sums
+│   │   │   ├── needrestart.conffiles
+│   │   │   ├── needrestart.list
+│   │   │   ├── needrestart.md5sums
+│   │   │   ├── needrestart.postinst
+│   │   │   ├── needrestart.postrm
+│   │   │   ├── needrestart.preinst
+│   │   │   ├── netbase.conffiles
+│   │   │   ├── netbase.list
+│   │   │   ├── netbase.md5sums
+│   │   │   ├── netbase.postinst
+│   │   │   ├── netbase.postrm
+│   │   │   ├── netcat-openbsd.list
+│   │   │   ├── netcat-openbsd.md5sums
+│   │   │   ├── netcat-openbsd.postinst
+│   │   │   ├── netcat-openbsd.prerm
+│   │   │   ├── netplan.io.list
+│   │   │   ├── netplan.io.md5sums
+│   │   │   ├── networkd-dispatcher.conffiles
+│   │   │   ├── networkd-dispatcher.list
+│   │   │   ├── networkd-dispatcher.md5sums
+│   │   │   ├── networkd-dispatcher.postinst
+│   │   │   ├── networkd-dispatcher.postrm
+│   │   │   ├── networkd-dispatcher.prerm
+│   │   │   ├── nftables.conffiles
+│   │   │   ├── nftables.list
+│   │   │   ├── nftables.md5sums
+│   │   │   ├── nftables.postinst
+│   │   │   ├── nftables.postrm
+│   │   │   ├── ntfs-3g.list
+│   │   │   ├── ntfs-3g.md5sums
+│   │   │   ├── ntfs-3g.postinst
+│   │   │   ├── ntfs-3g.postrm
+│   │   │   ├── ntfs-3g.triggers
+│   │   │   ├── open-iscsi.conffiles
+│   │   │   ├── open-iscsi.list
+│   │   │   ├── open-iscsi.md5sums
+│   │   │   ├── open-iscsi.postinst
+│   │   │   ├── open-iscsi.postrm
+│   │   │   ├── open-iscsi.preinst
+│   │   │   ├── open-iscsi.prerm
+│   │   │   ├── open-iscsi.templates
+│   │   │   ├── open-iscsi.triggers
+│   │   │   ├── openssh-client.conffiles
+│   │   │   ├── openssh-client.list
+│   │   │   ├── openssh-client.md5sums
+│   │   │   ├── openssh-client.postinst
+│   │   │   ├── openssh-client.postrm
+│   │   │   ├── openssh-client.preinst
+│   │   │   ├── openssh-client.prerm
+│   │   │   ├── openssh-server.conffiles
+│   │   │   ├── openssh-server.config
+│   │   │   ├── openssh-server.list
+│   │   │   ├── openssh-server.md5sums
+│   │   │   ├── openssh-server.postinst
+│   │   │   ├── openssh-server.postrm
+│   │   │   ├── openssh-server.preinst
+│   │   │   ├── openssh-server.prerm
+│   │   │   ├── openssh-server.templates
+│   │   │   ├── openssh-sftp-server.list
+│   │   │   ├── openssh-sftp-server.md5sums
+│   │   │   ├── openssl.conffiles
+│   │   │   ├── openssl.list
+│   │   │   ├── openssl.md5sums
+│   │   │   ├── openssl.postinst
+│   │   │   ├── open-vm-tools.conffiles
+│   │   │   ├── open-vm-tools.list
+│   │   │   ├── open-vm-tools.md5sums
+│   │   │   ├── open-vm-tools.postinst
+│   │   │   ├── open-vm-tools.postrm
+│   │   │   ├── open-vm-tools.preinst
+│   │   │   ├── open-vm-tools.prerm
+│   │   │   ├── open-vm-tools.shlibs
+│   │   │   ├── open-vm-tools.triggers
+│   │   │   ├── os-prober.list
+│   │   │   ├── os-prober.md5sums
+│   │   │   ├── overlayroot.conffiles
+│   │   │   ├── overlayroot.list
+│   │   │   ├── overlayroot.md5sums
+│   │   │   ├── overlayroot.postinst
+│   │   │   ├── overlayroot.postrm
+│   │   │   ├── packagekit.conffiles
+│   │   │   ├── packagekit.list
+│   │   │   ├── packagekit.md5sums
+│   │   │   ├── packagekit.postinst
+│   │   │   ├── packagekit.postrm
+│   │   │   ├── packagekit.preinst
+│   │   │   ├── packagekit-tools.list
+│   │   │   ├── packagekit-tools.md5sums
+│   │   │   ├── parted.list
+│   │   │   ├── parted.md5sums
+│   │   │   ├── passwd.conffiles
+│   │   │   ├── passwd.list
+│   │   │   ├── passwd.md5sums
+│   │   │   ├── passwd.postinst
+│   │   │   ├── passwd.postrm
+│   │   │   ├── passwd.preinst
+│   │   │   ├── passwd.prerm
+│   │   │   ├── pastebinit.list
+│   │   │   ├── pastebinit.md5sums
+│   │   │   ├── patch.list
+│   │   │   ├── patch.md5sums
+│   │   │   ├── pci.ids.list
+│   │   │   ├── pci.ids.md5sums
+│   │   │   ├── pciutils.list
+│   │   │   ├── pciutils.md5sums
+│   │   │   ├── pciutils.postinst
+│   │   │   ├── pciutils.postrm
+│   │   │   ├── pciutils.preinst
+│   │   │   ├── perl-base.list
+│   │   │   ├── perl-base.md5sums
+│   │   │   ├── perl-base.postinst
+│   │   │   ├── perl-base.postrm
+│   │   │   ├── perl-base.preinst
+│   │   │   ├── perl-base.prerm
+│   │   │   ├── perl.conffiles
+│   │   │   ├── perl.list
+│   │   │   ├── perl.md5sums
+│   │   │   ├── perl-modules-5.34.list
+│   │   │   ├── perl-modules-5.34.md5sums
+│   │   │   ├── perl.postinst
+│   │   │   ├── perl.postrm
+│   │   │   ├── perl.preinst
+│   │   │   ├── perl.prerm
+│   │   │   ├── pinentry-curses.list
+│   │   │   ├── pinentry-curses.md5sums
+│   │   │   ├── pinentry-curses.postinst
+│   │   │   ├── pinentry-curses.prerm
+│   │   │   ├── pkexec.list
+│   │   │   ├── pkexec.md5sums
+│   │   │   ├── pkexec.postinst
+│   │   │   ├── plymouth.conffiles
+│   │   │   ├── plymouth.list
+│   │   │   ├── plymouth.md5sums
+│   │   │   ├── plymouth.postinst
+│   │   │   ├── plymouth.postrm
+│   │   │   ├── plymouth.preinst
+│   │   │   ├── plymouth-theme-ubuntu-text.list
+│   │   │   ├── plymouth-theme-ubuntu-text.md5sums
+│   │   │   ├── plymouth-theme-ubuntu-text.postinst
+│   │   │   ├── plymouth-theme-ubuntu-text.postrm
+│   │   │   ├── plymouth-theme-ubuntu-text.prerm
+│   │   │   ├── plymouth-theme-ubuntu-text.triggers
+│   │   │   ├── plymouth.triggers
+│   │   │   ├── policykit-1.list
+│   │   │   ├── policykit-1.md5sums
+│   │   │   ├── policykit-1.postinst
+│   │   │   ├── policykit-1.postrm
+│   │   │   ├── policykit-1.preinst
+│   │   │   ├── policykit-1.prerm
+│   │   │   ├── polkitd.conffiles
+│   │   │   ├── polkitd.list
+│   │   │   ├── polkitd.md5sums
+│   │   │   ├── polkitd.postinst
+│   │   │   ├── polkitd.postrm
+│   │   │   ├── pollinate.conffiles
+│   │   │   ├── pollinate.list
+│   │   │   ├── pollinate.md5sums
+│   │   │   ├── pollinate.postinst
+│   │   │   ├── pollinate.postrm
+│   │   │   ├── pollinate.preinst
+│   │   │   ├── pollinate.prerm
+│   │   │   ├── powermgmt-base.list
+│   │   │   ├── powermgmt-base.md5sums
+│   │   │   ├── procps.conffiles
+│   │   │   ├── procps.list
+│   │   │   ├── procps.md5sums
+│   │   │   ├── procps.postinst
+│   │   │   ├── procps.postrm
+│   │   │   ├── procps.preinst
+│   │   │   ├── procps.prerm
+│   │   │   ├── psmisc.list
+│   │   │   ├── psmisc.md5sums
+│   │   │   ├── psmisc.postinst
+│   │   │   ├── psmisc.postrm
+│   │   │   ├── publicsuffix.list
+│   │   │   ├── publicsuffix.md5sums
+│   │   │   ├── python3.10.list
+│   │   │   ├── python3.10.md5sums
+│   │   │   ├── python3.10-minimal.list
+│   │   │   ├── python3.10-minimal.md5sums
+│   │   │   ├── python3.10-minimal.postinst
+│   │   │   ├── python3.10-minimal.postrm
+│   │   │   ├── python3.10-minimal.preinst
+│   │   │   ├── python3.10-minimal.prerm
+│   │   │   ├── python3.10.postinst
+│   │   │   ├── python3.10.prerm
+│   │   │   ├── python3-apport.list
+│   │   │   ├── python3-apport.md5sums
+│   │   │   ├── python3-apport.postinst
+│   │   │   ├── python3-apport.prerm
+│   │   │   ├── python3-apt.list
+│   │   │   ├── python3-apt.md5sums
+│   │   │   ├── python3-apt.postinst
+│   │   │   ├── python3-apt.prerm
+│   │   │   ├── python3-attr.list
+│   │   │   ├── python3-attr.md5sums
+│   │   │   ├── python3-attr.postinst
+│   │   │   ├── python3-attr.prerm
+│   │   │   ├── python3-automat.list
+│   │   │   ├── python3-automat.md5sums
+│   │   │   ├── python3-automat.postinst
+│   │   │   ├── python3-automat.prerm
+│   │   │   ├── python3-babel.list
+│   │   │   ├── python3-babel.md5sums
+│   │   │   ├── python3-babel.postinst
+│   │   │   ├── python3-babel.prerm
+│   │   │   ├── python3-bcrypt.list
+│   │   │   ├── python3-bcrypt.md5sums
+│   │   │   ├── python3-bcrypt.postinst
+│   │   │   ├── python3-bcrypt.prerm
+│   │   │   ├── python3-blinker.list
+│   │   │   ├── python3-blinker.md5sums
+│   │   │   ├── python3-blinker.postinst
+│   │   │   ├── python3-blinker.prerm
+│   │   │   ├── python3-certifi.list
+│   │   │   ├── python3-certifi.md5sums
+│   │   │   ├── python3-certifi.postinst
+│   │   │   ├── python3-certifi.prerm
+│   │   │   ├── python3-cffi-backend:amd64.list
+│   │   │   ├── python3-cffi-backend:amd64.md5sums
+│   │   │   ├── python3-chardet.list
+│   │   │   ├── python3-chardet.md5sums
+│   │   │   ├── python3-chardet.postinst
+│   │   │   ├── python3-chardet.prerm
+│   │   │   ├── python3-click.list
+│   │   │   ├── python3-click.md5sums
+│   │   │   ├── python3-click.postinst
+│   │   │   ├── python3-click.prerm
+│   │   │   ├── python3-colorama.list
+│   │   │   ├── python3-colorama.md5sums
+│   │   │   ├── python3-colorama.postinst
+│   │   │   ├── python3-colorama.prerm
+│   │   │   ├── python3-commandnotfound.list
+│   │   │   ├── python3-commandnotfound.md5sums
+│   │   │   ├── python3-commandnotfound.postinst
+│   │   │   ├── python3-commandnotfound.prerm
+│   │   │   ├── python3-configobj.list
+│   │   │   ├── python3-configobj.md5sums
+│   │   │   ├── python3-configobj.postinst
+│   │   │   ├── python3-configobj.prerm
+│   │   │   ├── python3-constantly.list
+│   │   │   ├── python3-constantly.md5sums
+│   │   │   ├── python3-constantly.postinst
+│   │   │   ├── python3-constantly.prerm
+│   │   │   ├── python3-cryptography.list
+│   │   │   ├── python3-cryptography.md5sums
+│   │   │   ├── python3-cryptography.postinst
+│   │   │   ├── python3-cryptography.prerm
+│   │   │   ├── python3-dbus.list
+│   │   │   ├── python3-dbus.md5sums
+│   │   │   ├── python3-dbus.postinst
+│   │   │   ├── python3-dbus.prerm
+│   │   │   ├── python3-debconf.list
+│   │   │   ├── python3-debconf.md5sums
+│   │   │   ├── python3-debconf.postinst
+│   │   │   ├── python3-debconf.prerm
+│   │   │   ├── python3-debian.list
+│   │   │   ├── python3-debian.md5sums
+│   │   │   ├── python3-debian.postinst
+│   │   │   ├── python3-debian.prerm
+│   │   │   ├── python3-distro-info.list
+│   │   │   ├── python3-distro-info.md5sums
+│   │   │   ├── python3-distro-info.postinst
+│   │   │   ├── python3-distro-info.prerm
+│   │   │   ├── python3-distro.list
+│   │   │   ├── python3-distro.md5sums
+│   │   │   ├── python3-distro.postinst
+│   │   │   ├── python3-distro.prerm
+│   │   │   ├── python3-distupgrade.list
+│   │   │   ├── python3-distupgrade.md5sums
+│   │   │   ├── python3-distupgrade.postinst
+│   │   │   ├── python3-distupgrade.prerm
+│   │   │   ├── python3-distutils.list
+│   │   │   ├── python3-distutils.md5sums
+│   │   │   ├── python3-distutils.postinst
+│   │   │   ├── python3-distutils.prerm
+│   │   │   ├── python3-gdbm:amd64.list
+│   │   │   ├── python3-gdbm:amd64.md5sums
+│   │   │   ├── python3-gi.list
+│   │   │   ├── python3-gi.md5sums
+│   │   │   ├── python3-gi.postinst
+│   │   │   ├── python3-gi.prerm
+│   │   │   ├── python3-hamcrest.list
+│   │   │   ├── python3-hamcrest.md5sums
+│   │   │   ├── python3-hamcrest.postinst
+│   │   │   ├── python3-hamcrest.prerm
+│   │   │   ├── python3-httplib2.list
+│   │   │   ├── python3-httplib2.md5sums
+│   │   │   ├── python3-httplib2.postinst
+│   │   │   ├── python3-httplib2.prerm
+│   │   │   ├── python3-hyperlink.list
+│   │   │   ├── python3-hyperlink.md5sums
+│   │   │   ├── python3-hyperlink.postinst
+│   │   │   ├── python3-hyperlink.prerm
+│   │   │   ├── python3-idna.list
+│   │   │   ├── python3-idna.md5sums
+│   │   │   ├── python3-idna.postinst
+│   │   │   ├── python3-idna.prerm
+│   │   │   ├── python3-importlib-metadata.list
+│   │   │   ├── python3-importlib-metadata.md5sums
+│   │   │   ├── python3-importlib-metadata.postinst
+│   │   │   ├── python3-importlib-metadata.prerm
+│   │   │   ├── python3-incremental.list
+│   │   │   ├── python3-incremental.md5sums
+│   │   │   ├── python3-incremental.postinst
+│   │   │   ├── python3-incremental.prerm
+│   │   │   ├── python3-jeepney.list
+│   │   │   ├── python3-jeepney.md5sums
+│   │   │   ├── python3-jeepney.postinst
+│   │   │   ├── python3-jeepney.prerm
+│   │   │   ├── python3-jinja2.list
+│   │   │   ├── python3-jinja2.md5sums
+│   │   │   ├── python3-jinja2.postinst
+│   │   │   ├── python3-jinja2.prerm
+│   │   │   ├── python3-jsonpatch.list
+│   │   │   ├── python3-jsonpatch.md5sums
+│   │   │   ├── python3-jsonpatch.postinst
+│   │   │   ├── python3-jsonpatch.postrm
+│   │   │   ├── python3-jsonpatch.prerm
+│   │   │   ├── python3-json-pointer.list
+│   │   │   ├── python3-json-pointer.md5sums
+│   │   │   ├── python3-json-pointer.postinst
+│   │   │   ├── python3-json-pointer.postrm
+│   │   │   ├── python3-json-pointer.prerm
+│   │   │   ├── python3-jsonschema.list
+│   │   │   ├── python3-jsonschema.md5sums
+│   │   │   ├── python3-jsonschema.postinst
+│   │   │   ├── python3-jsonschema.postrm
+│   │   │   ├── python3-jsonschema.prerm
+│   │   │   ├── python3-jwt.list
+│   │   │   ├── python3-jwt.md5sums
+│   │   │   ├── python3-jwt.postinst
+│   │   │   ├── python3-jwt.prerm
+│   │   │   ├── python3-keyring.list
+│   │   │   ├── python3-keyring.md5sums
+│   │   │   ├── python3-keyring.postinst
+│   │   │   ├── python3-keyring.prerm
+│   │   │   ├── python3-launchpadlib.list
+│   │   │   ├── python3-launchpadlib.md5sums
+│   │   │   ├── python3-launchpadlib.postinst
+│   │   │   ├── python3-launchpadlib.prerm
+│   │   │   ├── python3-lazr.restfulclient.list
+│   │   │   ├── python3-lazr.restfulclient.md5sums
+│   │   │   ├── python3-lazr.restfulclient.postinst
+│   │   │   ├── python3-lazr.restfulclient.prerm
+│   │   │   ├── python3-lazr.uri.list
+│   │   │   ├── python3-lazr.uri.md5sums
+│   │   │   ├── python3-lazr.uri.postinst
+│   │   │   ├── python3-lazr.uri.prerm
+│   │   │   ├── python3-lib2to3.list
+│   │   │   ├── python3-lib2to3.md5sums
+│   │   │   ├── python3-lib2to3.postinst
+│   │   │   ├── python3-lib2to3.prerm
+│   │   │   ├── python3.list
+│   │   │   ├── python3-magic.list
+│   │   │   ├── python3-magic.md5sums
+│   │   │   ├── python3-magic.postinst
+│   │   │   ├── python3-magic.prerm
+│   │   │   ├── python3-markupsafe.list
+│   │   │   ├── python3-markupsafe.md5sums
+│   │   │   ├── python3-markupsafe.postinst
+│   │   │   ├── python3-markupsafe.prerm
+│   │   │   ├── python3.md5sums
+│   │   │   ├── python3-minimal.list
+│   │   │   ├── python3-minimal.md5sums
+│   │   │   ├── python3-minimal.postinst
+│   │   │   ├── python3-minimal.prerm
+│   │   │   ├── python3-more-itertools.list
+│   │   │   ├── python3-more-itertools.md5sums
+│   │   │   ├── python3-more-itertools.postinst
+│   │   │   ├── python3-more-itertools.prerm
+│   │   │   ├── python3-netifaces:amd64.list
+│   │   │   ├── python3-netifaces:amd64.md5sums
+│   │   │   ├── python3-newt:amd64.list
+│   │   │   ├── python3-newt:amd64.md5sums
+│   │   │   ├── python3-newt:amd64.postinst
+│   │   │   ├── python3-newt:amd64.prerm
+│   │   │   ├── python3-oauthlib.list
+│   │   │   ├── python3-oauthlib.md5sums
+│   │   │   ├── python3-oauthlib.postinst
+│   │   │   ├── python3-oauthlib.prerm
+│   │   │   ├── python3-openssl.list
+│   │   │   ├── python3-openssl.md5sums
+│   │   │   ├── python3-openssl.postinst
+│   │   │   ├── python3-openssl.prerm
+│   │   │   ├── python3-pexpect.list
+│   │   │   ├── python3-pexpect.md5sums
+│   │   │   ├── python3-pexpect.postinst
+│   │   │   ├── python3-pexpect.prerm
+│   │   │   ├── python3-pkg-resources.list
+│   │   │   ├── python3-pkg-resources.md5sums
+│   │   │   ├── python3-pkg-resources.postinst
+│   │   │   ├── python3-pkg-resources.prerm
+│   │   │   ├── python3.postinst
+│   │   │   ├── python3.postrm
+│   │   │   ├── python3.preinst
+│   │   │   ├── python3.prerm
+│   │   │   ├── python3-problem-report.list
+│   │   │   ├── python3-problem-report.md5sums
+│   │   │   ├── python3-problem-report.postinst
+│   │   │   ├── python3-problem-report.prerm
+│   │   │   ├── python3-ptyprocess.list
+│   │   │   ├── python3-ptyprocess.md5sums
+│   │   │   ├── python3-ptyprocess.postinst
+│   │   │   ├── python3-ptyprocess.prerm
+│   │   │   ├── python3-pyasn1.list
+│   │   │   ├── python3-pyasn1.md5sums
+│   │   │   ├── python3-pyasn1-modules.list
+│   │   │   ├── python3-pyasn1-modules.md5sums
+│   │   │   ├── python3-pyasn1-modules.postinst
+│   │   │   ├── python3-pyasn1-modules.prerm
+│   │   │   ├── python3-pyasn1.postinst
+│   │   │   ├── python3-pyasn1.prerm
+│   │   │   ├── python3-pyparsing.list
+│   │   │   ├── python3-pyparsing.md5sums
+│   │   │   ├── python3-pyparsing.postinst
+│   │   │   ├── python3-pyparsing.prerm
+│   │   │   ├── python3-pyrsistent:amd64.list
+│   │   │   ├── python3-pyrsistent:amd64.md5sums
+│   │   │   ├── python3-pyrsistent:amd64.postinst
+│   │   │   ├── python3-pyrsistent:amd64.prerm
+│   │   │   ├── python3-requests.list
+│   │   │   ├── python3-requests.md5sums
+│   │   │   ├── python3-requests.postinst
+│   │   │   ├── python3-requests.prerm
+│   │   │   ├── python3-secretstorage.list
+│   │   │   ├── python3-secretstorage.md5sums
+│   │   │   ├── python3-secretstorage.postinst
+│   │   │   ├── python3-secretstorage.prerm
+│   │   │   ├── python3-serial.list
+│   │   │   ├── python3-serial.md5sums
+│   │   │   ├── python3-serial.postinst
+│   │   │   ├── python3-serial.prerm
+│   │   │   ├── python3-service-identity.list
+│   │   │   ├── python3-service-identity.md5sums
+│   │   │   ├── python3-service-identity.postinst
+│   │   │   ├── python3-service-identity.prerm
+│   │   │   ├── python3-setuptools.list
+│   │   │   ├── python3-setuptools.md5sums
+│   │   │   ├── python3-setuptools.postinst
+│   │   │   ├── python3-setuptools.prerm
+│   │   │   ├── python3-six.list
+│   │   │   ├── python3-six.md5sums
+│   │   │   ├── python3-six.postinst
+│   │   │   ├── python3-six.prerm
+│   │   │   ├── python3-software-properties.list
+│   │   │   ├── python3-software-properties.md5sums
+│   │   │   ├── python3-software-properties.postinst
+│   │   │   ├── python3-software-properties.prerm
+│   │   │   ├── python3-systemd.list
+│   │   │   ├── python3-systemd.md5sums
+│   │   │   ├── python3-systemd.postinst
+│   │   │   ├── python3-systemd.prerm
+│   │   │   ├── python3-twisted.list
+│   │   │   ├── python3-twisted.md5sums
+│   │   │   ├── python3-twisted.postinst
+│   │   │   ├── python3-twisted.postrm
+│   │   │   ├── python3-twisted.prerm
+│   │   │   ├── python3-twisted.triggers
+│   │   │   ├── python3-tz.list
+│   │   │   ├── python3-tz.md5sums
+│   │   │   ├── python3-tz.postinst
+│   │   │   ├── python3-tz.prerm
+│   │   │   ├── python3-update-manager.list
+│   │   │   ├── python3-update-manager.md5sums
+│   │   │   ├── python3-update-manager.postinst
+│   │   │   ├── python3-update-manager.prerm
+│   │   │   ├── python3-urllib3.list
+│   │   │   ├── python3-urllib3.md5sums
+│   │   │   ├── python3-urllib3.postinst
+│   │   │   ├── python3-urllib3.prerm
+│   │   │   ├── python3-wadllib.list
+│   │   │   ├── python3-wadllib.md5sums
+│   │   │   ├── python3-wadllib.postinst
+│   │   │   ├── python3-wadllib.prerm
+│   │   │   ├── python3-xkit.list
+│   │   │   ├── python3-xkit.md5sums
+│   │   │   ├── python3-xkit.postinst
+│   │   │   ├── python3-xkit.prerm
+│   │   │   ├── python3-yaml.list
+│   │   │   ├── python3-yaml.md5sums
+│   │   │   ├── python3-yaml.postinst
+│   │   │   ├── python3-yaml.prerm
+│   │   │   ├── python3-zipp.list
+│   │   │   ├── python3-zipp.md5sums
+│   │   │   ├── python3-zipp.postinst
+│   │   │   ├── python3-zipp.prerm
+│   │   │   ├── python3-zope.interface.list
+│   │   │   ├── python3-zope.interface.md5sums
+│   │   │   ├── python3-zope.interface.postinst
+│   │   │   ├── python3-zope.interface.prerm
+│   │   │   ├── python-apt-common.list
+│   │   │   ├── python-apt-common.md5sums
+│   │   │   ├── python-babel-localedata.list
+│   │   │   ├── python-babel-localedata.md5sums
+│   │   │   ├── readline-common.list
+│   │   │   ├── readline-common.md5sums
+│   │   │   ├── readline-common.postinst
+│   │   │   ├── readline-common.postrm
+│   │   │   ├── rsync.conffiles
+│   │   │   ├── rsync.list
+│   │   │   ├── rsync.md5sums
+│   │   │   ├── rsync.postinst
+│   │   │   ├── rsync.postrm
+│   │   │   ├── rsync.prerm
+│   │   │   ├── rsyslog.conffiles
+│   │   │   ├── rsyslog.list
+│   │   │   ├── rsyslog.md5sums
+│   │   │   ├── rsyslog.postinst
+│   │   │   ├── rsyslog.postrm
+│   │   │   ├── rsyslog.preinst
+│   │   │   ├── rsyslog.prerm
+│   │   │   ├── rsyslog.triggers
+│   │   │   ├── run-one.list
+│   │   │   ├── run-one.md5sums
+│   │   │   ├── sbsigntool.list
+│   │   │   ├── sbsigntool.md5sums
+│   │   │   ├── screen.conffiles
+│   │   │   ├── screen.list
+│   │   │   ├── screen.md5sums
+│   │   │   ├── screen.postinst
+│   │   │   ├── screen.postrm
+│   │   │   ├── screen.prerm
+│   │   │   ├── secureboot-db.list
+│   │   │   ├── secureboot-db.md5sums
+│   │   │   ├── secureboot-db.postinst
+│   │   │   ├── secureboot-db.postrm
+│   │   │   ├── secureboot-db.prerm
+│   │   │   ├── sed.list
+│   │   │   ├── sed.md5sums
+│   │   │   ├── sensible-utils.list
+│   │   │   ├── sensible-utils.md5sums
+│   │   │   ├── sg3-utils.list
+│   │   │   ├── sg3-utils.md5sums
+│   │   │   ├── sg3-utils-udev.list
+│   │   │   ├── sg3-utils-udev.md5sums
+│   │   │   ├── sg3-utils-udev.postinst
+│   │   │   ├── sg3-utils-udev.postrm
+│   │   │   ├── sg3-utils-udev.triggers
+│   │   │   ├── shared-mime-info.list
+│   │   │   ├── shared-mime-info.md5sums
+│   │   │   ├── shared-mime-info.postinst
+│   │   │   ├── shared-mime-info.postrm
+│   │   │   ├── shared-mime-info.triggers
+│   │   │   ├── shim-signed.conffiles
+│   │   │   ├── shim-signed.list
+│   │   │   ├── shim-signed.md5sums
+│   │   │   ├── shim-signed.postinst
+│   │   │   ├── shim-signed.postrm
+│   │   │   ├── shim-signed.templates
+│   │   │   ├── shim-signed.triggers
+│   │   │   ├── snapd.conffiles
+│   │   │   ├── snapd.list
+│   │   │   ├── snapd.md5sums
+│   │   │   ├── snapd.postinst
+│   │   │   ├── snapd.postrm
+│   │   │   ├── snapd.preinst
+│   │   │   ├── snapd.prerm
+│   │   │   ├── software-properties-common.conffiles
+│   │   │   ├── software-properties-common.list
+│   │   │   ├── software-properties-common.md5sums
+│   │   │   ├── software-properties-common.postinst
+│   │   │   ├── software-properties-common.prerm
+│   │   │   ├── sosreport.conffiles
+│   │   │   ├── sosreport.list
+│   │   │   ├── sosreport.md5sums
+│   │   │   ├── sosreport.postinst
+│   │   │   ├── sosreport.prerm
+│   │   │   ├── squashfs-tools.list
+│   │   │   ├── squashfs-tools.md5sums
+│   │   │   ├── ssh-import-id.conffiles
+│   │   │   ├── ssh-import-id.list
+│   │   │   ├── ssh-import-id.md5sums
+│   │   │   ├── ssh-import-id.postinst
+│   │   │   ├── ssh-import-id.prerm
+│   │   │   ├── strace.list
+│   │   │   ├── strace.md5sums
+│   │   │   ├── sudo.conffiles
+│   │   │   ├── sudo.list
+│   │   │   ├── sudo.md5sums
+│   │   │   ├── sudo.postinst
+│   │   │   ├── sudo.postrm
+│   │   │   ├── sudo.preinst
+│   │   │   ├── sudo.prerm
+│   │   │   ├── sudo.shlibs
+│   │   │   ├── sudo.triggers
+│   │   │   ├── systemd.conffiles
+│   │   │   ├── systemd-hwe-hwdb.list
+│   │   │   ├── systemd-hwe-hwdb.md5sums
+│   │   │   ├── systemd-hwe-hwdb.postinst
+│   │   │   ├── systemd-hwe-hwdb.postrm
+│   │   │   ├── systemd.list
+│   │   │   ├── systemd.md5sums
+│   │   │   ├── systemd.postinst
+│   │   │   ├── systemd.postrm
+│   │   │   ├── systemd.preinst
+│   │   │   ├── systemd.prerm
+│   │   │   ├── systemd-sysv.list
+│   │   │   ├── systemd-sysv.md5sums
+│   │   │   ├── systemd-sysv.postinst
+│   │   │   ├── systemd-timesyncd.conffiles
+│   │   │   ├── systemd-timesyncd.list
+│   │   │   ├── systemd-timesyncd.md5sums
+│   │   │   ├── systemd-timesyncd.postinst
+│   │   │   ├── systemd-timesyncd.postrm
+│   │   │   ├── systemd-timesyncd.prerm
+│   │   │   ├── systemd.triggers
+│   │   │   ├── sysvinit-utils.list
+│   │   │   ├── sysvinit-utils.md5sums
+│   │   │   ├── tar.list
+│   │   │   ├── tar.md5sums
+│   │   │   ├── tar.postinst
+│   │   │   ├── tar.prerm
+│   │   │   ├── tcl8.6.list
+│   │   │   ├── tcl8.6.md5sums
+│   │   │   ├── tcl8.6.postinst
+│   │   │   ├── tcl8.6.postrm
+│   │   │   ├── tcl8.6.prerm
+│   │   │   ├── tcl.list
+│   │   │   ├── tcl.md5sums
+│   │   │   ├── tcl.preinst
+│   │   │   ├── tcpdump.conffiles
+│   │   │   ├── tcpdump.list
+│   │   │   ├── tcpdump.md5sums
+│   │   │   ├── tcpdump.postinst
+│   │   │   ├── tcpdump.postrm
+│   │   │   ├── tcpdump.preinst
+│   │   │   ├── tcpdump.prerm
+│   │   │   ├── telnet.list
+│   │   │   ├── telnet.md5sums
+│   │   │   ├── telnet.postinst
+│   │   │   ├── telnet.postrm
+│   │   │   ├── telnet.prerm
+│   │   │   ├── thermald.conffiles
+│   │   │   ├── thermald.list
+│   │   │   ├── thermald.md5sums
+│   │   │   ├── thermald.postinst
+│   │   │   ├── thermald.postrm
+│   │   │   ├── thermald.prerm
+│   │   │   ├── thin-provisioning-tools.list
+│   │   │   ├── thin-provisioning-tools.md5sums
+│   │   │   ├── thin-provisioning-tools.triggers
+│   │   │   ├── time.list
+│   │   │   ├── time.md5sums
+│   │   │   ├── tmux.list
+│   │   │   ├── tmux.md5sums
+│   │   │   ├── tmux.postinst
+│   │   │   ├── tmux.postrm
+│   │   │   ├── tmux.preinst
+│   │   │   ├── tnftp.list
+│   │   │   ├── tnftp.md5sums
+│   │   │   ├── tnftp.postinst
+│   │   │   ├── tnftp.prerm
+│   │   │   ├── tpm-udev.list
+│   │   │   ├── tpm-udev.md5sums
+│   │   │   ├── tpm-udev.postinst
+│   │   │   ├── tree.list
+│   │   │   ├── tree.md5sums
+│   │   │   ├── tzdata.config
+│   │   │   ├── tzdata.list
+│   │   │   ├── tzdata.md5sums
+│   │   │   ├── tzdata.postinst
+│   │   │   ├── tzdata.postrm
+│   │   │   ├── tzdata.templates
+│   │   │   ├── ubuntu-advantage-tools.config
+│   │   │   ├── ubuntu-advantage-tools.list
+│   │   │   ├── ubuntu-advantage-tools.md5sums
+│   │   │   ├── ubuntu-advantage-tools.postinst
+│   │   │   ├── ubuntu-advantage-tools.postrm
+│   │   │   ├── ubuntu-advantage-tools.preinst
+│   │   │   ├── ubuntu-advantage-tools.prerm
+│   │   │   ├── ubuntu-advantage-tools.templates
+│   │   │   ├── ubuntu-drivers-common.config
+│   │   │   ├── ubuntu-drivers-common.list
+│   │   │   ├── ubuntu-drivers-common.md5sums
+│   │   │   ├── ubuntu-drivers-common.postinst
+│   │   │   ├── ubuntu-drivers-common.postrm
+│   │   │   ├── ubuntu-drivers-common.prerm
+│   │   │   ├── ubuntu-drivers-common.templates
+│   │   │   ├── ubuntu-keyring.list
+│   │   │   ├── ubuntu-keyring.md5sums
+│   │   │   ├── ubuntu-keyring.postinst
+│   │   │   ├── ubuntu-minimal.list
+│   │   │   ├── ubuntu-minimal.md5sums
+│   │   │   ├── ubuntu-pro-client.conffiles
+│   │   │   ├── ubuntu-pro-client-l10n.list
+│   │   │   ├── ubuntu-pro-client-l10n.md5sums
+│   │   │   ├── ubuntu-pro-client.list
+│   │   │   ├── ubuntu-pro-client.md5sums
+│   │   │   ├── ubuntu-pro-client.postinst
+│   │   │   ├── ubuntu-pro-client.postrm
+│   │   │   ├── ubuntu-pro-client.prerm
+│   │   │   ├── ubuntu-release-upgrader-core.conffiles
+│   │   │   ├── ubuntu-release-upgrader-core.list
+│   │   │   ├── ubuntu-release-upgrader-core.md5sums
+│   │   │   ├── ubuntu-release-upgrader-core.postinst
+│   │   │   ├── ubuntu-release-upgrader-core.preinst
+│   │   │   ├── ubuntu-server.list
+│   │   │   ├── ubuntu-server.md5sums
+│   │   │   ├── ubuntu-server-minimal.list
+│   │   │   ├── ubuntu-server-minimal.md5sums
+│   │   │   ├── ubuntu-standard.list
+│   │   │   ├── ubuntu-standard.md5sums
+│   │   │   ├── ucf.conffiles
+│   │   │   ├── ucf.list
+│   │   │   ├── ucf.md5sums
+│   │   │   ├── ucf.postinst
+│   │   │   ├── ucf.postrm
+│   │   │   ├── ucf.preinst
+│   │   │   ├── ucf.templates
+│   │   │   ├── udev.conffiles
+│   │   │   ├── udev.list
+│   │   │   ├── udev.md5sums
+│   │   │   ├── udev.postinst
+│   │   │   ├── udev.postrm
+│   │   │   ├── udev.prerm
+│   │   │   ├── udev.triggers
+│   │   │   ├── udisks2.conffiles
+│   │   │   ├── udisks2.list
+│   │   │   ├── udisks2.md5sums
+│   │   │   ├── udisks2.postinst
+│   │   │   ├── udisks2.postrm
+│   │   │   ├── udisks2.prerm
+│   │   │   ├── ufw.conffiles
+│   │   │   ├── ufw.config
+│   │   │   ├── ufw.list
+│   │   │   ├── ufw.md5sums
+│   │   │   ├── ufw.postinst
+│   │   │   ├── ufw.postrm
+│   │   │   ├── ufw.preinst
+│   │   │   ├── ufw.prerm
+│   │   │   ├── ufw.templates
+│   │   │   ├── ufw.triggers
+│   │   │   ├── unattended-upgrades.conffiles
+│   │   │   ├── unattended-upgrades.config
+│   │   │   ├── unattended-upgrades.list
+│   │   │   ├── unattended-upgrades.md5sums
+│   │   │   ├── unattended-upgrades.postinst
+│   │   │   ├── unattended-upgrades.postrm
+│   │   │   ├── unattended-upgrades.preinst
+│   │   │   ├── unattended-upgrades.templates
+│   │   │   ├── update-manager-core.list
+│   │   │   ├── update-manager-core.md5sums
+│   │   │   ├── update-notifier-common.conffiles
+│   │   │   ├── update-notifier-common.list
+│   │   │   ├── update-notifier-common.md5sums
+│   │   │   ├── update-notifier-common.postinst
+│   │   │   ├── update-notifier-common.postrm
+│   │   │   ├── update-notifier-common.preinst
+│   │   │   ├── update-notifier-common.prerm
+│   │   │   ├── update-notifier-common.triggers
+│   │   │   ├── upower.conffiles
+│   │   │   ├── upower.list
+│   │   │   ├── upower.md5sums
+│   │   │   ├── upower.postinst
+│   │   │   ├── upower.postrm
+│   │   │   ├── upower.prerm
+│   │   │   ├── usb.ids.list
+│   │   │   ├── usb.ids.md5sums
+│   │   │   ├── usb-modeswitch.conffiles
+│   │   │   ├── usb-modeswitch-data.list
+│   │   │   ├── usb-modeswitch-data.md5sums
+│   │   │   ├── usb-modeswitch.list
+│   │   │   ├── usb-modeswitch.md5sums
+│   │   │   ├── usb-modeswitch.postinst
+│   │   │   ├── usb-modeswitch.postrm
+│   │   │   ├── usb-modeswitch.preinst
+│   │   │   ├── usb-modeswitch.prerm
+│   │   │   ├── usbmuxd.list
+│   │   │   ├── usbmuxd.md5sums
+│   │   │   ├── usbmuxd.postinst
+│   │   │   ├── usbmuxd.postrm
+│   │   │   ├── usbmuxd.prerm
+│   │   │   ├── usbutils.list
+│   │   │   ├── usbutils.md5sums
+│   │   │   ├── usrmerge.list
+│   │   │   ├── usrmerge.md5sums
+│   │   │   ├── usrmerge.postinst
+│   │   │   ├── usrmerge.preinst
+│   │   │   ├── util-linux.conffiles
+│   │   │   ├── util-linux.list
+│   │   │   ├── util-linux.md5sums
+│   │   │   ├── util-linux.postinst
+│   │   │   ├── util-linux.postrm
+│   │   │   ├── util-linux.preinst
+│   │   │   ├── util-linux.prerm
+│   │   │   ├── uuid-runtime.conffiles
+│   │   │   ├── uuid-runtime.list
+│   │   │   ├── uuid-runtime.md5sums
+│   │   │   ├── uuid-runtime.postinst
+│   │   │   ├── uuid-runtime.postrm
+│   │   │   ├── uuid-runtime.prerm
+│   │   │   ├── vim-common.conffiles
+│   │   │   ├── vim-common.list
+│   │   │   ├── vim-common.md5sums
+│   │   │   ├── vim-common.postinst
+│   │   │   ├── vim-common.postrm
+│   │   │   ├── vim-common.preinst
+│   │   │   ├── vim-common.prerm
+│   │   │   ├── vim.list
+│   │   │   ├── vim.md5sums
+│   │   │   ├── vim.postinst
+│   │   │   ├── vim.postrm
+│   │   │   ├── vim.preinst
+│   │   │   ├── vim.prerm
+│   │   │   ├── vim-runtime.list
+│   │   │   ├── vim-runtime.md5sums
+│   │   │   ├── vim-runtime.postinst
+│   │   │   ├── vim-runtime.postrm
+│   │   │   ├── vim-runtime.preinst
+│   │   │   ├── vim-tiny.conffiles
+│   │   │   ├── vim-tiny.list
+│   │   │   ├── vim-tiny.md5sums
+│   │   │   ├── vim-tiny.postinst
+│   │   │   ├── vim-tiny.postrm
+│   │   │   ├── vim-tiny.preinst
+│   │   │   ├── vim-tiny.prerm
+│   │   │   ├── wget.conffiles
+│   │   │   ├── wget.list
+│   │   │   ├── wget.md5sums
+│   │   │   ├── whiptail.list
+│   │   │   ├── whiptail.md5sums
+│   │   │   ├── whiptail.preinst
+│   │   │   ├── wireless-regdb.list
+│   │   │   ├── wireless-regdb.md5sums
+│   │   │   ├── wpasupplicant.conffiles
+│   │   │   ├── wpasupplicant.list
+│   │   │   ├── wpasupplicant.md5sums
+│   │   │   ├── wpasupplicant.postinst
+│   │   │   ├── wpasupplicant.postrm
+│   │   │   ├── wpasupplicant.prerm
+│   │   │   ├── xauth.list
+│   │   │   ├── xauth.md5sums
+│   │   │   ├── xdg-user-dirs.conffiles
+│   │   │   ├── xdg-user-dirs.list
+│   │   │   ├── xdg-user-dirs.md5sums
+│   │   │   ├── xdg-user-dirs.postinst
+│   │   │   ├── xdg-user-dirs.postrm
+│   │   │   ├── xdg-user-dirs.preinst
+│   │   │   ├── xdg-user-dirs.prerm
+│   │   │   ├── xfsprogs.list
+│   │   │   ├── xfsprogs.md5sums
+│   │   │   ├── xfsprogs.postinst
+│   │   │   ├── xfsprogs.shlibs
+│   │   │   ├── xfsprogs.triggers
+│   │   │   ├── xkb-data.list
+│   │   │   ├── xkb-data.md5sums
+│   │   │   ├── xxd.list
+│   │   │   ├── xxd.md5sums
+│   │   │   ├── xz-utils.list
+│   │   │   ├── xz-utils.md5sums
+│   │   │   ├── xz-utils.postinst
+│   │   │   ├── xz-utils.prerm
+│   │   │   ├── zerofree.list
+│   │   │   ├── zerofree.md5sums
+│   │   │   ├── zlib1g:amd64.list
+│   │   │   ├── zlib1g:amd64.md5sums
+│   │   │   ├── zlib1g:amd64.shlibs
+│   │   │   ├── zlib1g:amd64.symbols
+│   │   │   ├── zlib1g:amd64.triggers
+│   │   │   ├── zstd.list
+│   │   │   └── zstd.md5sums
+│   │   ├── lock
+│   │   ├── lock-frontend
+│   │   ├── parts
+│   │   ├── statoverride
+│   │   ├── status
+│   │   ├── status-old
+│   │   ├── triggers
+│   │   │   ├── File
+│   │   │   ├── ldconfig
+│   │   │   ├── linux-update-5.15.0-112-generic
+│   │   │   ├── Lock
+│   │   │   ├── shim-kernel-check
+│   │   │   ├── shim-secureboot-policy
+│   │   │   ├── twisted-plugins-cache
+│   │   │   ├── Unincorp
+│   │   │   ├── update-ca-certificates
+│   │   │   ├── update-ca-certificates-fresh
+│   │   │   └── update-initramfs
+│   │   └── updates
+│   ├── git
+│   ├── grub
+│   │   ├── esp
+│   │   └── ucf
+│   │       └── grub.previous
+│   ├── landscape
+│   │   └── landscape-sysinfo.cache
+│   ├── logrotate
+│   │   └── status
+│   ├── man-db
+│   │   └── auto-update
+│   ├── misc
+│   ├── os-prober
+│   ├── PackageKit
+│   │   └── transactions.db
+│   ├── pam
+│   │   ├── account
+│   │   ├── auth
+│   │   ├── password
+│   │   ├── seen
+│   │   ├── session
+│   │   └── session-noninteractive
+│   ├── plymouth
+│   ├── polkit-1
+│   │   └── localauthority
+│   │       ├── 10-vendor.d
+│   │       │   ├── fwupd.pkla
+│   │       │   ├── org.freedesktop.packagekit.pkla
+│   │       │   └── systemd-networkd.pkla
+│   │       ├── 20-org.d
+│   │       ├── 30-site.d
+│   │       ├── 50-local.d
+│   │       └── 90-mandatory.d
+│   ├── private
+│   ├── python
+│   │   └── python3.10_installed
+│   ├── shells.state
+│   ├── shim-signed
+│   │   └── mok
+│   ├── snapd
+│   │   ├── apparmor
+│   │   │   ├── profiles
+│   │   │   │   ├── snap-confine.snapd.20671
+│   │   │   │   ├── snap.lxd.activate
+│   │   │   │   ├── snap.lxd.benchmark
+│   │   │   │   ├── snap.lxd.buginfo
+│   │   │   │   ├── snap.lxd.check-kernel
+│   │   │   │   ├── snap.lxd.daemon
+│   │   │   │   ├── snap.lxd.hook.configure
+│   │   │   │   ├── snap.lxd.hook.install
+│   │   │   │   ├── snap.lxd.hook.remove
+│   │   │   │   ├── snap.lxd.lxc
+│   │   │   │   ├── snap.lxd.lxc-to-lxd
+│   │   │   │   ├── snap.lxd.lxd
+│   │   │   │   ├── snap.lxd.migrate
+│   │   │   │   ├── snap.lxd.user-daemon
+│   │   │   │   └── snap-update-ns.lxd
+│   │   │   ├── snap-confine
+│   │   │   │   └── cap-bpf
+│   │   │   └── snap-confine.internal
+│   │   │       └── cap-bpf
+│   │   ├── assertions
+│   │   │   ├── asserts-v0
+│   │   │   │   ├── account-key
+│   │   │   │   │   ├── BWDEoaqyr25nF5SNCvEv2v7QnM9QsfCc0PBMYD_i2NGSQ32EF2d4D0hqUel3m8ul
+│   │   │   │   │   │   └── active
+│   │   │   │   │   └── wrfougkz3Huq2T_KklfnufCC0HzG7bJ9wP99GV0FF-D3QH3eJtuSRlQc2JhrAoh1
+│   │   │   │   │       └── active
+│   │   │   │   ├── model
+│   │   │   │   │   └── 16
+│   │   │   │   │       └── generic
+│   │   │   │   │           └── generic-classic
+│   │   │   │   │               └── active
+│   │   │   │   ├── serial
+│   │   │   │   │   └── generic
+│   │   │   │   │       └── generic-classic
+│   │   │   │   │           └── a94f4fe7-c189-4ffa-b95c-ac14b50a6138
+│   │   │   │   │               └── active
+│   │   │   │   ├── snap-declaration
+│   │   │   │   │   └── 16
+│   │   │   │   │       ├── DLqre5XGLbDqg9jPtiAhRRjDuPVa5X1q
+│   │   │   │   │       │   └── active
+│   │   │   │   │       ├── J60k4JY0HppjwOjW8dZdYc8obXKxujRu
+│   │   │   │   │       │   └── active.1
+│   │   │   │   │       └── PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4
+│   │   │   │   │           └── active
+│   │   │   │   └── snap-revision
+│   │   │   │       ├── Ea2FTda4BeraYHsYvAwn7L8ActRvdGLuNbvELqiwaL9vxDvxXusj9mQ4QoYYi-F3
+│   │   │   │       │   └── active
+│   │   │   │       ├── sQEnVkollJ9d7PIHX48fJO_xRgi4aBpbPZDgDcAwYI2GDOWC0r0qejtoVSLftJp_
+│   │   │   │       │   └── active
+│   │   │   │       └── t7pzNSAiwxDcFwhuBKI_5BYLASpDSlQZ1axQM0Ns20_FLz-z9Ih1goWb2_V5wpkY
+│   │   │   │           └── active
+│   │   │   └── private-keys-v1
+│   │   ├── auto-import
+│   │   ├── cgroup
+│   │   │   ├── snap.core20.device
+│   │   │   ├── snap.lxd.device
+│   │   │   └── snap.snapd.device
+│   │   ├── cookie
+│   │   │   ├── snap.core20
+│   │   │   ├── snap.lxd
+│   │   │   └── snap.snapd
+│   │   ├── dbus-1
+│   │   │   ├── services
+│   │   │   └── system-services
+│   │   ├── desktop
+│   │   │   ├── applications
+│   │   │   ├── bash-completion
+│   │   │   │   └── completions
+│   │   │   │       ├── lxc -> lxd.lxc
+│   │   │   │       └── lxd.lxc -> /snap/snapd/current/usr/lib/snapd/complete.sh
+│   │   │   └── icons
+│   │   ├── device
+│   │   │   └── private-keys-v1
+│   │   │       └── VBe2LHwMFl8nkbTuiiqzvX3CmSG7oGyuqhrDgqIv9JQFQBXYzdpTKCaEFxFsgrMN
+│   │   ├── environment
+│   │   ├── features
+│   │   │   ├── classic-preserves-xdg-runtime-dir
+│   │   │   ├── refresh-app-awareness
+│   │   │   └── robust-mount-namespace-updates
+│   │   ├── firstboot
+│   │   ├── hostfs
+│   │   ├── inhibit
+│   │   │   ├── core20.lock
+│   │   │   ├── lxd.lock
+│   │   │   └── snapd.lock
+│   │   ├── lib
+│   │   │   ├── gl
+│   │   │   ├── gl32
+│   │   │   ├── glvnd
+│   │   │   └── vulkan
+│   │   ├── mount
+│   │   │   └── snap.lxd.fstab
+│   │   ├── seccomp
+│   │   │   └── bpf
+│   │   │       ├── global.bin
+│   │   │       ├── snap.lxd.activate.bin
+│   │   │       ├── snap.lxd.activate.bin2
+│   │   │       ├── snap.lxd.activate.src
+│   │   │       ├── snap.lxd.benchmark.bin
+│   │   │       ├── snap.lxd.benchmark.bin2
+│   │   │       ├── snap.lxd.benchmark.src
+│   │   │       ├── snap.lxd.buginfo.bin
+│   │   │       ├── snap.lxd.buginfo.bin2
+│   │   │       ├── snap.lxd.buginfo.src
+│   │   │       ├── snap.lxd.check-kernel.bin
+│   │   │       ├── snap.lxd.check-kernel.bin2
+│   │   │       ├── snap.lxd.check-kernel.src
+│   │   │       ├── snap.lxd.daemon.bin
+│   │   │       ├── snap.lxd.daemon.bin2
+│   │   │       ├── snap.lxd.daemon.src
+│   │   │       ├── snap.lxd.hook.configure.bin
+│   │   │       ├── snap.lxd.hook.configure.bin2
+│   │   │       ├── snap.lxd.hook.configure.src
+│   │   │       ├── snap.lxd.hook.install.bin
+│   │   │       ├── snap.lxd.hook.install.bin2
+│   │   │       ├── snap.lxd.hook.install.src
+│   │   │       ├── snap.lxd.hook.remove.bin
+│   │   │       ├── snap.lxd.hook.remove.bin2
+│   │   │       ├── snap.lxd.hook.remove.src
+│   │   │       ├── snap.lxd.lxc.bin
+│   │   │       ├── snap.lxd.lxc.bin2
+│   │   │       ├── snap.lxd.lxc.src
+│   │   │       ├── snap.lxd.lxc-to-lxd.bin
+│   │   │       ├── snap.lxd.lxc-to-lxd.bin2
+│   │   │       ├── snap.lxd.lxc-to-lxd.src
+│   │   │       ├── snap.lxd.lxd.bin
+│   │   │       ├── snap.lxd.lxd.bin2
+│   │   │       ├── snap.lxd.lxd.src
+│   │   │       ├── snap.lxd.migrate.bin
+│   │   │       ├── snap.lxd.migrate.bin2
+│   │   │       ├── snap.lxd.migrate.src
+│   │   │       ├── snap.lxd.user-daemon.bin
+│   │   │       ├── snap.lxd.user-daemon.bin2
+│   │   │       └── snap.lxd.user-daemon.src
+│   │   ├── seed
+│   │   │   ├── assertions
+│   │   │   │   ├── account
+│   │   │   │   ├── account-key
+│   │   │   │   ├── core20_2105.assert
+│   │   │   │   ├── lxd_27037.assert
+│   │   │   │   ├── model
+│   │   │   │   └── snapd_20671.assert
+│   │   │   ├── seed.yaml
+│   │   │   └── snaps
+│   │   │       ├── core20_2105.snap
+│   │   │       ├── lxd_27037.snap
+│   │   │       └── snapd_20671.snap
+│   │   ├── sequence
+│   │   │   ├── core20.json
+│   │   │   ├── lxd.json
+│   │   │   └── snapd.json
+│   │   ├── snaps
+│   │   │   ├── core20_2105.snap
+│   │   │   ├── lxd_27037.snap
+│   │   │   ├── partial
+│   │   │   └── snapd_20671.snap
+│   │   ├── ssl
+│   │   │   └── store-certs
+│   │   ├── state.json
+│   │   ├── state.lock
+│   │   ├── system-key
+│   │   └── void
+│   ├── sudo
+│   │   └── lectured
+│   ├── systemd
+│   │   ├── catalog
+│   │   │   └── database
+│   │   ├── coredump
+│   │   ├── deb-systemd-helper-enabled
+│   │   │   ├── apparmor.service.dsh-also
+│   │   │   ├── apport-autoreport.path.dsh-also
+│   │   │   ├── apport-autoreport.timer.dsh-also
+│   │   │   ├── apport-forward.socket.dsh-also
+│   │   │   ├── apt-daily.timer.dsh-also
+│   │   │   ├── apt-daily-upgrade.timer.dsh-also
+│   │   │   ├── blk-availability.service.dsh-also
+│   │   │   ├── cloud-config.service.dsh-also
+│   │   │   ├── cloud-final.service.dsh-also
+│   │   │   ├── cloud-final.service.wants
+│   │   │   │   └── snapd.seeded.service
+│   │   │   ├── cloud-init-hotplugd.socket.dsh-also
+│   │   │   ├── cloud-init-local.service.dsh-also
+│   │   │   ├── cloud-init.service.dsh-also
+│   │   │   ├── cloud-init.target.wants
+│   │   │   │   ├── cloud-config.service
+│   │   │   │   ├── cloud-final.service
+│   │   │   │   ├── cloud-init-hotplugd.socket
+│   │   │   │   ├── cloud-init-local.service
+│   │   │   │   └── cloud-init.service
+│   │   │   ├── console-setup.service.dsh-also
+│   │   │   ├── cron.service.dsh-also
+│   │   │   ├── dbus-fi.w1.wpa_supplicant1.service
+│   │   │   ├── dbus-org.freedesktop.ModemManager1.service
+│   │   │   ├── dbus-org.freedesktop.thermald.service
+│   │   │   ├── dbus-org.freedesktop.timesync1.service
+│   │   │   ├── display-manager.service.wants
+│   │   │   │   └── gpu-manager.service
+│   │   │   ├── dmesg.service.dsh-also
+│   │   │   ├── dm-event.socket.dsh-also
+│   │   │   ├── dpkg-db-backup.timer.dsh-also
+│   │   │   ├── e2scrub_all.timer.dsh-also
+│   │   │   ├── e2scrub_reap.service.dsh-also
+│   │   │   ├── emergency.target.wants
+│   │   │   │   └── grub-initrd-fallback.service
+│   │   │   ├── finalrd.service.dsh-also
+│   │   │   ├── final.target.wants
+│   │   │   │   └── snapd.system-shutdown.service
+│   │   │   ├── fstrim.timer.dsh-also
+│   │   │   ├── fwupd-refresh.timer.dsh-also
+│   │   │   ├── gpu-manager.service.dsh-also
+│   │   │   ├── graphical.target.wants
+│   │   │   │   └── udisks2.service
+│   │   │   ├── grub-common.service.dsh-also
+│   │   │   ├── grub-initrd-fallback.service.dsh-also
+│   │   │   ├── irqbalance.service.dsh-also
+│   │   │   ├── iscsid.service.dsh-also
+│   │   │   ├── iscsid.socket.dsh-also
+│   │   │   ├── iscsi.service
+│   │   │   ├── keyboard-setup.service.dsh-also
+│   │   │   ├── logrotate.timer.dsh-also
+│   │   │   ├── lvm2-lvmpolld.socket.dsh-also
+│   │   │   ├── lvm2-monitor.service.dsh-also
+│   │   │   ├── lxd-agent.service.dsh-also
+│   │   │   ├── man-db.timer.dsh-also
+│   │   │   ├── mdcheck_continue.timer.dsh-also
+│   │   │   ├── mdcheck_start.timer.dsh-also
+│   │   │   ├── mdmonitor-oneshot.timer.dsh-also
+│   │   │   ├── mdmonitor.service.wants
+│   │   │   │   ├── mdcheck_continue.timer
+│   │   │   │   ├── mdcheck_start.timer
+│   │   │   │   └── mdmonitor-oneshot.timer
+│   │   │   ├── ModemManager.service.dsh-also
+│   │   │   ├── motd-news.timer.dsh-also
+│   │   │   ├── multipathd.service.dsh-also
+│   │   │   ├── multipath-tools.service
+│   │   │   ├── multi-user.target.wants
+│   │   │   │   ├── console-setup.service
+│   │   │   │   ├── cron.service
+│   │   │   │   ├── dmesg.service
+│   │   │   │   ├── e2scrub_reap.service
+│   │   │   │   ├── grub-common.service
+│   │   │   │   ├── grub-initrd-fallback.service
+│   │   │   │   ├── irqbalance.service
+│   │   │   │   ├── lxd-agent.service
+│   │   │   │   ├── ModemManager.service
+│   │   │   │   ├── networkd-dispatcher.service
+│   │   │   │   ├── open-vm-tools.service
+│   │   │   │   ├── pollinate.service
+│   │   │   │   ├── rsyslog.service
+│   │   │   │   ├── secureboot-db.service
+│   │   │   │   ├── snapd.aa-prompt-listener.service
+│   │   │   │   ├── snapd.apparmor.service
+│   │   │   │   ├── snapd.autoimport.service
+│   │   │   │   ├── snapd.core-fixup.service
+│   │   │   │   ├── snapd.recovery-chooser-trigger.service
+│   │   │   │   ├── snapd.seeded.service
+│   │   │   │   ├── snapd.service
+│   │   │   │   ├── ssh.service
+│   │   │   │   ├── thermald.service
+│   │   │   │   ├── ua-reboot-cmds.service
+│   │   │   │   ├── ubuntu-advantage.service
+│   │   │   │   ├── ufw.service
+│   │   │   │   ├── unattended-upgrades.service
+│   │   │   │   └── wpa_supplicant.service
+│   │   │   ├── networkd-dispatcher.service.dsh-also
+│   │   │   ├── nftables.service.dsh-also
+│   │   │   ├── oem-config.service.wants
+│   │   │   │   └── gpu-manager.service
+│   │   │   ├── open-iscsi.service.dsh-also
+│   │   │   ├── open-vm-tools.service.dsh-also
+│   │   │   ├── open-vm-tools.service.requires
+│   │   │   │   └── vgauth.service
+│   │   │   ├── paths.target.wants
+│   │   │   │   └── apport-autoreport.path
+│   │   │   ├── pollinate.service.dsh-also
+│   │   │   ├── rescue.target.wants
+│   │   │   │   └── grub-initrd-fallback.service
+│   │   │   ├── rsync.service.dsh-also
+│   │   │   ├── rsyslog.service.dsh-also
+│   │   │   ├── secureboot-db.service.dsh-also
+│   │   │   ├── setvtrgb.service.dsh-also
+│   │   │   ├── sleep.target.wants
+│   │   │   │   ├── grub-common.service
+│   │   │   │   └── grub-initrd-fallback.service
+│   │   │   ├── snapd.aa-prompt-listener.service.dsh-also
+│   │   │   ├── snapd.apparmor.service.dsh-also
+│   │   │   ├── snapd.autoimport.service.dsh-also
+│   │   │   ├── snapd.core-fixup.service.dsh-also
+│   │   │   ├── snapd.recovery-chooser-trigger.service.dsh-also
+│   │   │   ├── snapd.seeded.service.dsh-also
+│   │   │   ├── snapd.service.dsh-also
+│   │   │   ├── snapd.snap-repair.timer.dsh-also
+│   │   │   ├── snapd.socket.dsh-also
+│   │   │   ├── snapd.system-shutdown.service.dsh-also
+│   │   │   ├── sockets.target.wants
+│   │   │   │   ├── apport-forward.socket
+│   │   │   │   ├── dm-event.socket
+│   │   │   │   ├── iscsid.socket
+│   │   │   │   ├── multipathd.socket
+│   │   │   │   ├── snapd.socket
+│   │   │   │   └── uuidd.socket
+│   │   │   ├── sshd.service
+│   │   │   ├── ssh.service.dsh-also
+│   │   │   ├── ssh.socket.dsh-also
+│   │   │   ├── sysinit.target.wants
+│   │   │   │   ├── apparmor.service
+│   │   │   │   ├── blk-availability.service
+│   │   │   │   ├── finalrd.service
+│   │   │   │   ├── keyboard-setup.service
+│   │   │   │   ├── lvm2-lvmpolld.socket
+│   │   │   │   ├── lvm2-monitor.service
+│   │   │   │   ├── multipathd.service
+│   │   │   │   ├── open-iscsi.service
+│   │   │   │   ├── setvtrgb.service
+│   │   │   │   └── systemd-timesyncd.service
+│   │   │   ├── syslog.service
+│   │   │   ├── systemd-timesyncd.service.dsh-also
+│   │   │   ├── thermald.service.dsh-also
+│   │   │   ├── timers.target.wants
+│   │   │   │   ├── apport-autoreport.timer
+│   │   │   │   ├── apt-daily.timer
+│   │   │   │   ├── apt-daily-upgrade.timer
+│   │   │   │   ├── dpkg-db-backup.timer
+│   │   │   │   ├── e2scrub_all.timer
+│   │   │   │   ├── fstrim.timer
+│   │   │   │   ├── fwupd-refresh.timer
+│   │   │   │   ├── logrotate.timer
+│   │   │   │   ├── man-db.timer
+│   │   │   │   ├── motd-news.timer
+│   │   │   │   ├── snapd.snap-repair.timer
+│   │   │   │   ├── ua-timer.timer
+│   │   │   │   ├── update-notifier-download.timer
+│   │   │   │   └── update-notifier-motd.timer
+│   │   │   ├── ua-reboot-cmds.service.dsh-also
+│   │   │   ├── ua-timer.timer.dsh-also
+│   │   │   ├── ubuntu-advantage.service.dsh-also
+│   │   │   ├── udisks2.service.dsh-also
+│   │   │   ├── ufw.service.dsh-also
+│   │   │   ├── unattended-upgrades.service.dsh-also
+│   │   │   ├── update-notifier-download.timer.dsh-also
+│   │   │   ├── update-notifier-motd.timer.dsh-also
+│   │   │   ├── upower.service.dsh-also
+│   │   │   ├── uuidd.service.dsh-also
+│   │   │   ├── uuidd.socket.dsh-also
+│   │   │   ├── vgauth.service.dsh-also
+│   │   │   ├── vmtoolsd.service
+│   │   │   └── wpa_supplicant.service.dsh-also
+│   │   ├── deb-systemd-helper-masked
+│   │   │   └── sudo.service
+│   │   ├── deb-systemd-user-helper-enabled
+│   │   │   ├── dirmngr.socket.dsh-also
+│   │   │   ├── gpg-agent-browser.socket.dsh-also
+│   │   │   ├── gpg-agent-extra.socket.dsh-also
+│   │   │   ├── gpg-agent.socket.dsh-also
+│   │   │   ├── gpg-agent-ssh.socket.dsh-also
+│   │   │   ├── pk-debconf-helper.socket.dsh-also
+│   │   │   └── sockets.target.wants
+│   │   │       ├── dirmngr.socket
+│   │   │       ├── gpg-agent-browser.socket
+│   │   │       ├── gpg-agent-extra.socket
+│   │   │       ├── gpg-agent.socket
+│   │   │       ├── gpg-agent-ssh.socket
+│   │   │       └── pk-debconf-helper.socket
+│   │   ├── linger
+│   │   ├── pstore
+│   │   ├── random-seed
+│   │   ├── rfkill
+│   │   │   ├── pci-0000:00:15.0-usb-0:3:1.0:bluetooth
+│   │   │   └── pci-0000:02:00.0:wlan
+│   │   ├── timers
+│   │   │   ├── stamp-apt-daily.timer
+│   │   │   ├── stamp-apt-daily-upgrade.timer
+│   │   │   ├── stamp-e2scrub_all.timer
+│   │   │   ├── stamp-fstrim.timer
+│   │   │   ├── stamp-fwupd-refresh.timer
+│   │   │   ├── stamp-logrotate.timer
+│   │   │   ├── stamp-man-db.timer
+│   │   │   ├── stamp-motd-news.timer
+│   │   │   └── stamp-update-notifier-motd.timer
+│   │   └── timesync
+│   │       └── clock
+│   ├── tpm
+│   ├── ubuntu-advantage
+│   │   ├── apt-esm
+│   │   │   ├── etc
+│   │   │   │   └── apt
+│   │   │   │       ├── apt.conf.d
+│   │   │   │       ├── preferences.d
+│   │   │   │       ├── sources.list
+│   │   │   │       └── sources.list.d
+│   │   │   │           └── ubuntu-esm-apps.sources
+│   │   │   └── var
+│   │   │       ├── cache
+│   │   │       │   └── apt
+│   │   │       │       ├── archives
+│   │   │       │       │   └── partial
+│   │   │       │       ├── pkgcache.bin
+│   │   │       │       └── srcpkgcache.bin
+│   │   │       └── lib
+│   │   │           ├── apt
+│   │   │           │   └── lists
+│   │   │           │       ├── auxfiles
+│   │   │           │       ├── esm.ubuntu.com_apps_ubuntu_dists_jammy-apps-security_InRelease
+│   │   │           │       ├── esm.ubuntu.com_apps_ubuntu_dists_jammy-apps-security_main_binary-amd64_Packages
+│   │   │           │       ├── esm.ubuntu.com_apps_ubuntu_dists_jammy-apps-updates_InRelease
+│   │   │           │       ├── esm.ubuntu.com_apps_ubuntu_dists_jammy-apps-updates_main_binary-amd64_Packages
+│   │   │           │       ├── lock
+│   │   │           │       └── partial
+│   │   │           └── dpkg
+│   │   │               └── status
+│   │   └── status.json
+│   ├── ubuntu-drivers-common
+│   ├── ubuntu-release-upgrader
+│   │   └── release-upgrade-available
+│   ├── ucf
+│   │   ├── cache
+│   │   │   ├── :etc:apt:apt.conf.d:20auto-upgrades
+│   │   │   ├── :etc:apt:apt.conf.d:50unattended-upgrades
+│   │   │   ├── :etc:default:grub
+│   │   │   ├── :etc:rsyslog.d:50-default.conf
+│   │   │   ├── :etc:ssh:sshd_config
+│   │   │   ├── :etc:ufw:after6.rules
+│   │   │   ├── :etc:ufw:after.rules
+│   │   │   ├── :etc:ufw:before6.rules
+│   │   │   └── :etc:ufw:before.rules
+│   │   ├── hashfile
+│   │   ├── hashfile.0
+│   │   ├── hashfile.1
+│   │   ├── hashfile.2
+│   │   ├── hashfile.3
+│   │   ├── hashfile.4
+│   │   ├── hashfile.5
+│   │   ├── hashfile.6
+│   │   ├── hashfile.7
+│   │   ├── registry
+│   │   ├── registry.0
+│   │   ├── registry.1
+│   │   ├── registry.2
+│   │   ├── registry.3
+│   │   └── registry.4
+│   ├── udisks2
+│   ├── unattended-upgrades
+│   ├── update-manager
+│   │   └── meta-release-lts
+│   ├── update-notifier
+│   │   ├── dpkg-run-stamp
+│   │   ├── fsck-at-reboot
+│   │   ├── package-data-downloads
+│   │   │   └── partial
+│   │   ├── updates-available
+│   │   └── user.d
+│   ├── upower
+│   ├── usb_modeswitch
+│   ├── usbutils
+│   │   └── usb.ids
+│   └── vim
+│       └── addons
+├── local
+├── lock -> /run/lock
+├── log
+│   ├── alternatives.log
+│   ├── apt
+│   │   ├── eipp.log.xz
+│   │   ├── history.log
+│   │   └── term.log
+│   ├── auth.log
+│   ├── bootstrap.log
+│   ├── btmp
+│   ├── cloud-init.log
+│   ├── cloud-init-output.log
+│   ├── dist-upgrade
+│   ├── dmesg
+│   ├── dmesg.0
+│   ├── dpkg.log
+│   ├── faillog
+│   ├── installer
+│   │   ├── autoinstall-user-data
+│   │   ├── block
+│   │   │   ├── discover.log
+│   │   │   └── probe-data.json
+│   │   ├── casper-md5check.json
+│   │   ├── cloud-init.log
+│   │   ├── cloud-init-output.log
+│   │   ├── curtin-install
+│   │   │   ├── subiquity-curthooks.conf
+│   │   │   ├── subiquity-extract.conf
+│   │   │   ├── subiquity-initial.conf
+│   │   │   └── subiquity-partitioning.conf
+│   │   ├── curtin-install.log
+│   │   ├── device-map.json
+│   │   ├── installer-journal.txt
+│   │   ├── media-info
+│   │   ├── subiquity-client-debug.log -> subiquity-client-debug.log.2255
+│   │   ├── subiquity-client-debug.log.2255
+│   │   ├── subiquity-client-info.log -> subiquity-client-info.log.2255
+│   │   ├── subiquity-client-info.log.2255
+│   │   ├── subiquity-curtin-apt.conf
+│   │   ├── subiquity-server-debug.log -> subiquity-server-debug.log.2295
+│   │   ├── subiquity-server-debug.log.2295
+│   │   ├── subiquity-server-info.log -> subiquity-server-info.log.2295
+│   │   └── subiquity-server-info.log.2295
+│   ├── journal
+│   │   └── af29d7c26e944375870271ebafe1d2a2
+│   │       ├── system.journal
+│   │       └── user-1000.journal
+│   ├── kern.log
+│   ├── landscape
+│   │   └── sysinfo.log
+│   ├── lastlog
+│   ├── private
+│   ├── syslog
+│   ├── ubuntu-advantage.log
+│   ├── unattended-upgrades
+│   │   ├── unattended-upgrades-dpkg.log
+│   │   ├── unattended-upgrades.log
+│   │   └── unattended-upgrades-shutdown.log
+│   └── wtmp
+├── mail
+├── opt
+├── run -> /run
+├── snap
+│   ├── core20
+│   │   ├── 2105
+│   │   ├── common
+│   │   └── current -> 2105
+│   ├── lxd
+│   │   ├── 27037
+│   │   ├── common
+│   │   │   ├── config
+│   │   │   ├── lxd
+│   │   │   │   └── unix.socket
+│   │   │   └── lxd-user
+│   │   │       └── unix.socket
+│   │   └── current -> 27037
+│   └── snapd
+│       ├── 20671
+│       ├── common
+│       └── current -> 20671
+├── spool
+│   ├── cron
+│   │   └── crontabs
+│   ├── mail -> ../mail
+│   └── rsyslog
+└── tmp
+    ├── systemd-private-5411b03350b44f7ea91e7cd568ae9fc2-ModemManager.service-dhpEdD
+    │   └── tmp
+    ├── systemd-private-5411b03350b44f7ea91e7cd568ae9fc2-systemd-logind.service-Gth6YC
+    │   └── tmp
+    ├── systemd-private-5411b03350b44f7ea91e7cd568ae9fc2-systemd-resolved.service-yMRvIu
+    │   └── tmp
+    └── systemd-private-5411b03350b44f7ea91e7cd568ae9fc2-systemd-timesyncd.service-o4gizW
+        └── tmp
+
+355 directories, 3409 files
