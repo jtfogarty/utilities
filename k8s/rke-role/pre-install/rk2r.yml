@@ -150,3 +150,18 @@
         src: "/tmp/running_processes_{{ inventory_hostname }}.txt"
         dest: "./running_processes_{{ inventory_hostname }}.txt"
         flat: yes
+
+    - name: Gather network interface details
+      command: ip -o link show | awk '{print $2, $(NF-2)}'
+      register: network_info
+
+    - name: Save network interface details to a file on the remote machine
+      copy:
+        content: "{{ network_info.stdout }}"
+        dest: "/tmp/network_info_{{ inventory_hostname }}.txt"
+
+    - name: Fetch network information file to Ansible control machine
+      fetch:
+        src: "/tmp/network_info_{{ inventory_hostname }}.txt"
+        dest: "./network_info_{{ inventory_hostname }}.txt"
+        flat: yes
