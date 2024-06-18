@@ -5,7 +5,7 @@ ansible_ssh_private_key_file: ~/.ssh/id_rsa_k8s
 ansible_python_interpreter: /usr/bin/python3.10
 
 kube_vip_version: "v0.8.0"
-vip_interface: eth0
+vip_interface: enp1s0
 vip: 10.10.50.10
 
 metallb_version: v0.13.12
