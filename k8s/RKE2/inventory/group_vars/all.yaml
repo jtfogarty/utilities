@@ -1,21 +1,24 @@
 os: "linux"
 arch: "amd64"
 
-ansible_ssh_private_key_file: ~/.ssh/id_rsa_k8s
+ansible_ssh_private_key_file: ~/.ssh/id_rsa_rke2
 ansible_python_interpreter: /usr/bin/python3.10
 
-kube_vip_version: "v0.8.0"
 vip_interface: enp1s0
-vip: 10.10.50.10
+vip: 10.10.100.4  # VIP configured in pfSense
 
 metallb_version: v0.13.12
-lb_range: 10.10.102.50-10.10.102.100
-lb_pool_name: first-pool
+lb_range: "10.10.102.50-10.10.102.100"  # Ensure this range is outside the Kubernetes VLAN range
+lb_pool_name: "first-pool"
 
-rke2_version: "v1.21.7+rke2r2 "
+rke2_version: "v1.21.7+rke2r2"
 rke2_install_dir: "/usr/local/bin"
 rke2_binary_url: "https://github.com/rancher/rke2/releases/download/{{ rke2_version }}/rke2.linux-amd64"
 
 ansible_user: jtfogar
 ansible_become: true
 ansible_become_method: sudo
+
+# Custom CIDR settings
+cluster_cidr: "10.42.0.0/16"
+service_cidr: "10.43.0.0/16"

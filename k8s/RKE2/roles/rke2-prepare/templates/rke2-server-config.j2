@@ -1,10 +1,20 @@
 write-kubeconfig-mode: "0644"
+token: my-shared-secret
+server: https://{{ vip }}:9345
+
 tls-san:
   - {{ vip }}
+  - my-kubernetes-domain.com
   - {{ hostvars['server1']['ansible_host'] }}
   - {{ hostvars['server2']['ansible_host'] }}
   - {{ hostvars['server3']['ansible_host'] }}
+
 node-label:
   - server=true
+
 disable:
   - rke2-ingress-nginx
+
+# Custom CIDR settings
+cluster-cidr: "{{ cluster_cidr }}"
+service-cidr: "{{ service_cidr }}"
