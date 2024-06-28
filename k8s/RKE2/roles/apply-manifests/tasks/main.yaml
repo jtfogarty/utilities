@@ -12,7 +12,7 @@
 # Create namespace so that we can deploy metallb
 - name: Apply metallb namespace
   ansible.builtin.command:
-    cmd: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
+    cmd: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_version }}/manifests/namespace.yaml
   become_user: "{{ ansible_user }}"
   changed_when: true
   when: inventory_hostname == groups['servers'][0]
@@ -57,4 +57,52 @@
     cmd: kubectl apply -f /home/{{ ansible_user }}/ippool.yaml
   become_user: "{{ ansible_user }}"
   changed_when: true
+  when: inventory_hostname == groups['servers'][0]
+
+# Rancher installation tasks
+- name: Create namespace for Rancher
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cattle-system
+  when: inventory_hostname == groups['servers'][0]
+
+- name: Install cert-manager CRDs
+  kubernetes.core.k8s:
+    state: present
+    src: "https://github.com/cert-manager/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml"
+  when: inventory_hostname == groups['servers'][0]
+
+- name: Create cert-manager namespace
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cert-manager
+  when: inventory_hostname == groups['servers'][0]
+
+- name: Deploy cert-manager
+  kubernetes.core.helm:
+    name: cert-manager
+    chart_ref: jetstack/cert-manager
+    release_namespace: cert-manager
+    create_namespace: true
+    values:
+      installCRDs: true
+  when: inventory_hostname == groups['servers'][0]
+
+- name: Deploy Rancher
+  kubernetes.core.helm:
+    name: rancher
+    chart_ref: rancher-latest/rancher
+    release_namespace: cattle-system
+    create_namespace: true
+    values:
+      hostname: "{{ rancher_hostname }}"
+      replicas: 3
   when: inventory_hostname == groups['servers'][0]
