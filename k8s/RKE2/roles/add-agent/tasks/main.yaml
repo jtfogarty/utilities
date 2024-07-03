@@ -1,6 +1,4 @@
-
 ---
-# Create necessary directory first
 - name: Ensure RKE2 config directory exists
   ansible.builtin.file:
     path: "/etc/rancher/rke2"
@@ -10,7 +8,19 @@
     group: root
   become: true
 
-# Copy agent config to all agents
+- name: Download RKE2 agent installation script
+  ansible.builtin.get_url:
+    url: https://get.rke2.io
+    dest: /tmp/rke2-install.sh
+    mode: '0700'
+  become: true
+
+- name: Install RKE2 agent
+  ansible.builtin.command: INSTALL_RKE2_TYPE=agent /tmp/rke2-install.sh
+  args:
+    creates: /usr/local/bin/rke2
+  become: true
+
 - name: Deploy RKE2 Agent Configuration
   ansible.builtin.template:
     src: templates/rke2-agent-config.j2
@@ -20,30 +30,23 @@
     mode: '0644'
   become: true
 
-# Check agents have restarted to pick up config
+- name: Ensure RKE2 agent service file exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/rke2-agent.service
+    state: file
+  become: true
+
 - name: Ensure RKE2 agents are enabled and running
   ansible.builtin.systemd:
     name: rke2-agent
-    enabled: true
     state: started
-    daemon_reload: true
+    enabled: true
+    daemon_reload: yes
   become: true
 
-
-# Copy agent config to all agents - we need to change agent2 & 3 later with the token
-- name: Deploy RKE2 Agent Configuration
-  ansible.builtin.template:
-    src: templates/rke2-agent-config.j2
-    dest: /etc/rancher/rke2/config.yaml
-    owner: root
-    group: root
-    mode: '0644'
-  when: inventory_hostname in groups['agent_nodes']
-
-# Check agents have restarted to pick up config
-- name: Ensure RKE2 agents are enabled and running
-  ansible.builtin.systemd:
-    name: rke2-agent
-    enabled: true
-    state: restarted
-    daemon_reload: true
+- name: Debug - Display VIP and token
+  ansible.builtin.debug:
+    msg: 
+      - "VIP: {{ vip }}"
+      - "Token: {{ rke2_token }}"
+  when: inventory_hostname == groups['agent_nodes'][0]
