@@ -51,20 +51,9 @@
 
 # ... (previous tasks remain the same)
 
-- name: Debug - List contents of /var/lib/rancher/rke2/server
-  ansible.builtin.command: ls -la /var/lib/rancher/rke2/server
-  register: server_contents
-  when: inventory_hostname == groups['server_nodes'][0]
-
-- name: Debug - Display server contents
-  ansible.builtin.debug:
-    var: server_contents.stdout_lines
-  when: inventory_hostname == groups['server_nodes'][0]
-
-- name: Check for token in cred file
-  ansible.builtin.command: cat /var/lib/rancher/rke2/server/cred
+- name: Debug - List contents of /var/lib/rancher/rke2/server/cred
+  ansible.builtin.command: ls -la /var/lib/rancher/rke2/server/cred
   register: cred_contents
-  ignore_errors: true
   when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Debug - Display cred contents
@@ -72,29 +61,48 @@
     var: cred_contents.stdout_lines
   when: inventory_hostname == groups['server_nodes'][0]
 
-- name: Wait for RKE2 to be ready
+- name: Find token file in cred directory
+  ansible.builtin.find:
+    paths: /var/lib/rancher/rke2/server/cred
+    patterns: "*token*"
+  register: token_file
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Debug - Display found token files
+  ansible.builtin.debug:
+    var: token_file.files
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Wait for RKE2 token file to be ready
   ansible.builtin.wait_for:
-    path: /var/lib/rancher/rke2/server/cred
+    path: "{{ token_file.files[0].path }}"
     state: present
     timeout: 300
-  when: inventory_hostname == groups['server_nodes'][0]
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - token_file.files | length > 0
 
 - name: Fetch the token from the cred file
   ansible.builtin.slurp:
-    src: /var/lib/rancher/rke2/server/cred
+    src: "{{ token_file.files[0].path }}"
   register: rke2_token_file
-  when: inventory_hostname == groups['server_nodes'][0]
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - token_file.files | length > 0
 
 - name: Set token fact for first server
   ansible.builtin.set_fact:
     rke2_token: "{{ rke2_token_file['content'] | b64decode | trim }}"
-  when: inventory_hostname == groups['server_nodes'][0]
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - token_file.files | length > 0
 
 - name: Debug - Display token
   ansible.builtin.debug:
     var: rke2_token
-  when: inventory_hostname == groups['server_nodes'][0]
-
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - rke2_token is defined
 # ... (subsequent tasks remain the same)
 
 # Wait for necessary files and resources
