@@ -6,7 +6,7 @@
     owner: root
     group: root
     mode: '0644'
-  when: inventory_hostname != groups['servers'][0]
+  when: inventory_hostname != groups['server_nodes'][0]
 
 # Keep checking the cluster API until it's functioning (deployed)
 - name: Wait for cluster API to be ready (can take 5-10 mins depending on internet/hardware)
@@ -18,7 +18,7 @@
   delay: 10
   changed_when: true
   become_user: "{{ ansible_user }}"
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Check that additional servers are restarted
 - name: Ensure additional RKE2 servers are enabled and running
@@ -27,7 +27,7 @@
     enabled: true
     state: restarted
     daemon_reload: true
-  when: inventory_hostname != groups['servers'][0]
+  when: inventory_hostname != groups['server_nodes'][0]
 
 # enable additional servers
 - name: Ensure RKE2 server is enabled and running
@@ -36,4 +36,4 @@
     enabled: true
     state: restarted
     daemon_reload: true
-  when: inventory_hostname != groups['servers'][0]
+  when: inventory_hostname != groups['server_nodes'][0]

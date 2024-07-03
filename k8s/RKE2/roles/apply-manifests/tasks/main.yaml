@@ -7,7 +7,7 @@
   delay: 10
   changed_when: true
   become_user: "{{ ansible_user }}"
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Create namespace so that we can deploy metallb
 - name: Apply metallb namespace
@@ -15,7 +15,7 @@
     cmd: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_version }}/manifests/namespace.yaml
   become_user: "{{ ansible_user }}"
   changed_when: true
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Apply metallb manifest
 - name: Apply metallb manifest
@@ -23,7 +23,7 @@
     cmd: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_version }}/config/manifests/metallb-native.yaml
   become_user: "{{ ansible_user }}"
   changed_when: true
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Wait for metallb deployment pods to be alive before deploying metallb manifests
 - name: Wait for metallb pods to be ready, otherwise we cannot start metallb deployment
@@ -31,7 +31,7 @@
     cmd: "kubectl wait --namespace metallb-system --for=condition=ready pod --selector=component=controller --timeout=1800s"
   changed_when: true
   become_user: "{{ ansible_user }}"
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Apply L2 Advertisement for metallb
 - name: Apply metallb L2 Advertisement
@@ -39,7 +39,7 @@
     cmd: kubectl apply -f https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/RKE2/l2Advertisement.yaml
   become_user: "{{ ansible_user }}"
   changed_when: true
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Deploy metal IP Pool to Server 1
 - name: Copy metallb IPPool to server 1
@@ -49,7 +49,7 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0755'
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # don't think this will work as nodes are no execute, might need agents first
 - name: Apply metallb ipppool
@@ -57,7 +57,7 @@
     cmd: kubectl apply -f /home/{{ ansible_user }}/ippool.yaml
   become_user: "{{ ansible_user }}"
   changed_when: true
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 # Rancher installation tasks
 - name: Create namespace for Rancher
@@ -68,13 +68,13 @@
       kind: Namespace
       metadata:
         name: cattle-system
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Install cert-manager CRDs
   kubernetes.core.k8s:
     state: present
     src: "https://github.com/cert-manager/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml"
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Create cert-manager namespace
   kubernetes.core.k8s:
@@ -84,7 +84,7 @@
       kind: Namespace
       metadata:
         name: cert-manager
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Deploy cert-manager
   kubernetes.core.helm:
@@ -94,7 +94,7 @@
     create_namespace: true
     values:
       installCRDs: true
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Deploy Rancher
   kubernetes.core.helm:
@@ -105,4 +105,4 @@
     values:
       hostname: "{{ rancher_hostname }}"
       replicas: 3
-  when: inventory_hostname == groups['servers'][0]
+  when: inventory_hostname == groups['server_nodes'][0]
