@@ -26,13 +26,13 @@ node-label:
 
 Key variables used in this role:
 
-- `groups['agents']`: Ansible group containing all agent nodes
+- `groups['agent_nodes']`: Ansible group containing all agent nodes
 - `hostvars[groups['server_nodes'][0]]['token']`: The token used for agents to join the cluster
 - `vip`: The Virtual IP address managed by pfSense for load balancing
 
 ## Usage
 
-This role is typically included in the main playbook and runs on all nodes in the 'agents' group. It configures agent nodes to join the existing cluster through the pfSense load balancer.
+This role is typically included in the main playbook and runs on all nodes in the 'agent_nodes' group. It configures agent nodes to join the existing cluster through the pfSense load balancer.
 
 ## Notes
 
@@ -51,7 +51,7 @@ This role is typically included in the main playbook and runs on all nodes in th
 ## Configuration
 
 Ensure that the following are properly configured:
-1. The 'agents' group in the Ansible inventory is correctly defined with all agent nodes.
+1. The 'agent_nodes' group in the Ansible inventory is correctly defined with all agent nodes.
 2. The first server node ('server1') is properly initialized and has a valid join token.
 3. The `vip` variable is correctly set to the Virtual IP address configured in pfSense.
 4. pfSense is configured to load balance traffic to the Kubernetes API server (port 6443) across all server nodes.
