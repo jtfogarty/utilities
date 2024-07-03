@@ -49,7 +49,16 @@
     daemon_reload: true
   when: inventory_hostname == groups['server_nodes'][0]
 
-# ... (previous tasks remain the same)
+- name: Wait for node-token
+  ansible.builtin.wait_for:
+    path: /var/lib/rancher/rke2/server/node-token
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Fetch the token from the first server node
+  ansible.builtin.slurp:
+    src: /var/lib/rancher/rke2/server/node-token
+  register: rke2_token
+  when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Debug - List contents of /var/lib/rancher/rke2/server/cred
   ansible.builtin.command: ls -la /var/lib/rancher/rke2/server/cred
@@ -116,23 +125,6 @@
     path: /var/lib/rancher/rke2/bin/kubectl
   when: inventory_hostname == groups['server_nodes'][0]
 
-# Generate and set up token on the first server
-- name: Generate token on first server
-  ansible.builtin.command: rke2 token create
-  register: rke2_token_create
-  when: inventory_hostname == groups['server_nodes'][0]
-
-- name: Fetch the token from the first server node
-  ansible.builtin.slurp:
-    src: /var/lib/rancher/rke2/server/node-token
-  register: rke2_token_file
-  when: inventory_hostname == groups['server_nodes'][0]
-
-- name: Set token fact for first server
-  ansible.builtin.set_fact:
-    rke2_token: "{{ rke2_token_file['content'] | b64decode | trim }}"
-  when: inventory_hostname == groups['server_nodes'][0]
-
 # Set up kubectl
 - name: Copy kubectl to user bin
   ansible.builtin.copy:
@@ -146,36 +138,6 @@
 - name: Wait for kubectl in user bin
   ansible.builtin.wait_for:
     path: /usr/local/bin/kubectl
-  when: inventory_hostname == groups['server_nodes'][0]
-
-# Handle token access and distribution
-- name: Register node-token file access mode
-  ansible.builtin.stat:
-    path: /var/lib/rancher/rke2/server
-  register: p
-  when: inventory_hostname == groups['server_nodes'][0]
-
-- name: Change file access for node-token
-  ansible.builtin.file:
-    path: /var/lib/rancher/rke2/server
-    mode: "g+rx,o+rx"
-  when: inventory_hostname == groups['server_nodes'][0]
-
-- name: Fetch the token from the first server node
-  ansible.builtin.slurp:
-    src: /var/lib/rancher/rke2/server/node-token
-  register: rke2_token
-  when: inventory_hostname == groups['server_nodes'][0]
-  run_once: true
-
-- name: Save Master node-token for later
-  ansible.builtin.set_fact:
-    token: "{{ rke2_token.content | b64decode | regex_replace('\n', '') }}"
-
-- name: Restore node-token file access
-  ansible.builtin.file:
-    path: /var/lib/rancher/rke2/server
-    mode: "{{ p.stat.mode }}"
   when: inventory_hostname == groups['server_nodes'][0]
 
 # Set up kubeconfig
