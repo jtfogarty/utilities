@@ -16,7 +16,7 @@ The main tasks performed by this role (as defined in `tasks/main.yaml`) are:
 The template contains:
 ```yaml
 write-kubeconfig-mode: "0644"
-token: {{ hostvars['server1']['token'] }}
+token: {{ hostvars[groups['server_nodes'][0]]['token'] }}
 server: https://{{ vip }}:6443
 node-label:
   - "agent=true"
@@ -27,7 +27,7 @@ node-label:
 Key variables used in this role:
 
 - `groups['agents']`: Ansible group containing all agent nodes
-- `hostvars['server1']['token']`: The token used for agents to join the cluster
+- `hostvars[groups['server_nodes'][0]]['token']`: The token used for agents to join the cluster
 - `vip`: The Virtual IP address managed by pfSense for load balancing
 
 ## Usage

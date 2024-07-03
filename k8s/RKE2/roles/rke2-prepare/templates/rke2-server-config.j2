@@ -5,9 +5,9 @@ server: https://{{ vip }}:6443
 tls-san:
   - {{ vip }}
   - my-kubernetes-domain.com
-  - {{ hostvars['server1']['ansible_host'] }}
-  - {{ hostvars['server2']['ansible_host'] }}
-  - {{ hostvars['server3']['ansible_host'] }}
+  - {{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}
+  - {{ hostvars[groups['server_nodes'][1]]['ansible_host'] }}
+  - {{ hostvars[groups['server_nodes'][2]]['ansible_host'] }}
 
 node-label:
   - server=true

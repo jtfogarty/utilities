@@ -130,5 +130,5 @@
   ansible.builtin.replace:
     path: /home/{{ ansible_user }}/.kube/config
     regexp: '127.0.0.1'
-    replace: "{{ hostvars['server1']['ansible_host'] }}"
+    replace: "{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}"
   when: inventory_hostname == groups['server_nodes'][0]
