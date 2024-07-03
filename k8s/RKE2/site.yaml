@@ -1,32 +1,36 @@
-# Hello, thanks for using my playbook, hopefully you can help to improve it.
-# Things that need adding: (there are many more)
-# 1) Support different OS & architectures
-# 2) Support multiple CNIs
-# 3) Improve the wait logic
-# 4) Use kubernetes Ansible plugins more sensibly
-# 5) Optimise flow logic
-# 6) Clean up
-
-###############################################################
-# MAKE SURE YOU CHANGE group_vars/all.yaml VARIABLES!!!!!!!!!!!
-###############################################################
-
 # bootstraps first server and copies configs for others/agents
 ---
-- name: Prepare nodes
+- name: Prepare all nodes
   hosts: all
   roles:
     - prepare-nodes
-
-- name: Download RKE2 binaries
-  hosts: all
-  roles:
     - rke2-download
 
-- name: Configure RKE2 server nodes
-  hosts: server_nodes
+- name: Set up first server node
+  hosts: "{{ groups['server_nodes'][0] }}"
   roles:
-    - add-server
+    - role: rke2-prepare
+      vars:
+        is_first_server: true
+
+- name: Distribute token to all nodes
+  hosts: all
+  tasks:
+    - name: Set token fact for all hosts
+      ansible.builtin.set_fact:
+        rke2_token: "{{ hostvars[groups['server_nodes'][0]]['rke2_token'] }}"
+
+    - name: Debug - Check token
+      ansible.builtin.debug:
+        var: rke2_token
+      when: rke2_token is defined
+
+- name: Configure remaining server nodes
+  hosts: "{{ groups['server_nodes'][1:] }}"
+  roles:
+    - role: rke2-prepare
+      vars:
+        is_first_server: false
 
 - name: Configure RKE2 agent nodes
   hosts: agent_nodes

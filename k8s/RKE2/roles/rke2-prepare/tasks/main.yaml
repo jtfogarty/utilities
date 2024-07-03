@@ -1,3 +1,20 @@
+---
+- name: Generate token on first server
+  ansible.builtin.command: rke2 token create
+  register: rke2_token_create
+  when: is_first_server | bool
+
+- name: Fetch the token from the first server node
+  ansible.builtin.slurp:
+    src: /var/lib/rancher/rke2/server/node-token
+  register: rke2_token_file
+  when: is_first_server | bool
+
+- name: Set token fact for first server
+  ansible.builtin.set_fact:
+    rke2_token: "{{ rke2_token_file['content'] | b64decode | trim }}"
+  when: is_first_server | bool
+
 - name: Create directory for RKE2 config
   ansible.builtin.file:
     path: "/etc/rancher/rke2"

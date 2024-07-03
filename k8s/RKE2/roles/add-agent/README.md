@@ -16,7 +16,7 @@ The main tasks performed by this role (as defined in `tasks/main.yaml`) are:
 The template contains:
 ```yaml
 write-kubeconfig-mode: "0644"
-token: {{ hostvars[groups['server_nodes'][0]]['token'] }}
+token: {{ rke2_token }}
 server: https://{{ vip }}:6443
 node-label:
   - "agent=true"
