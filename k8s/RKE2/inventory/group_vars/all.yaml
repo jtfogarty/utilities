@@ -14,7 +14,7 @@ lb_pool_name: "first-pool"
 #rke2_version: "v1.21.7+rke2r2"
 rke2_version: "v1.28.5+rke2r1"
 rke2_install_dir: "/usr/local/bin"
-rke2_binary_url: "https://github.com/rancher/rke2/releases/download/{{ rke2_version }}/rke2.linux-amd64"
+rke2_binary_url: "https://github.com/rancher/rke2/releases/download/{{ rke2_version }}/rke2.linux-{{ ansible_architecture }}"
 
 ansible_user: jtfogar
 ansible_become: true
