@@ -1,5 +1,5 @@
 ---
-# Create necessary directories first
+# Create necessary directories
 - name: Create directory for RKE2 config
   ansible.builtin.file:
     path: "/etc/rancher/rke2"
@@ -12,34 +12,6 @@
     state: directory
     mode: '0755'
 
-# Deploy configurations and service files
-- name: Deploy RKE2 server Configuration
-  ansible.builtin.template:
-    src: templates/rke2-server-config.j2
-    dest: /etc/rancher/rke2/config.yaml
-    owner: root
-    group: root
-    mode: '0644'
-  when: inventory_hostname in groups['server_nodes']
-
-- name: Create systemd service file for RKE2 server
-  ansible.builtin.template:
-    src: templates/rke2-server.service.j2
-    dest: /etc/systemd/system/rke2-server.service
-    owner: root
-    group: root
-    mode: '0644'
-  when: inventory_hostname in groups['server_nodes']
-
-- name: Create systemd service file for RKE2 agent
-  ansible.builtin.template:
-    src: templates/rke2-agent.service.j2
-    dest: /etc/systemd/system/rke2-agent.service
-    owner: root
-    group: root
-    mode: '0644'
-  when: inventory_hostname in groups['agent_nodes']
-
 # Start and enable RKE2 server on the first node
 - name: Ensure RKE2 server is enabled and running
   ansible.builtin.systemd:
@@ -49,6 +21,7 @@
     daemon_reload: true
   when: inventory_hostname == groups['server_nodes'][0]
 
+# Wait for and fetch the token
 - name: Wait for node-token
   ansible.builtin.wait_for:
     path: /var/lib/rancher/rke2/server/node-token
@@ -60,6 +33,7 @@
   register: rke2_token
   when: inventory_hostname == groups['server_nodes'][0]
 
+# Debug tasks for token
 - name: Debug - List contents of /var/lib/rancher/rke2/server/cred
   ansible.builtin.command: ls -la /var/lib/rancher/rke2/server/cred
   register: cred_contents
@@ -82,6 +56,7 @@
     var: token_file.files
   when: inventory_hostname == groups['server_nodes'][0]
 
+# Wait for and set token
 - name: Wait for RKE2 token file to be ready
   ansible.builtin.wait_for:
     path: "{{ token_file.files[0].path }}"
@@ -112,20 +87,47 @@
   when: 
     - inventory_hostname == groups['server_nodes'][0]
     - rke2_token is defined
-# ... (subsequent tasks remain the same)
 
-# Wait for necessary files and resources
-#- name: Wait for node-token
-#  ansible.builtin.wait_for:
-#    path: /var/lib/rancher/rke2/server/node-token
-#  when: inventory_hostname == groups['server_nodes'][0]
+# Distribute token to other nodes
+- name: Distribute RKE2 token to all nodes
+  ansible.builtin.set_fact:
+    rke2_token: "{{ hostvars[groups['server_nodes'][0]]['rke2_token'] }}"
+  when: inventory_hostname != groups['server_nodes'][0]
 
+# Deploy configurations and service files
+- name: Deploy RKE2 server Configuration
+  ansible.builtin.template:
+    src: templates/rke2-server-config.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['server_nodes']
+
+- name: Create systemd service file for RKE2 server
+  ansible.builtin.template:
+    src: templates/rke2-server.service.j2
+    dest: /etc/systemd/system/rke2-server.service
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['server_nodes']
+
+- name: Create systemd service file for RKE2 agent
+  ansible.builtin.template:
+    src: templates/rke2-agent.service.j2
+    dest: /etc/systemd/system/rke2-agent.service
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['agent_nodes']
+
+# Set up kubectl
 - name: Wait for kubectl
   ansible.builtin.wait_for:
     path: /var/lib/rancher/rke2/bin/kubectl
   when: inventory_hostname == groups['server_nodes'][0]
 
-# Set up kubectl
 - name: Copy kubectl to user bin
   ansible.builtin.copy:
     src: /var/lib/rancher/rke2/bin/kubectl
