@@ -71,7 +71,9 @@
         host: "{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}"
         port: 6443
         timeout: 300
-      delegate_to: localhost
+      delegate_to: 127.0.0.1
+      connection: local
+      become: false
 
     - name: Ensure RKE2 server is enabled and running on additional nodes
       ansible.builtin.systemd:
