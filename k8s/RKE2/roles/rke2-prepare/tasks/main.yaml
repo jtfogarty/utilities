@@ -12,23 +12,6 @@
     state: directory
     mode: '0755'
 
-# Tasks for all server nodes
-- name: Deploy RKE2 server Configuration
-  ansible.builtin.template:
-    src: templates/rke2-server-config.j2
-    dest: /etc/rancher/rke2/config.yaml
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Create systemd service file for RKE2 server
-  ansible.builtin.template:
-    src: templates/rke2-server.service.j2
-    dest: /etc/systemd/system/rke2-server.service
-    owner: root
-    group: root
-    mode: '0644'
-
 # Tasks for the first server node
 - block:
     - name: Ensure RKE2 server is enabled and running on first node
@@ -46,49 +29,40 @@
     - name: Fetch the token from the first server node
       ansible.builtin.slurp:
         src: /var/lib/rancher/rke2/server/node-token
-      register: rke2_token
+      register: rke2_token_file
 
     - name: Set token fact for first server
       ansible.builtin.set_fact:
-        rke2_token: "{{ rke2_token['content'] | b64decode | trim }}"
+        rke2_token: "{{ rke2_token_file['content'] | b64decode | trim }}"
 
     - name: Debug - Display token
       ansible.builtin.debug:
         var: rke2_token
 
-    - name: Wait for kubectl
-      ansible.builtin.wait_for:
-        path: /var/lib/rancher/rke2/bin/kubectl
-        timeout: 300
-
-    - name: Copy kubectl to user bin
-      ansible.builtin.copy:
-        src: /var/lib/rancher/rke2/bin/kubectl
-        dest: /usr/local/bin/kubectl
-        mode: '0755'
-        remote_src: true
-      become: true
-
-    - name: Wait for kubectl in user bin
-      ansible.builtin.wait_for:
-        path: /usr/local/bin/kubectl
-        timeout: 300
-
-    - name: Copy config file to user home directory
-      ansible.builtin.copy:
-        src: /etc/rancher/rke2/rke2.yaml
-        dest: "/home/{{ ansible_user }}/.kube/config"
-        remote_src: true
-        owner: "{{ ansible_user }}"
-        mode: "u=rw,g=,o="
-
-    - name: Replace IP address with server1
-      ansible.builtin.replace:
-        path: /home/{{ ansible_user }}/.kube/config
-        regexp: '127.0.0.1'
-        replace: "{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}"
-
   when: inventory_hostname == groups['server_nodes'][0]
+
+# Distribute token to all nodes
+- name: Distribute RKE2 token to all nodes
+  ansible.builtin.set_fact:
+    rke2_token: "{{ hostvars[groups['server_nodes'][0]]['rke2_token'] }}"
+  when: inventory_hostname != groups['server_nodes'][0]
+
+# Deploy configurations and service files
+- name: Deploy RKE2 server Configuration
+  ansible.builtin.template:
+    src: templates/rke2-server-config.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create systemd service file for RKE2 server
+  ansible.builtin.template:
+    src: templates/rke2-server.service.j2
+    dest: /etc/systemd/system/rke2-server.service
+    owner: root
+    group: root
+    mode: '0644'
 
 # Tasks for additional server nodes
 - block:
@@ -106,14 +80,22 @@
         state: started
         daemon_reload: true
 
-    - name: Wait for node to join the cluster
-      ansible.builtin.wait_for:
-        path: /var/lib/rancher/rke2/server/node-token
-        timeout: 300
-
   when: inventory_hostname in groups['server_nodes'][1:]
 
-# Common tasks for all nodes
+# Common tasks for all server nodes
+- name: Wait for kubectl
+  ansible.builtin.wait_for:
+    path: /var/lib/rancher/rke2/bin/kubectl
+    timeout: 300
+
+- name: Copy kubectl to user bin
+  ansible.builtin.copy:
+    src: /var/lib/rancher/rke2/bin/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+    remote_src: true
+  become: true
+
 - name: Ensure .kube directory exists in user's home
   ansible.builtin.file:
     path: "/home/{{ ansible_user }}/.kube"
@@ -121,7 +103,21 @@
     mode: '0755'
   become: true
 
-# Tasks for agent nodes
+- name: Copy config file to user home directory
+  ansible.builtin.copy:
+    src: /etc/rancher/rke2/rke2.yaml
+    dest: "/home/{{ ansible_user }}/.kube/config"
+    remote_src: true
+    owner: "{{ ansible_user }}"
+    mode: "u=rw,g=,o="
+
+- name: Replace IP address with server address
+  ansible.builtin.replace:
+    path: /home/{{ ansible_user }}/.kube/config
+    regexp: '127.0.0.1'
+    replace: "{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}"
+
+# Tasks for agent nodes (if any)
 - name: Create systemd service file for RKE2 agent
   ansible.builtin.template:
     src: templates/rke2-agent.service.j2
