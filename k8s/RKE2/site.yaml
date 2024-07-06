@@ -1,36 +1,15 @@
-# bootstraps first server and copies configs for others/agents
 ---
+# Bootstraps first server and copies configs for others/agents
 - name: Prepare all nodes
   hosts: all
   roles:
     - prepare-nodes
     - rke2-download
 
-- name: Set up first server node
-  hosts: "{{ groups['server_nodes'][0] }}"
+- name: Set up all server nodes
+  hosts: server_nodes
   roles:
     - role: rke2-prepare
-      vars:
-        is_first_server: true
-
-- name: Distribute token to all nodes
-  hosts: all
-  tasks:
-    - name: Set token fact for all hosts
-      ansible.builtin.set_fact:
-        rke2_token: "{{ hostvars[groups['server_nodes'][0]]['rke2_token'] }}"
-
-    - name: Debug - Check token
-      ansible.builtin.debug:
-        var: rke2_token
-      when: rke2_token is defined
-
-- name: Configure remaining server nodes
-  hosts: "{{ groups['server_nodes'][1:] }}"
-  roles:
-    - role: rke2-prepare
-      vars:
-        is_first_server: false
 
 - name: Configure RKE2 agent nodes
   hosts: agent_nodes
@@ -51,18 +30,13 @@
         name: kubernetes
         state: present
 
-#- name: Apply kube-vip (skip if using pfSense VIP)
-#  hosts: server_nodes
-#  roles:
-#    - kube-vip
-
 - name: Apply MetalLB manifests
-  hosts: server_nodes
+  hosts: "{{ groups['server_nodes'][0] }}"
   roles:
     - apply-manifests
 
 - name: Deploy Rancher
-  hosts: server_nodes
+  hosts: "{{ groups['server_nodes'][0] }}"
   tasks:
     - name: Create namespace for Rancher
       kubernetes.core.k8s:
@@ -76,7 +50,7 @@
     - name: Install cert-manager CRDs
       kubernetes.core.k8s:
         state: present
-        src: https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.crds.yaml
+        src: "https://github.com/cert-manager/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml"
 
     - name: Create cert-manager namespace
       kubernetes.core.k8s:
@@ -103,5 +77,5 @@
         release_namespace: cattle-system
         create_namespace: true
         values:
-          hostname: rancher.yourdomain.com
+          hostname: "{{ rancher_hostname }}"
           replicas: 3
