@@ -57,3 +57,5 @@ This role should be applied to all nodes in the cluster, with specific tasks con
 2. Consider parameterizing more values in the templates, such as the Kubernetes domain name.
 3. Add tasks to verify the successful setup of RKE2 on each node.
 4. Implement logic to handle upgrades or reconfigurations of existing setups.
+
+more updates to come
