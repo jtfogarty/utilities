@@ -12,36 +12,83 @@
     state: directory
     mode: '0755'
 
-# Tasks for the first server node
-- block:
-    - name: Ensure RKE2 server is enabled and running on first node
-      ansible.builtin.systemd:
-        name: rke2-server
-        enabled: true
-        state: started
-        daemon_reload: true
-
-    - name: Wait for node-token
-      ansible.builtin.wait_for:
-        path: /var/lib/rancher/rke2/server/node-token
-        timeout: 300
-
-    - name: Fetch the token from the first server node
-      ansible.builtin.slurp:
-        src: /var/lib/rancher/rke2/server/node-token
-      register: rke2_token_file
-
-    - name: Set token fact for first server
-      ansible.builtin.set_fact:
-        rke2_token: "{{ rke2_token_file['content'] | b64decode | trim }}"
-
-    - name: Debug - Display token
-      ansible.builtin.debug:
-        var: rke2_token
-
+# Start and enable RKE2 server on the first node
+- name: Ensure RKE2 server is enabled and running
+  ansible.builtin.systemd:
+    name: rke2-server
+    enabled: true
+    state: started
+    daemon_reload: true
   when: inventory_hostname == groups['server_nodes'][0]
 
-# Distribute token to all nodes
+# Wait for and fetch the token
+- name: Wait for node-token
+  ansible.builtin.wait_for:
+    path: /var/lib/rancher/rke2/server/node-token
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Fetch the token from the first server node
+  ansible.builtin.slurp:
+    src: /var/lib/rancher/rke2/server/node-token
+  register: rke2_token
+  when: inventory_hostname == groups['server_nodes'][0]
+
+# Debug tasks for token
+- name: Debug - List contents of /var/lib/rancher/rke2/server/cred
+  ansible.builtin.command: ls -la /var/lib/rancher/rke2/server/cred
+  register: cred_contents
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Debug - Display cred contents
+  ansible.builtin.debug:
+    var: cred_contents.stdout_lines
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Find token file in cred directory
+  ansible.builtin.find:
+    paths: /var/lib/rancher/rke2/server/cred
+    patterns: "*token*"
+  register: token_file
+  when: inventory_hostname == groups['server_nodes'][0]
+
+- name: Debug - Display found token files
+  ansible.builtin.debug:
+    var: token_file.files
+  when: inventory_hostname == groups['server_nodes'][0]
+
+# Wait for and set token
+- name: Wait for RKE2 token file to be ready
+  ansible.builtin.wait_for:
+    path: "{{ token_file.files[0].path }}"
+    state: present
+    timeout: 300
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - token_file.files | length > 0
+
+- name: Fetch the token from the cred file
+  ansible.builtin.slurp:
+    src: "{{ token_file.files[0].path }}"
+  register: rke2_token_file
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - token_file.files | length > 0
+
+- name: Set token fact for first server
+  ansible.builtin.set_fact:
+    rke2_token: "{{ rke2_token_file['content'] | b64decode | trim }}"
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - token_file.files | length > 0
+
+- name: Debug - Display token
+  ansible.builtin.debug:
+    var: rke2_token
+  when: 
+    - inventory_hostname == groups['server_nodes'][0]
+    - rke2_token is defined
+
+# Distribute token to other nodes
 - name: Distribute RKE2 token to all nodes
   ansible.builtin.set_fact:
     rke2_token: "{{ hostvars[groups['server_nodes'][0]]['rke2_token'] }}"
@@ -55,6 +102,7 @@
     owner: root
     group: root
     mode: '0644'
+  when: inventory_hostname in groups['server_nodes']
 
 - name: Create systemd service file for RKE2 server
   ansible.builtin.template:
@@ -63,32 +111,22 @@
     owner: root
     group: root
     mode: '0644'
+  when: inventory_hostname in groups['server_nodes']
 
-# Tasks for additional server nodes
-- block:
-    - name: Wait for first node to be ready
-      ansible.builtin.wait_for:
-        host: "{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}"
-        port: 6443
-        timeout: 300
-      delegate_to: 127.0.0.1
-      connection: local
-      become: false
+- name: Create systemd service file for RKE2 agent
+  ansible.builtin.template:
+    src: templates/rke2-agent.service.j2
+    dest: /etc/systemd/system/rke2-agent.service
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname in groups['agent_nodes']
 
-    - name: Ensure RKE2 server is enabled and running on additional nodes
-      ansible.builtin.systemd:
-        name: rke2-server
-        enabled: true
-        state: started
-        daemon_reload: true
-
-  when: inventory_hostname in groups['server_nodes'][1:]
-
-# Common tasks for all server nodes
+# Set up kubectl
 - name: Wait for kubectl
   ansible.builtin.wait_for:
     path: /var/lib/rancher/rke2/bin/kubectl
-    timeout: 300
+  when: inventory_hostname == groups['server_nodes'][0]
 
 - name: Copy kubectl to user bin
   ansible.builtin.copy:
@@ -97,7 +135,14 @@
     mode: '0755'
     remote_src: true
   become: true
+  when: inventory_hostname == groups['server_nodes'][0]
 
+- name: Wait for kubectl in user bin
+  ansible.builtin.wait_for:
+    path: /usr/local/bin/kubectl
+  when: inventory_hostname == groups['server_nodes'][0]
+
+# Set up kubeconfig
 - name: Ensure .kube directory exists in user's home
   ansible.builtin.file:
     path: "/home/{{ ansible_user }}/.kube"
@@ -112,19 +157,11 @@
     remote_src: true
     owner: "{{ ansible_user }}"
     mode: "u=rw,g=,o="
+  when: inventory_hostname == groups['server_nodes'][0]
 
-- name: Replace IP address with server address
+- name: Replace IP address with server1
   ansible.builtin.replace:
     path: /home/{{ ansible_user }}/.kube/config
     regexp: '127.0.0.1'
     replace: "{{ hostvars[groups['server_nodes'][0]]['ansible_host'] }}"
-
-# Tasks for agent nodes (if any)
-- name: Create systemd service file for RKE2 agent
-  ansible.builtin.template:
-    src: templates/rke2-agent.service.j2
-    dest: /etc/systemd/system/rke2-agent.service
-    owner: root
-    group: root
-    mode: '0644'
-  when: inventory_hostname in groups['agent_nodes']
+  when: inventory_hostname == groups['server_nodes'][0]
