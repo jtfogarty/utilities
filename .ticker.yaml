@@ -1,0 +1,102 @@
+show-tags: true
+show-fundamentals: true
+show-separator: true
+show-holdings: true
+interval: 5
+currency: USD
+currency-summary-only: false
+watchlist:
+  - SMLR
+  - CTARF
+colors:
+  text: "#0080ff"
+  text-light: "#b700ff"
+  text-label: "#00d7ff"
+  text-line: "#00ffff"
+  text-tag: "#005fff"
+  background-tag: "#07090a"
+lots:
+  - symbol: "SAVA"
+    quantity: 1136
+    unit_cost: 21.38
+  - symbol: "MSTR"
+    quantity: 20
+    unit_cost: 1250
+  - symbol: "USDC-USD"
+    quantity: 19821.95
+    unit_cost: 1.00
+  - symbol: "SPAXX"
+    quantity: 234292.37
+    unit_cost: 1.00
+  - symbol: "TSLA"
+    quantity: 300
+    unit_cost: 168.00
+  - symbol: "TSLA"
+    quantity: 300
+    unit_cost: 175.8650
+  - symbol: "TSLA"
+    quantity: 300
+    unit_cost: 184.7650
+  - symbol: "TSLA"
+    quantity: 185
+    unit_cost: 228.20
+  - symbol: "TSLA"
+    quantity: 475.0
+    unit_cost: 225.78
+  - symbol: "TSLA"
+    quantity: 24.0
+    unit_cost: 283.37
+    fixed_cost: 0.00 # e.g. brokerage commission fee
+  - symbol: "TSLA"
+    quantity: 280.0
+    unit_cost: 176.30
+  - symbol: "TSLA"
+    quantity: 290
+    unit_cost: 169.7873
+  - symbol: "TSLA"
+    quantity: 300
+    unit_cost: 163.93
+  - symbol: "TSLA"
+    quantity: 311
+    unit_cost: 156.89
+  - symbol: "EOSE"
+    quantity: 3900.00
+    unit_cost: 3.82
+  - symbol: "EOSE"
+    quantity: 205
+    unit_cost: 1.8066
+  - symbol: "EOSE"
+    quantity: 4500.00
+    unit_cost: 1.25
+  - symbol: "EOSE"
+    quantity: 1975.00
+    unit_cost: 1.0099
+  - symbol: "EOSE"
+    quantity: 9420.00
+    unit_cost: 1.05
+  - symbol: "EOSE"
+    unit_cost: 1.1855
+    quantity: 83000.0
+groups:
+  - name: crypto
+    watchlist:
+      - BTC-USD
+      - DOGE-USD
+      - LTC-USD
+    holdings:
+      - symbol: "BTC-USD"
+        quantity: 0.04336116
+        unit_cost: 23428.90
+      - symbol: "DOGE-USD"
+        quantity: 1161.55174489
+        unit_cost: 0.0835
+      - symbol: "LTC-USD"
+        quantity: 5.82576452
+        unit_cost: 169.13
+  - name: CleanEnergy
+    watchlist:
+      - CHPT
+      - EOSE
+      - NOVA
+      - STEM
+      - ENVX
