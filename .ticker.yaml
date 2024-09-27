@@ -16,6 +16,12 @@ colors:
   text-tag: "#005fff"
   background-tag: "#07090a"
 lots:
+  - symbol: "SGMO"
+    quantity: 40130
+    unit_cost: 1.0298
+  - symbol: "SGMO"
+    quantity: 57270
+    unit_cost: 1.06
   - symbol: "SAVA"
     quantity: 1136
     unit_cost: 21.38
@@ -26,7 +32,7 @@ lots:
     quantity: 19821.95
     unit_cost: 1.00
   - symbol: "SPAXX"
-    quantity: 234292.37
+    quantity: 131377.26
     unit_cost: 1.00
   - symbol: "TSLA"
     quantity: 300
@@ -93,6 +99,9 @@ groups:
       - symbol: "LTC-USD"
         quantity: 5.82576452
         unit_cost: 169.13
+      - symbol: "XRP-USD"
+        quantity: 1661.180971
+        unit_cost: 0.59
   - name: CleanEnergy
     watchlist:
       - CHPT
