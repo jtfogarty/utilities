@@ -1,0 +1,17 @@
+[Unit]
+Description=Dgraph Alpha Service
+After=network.target dgraph-zero.service
+Requires=dgraph-zero.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart={{ dgraph_install_dir }}/dgraph alpha --my {{ dgraph_alpha_host }}:{{ dgraph_alpha_grpc_port }} --zero 0.0.0.0:{{ dgraph_zero_grpc_port }} --lru_mb {{ dgraph_alpha_lru_mb }}
+WorkingDirectory={{ dgraph_alpha_data_dir }}
+Restart=on-failure
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

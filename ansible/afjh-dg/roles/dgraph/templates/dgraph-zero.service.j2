@@ -1,0 +1,16 @@
+[Unit]
+Description=Dgraph Zero Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart={{ dgraph_install_dir }}/dgraph zero --my 0.0.0.0:{{ dgraph_zero_grpc_port }}
+WorkingDirectory={{ dgraph_zero_data_dir }}
+Restart=on-failure
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

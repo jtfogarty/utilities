@@ -1,0 +1,22 @@
+---
+# Global settings
+os: "linux"
+arch: "amd64"
+ansible_user: "ansible"
+ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+ansible_python_interpreter: "/usr/bin/python3"
+
+# dgraph settings
+dgraph_version: "24.1.2"
+dgraph_install_dir: "/opt/dgraph"
+
+
+# dgraph zero settings
+dgraph_zero_grpc_port: 9080
+dgraph_zero_http_port: 8080
+
+# dgraph alpha settings
+dgraph_alpha_host: "0.0.0.0"
+dgraph_alpha_grpc_port: 7080
+dgraph_alpha_lru_mb: 2024
+

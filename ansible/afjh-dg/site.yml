@@ -1,0 +1,6 @@
+---
+- name: Main playbook for afjh-dg
+  hosts: server_nodes
+  become: yes
+  roles:
+    - dgraph
