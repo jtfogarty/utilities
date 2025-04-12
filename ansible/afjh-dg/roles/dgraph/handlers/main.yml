@@ -1,0 +1,16 @@
+---
+- name: Reload systemd and restart dgraph-zero
+  ansible.builtin.systemd:
+    daemon_reload: true
+    state: restarted
+    name: dgraph-zero
+  become: true
+  when: not ansible_check_mode
+
+- name: Reload systemd and restart dgraph-alpha
+  ansible.builtin.systemd:
+    daemon_reload: true
+    state: restarted
+    name: dgraph-alpha
+  become: true
+  when: not ansible_check_mode

@@ -7,16 +7,18 @@ ansible_ssh_private_key_file: "~/.ssh/id_rsa"
 ansible_python_interpreter: "/usr/bin/python3"
 
 # dgraph settings
-dgraph_version: "24.1.2"
+dgraph_version: "23.1.1"
 dgraph_install_dir: "/opt/dgraph"
 
-
 # dgraph zero settings
-dgraph_zero_grpc_port: 9080
-dgraph_zero_http_port: 8080
+dgraph_zero_host: "192.168.1.68"
+dgraph_zero_grpc_port: 5080
+dgraph_zero_data_dir: "/var/lib/dgraph/zero"
+dgraph_zero_bindall: true
+dgraph_zero_replicas: 1
 
 # dgraph alpha settings
-dgraph_alpha_host: "0.0.0.0"
-dgraph_alpha_grpc_port: 7080
-dgraph_alpha_lru_mb: 2024
-
+dgraph_alpha_host: "192.168.1.68"
+dgraph_alpha_grpc_port: 9080
+dgraph_alpha_data_dir: "/var/lib/dgraph/alpha"
+dgraph_alpha_bindall: true

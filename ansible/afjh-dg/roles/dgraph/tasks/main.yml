@@ -1,14 +1,15 @@
 ---
 - name: Ensure /opt/dgraph directory exists
-  path:
+  ansible.builtin.file:
     path: "{{ dgraph_install_dir }}"
     state: directory
     owner: "root"
     group: "root"
     mode: "0755"
+  become: true
 
-- name: Ensure /opt/dgraph/data directory exists
-  file:
+- name: Ensure /var/lib directories exist
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "root"
@@ -17,83 +18,108 @@
   loop:
     - "/var/lib/dgraph/zero"
     - "/var/lib/dgraph/alpha"
+  become: true
 
 - name: Download dgraph tarball
-  get_url:
-    url: "https://github.com/dgraph-io/dgraph/releases/download/{{ dgraph_version }}/dgraph-{{ dgraph_version }}-linux-amd64.tar.gz"
+  ansible.builtin.get_url:
+    url: "https://github.com/hypermodeinc/dgraph/releases/download/v{{ dgraph_version }}/dgraph-linux-amd64.tar.gz"
     dest: "/tmp/dgraph.tar.gz"
-    mode: "0755"
+    mode: "0644"
+  become: true
 
 - name: Extract dgraph tarball
-  unarchive:
+  ansible.builtin.unarchive:
     src: "/tmp/dgraph.tar.gz"
-    dest: "{{ dgraph_install_dir }}"
+    dest: "{{ dgraph_install_dir }}/"
     owner: "root"
     group: "root"
     mode: "0755"
     remote_src: true
-  register: extract_result
-  changed_when: extract_result.changed
+    creates: "{{ dgraph_install_dir }}/dgraph"
+  become: true
+  when: not ansible_check_mode
 
 - name: Remove dgraph tarball
-  file:
+  ansible.builtin.file:
     path: "/tmp/dgraph.tar.gz"
     state: absent
+  become: true
+
+- name: Check if dgraph binary exists
+  ansible.builtin.stat:
+    path: "{{ dgraph_install_dir }}/dgraph"
+  register: dgraph_binary
+  become: true
 
 - name: Ensure dgraph binary is executable
-  file:
+  ansible.builtin.file:
     path: "{{ dgraph_install_dir }}/dgraph"
     mode: "0755"
     owner: "root"
     group: "root"
+  become: true
+  when: dgraph_binary.stat.exists or not ansible_check_mode
 
 - name: Deploy dgraph-zero service files
-  template:
+  ansible.builtin.template:
     src: "dgraph-zero.service.j2"
     dest: "/etc/systemd/system/dgraph-zero.service"
     owner: "root"
     group: "root"
     mode: "0644"
   notify: Reload systemd and restart dgraph-zero
+  become: true
 
 - name: Deploy dgraph-alpha service files
-  template:
+  ansible.builtin.template:
     src: "dgraph-alpha.service.j2"
     dest: "/etc/systemd/system/dgraph-alpha.service"
     owner: "root"
     group: "root"
     mode: "0644"
   notify: Reload systemd and restart dgraph-alpha
+  become: true
 
 - name: Reload systemd and restart dgraph-zero
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
     state: restarted
     name: dgraph-zero
+  become: true
+  when: not ansible_check_mode
 
 - name: Reload systemd and restart dgraph-alpha
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
     state: restarted
     name: dgraph-alpha
+  become: true
+  when: not ansible_check_mode
 
 - name: Ensure dgraph-zero is running
-  systemd:
+  ansible.builtin.systemd:
     name: dgraph-zero
     state: started
+  become: true
+  when: not ansible_check_mode  # Skip in check mode
 
 - name: Ensure dgraph-alpha is running
-  systemd:
+  ansible.builtin.systemd:
     name: dgraph-alpha
     state: started
+  become: true
+  when: not ansible_check_mode  # Skip in check mode
 
 - name: Ensure dgraph-zero is enabled
-  systemd:
+  ansible.builtin.systemd:
     name: dgraph-zero
     enabled: true
+  become: true
+  when: not ansible_check_mode  # Skip in check mode
 
 - name: Ensure dgraph-alpha is enabled
-  systemd:
+  ansible.builtin.systemd:
     name: dgraph-alpha
     enabled: true
-
+  become: true
+  when: not ansible_check_mode  # Skip in check mode
