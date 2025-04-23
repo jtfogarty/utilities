@@ -1,0 +1,15 @@
+[Unit]
+Description=Airflow Scheduler
+After=network.target
+
+[Service]
+User={{ airflow_user }}
+Group={{ airflow_group }}
+Environment=AIRFLOW_HOME={{ airflow_home }}
+Environment=AIRFLOW__DATABASE__SQL_ALCHEMY_CONN={{ airflow_sql_alchemy_conn }}
+ExecStart={{ venv_path }}/bin/airflow scheduler
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

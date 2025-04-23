@@ -1,0 +1,14 @@
+[Unit] 
+Description=KùzuDB Graph Database Service 
+After=network.target
+
+[Service] 
+Type=simple User={{ kuzu_user }} 
+Group={{ kuzu_user }} 
+ExecStart={{ kuzu_install_dir }}/bin/kuzu --port {{ kuzu_port }} {{ kuzu_data_dir }}/kuzudb 
+Restart=always 
+RestartSec=10 
+WorkingDirectory={{ kuzu_data_dir }}
+
+[Install] 
+WantedBy=multi-user.target

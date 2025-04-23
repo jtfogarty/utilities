@@ -1,0 +1,101 @@
+---
+- name: Ensure required system packages are installed
+  ansible.builtin.dnf:
+    name:
+      - python{{ python_version }}
+      - python{{ python_version }}-devel
+      - python{{ python_version }}-pip
+      - gcc
+      - make
+      - libpq-devel
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'RedHat'
+
+- name: Create Airflow system group
+  ansible.builtin.group:
+    name: "{{ airflow_group }}"
+    state: present
+
+- name: Create Airflow system user
+  ansible.builtin.user:
+    name: "{{ airflow_user }}"
+    group: "{{ airflow_group }}"
+    system: true
+    create_home: false
+    home: "{{ airflow_home }}"
+    shell: /bin/bash
+
+- name: Create Airflow directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ airflow_user }}"
+    group: "{{ airflow_group }}"
+    mode: "0755"
+  loop:
+    - "{{ airflow_home }}"
+    - "{{ airflow_logs_path }}"
+    - "{{ airflow_dags_path }}"
+    - "{{ airflow_plugins_path }}"
+
+- name: Create Airflow virtual environment
+  ansible.builtin.command:
+    cmd: "python{{ python_version }} -m venv {{ venv_path }}"
+    creates: "{{ venv_path }}/bin/activate"
+  become_user: "{{ airflow_user }}"
+
+- name: Install Airflow with specific extras and constraints
+  ansible.builtin.pip:
+    name: "apache-airflow[postgres,apache-kafka,amazon,http,oracle]=={{ airflow_version }}"
+    virtualenv: "{{ venv_path }}"
+    extra_args: '--constraint "https://raw.githubusercontent.com/apache/airflow/constraints-{{ airflow_version }}/constraints-{{ python_version }}.txt"'
+  become_user: "{{ airflow_user }}"
+
+- name: Generate Airflow configuration file
+  ansible.builtin.template:
+    src: "airflow.cfg.j2"
+    dest: "{{ airflow_config_path }}"
+    owner: "{{ airflow_user }}"
+    group: "{{ airflow_group }}"
+    mode: "0644"
+  become_user: "{{ airflow_user }}"
+  notify: Restart Airflow services
+
+- name: Initialize Airflow database
+  ansible.builtin.command:
+    cmd: "{{ venv_path }}/bin/airflow db init"
+    environment:
+      AIRFLOW_HOME: "{{ airflow_home }}"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "{{ airflow_sql_alchemy_conn }}"
+    creates: "{{ airflow_home }}/airflow.db"
+  become_user: "{{ airflow_user }}"
+  register: airflow_db_init
+  changed_when: airflow_db_init.rc == 0
+
+- name: Create Airflow systemd service for webserver
+  ansible.builtin.template:
+    src: "airflow-webserver.service.j2"
+    dest: "/etc/systemd/system/airflow-webserver.service"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: Reload systemd
+
+- name: Create Airflow systemd service for scheduler
+  ansible.builtin.template:
+    src: "airflow-scheduler.service.j2"
+    dest: "/etc/systemd/system/airflow-scheduler.service"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: Reload systemd
+
+- name: Enable and start Airflow systemd services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - airflow-webserver
+    - airflow-scheduler

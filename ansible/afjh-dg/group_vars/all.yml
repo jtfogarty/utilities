@@ -6,6 +6,39 @@ ansible_user: "ansible"
 ansible_ssh_private_key_file: "~/.ssh/id_rsa"
 ansible_python_interpreter: "/usr/bin/python3"
 
+# Airflow settings
+airflow_version: "2.9.3"  # Specify your desired Airflow version
+python_version: "3.9"     # Python version for virtual environment
+airflow_user: "airflow"
+airflow_group: "airflow"
+airflow_home: "/opt/airflow"
+venv_path: "{{ airflow_home }}/venv"
+airflow_config_path: "{{ airflow_home }}/airflow.cfg"
+airflow_logs_path: "{{ airflow_home }}/logs"
+airflow_dags_path: "{{ airflow_home }}/dags"
+airflow_plugins_path: "{{ airflow_home }}/plugins"
+
+# KùzuDB on Rocky Linux
+kuzu_user: "kuzu"
+kuzu_version: "0.9.0"
+kuzu_download_url: "https://github.com/kuzudb/kuzu/releases/download/v{{ kuzu_version }}/kuzu_cli-linux-x86_64.tar.gz"
+kuzu_install_dir: "/opt/kuzu"
+kuzu_service_name: "kuzudb"
+kuzu_data_dir: "{{ kuzu_install_dir }}/data"
+kuzu_port: 1664
+
+# External database settings (example for PostgreSQL)
+airflow_db:
+  engine: "postgresql"
+  host: "your-db-host"  # Replace with your DB host
+  port: "5432"
+  name: "airflow"
+  user: "airflow"
+  password: "your-secure-password"  # Replace with secure password
+
+# Airflow connection string
+airflow_sql_alchemy_conn: "{{ airflow_db.engine }}://{{ airflow_db.user }}:{{ airflow_db.password }}@{{ airflow_db.host }}:{{ airflow_db.port }}/{{ airflow_db.name }}"
+
 # dgraph settings
 dgraph_version: "23.1.1"
 dgraph_install_dir: "/opt/dgraph"

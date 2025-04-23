@@ -1,0 +1,97 @@
+---
+- name: Ensure tar is installed
+  ansible.builtin.dnf:
+    name: tar
+    state: present
+
+- name: Create kuzu user if kuzu_user is not root
+  ansible.builtin.user:
+    name: "{{ kuzu_user }}"
+    system: true
+    create_home: false
+    shell: /sbin/nologin
+    state: present
+  when: kuzu_user != "root"
+
+- name: Create KùzuDB installation directory
+  ansible.builtin.file:
+    path: "{{ kuzu_install_dir }}"
+    state: directory
+    owner: "{{ kuzu_user }}"
+    group: "{{ kuzu_user }}"
+    mode: "0755"
+
+- name: Create KùzuDB data directory
+  ansible.builtin.file:
+    path: "{{ kuzu_data_dir }}"
+    state: directory
+    owner: "{{ kuzu_user }}"
+    group: "{{ kuzu_user }}"
+    mode: "0755"
+
+- name: Download KùzuDB CLI binary
+  ansible.builtin.get_url:
+    url: "{{ kuzu_download_url }}"
+    dest: "/tmp/kuzu_cli-{{ kuzu_version }}.tar.gz"
+    mode: "0644"
+
+- name: Create KùzuDB bin directory
+  ansible.builtin.file:
+    path: "{{ kuzu_install_dir }}/bin"
+    state: directory
+    owner: "{{ kuzu_user }}"
+    group: "{{ kuzu_user }}"
+    mode: "0755"
+
+- name: Download KùzuDB CLI binary
+  ansible.builtin.get_url:
+    url: "{{ kuzu_download_url }}"
+    dest: "/tmp/kuzu_cli-{{ kuzu_version }}.tar.gz"
+    mode: "0644"
+
+- name: Extract KùzuDB CLI binary
+  ansible.builtin.unarchive:
+    src: "/tmp/kuzu_cli-{{ kuzu_version }}.tar.gz"
+    dest: "{{ kuzu_install_dir }}/bin"
+    creates: "{{ kuzu_install_dir }}/bin/kuzu"
+    remote_src: true
+    owner: "{{ kuzu_user }}"
+    group: "{{ kuzu_user }}"
+    mode: "0755"
+
+- name: Extract KùzuDB CLI binary
+  ansible.builtin.unarchive:
+    src: "/tmp/kuzu_cli-{{ kuzu_version }}.tar.gz"
+    dest: "{{ kuzu_install_dir }}/bin"
+    creates: "{{ kuzu_install_dir }}/bin/kuzu"
+    remote_src: true
+    owner: "{{ kuzu_user }}"
+    group: "{{ kuzu_user }}"
+    mode: "0755"
+
+- name: Ensure KùzuDB binary is executable
+  ansible.builtin.file:
+    path: "{{ kuzu_install_dir }}/bin/kuzu"
+    owner: "{{ kuzu_user }}"
+    group: "{{ kuzu_user }}"
+    mode: "0755"
+
+- name: Create KùzuDB systemd service file
+  ansible.builtin.template:
+    src: kuzudb.service.j2
+    dest: "/etc/systemd/system/{{ kuzu_service_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload systemd
+
+- name: Ensure KùzuDB service is enabled and started
+  ansible.builtin.systemd:
+    name: "{{ kuzu_service_name }}"
+    enabled: true
+    state: started
+
+- name: Clean up downloaded tar.gz file
+  ansible.builtin.file:
+    path: "/tmp/kuzu_cli-{{ kuzu_version }}.tar.gz"
+    state: absent

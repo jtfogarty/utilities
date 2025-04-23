@@ -3,4 +3,5 @@
   hosts: server_nodes
   become: yes
   roles:
-    - dgraph
+    - kuzudb
+  
