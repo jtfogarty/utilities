@@ -1,0 +1,18 @@
+[Install]
+WantedBy=multi-user.target[root@syn-2600-6c40-0500-0e44-0000-0000-0000-1255 log]# cat /etc/systemd/system/dgraph-alpha.servic
+
+[Unit]
+Description=Dgraph Zero Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/opt/dgraph/dgraph zero --my localhost:5080
+Restart=on-failure
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

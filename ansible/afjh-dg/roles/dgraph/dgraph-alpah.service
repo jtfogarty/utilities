@@ -1,0 +1,14 @@
+[Unit]
+Description=Dgraph Alpha Service
+After=network.target dgraph-zero.service
+Requires=dgraph-zero.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/opt/dgraph/dgraph alpha --my localhost:9080 --zero localhost:5080
+Restart=on-failure
+StandardOutput=journal
+StandardError=journal
+
