@@ -57,7 +57,7 @@ Thumbs.db
 secrets.yml
 *vault.yml
 *vault.yaml
-*.zip
+#*.zip
 
 # Playbook retry files
 *.retry
