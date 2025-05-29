@@ -1,388 +1,214 @@
-Thank you for the clarification! Since you're in an on-premises environment and want to focus on installing your company's SSL certificates (CA2.crt, Root certificate authority.crt, server-specific .crt, server-specific .pem, and .key file) on the single server running Airflow, I'll create an Ansible role to manage these certificates and update the Airflow configuration to reference them. This will avoid LDAP-related configurations and focus solely on certificate installation and HTTPS setup for the Airflow webserver using port **443** via an Nginx reverse proxy, as recommended in my previous response for security and best practices.
+I’ll help you create Ansible files to upload and install certificates on a Red Hat Linux server for your Airflow setup. Based on your requirements, you need to handle the following certificates:
 
-### Key Points and Assumptions
-- **Certificates Provided**: You have:
-  - `CA2.crt`: Intermediate CA certificate.
-  - `Root certificate authority.crt`: Root CA certificate.
-  - Server-specific `.crt` (e.g., `airflow-server.crt`): Server certificate.
-  - Server-specific `.pem` (e.g., `airflow-server.pem`): Likely a duplicate of the server certificate or a combined certificate chain.
-  - Server-specific `.key` (e.g., `airflow-server.key`): Private key for the server certificate.
-- **Goal**: Install these certificates on the Airflow server, configure Nginx to use them for HTTPS on port **443**, and ensure Airflow’s webserver (running on **8080** internally) is accessible via HTTPS.
-- **Environment**: On-premises, single server running Linux (RedHat-based, as per `ansible_os_family == 'RedHat'` in `airflow-main.yml`).
-- **Port**: Use **443** for external HTTPS access via Nginx, with Airflow internally on **8080** (consistent with your original `af-web.j2` and `af-cfg.j2`).
-- **Ansible Role**: Create a new role (`airflow-certificates`) to handle certificate installation, separate from the Airflow setup for modularity.
-- **Airflow Configuration**: Update `airflow.cfg.j2` to reflect the HTTPS `base_url` on **443**, with Nginx handling SSL termination.
-- **Previous Changes**: Assume the `Wants=postgresql.service` removal and remote database host updates from my previous responses are applied (e.g., `airflow_db_host` in `all.yaml`). If not, I’ll include relevant updates.
-- **File Naming**: For clarity, I’ll assume the server-specific files are named `airflow-server.crt`, `airflow-server.pem`, and `airflow-server.key`. Adjust these in the Ansible variables if different.
+- `CA2.crt` (company’s issuing CA certificate)
+- `authority.crt` (root CA certificate)
+- `authority.key` (root CA private key)
+- `<server>.crt` (server-specific certificate for Airflow)
+- `<server>.pem` (server-specific PEM file, assumed to be the private key or combined certificate/key)
 
-### Solution Overview
-1. **Ansible Role (`airflow-certificates`)**: 
-   - Install the certificates in standard locations (e.g., `/etc/ssl/certs` for certificates, `/etc/ssl/private` for the key).
-   - Combine the server certificate, intermediate CA, and root CA into a certificate chain file (e.g., `airflow-server-chain.crt`) for Nginx.
-   - Ensure proper permissions (e.g., key readable by `airflow` group).
-2. **Nginx Configuration**: 
-   - Reuse the `nginx-config.yml` playbook and `nginx-airflow.conf.j2` from my previous response, updated to reference the certificate chain and key.
-   - Proxy HTTPS traffic from **443** to Airflow on **8080**.
-3. **Airflow Configuration**: 
-   - Update `af-cfg.j2` to set `base_url = https://<server-hostname>:443`.
-   - Keep `web_server_port = 8080` since Nginx handles SSL.
-4. **Updated `all.yaml`**: 
-   - Add variables for certificate paths and server hostname.
-   - Ensure compatibility with existing Airflow settings.
+You’ve specified a role directory called `certificates` with a `files` folder for certificates and a `tasks` folder for `main.yml`. I’ll outline the necessary Ansible files, including the role structure, and provide the `main.yml` task file to upload and install the certificates. I’ll also list any additional files needed and make assumptions where necessary, ensuring compatibility with Red Hat Linux.
 
----
+### Assumptions
+- The certificates will be stored in the `certificates/files/` directory within the role.
+- The server-specific certificate and PEM files are named `airflow_server.crt` and `airflow_server.pem` (replace with actual names in your variables).
+- Certificates will be installed to standard locations (e.g., `/etc/pki/tls/certs/` for certificates and `/etc/pki/tls/private/` for private keys).
+- The root CA certificate (`authority.crt`) and issuing CA certificate (`CA2.crt`) need to be trusted by the system, which involves updating the system’s CA trust store.
+- The `authority.key` and `airflow_server.pem` (if it’s a private key) require secure permissions (e.g., `0600`, owned by `root`).
+- The Airflow server requires the server-specific certificate and key to be placed in a directory accessible to the Airflow process (e.g., `/etc/airflow/certs/`).
+- You’re using a Red Hat-based system (e.g., RHEL, CentOS), so we’ll use `update-ca-trust` to manage trusted CAs.
+- The `group_vars/all.yaml` file contains variables like certificate file names, destination paths, or Airflow user/group if needed.
 
-### Updated and New Ansible Files
+### Role Structure
+The role will be structured as follows:
 
-Below are the necessary files, organized as an Ansible role (`airflow-certificates`) and updates to existing files. All certificate paths are parameterized, and the setup assumes Nginx as the reverse proxy. Artifacts are wrapped in `<xaiArtifact>` tags with UUIDs, reusing UUIDs from previous responses where applicable and generating new ones for the role.
-
-#### 1. Updated `all.yaml` (Add Certificate and Hostname Variables)
-
-Update `all.yaml` to include variables for the certificate files, certificate chain, and server hostname. This assumes the remote database host is already set (e.g., `airflow_db_host`).
-
-
----
-# Global settings
-os: "linux"
-arch: "amd64"
-ansible_user: "ansible"
-ansible_ssh_private_key_file: "~/.ssh/id_rsa"
-ansible_python_interpreter: "/usr/bin/python3"
-
-# PyEnv settings
-pyenv_user: pyenv
-pyenv_group: pyenv
-pyenv_root: "/opt/pyenv"
-pyenv_shims: "{{ pyenv_root }}/shims"
-python_version: "3.9.16"
-
-# Airflow settings
-airflow_version: "2.9.3"
-airflow_user: "airflow"
-airflow_group: "airflow"
-airflow_home: "/opt/airflow-{{ airflow_version }}"
-airflow_symlink: "/opt/airflow"
-venv_name: "airflow-{{ airflow_version }}"
-airflow_config_path: "{{ airflow_home }}/airflow.cfg"
-airflow_logs_path: "{{ airflow_home }}/logs"
-airflow_dags_path: "{{ airflow_home }}/dags"
-airflow_plugins_path: "{{ airflow_home }}/plugins"
-airflow_db_host: "db.example.com"  # Replace with your remote DB host
-airflow_sql_alchemy_conn: "postgresql+psycopg2://airflow:password@{{ airflow_db_host }}:5432/airflow"
-
-# Certificate settings
-airflow_server_hostname: "airflow.example.com"  # Replace with your server's hostname
-airflow_cert_root_ca: "/etc/ssl/certs/root-ca.crt"
-airflow_cert_intermediate_ca: "/etc/ssl/certs/ca2.crt"
-airflow_cert_server_crt: "/etc/ssl/certs/airflow-server.crt"
-airflow_cert_server_pem: "/etc/ssl/certs/airflow-server.pem"
-airflow_cert_server_key: "/etc/ssl/private/airflow-server.key"
-airflow_cert_chain: "/etc/ssl/certs/airflow-server-chain.crt"
-
-
-**Changes**:
-- Added `airflow_server_hostname` for the `base_url` and Nginx `server_name`.
-- Added certificate paths (`airflow_cert_root_ca`, `airflow_cert_intermediate_ca`, etc.).
-- Added `airflow_cert_chain` for the combined certificate chain used by Nginx.
-- Kept existing Airflow and database settings, assuming `airflow_db_host` is set correctly.
-
-#### 2. Updated `af-cfg.j2` (Use HTTPS on 443)
-
-Update `airflow.cfg.j2` to set the `base_url` to **443** via the reverse proxy, using the parameterized hostname.
-
-
-[core]
-executor = SequentialExecutor
-dags_folder = {{ airflow_dags_path }}
-plugins_folder = {{ airflow_plugins_path }}
-base_log_folder = {{ airflow_logs_path }}
-sql_alchemy_conn = {{ airflow_sql_alchemy_conn }}
-load_examples = False
-
-[logging]
-base_log_folder = {{ airflow_logs_path }}
-logging_level = INFO
-
-[webserver]
-base_url = https://{{ airflow_server_hostname }}:443
-web_server_port = 8080
-
-[scheduler]
-run_duration = -1
-min_file_process_interval = 0
-dag_dir_list_interval = 300
-
-
-**Changes**:
-- Changed `base_url` to `https://{{ airflow_server_hostname }}:443`.
-- Kept `web_server_port = 8080` for Airflow’s internal listener.
-- Removed `web_server_ssl_cert`, `web_server_ssl_key`, and `rbac` (since LDAP is not needed).
-
-#### 3. New Ansible Role: `airflow-certificates`
-
-Create a new Ansible role to manage certificate installation. The role will:
-- Copy the root CA, intermediate CA, server certificate, server PEM, and server key to the server.
-- Combine the server certificate, intermediate CA, and root CA into a chain file.
-- Set appropriate permissions.
-
-**Directory Structure**:
 ```
 roles/
-  airflow-certificates/
+  certificates/
+    files/
+      CA2.crt
+      authority.crt
+      authority.key
+      airflow_server.crt
+      airflow_server.pem
     tasks/
       main.yml
-    files/
-      root-ca.crt
-      ca2.crt
-      airflow-server.crt
-      airflow-server.pem
-      airflow-server.key
+    templates/  (optional, not used here unless needed for configuration files)
+    defaults/   (optional, for default variables)
+      main.yml
 ```
 
-##### `roles/airflow-certificates/tasks/main.yml`
+### Files Needed
+1. **Role Files**:
+   - `roles/certificates/files/CA2.crt`: The issuing CA certificate.
+   - `roles/certificates/files/authority.crt`: The root CA certificate.
+   - `roles/certificates/files/authority.key`: The root CA private key.
+   - `roles/certificates/files/airflow_server.crt`: The server-specific certificate.
+   - `roles/certificates/files/airflow_server.pem`: The server-specific PEM file.
+   - `roles/certificates/tasks/main.yml`: The main task file to upload and install certificates.
+   - `roles/certificates/defaults/main.yml` (optional): Default variables for the role, in case `group_vars/all.yaml` doesn’t cover everything.
 
-This defines the tasks to install and combine certificates.
+2. **Existing Files (Assumed)**:
+   - `inventory`: Your inventory file defining the target Red Hat server(s).
+   - `site.yml`: The playbook that calls the `certificates` role.
+   - `group_vars/all.yaml`: Contains variables like certificate paths or Airflow-specific settings.
 
+3. **Additional Files**:
+   - No additional files are strictly required beyond the role structure, as templates or handlers are not needed for this straightforward task. However, I’ll include a `defaults/main.yml` to define default paths and permissions, which can be overridden in `group_vars/all.yaml`.
 
+### Ansible Tasks Overview
+The `main.yml` will:
+- Create destination directories (e.g., `/etc/pki/tls/certs/`, `/etc/pki/tls/private/`, `/etc/airflow/certs/`).
+- Upload the certificates and keys to the appropriate locations.
+- Set correct ownership and permissions (e.g., `root:root`, `0644` for certificates, `0600` for private keys).
+- Install the root CA (`authority.crt`) and issuing CA (`CA2.crt`) into the system’s CA trust store.
+- Update the CA trust store using `update-ca-trust`.
+- Ensure the Airflow-specific certificates are accessible to the Airflow process.
+
+### Variables
+I’ll define default variables in `roles/certificates/defaults/main.yml` for flexibility. You can override these in `group_vars/all.yaml` if needed.
+
+### Ansible Files
+
+#### 1. `roles/certificates/defaults/main.yml`
+This file defines default variables for certificate paths, ownership, and permissions.
+
+```yaml
+# Default variables for the certificates role
+cert_dir: /etc/pki/tls/certs
+key_dir: /etc/pki/tls/private
+airflow_cert_dir: /etc/airflow/certs
+cert_owner: root
+cert_group: root
+cert_mode: "0644"
+key_mode: "0600"
+airflow_user: airflow
+airflow_group: airflow
+
+# Certificate file names (can be overridden in group_vars)
+ca_cert_file: authority.crt
+ca_key_file: authority.key
+issuing_ca_file: CA2.crt
+server_cert_file: airflow_server.crt
+server_pem_file: airflow_server.pem
+```
+
+#### 2. `roles/certificates/tasks/main.yml`
+This file contains the tasks to upload and install the certificates.
+
+```yaml
 ---
-- name: Ensure SSL certificate directory exists
+- name: Ensure certificate directories exist
   ansible.builtin.file:
-    path: "/etc/ssl/certs"
+    path: "{{ item }}"
     state: directory
-    owner: root
-    group: root
-    mode: '0755'
+    owner: "{{ cert_owner }}"
+    group: "{{ cert_group }}"
+    mode: "0755"
+  loop:
+    - "{{ cert_dir }}"
+    - "{{ key_dir }}"
+    - "{{ airflow_cert_dir }}"
 
-- name: Ensure SSL private key directory exists
-  ansible.builtin.file:
-    path: "/etc/ssl/private"
-    state: directory
-    owner: root
+- name: Upload root CA certificate
+  ansible.builtin.copy:
+    src: "{{ ca_cert_file }}"
+    dest: "{{ cert_dir }}/{{ ca_cert_file }}"
+    owner: "{{ cert_owner }}"
+    group: "{{ cert_group }}"
+    mode: "{{ cert_mode }}"
+  notify: Update CA trust
+
+- name: Upload issuing CA certificate
+  ansible.builtin.copy:
+    src: "{{ issuing_ca_file }}"
+    dest: "{{ cert_dir }}/{{ issuing_ca_file }}"
+    owner: "{{ cert_owner }}"
+    group: "{{ cert_group }}"
+    mode: "{{ cert_mode }}"
+  notify: Update CA trust
+
+- name: Upload root CA private key
+  ansible.builtin.copy:
+    src: "{{ ca_key_file }}"
+    dest: "{{ key_dir }}/{{ ca_key_file }}"
+    owner: "{{ cert_owner }}"
+    group: "{{ cert_group }}"
+    mode: "{{ key_mode }}"
+
+- name: Upload server certificate for Airflow
+  ansible.builtin.copy:
+    src: "{{ server_cert_file }}"
+    dest: "{{ airflow_cert_dir }}/{{ server_cert_file }}"
+    owner: "{{ airflow_user }}"
     group: "{{ airflow_group }}"
-    mode: '0750'
+    mode: "{{ cert_mode }}"
 
-- name: Copy root CA certificate
+- name: Upload server PEM file for Airflow
   ansible.builtin.copy:
-    src: "root-ca.crt"
-    dest: "{{ airflow_cert_root_ca }}"
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Copy intermediate CA certificate
-  ansible.builtin.copy:
-    src: "ca2.crt"
-    dest: "{{ airflow_cert_intermediate_ca }}"
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Copy server certificate
-  ansible.builtin.copy:
-    src: "airflow-server.crt"
-    dest: "{{ airflow_cert_server_crt }}"
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Copy server PEM certificate
-  ansible.builtin.copy:
-    src: "airflow-server.pem"
-    dest: "{{ airflow_cert_server_pem }}"
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Copy server private key
-  ansible.builtin.copy:
-    src: "airflow-server.key"
-    dest: "{{ airflow_cert_server_key }}"
-    owner: root
+    src: "{{ server_pem_file }}"
+    dest: "{{ airflow_cert_dir }}/{{ server_pem_file }}"
+    owner: "{{ airflow_user }}"
     group: "{{ airflow_group }}"
-    mode: '0640'
+    mode: "{{ key_mode }}"
 
-- name: Create certificate chain
-  ansible.builtin.shell:
-    cmd: cat {{ airflow_cert_server_crt }} {{ airflow_cert_intermediate_ca }} {{ airflow_cert_root_ca }} > {{ airflow_cert_chain }}
-    creates: "{{ airflow_cert_chain }}"
-  changed_when: true
+- name: Copy CA certificates to system trust store
+  ansible.builtin.copy:
+    src: "{{ cert_dir }}/{{ item }}"
+    dest: /etc/pki/ca-trust/source/anchors/{{ item }}
+    owner: "{{ cert_owner }}"
+    group: "{{ cert_group }}"
+    mode: "{{ cert_mode }}"
+  loop:
+    - "{{ ca_cert_file }}"
+    - "{{ issuing_ca_file }}"
+  notify: Update CA trust
 
+- name: Ensure CA trust is updated
+  ansible.builtin.meta: flush_handlers
 
-**Notes**:
-- Certificates are stored in `roles/airflow-certificates/files/` on the Ansible control node.
-- The chain file combines `airflow-server.crt`, `ca2.crt`, and `root-ca.crt` in that order (server cert first, then intermediates, then root).
-- The private key is readable by the `airflow` group, as Nginx may run as a user in this group (adjusted below).
+# Handler to update CA trust
+handlers:
+  - name: Update CA trust
+    ansible.builtin.command:
+      cmd: update-ca-trust extract
+    changed_when: true
+```
 
-##### Certificate Files
+### Explanation of Tasks
+1. **Create Directories**: Ensures `/etc/pki/tls/certs`, `/etc/pki/tls/private`, and `/etc/airflow/certs` exist with appropriate permissions.
+2. **Upload Certificates**:
+   - Root CA (`authority.crt`) and issuing CA (`CA2.crt`) are uploaded to `/etc/pki/tls/certs`.
+   - Root CA private key (`authority.key`) is uploaded to `/etc/pki/tls/private` with `0600` permissions.
+   - Server certificate (`airflow_server.crt`) and PEM file (`airflow_server.pem`) are uploaded to `/etc/airflow/certs` with ownership set to the Airflow user/group.
+3. **Trust CA Certificates**:
+   - Copies `authority.crt` and `CA2.crt` to `/etc/pki/ca-trust/source/anchors/` to be included in the system’s trust store.
+   - Triggers the `update-ca-trust extract` command via a handler to update the trust store.
+4. **Handler**: Runs `update-ca-trust extract` only when CA certificates are modified.
 
-Place the following files in `roles/airflow-certificates/files/`:
-- `root-ca.crt`
-- `ca2.crt`
-- `airflow-server.crt`
-- `airflow-server.pem`
-- `airflow-server.key`
+### Additional Notes
+- **Certificate Files**: Place `CA2.crt`, `authority.crt`, `authority.key`, `airflow_server.crt`, and `airflow_server.pem` in `roles/certificates/files/`. Ensure the filenames match those defined in `group_vars/all.yaml` or `defaults/main.yml`.
+- **group_vars/all.yaml**: If you define variables like `server_cert_file` or `airflow_user` in `group_vars/all.yaml`, they’ll override the defaults. Example:
+  ```yaml
+  server_cert_file: my_airflow_server.crt
+  server_pem_file: my_airflow_server.pem
+  airflow_user: custom_airflow
+  airflow_group: custom_airflow
+  ```
+- **site.yml**: Ensure your `site.yml` includes the `certificates` role, e.g.:
+  ```yaml
+  - hosts: airflow_servers
+    roles:
+      - certificates
+  ```
+- **Permissions**: The Airflow certificates are owned by the `airflow` user/group for accessibility. Adjust if Airflow runs as a different user.
+- **Security**: Private keys (`authority.key`, `airflow_server.pem`) are set to `0600` to prevent unauthorized access.
+- **Red Hat Compatibility**: The `update-ca-trust` command is specific to RHEL-based systems. If using a different distribution, you may need to modify the CA trust tasks.
 
-If your files have different names, update the `src` fields in `main.yml` or rename the files to match.
+### How to Use
+1. Create the `certificates` role directory under `roles/`.
+2. Place the certificate files in `roles/certificates/files/`.
+3. Add the provided `defaults/main.yml` and `tasks/main.yml` to their respective directories.
+4. Ensure your `site.yml` playbook applies the `certificates` role to the target hosts.
+5. Run the playbook: `ansible-playbook -i inventory site.yml`.
 
-#### 4. Updated `nginx-config.yml` (Use Certificate Chain)
-
-Update the Nginx playbook to use the certificate chain and private key. This is similar to my previous response but tailored to the new certificate variables.
-
-
----
-- name: Configure Nginx as reverse proxy for Airflow
-  hosts: airflow
-  become: yes
-  vars_files:
-    - all.yaml
-  tasks:
-    - name: Install Nginx
-      ansible.builtin.dnf:
-        name: nginx
-        state: present
-        update_cache: true
-      when: ansible_os_family == 'RedHat'
-
-    - name: Configure Nginx for Airflow
-      ansible.builtin.template:
-        src: "nginx-airflow.conf.j2"
-        dest: "/etc/nginx/conf.d/airflow.conf"
-        owner: root
-        group: root
-        mode: '0644'
-      notify: Reload Nginx
-
-    - name: Ensure Nginx is enabled and started
-      ansible.builtin.systemd:
-        name: nginx
-        enabled: true
-        state: started
-
-  handlers:
-    - name: Reload Nginx
-      ansible.builtin.systemd:
-        name: nginx
-        state: reloaded
-
-
-**Changes**:
-- Removed certificate copy tasks, as they’re handled by the `airflow-certificates` role.
-- Kept the Nginx configuration template and service management.
-
-#### 5. Updated `nginx-airflow.conf.j2` (Reference Certificate Chain)
-
-Update the Nginx configuration to use the certificate chain and private key.
-
-
-server {
-    listen 443 ssl;
-    server_name {{ airflow_server_hostname }};
-
-    ssl_certificate {{ airflow_cert_chain }};
-    ssl_certificate_key {{ airflow_cert_server_key }};
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-
-    location / {
-        proxy_pass http://localhost:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-
-server {
-    listen 80;
-    server_name {{ airflow_server_hostname }};
-    return 301 https://$host$request_uri;
-}
-
-
-**Changes**:
-- Changed `server_name` to `{{ airflow_server_hostname }}`.
-- Set `ssl_certificate` to `{{ airflow_cert_chain }}`.
-- Set `ssl_certificate_key` to `{{ airflow_cert_server_key }}`.
-
----
-
-### How to Apply These Changes
-
-1. **Prepare Certificates**:
-   - Place `root-ca.crt`, `ca2.crt`, `airflow-server.crt`, `airflow-server.pem`, and `airflow-server.key` in `roles/airflow-certificates/files/`.
-   - If your certificate files have different names, update the `src` fields in `roles/airflow-certificates/tasks/main.yml` or rename the files.
-
-2. **Update Existing Files**:
-   - Replace `all.yaml`, `af-cfg.j2`, `nginx-config.yml`, and `nginx-airflow.conf.j2` with the versions above.
-   - Ensure `af-web.j2` and `af-svr.j2` are updated to remove `Wants=postgresql.service` (as per my previous response).
-
-3. **Create the `airflow-certificates` Role**:
-   - Create the directory structure `roles/airflow-certificates/`.
-   - Add `tasks/main.yml` and the certificate files in `files/`.
-
-4. **Run Playbooks**:
-   - Run the certificate role to install certificates:
-     ```bash
-     ansible-playbook -i inventory.yml -e "role=airflow-certificates" site.yml
-     ```
-     (Assuming a `site.yml` playbook like below.)
-   - Run the main Airflow playbook to update `airflow.cfg`:
-     ```bash
-     ansible-playbook airflow-main.yml
-     ```
-   - Run the Nginx playbook to configure the reverse proxy:
-     ```bash
-     ansible-playbook nginx-config.yml
-     ```
-
-5. **Sample `site.yml` for Role Execution**:
-   Create a `site.yml` to apply the `airflow-certificates` role:
-   ```yaml
-   ---
-   - hosts: airflow
-     roles:
-       - "{{ role }}"
-   ```
-
-6. **Verify**:
-   - Access Airflow at `https://<your-server-hostname>` (e.g., `https://airflow.example.com`).
-   - Check Nginx logs (`/var/log/nginx/error.log`) for certificate issues.
-   - Verify Airflow logs (`/opt/airflow-2.9.3/logs`) for connectivity.
-   - Ensure your browser trusts the certificate (the root and intermediate CAs should be in the client’s trust store).
-
-7. **Firewall**:
-   - Open ports **443** and **80**:
-     ```bash
-     sudo firewall-cmd --add-port=443/tcp --permanent
-     sudo firewall-cmd --add-port=80/tcp --permanent
-     sudo firewall-cmd --reload
-     ```
-
----
-
-### Notes and Assumptions
-
-- **Certificate Files**:
-  - The `.pem` file is assumed to be a duplicate of the server certificate or a chain. If it’s not needed, you can skip copying it by removing the task in `main.yml`.
-  - The chain file (`airflow-server-chain.crt`) combines certificates in order: server, intermediate, root. This is standard for Nginx ([Nginx SSL Configuration](https://nginx.org/en/docs/http/configuring_https_servers.html)).
-  - If your CA certificates are already trusted by the system, you may only need the server certificate and key in the chain. Adjust the `cat` command in `main.yml` accordingly.
-
-- **Permissions**:
-  - The private key is readable by the `airflow` group, assuming Nginx runs as a user in this group (common in RedHat with `nginx` user in a shared group). If Nginx uses a different group, update the `group` in `main.yml`.
-
-- **Server Hostname**:
-  - Replace `airflow.example.com` in `all.yaml` with your server’s actual hostname, matching the server certificate’s Common Name (CN) or Subject Alternative Name (SAN).
-
-- **Nginx User**:
-  - If Nginx runs as a non-root user not in the `airflow` group, you may need to adjust permissions or use `sudo` rules. Check with `ps aux | grep nginx`.
-
-- **Existing Setup**:
-  - Assumes `af-web.j2` and `af-svr.j2` are updated to remove `Wants=postgresql.service` and `airflow_db_host` is set correctly in `all.yaml`.
-  - If you need these updates included, let me know.
-
-- **Certificate Trust**:
-  - Ensure clients (browsers, API callers) trust your company’s root and intermediate CAs. You may need to distribute `root-ca.crt` and `ca2.crt` to client trust stores.
-
----
-
-This solution provides a modular Ansible role (`airflow-certificates`) to install your company’s SSL certificates and configures Nginx to serve Airflow over HTTPS on **443** in your on-premises environment. If you have specific certificate filenames, a different hostname, or additional requirements (e.g., direct **443** binding without Nginx, specific Nginx configurations), please provide details, and I’ll adjust the playbooks accordingly!
+If you need further customization (e.g., specific Airflow configuration files to use these certificates), let me know!
