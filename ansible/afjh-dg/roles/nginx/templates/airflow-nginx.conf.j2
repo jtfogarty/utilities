@@ -1,0 +1,23 @@
+server {
+listen 443 ssl;
+server_name localhost;
+
+ssl_certificate {{ airflow_webserver_ssl_cert }};
+ssl_certificate_key {{ airflow_webserver_ssl_key }};
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_ciphers HIGH:!aNULL:!MD5;
+
+location / {
+proxy_pass http://localhost:8080;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+}
+}
+
+server {
+listen 80;
+server_name localhost;
+return 301 https://$host$request_uri;
+}

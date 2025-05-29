@@ -55,3 +55,13 @@ dgraph_alpha_host: "192.168.1.68"
 dgraph_alpha_grpc_port: 9080
 dgraph_alpha_data_dir: "/var/lib/dgraph/alpha"
 dgraph_alpha_bindall: true
+
+
+# Airflow Certificate settings
+airflow_server_hostname: "airflow.example.com"  # Replace with your server's hostname
+airflow_cert_root_ca: "/etc/ssl/certs/root-ca.crt"
+airflow_cert_intermediate_ca: "/etc/ssl/certs/ca2.crt"
+airflow_cert_server_crt: "/etc/ssl/certs/airflow-server.crt"
+airflow_cert_server_pem: "/etc/ssl/certs/airflow-server.pem"
+airflow_cert_server_key: "/etc/ssl/private/airflow-server.key"
+airflow_cert_chain: "/etc/ssl/certs/airflow-server-chain.crt"

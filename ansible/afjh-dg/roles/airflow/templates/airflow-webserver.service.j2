@@ -1,14 +1,14 @@
 [Unit]
-Description=Airflow Webserver
+Description=Airflow webserver daemon
 After=network.target
-Wants=airflow-scheduler.service
 
 [Service]
 User={{ airflow_user }}
 Group={{ airflow_group }}
-Environment=AIRFLOW_HOME={{ airflow_home }}
-Environment=AIRFLOW__DATABASE__SQL_ALCHEMY_CONN={{ airflow_sql_alchemy_conn }}
-ExecStart={{ venv_path }}/bin/airflow webserver --port 8080
+Environment="AIRFLOW_HOME={{ airflow_home }}"
+Environment="PYENV_ROOT={{ pyenv_root }}"
+Environment="PATH={{ pyenv_root }}/bin:{{ pyenv_root }}/shims:/usr/local/bin:/usr/bin:/bin"
+ExecStart={{ pyenv_root }}/versions/{{ venv_name }}/bin/airflow webserver --port 443
 Restart=always
 RestartSec=5s
 

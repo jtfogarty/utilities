@@ -1,0 +1,62 @@
+---
+- name: Configure Nginx as reverse proxy for Airflow
+  become: yes
+  vars_files:
+    - all.yaml
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.dnf:
+        name: nginx
+        state: present
+        update_cache: true
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure SSL certificate directory exists
+      ansible.builtin.file:
+        path: "/etc/ssl/certs"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Ensure SSL private key directory exists
+      ansible.builtin.file:
+        path: "/etc/ssl/private"
+        state: directory
+        owner: root
+        group: root
+        mode: '0750'
+
+    - name: Copy SSL certificate
+      ansible.builtin.copy:
+        src: "{{ airflow_webserver_ssl_cert }}"  # Assumes cert is available locally
+        dest: "{{ airflow_webserver_ssl_cert }}"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Reload Nginx
+
+    - name: Copy SSL private key
+      ansible.builtin.copy:
+        src: "{{ airflow_webserver_ssl_key }}"  # Assumes key is available locally
+        dest: "{{ airflow_webserver_ssl_key }}"
+        owner: root
+        group: root
+        mode: '0640'
+      notify: Reload Nginx
+
+    - name: Configure Nginx for Airflow
+      ansible.builtin.template:
+        src: "nginx-airflow.conf.j2"
+        dest: "/etc/nginx/conf.d/airflow.conf"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Reload Nginx
+
+    - name: Ensure Nginx is enabled and started
+      ansible.builtin.systemd:
+        name: nginx
+        enabled: true
+        state: started
+
