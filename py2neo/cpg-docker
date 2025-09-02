@@ -1,0 +1,38 @@
+FROM eclipse-temurin:21-jdk-jammy
+
+# Install dependencies: git, sbt, python3, pip, graphviz, protobuf-compiler, git-lfs
+RUN apt-get update && \
+    apt-get install -y apt-transport-https curl gnupg && \
+    echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list && \
+    echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee /etc/apt/sources.list.d/sbt_old.list && \
+    curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/scalasbt-release.gpg --import && \
+    chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg && \
+    apt-get update && \
+    apt-get install -y git sbt python3 python3-pip graphviz python3-dev libgraphviz-dev pkg-config protobuf-compiler git-lfs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Clone and build the project
+RUN git clone https://github.com/ShiftLeftSecurity/codepropertygraph.git /opt/cpg && \
+    cd /opt/cpg && \
+    git lfs install && \
+    git lfs pull && \
+    sbt clean test publishM2
+
+# Generate Python protobuf bindings
+RUN cd /opt/cpg && \
+    sbt package && \
+    cd codepropertygraph/target && \
+    mkdir python && \
+    protoc --python_out=python cpg.proto
+
+# Install Python packages for integration: Jupyter Lab, Neo4j driver, graphviz, protobuf
+RUN pip3 install --no-cache-dir jupyterlab neo4j graphviz protobuf
+
+# Set working directory for code and DAGs
+WORKDIR /workspace
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Default command: Start Jupyter Lab (allow access from host)
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--no-browser", "--NotebookApp.token=''"]
