@@ -1,0 +1,21 @@
+FROM eclipse-temurin:17-jdk-jammy
+
+# Install dependencies: wget, unzip, Python 3, pip, graphviz (required for pyjoern), python-dev for builds
+RUN apt-get update && \
+    apt-get install -y wget unzip python3 python3-pip graphviz python3-dev libgraphviz-dev pkg-config && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Download and install pre-built Joern CLI (latest release)
+RUN wget https://github.com/joernio/joern/releases/latest/download/joern-cli.zip -O /tmp/joern-cli.zip && \
+    unzip /tmp/joern-cli.zip -d /opt/joern && \
+    rm /tmp/joern-cli.zip && \
+    chmod +x /opt/joern/joern-cli/joern*
+
+# Add Joern to PATH (point directly to the extracted directory)
+ENV PATH="/opt/joern/joern-cli:$PATH"
+
+# Install Python packages: Joern Python client, pyjoern, Neo4j driver
+RUN pip3 install --no-cache-dir cpgqls-client pyjoern neo4j graphviz
+
+# Set working directory for code and DAGs
+WORKDIR /workspace
