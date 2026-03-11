@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="surrealism-types"><title>surrealism_types - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="surrealism_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate surrealism_types</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../surrealism_types/index.html">surrealism_<wbr>types</a><span class="version">0.1.10</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#surrealism-types" title="surrealism-types">surrealism-types</a><ul><li><a href="#overview" title="Overview">Overview</a></li><li><a href="#feature-flags" title="Feature Flags">Feature Flags</a></li><li><a href="#dual-mode-architecture" title="Dual-Mode Architecture">Dual-Mode Architecture</a></li><li><a href="#example" title="Example">Example</a></li></ul></li></ul><h3><a href="#modules">Crate Items</a></h3><ul class="block"><li><a href="#modules" title="Modules">Modules</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>surrealism_<wbr>types</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/surrealism_types/lib.rs.html#1-63">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="surrealism-types"><a class="doc-anchor" href="#surrealism-types">§</a>surrealism-types</h2>
+<p>A language-agnostic serialization framework for WebAssembly (WASM) guest-host communication.</p>
+<h3 id="overview"><a class="doc-anchor" href="#overview">§</a>Overview</h3>
+<p>This crate provides the core types and traits for transferring data across WASM boundaries
+in a way that can be implemented by any language that compiles to WebAssembly. It defines:</p>
+<ul>
+<li>A binary serialization protocol (<a href="serialize/trait.Serializable.html" title="trait surrealism_types::serialize::Serializable"><code>Serializable</code></a>)</li>
+<li>Memory transfer abstractions (<a href="transfer/trait.Transfer.html" title="trait surrealism_types::transfer::Transfer"><code>Transfer</code></a>,
+<a href="transfer::AsyncTransfer"><code>AsyncTransfer</code></a>)</li>
+<li>Memory management interfaces (<a href="controller/trait.MemoryController.html" title="trait surrealism_types::controller::MemoryController"><code>MemoryController</code></a>,
+<a href="controller::AsyncMemoryController"><code>AsyncMemoryController</code></a>)</li>
+<li>Function argument marshalling (<a href="args/trait.Args.html" title="trait surrealism_types::args::Args"><code>Args</code></a>)</li>
+</ul>
+<h3 id="feature-flags"><a class="doc-anchor" href="#feature-flags">§</a>Feature Flags</h3>
+<ul>
+<li><code>host</code>: Enables async traits for host-side (runtime) implementations. Without this flag, all
+operations are synchronous, suitable for WASM guest modules.</li>
+</ul>
+<h3 id="dual-mode-architecture"><a class="doc-anchor" href="#dual-mode-architecture">§</a>Dual-Mode Architecture</h3>
+<p>The crate supports both synchronous (guest) and asynchronous (host) operations:</p>
+<ul>
+<li><strong>Guest mode</strong> (default): Synchronous traits for WASM module code</li>
+<li><strong>Host mode</strong> (<code>host</code> feature): Async traits for runtime/Wasmtime code</li>
+</ul>
+<p>This allows the same types to work efficiently on both sides of the WASM boundary.</p>
+<h3 id="example"><a class="doc-anchor" href="#example">§</a>Example</h3>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealism_types::{Serializable, Transfer, MemoryController};
+
+<span class="comment">// Guest side: Transfer a string to host
+</span><span class="kw">fn </span>send_string(s: String, controller: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>MemoryController) -&gt; u32 {
+    <span class="kw">let </span>ptr = s.transfer(controller).unwrap();
+    <span class="kw-2">*</span>ptr
+}
+
+<span class="comment">// Guest side: Receive a string from host
+</span><span class="kw">fn </span>receive_string(ptr: u32, controller: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>MemoryController) -&gt; String {
+    String::receive(ptr.into(), controller).unwrap()
+}</code></pre></div></div></details><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="arg/index.html" title="mod surrealism_types::arg">arg</a></dt><dd>Wrapper type for function arguments that implement <a href="../surrealdb_types/traits/surreal_value/trait.SurrealValue.html" title="trait surrealdb_types::traits::surreal_value::SurrealValue"><code>surrealdb_types::SurrealValue</code></a>.
+Wrapper type for serializable function arguments.</dd><dt><a class="mod" href="args/index.html" title="mod surrealism_types::args">args</a></dt><dd>Traits for marshalling function arguments to and from <a href="../surrealdb_types/value/enum.Value.html" title="enum surrealdb_types::value::Value"><code>surrealdb_types::Value</code></a> vectors.
+Function argument marshalling for SurrealDB values.</dd><dt><a class="mod" href="controller/index.html" title="mod surrealism_types::controller">controller</a></dt><dd>Memory management abstractions for WASM linear memory allocation and deallocation.
+Memory management abstractions for WASM linear memory.</dd><dt><a class="mod" href="err/index.html" title="mod surrealism_types::err">err</a></dt><dd>Error handling utilities for adding context to errors.
+Error handling utilities for adding context to errors.</dd><dt><a class="mod" href="serialize/index.html" title="mod surrealism_types::serialize">serialize</a></dt><dd>Core serialization traits and implementations for the binary wire format.
+Core serialization traits and binary wire format implementations.</dd><dt><a class="mod" href="transfer/index.html" title="mod surrealism_types::transfer">transfer</a></dt><dd>Memory transfer traits for moving data across WASM boundaries.
+Memory transfer traits for moving data across WASM boundaries.</dd></dl></section></div></main></body></html>

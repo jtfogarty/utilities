@@ -1,0 +1,719 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The attribute that you should use for your tests. Your annotated function’s arguments can be injected with `fixture`s, provided by parametrized cases or by value lists."><title>rstest in rstest - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="rstest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc attr"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">rstest</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../rstest/index.html">rstest</a><span class="version">0.26.1</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">rstest</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#injecting-fixtures" title="Injecting Fixtures">Injecting Fixtures</a></li><li><a href="#test-parametrized-cases" title="Test Parametrized Cases">Test Parametrized Cases</a><ul><li><a href="#feature-flagged-cases" title="Feature flagged cases">Feature flagged cases</a></li><li><a href="#magic-conversion" title="Magic Conversion">Magic Conversion</a></li><li><a href="#optional-case-description" title="Optional case description">Optional case description</a></li><li><a href="#use-specific-case-attributes" title="Use specific `case` attributes">Use specific <code>case</code> attributes</a></li></ul></li><li><a href="#values-lists" title="Values Lists">Values Lists</a></li><li><a href="#destructuring-inputs" title="Destructuring inputs">Destructuring inputs</a></li><li><a href="#files-path-as-input-arguments" title="Files path as input arguments">Files path as input arguments</a><ul><li><a href="#mode--" title="`#[mode = ...]`"><code>#[mode = ...]</code></a></li></ul></li><li><a href="#use-parametrize-definition-in-more-tests" title="Use Parametrize definition in more tests">Use Parametrize definition in more tests</a></li><li><a href="#async" title="Async">Async</a><ul><li><a href="#test-timeout" title="Test `#[timeout()]`">Test <code>#[timeout()]</code></a></li><li><a href="#default-timeout" title="Default timeout">Default timeout</a></li></ul></li><li><a href="#test-attributes" title="Test Attributes">Test Attributes</a><ul><li><a href="#explicit-test-attributes" title="Explicit Test Attributes">Explicit Test Attributes</a></li><li><a href="#implicit-test-attributes" title="Implicit Test Attributes">Implicit Test Attributes</a></li><li><a href="#default-test-attributes" title="Default Test Attributes">Default Test Attributes</a></li></ul></li><li><a href="#test-context-object" title="Test `Context` object">Test <code>Context</code> object</a></li><li><a href="#local-lifetime-and-by_ref-attribute" title="Local lifetime and `#[by_ref]` attribute">Local lifetime and <code>#[by_ref]</code> attribute</a></li><li><a href="#putting-all-together" title="Putting all Together">Putting all Together</a></li><li><a href="#ignoring-arguments" title="Ignoring Arguments">Ignoring Arguments</a></li><li><a href="#trace-input-arguments" title="Trace Input Arguments">Trace Input Arguments</a></li><li><a href="#old-compact-syntax" title="Old compact syntax">Old compact syntax</a><ul><li><a href="#fixture-arguments" title="Fixture Arguments">Fixture Arguments</a></li><li><a href="#fixture-rename" title="Fixture Rename">Fixture Rename</a></li><li><a href="#parametrized" title="Parametrized">Parametrized</a></li><li><a href="#values-lists-1" title="Values Lists">Values Lists</a></li><li><a href="#trace-and-notrace" title="`trace` and `notrace`"><code>trace</code> and <code>notrace</code></a></li></ul></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate rstest</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">rstest</a></div><h1>Attribute Macro <span class="attr">rstest</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/rstest_macros/lib.rs.html#51-54">Source</a> </span></div><pre class="rust item-decl"><code>#[rstest]</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The attribute that you should use for your tests. Your
+annotated function’s arguments can be
+<a href="attr.rstest.html#injecting-fixtures">injected</a> with
+<a href="attr.fixture.html" title="attr rstest::fixture"><code>fixture</code></a>s, provided by
+<a href="attr.rstest.html#test-parametrized-cases">parametrized cases</a>
+or by <a href="attr.rstest.html#values-lists">value lists</a>.</p>
+<p><code>rstest</code> attribute can be applied to <em>any</em> function and you can customize its
+parameters by using function and arguments attributes.</p>
+<p>Your test function can use generics, <code>impl</code> or <code>dyn</code> and like any kind of rust tests:</p>
+<ul>
+<li>return results</li>
+<li>marked by <code>#[should_panic]</code> attribute</li>
+</ul>
+<p>In the function signature, where you define your tests inputs, you can also destructuring
+the values like any other rust function.</p>
+<p>If the test function is an <a href="#async"><code>async</code> function</a> <code>rstest</code> will run all cases as <code>async</code>
+tests. However, async tests must supply either an <a href="#explicit-test-attributes">explicit test attribute</a>
+or an <a href="#implicit-test-attributes">implicit test attribute</a>.</p>
+<p>In your test function you can:</p>
+<ul>
+<li><a href="#injecting-fixtures">inject fixtures</a></li>
+<li>Generate <a href="#test-parametrized-cases">parametrized test cases</a></li>
+<li>Generate tests for each combination of <a href="#values-lists">value lists</a></li>
+<li>Feed variables from <a href="#files-path-as-input-arguments">files</a></li>
+</ul>
+<p>Additional Attributes:</p>
+<ul>
+<li>Function Attributes:
+<ul>
+<li><a href="#test-parametrized-cases"><code>#[case]</code></a> define a parametrized test case</li>
+<li><a href="#async"><code>#[awt]</code></a> await all your future test function’s inputs</li>
+<li><a href="#test-timeout"><code>#[timeout(...)]</code></a> define a test timeout</li>
+<li><a href="#trace-input-arguments"><code>#[trace]</code></a> tracing input arguments</li>
+<li><a href="#explicit-test-attr"><code>#[test_attr(...)]</code></a> define an explicit test attribute</li>
+</ul>
+</li>
+<li>Arguments Attributes:
+<ul>
+<li><a href="#test-parametrized-cases"><code>#[case]</code></a> define an argument parametrized by test cases</li>
+<li><a href="#values-lists"><code>#[values(...)]</code></a> define an argument that can be a list of values</li>
+<li><a href="#files-path-as-input-arguments"><code>#[files(...)]</code>-<code>#[exclude(...)]</code>-<code>#[base_dir = ... ]</code>-<code>#[mode = ...]</code></a>
+define an argument that can be a list of path based on a glob pattern</li>
+<li><a href="#injecting-fixtures"><code>#[from(...)]</code>-<code>#[with(...)]</code></a> handling injected fixture</li>
+<li><a href="#async"><code>#[future]</code></a> implement future boilerplate argument</li>
+<li><a href="#test-context-object"><code>#[context]</code></a> Some metadata test information</li>
+<li><a href="#local-lifetime-and-by_ref-attribute"><code>#[by_ref]</code></a> define a local lifetime</li>
+<li><a href="#ignoring-arguments"><code>#[ignore]</code></a> ignore an argument used by a custom test function</li>
+<li><a href="#trace-input-arguments"><code>#[notrace]</code></a> disable trace</li>
+</ul>
+</li>
+</ul>
+<h3 id="injecting-fixtures"><a class="doc-anchor" href="#injecting-fixtures">§</a>Injecting Fixtures</h3>
+<p>The simplest case is write a test that can be injected with
+<a href="attr.fixture.html" title="attr rstest::fixture"><code>[fixture]</code></a>s. You can just declare all used fixtures by passing
+them as a function’s arguments. This can help your test to be neat
+and make your dependency clear.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>injected() -&gt; i32 { <span class="number">42 </span>}
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>the_test(injected: i32) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, injected)
+}</code></pre></div>
+<p><a href="attr.rstest.html" title="attr rstest::rstest"><code>[rstest]</code></a> procedural macro will desugar it to something that isn’t
+so far from</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>the_test() {
+    <span class="kw">let </span>injected=injected();
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, injected)
+}</code></pre></div>
+<p>If you want to use long and descriptive names for your fixture but prefer to use
+shorter names inside your tests you use rename feature described in
+<a href="attr.fixture.html#rename">fixture rename</a>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>long_and_boring_descriptive_name() -&gt; i32 { <span class="number">42 </span>}
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>the_test(<span class="attr">#[from(long_and_boring_descriptive_name)] </span>short: i32) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, short)
+}</code></pre></div>
+<p>The use of <code>#[from(...)]</code> attribute is mandatory if you need to destructure the value:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>tuple() -&gt; (u32, f32) { (<span class="number">42</span>, <span class="number">42.0</span>) }
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>the_test(<span class="attr">#[from(tuple)] </span>(u, <span class="kw">_</span>): (u32, f32)) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, u)
+}</code></pre></div>
+<p>Sometimes is useful to have some parameters in your fixtures but your test would
+override the fixture’s default values in some cases. Like in
+<a href="attr.fixture.html#partial-injection">fixture partial injection</a> you use <code>#[with]</code>
+attribute to indicate some fixture’s arguments also in <code>rstest</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>user(
+    <span class="attr">#[default(<span class="string">"Alice"</span>)] </span>name: <span class="kw">impl </span>AsRef&lt;str&gt;,
+    <span class="attr">#[default(<span class="number">22</span>)] </span>age: u8
+) -&gt; User { User(name.as_ref().to_owned(), age) }
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>check_user(<span class="attr">#[with(<span class="string">"Bob"</span>)] </span>user: User) {
+    assert_eq(<span class="string">"Bob"</span>, user.name())
+}</code></pre></div><h3 id="test-parametrized-cases"><a class="doc-anchor" href="#test-parametrized-cases">§</a>Test Parametrized Cases</h3>
+<p>If you would execute your test for a set of input data cases
+you can define the arguments to use and the cases list. Let see
+the classical Fibonacci example. In this case we would give the
+<code>input</code> value and the <code>expected</code> result for a set of cases to test.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::rstest;
+
+<span class="attr">#[rstest]
+#[case(<span class="number">0</span>, <span class="number">0</span>)]
+#[case(<span class="number">1</span>, <span class="number">1</span>)]
+#[case(<span class="number">2</span>, <span class="number">1</span>)]
+#[case(<span class="number">3</span>, <span class="number">2</span>)]
+#[case(<span class="number">4</span>, <span class="number">3</span>)]
+</span><span class="kw">fn </span>fibonacci_test(<span class="attr">#[case] </span>input: u32,<span class="attr">#[case] </span>expected: u32) {
+    <span class="macro">assert_eq!</span>(expected, fibonacci(input))
+}
+
+<span class="kw">fn </span>fibonacci(input: u32) -&gt; u32 {
+    <span class="kw">match </span>input {
+        <span class="number">0 </span>=&gt; <span class="number">0</span>,
+        <span class="number">1 </span>=&gt; <span class="number">1</span>,
+        n =&gt; fibonacci(n - <span class="number">2</span>) + fibonacci(n - <span class="number">1</span>)
+    }
+}</code></pre></div>
+<p><code>rstest</code> will produce 5 independent tests and not just one that
+check every case. Every test can fail independently and <code>cargo test</code>
+will give follow output:</p>
+<div class="example-wrap"><pre class="language-text"><code>running 5 tests
+test fibonacci_test::case_1 ... ok
+test fibonacci_test::case_2 ... ok
+test fibonacci_test::case_3 ... ok
+test fibonacci_test::case_4 ... ok
+test fibonacci_test::case_5 ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out</code></pre></div>
+<p>The cases input values can be arbitrary Rust expressions that return the
+argument type.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::rstest;
+
+<span class="kw">fn </span>sum(a: usize, b: usize) -&gt; usize { a + b }
+
+<span class="attr">#[rstest]
+#[case(<span class="string">"foo"</span>, <span class="number">3</span>)]
+#[case(String::from(<span class="string">"foo"</span>), <span class="number">2 </span>+ <span class="number">1</span>)]
+#[case(<span class="macro">format!</span>(<span class="string">"foo"</span>), sum(<span class="number">2</span>, <span class="number">1</span>))]
+</span><span class="kw">fn </span>test_len(<span class="attr">#[case] </span>s: <span class="kw">impl </span>AsRef&lt;str&gt;,<span class="attr">#[case] </span>len: usize) {
+    <span class="macro">assert_eq!</span>(s.as_ref().len(), len);
+}</code></pre></div><h4 id="feature-flagged-cases"><a class="doc-anchor" href="#feature-flagged-cases">§</a>Feature flagged cases</h4>
+<p>In case you want certain test cases to only be present if a certain feature is
+enabled, use <code>#[cfg_attr(feature = …, case(…))]</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::rstest;
+
+<span class="attr">#[rstest]
+#[case(<span class="number">2</span>, <span class="number">2</span>)]
+#[cfg_attr(feature = <span class="string">"frac"</span>, case(<span class="number">4</span>/<span class="number">2</span>, <span class="number">2</span>))]
+</span><span class="kw">fn </span>it_works(<span class="attr">#[case] </span>a: u32, <span class="attr">#[case] </span>b: u32) {
+    <span class="macro">assert!</span>(a == b);
+}</code></pre></div>
+<p>This also works with <a href="https://crates.io/crates/rstest_reuse"><code>rstest_reuse</code></a>.</p>
+<h4 id="magic-conversion"><a class="doc-anchor" href="#magic-conversion">§</a>Magic Conversion</h4>
+<p>You can use the magic conversion feature every time you would define a variable
+where its type define <code>FromStr</code> trait: test will parse the string to build the value.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+#[case(<span class="string">"resources/empty"</span>, <span class="number">0</span>)]
+#[case(<span class="string">"resources/divine_comedy"</span>, <span class="number">101.698</span>)]
+</span><span class="kw">fn </span>test_count_words(<span class="attr">#[case] </span>path: PathBuf, <span class="attr">#[case] </span>expected: usize) {
+    <span class="macro">assert_eq!</span>(expected, count_words(path))
+}</code></pre></div><h4 id="optional-case-description"><a class="doc-anchor" href="#optional-case-description">§</a>Optional case description</h4>
+<p>Optionally you can give a <em>description</em> to every case simple by follow <code>case</code>
+with <code>::my_case_description</code> where <code>my_case_description</code> should be a a valid
+Rust ident.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+#[case::zero_base_case(<span class="number">0</span>, <span class="number">0</span>)]
+#[case::one_base_case(<span class="number">1</span>, <span class="number">1</span>)]
+#[case(<span class="number">2</span>, <span class="number">1</span>)]
+#[case(<span class="number">3</span>, <span class="number">2</span>)]
+</span><span class="kw">fn </span>fibonacci_test(<span class="attr">#[case] </span>input: u32,<span class="attr">#[case] </span>expected: u32) {
+    <span class="macro">assert_eq!</span>(expected, fibonacci(input))
+}
+</code></pre></div>
+<p>Output will be</p>
+<div class="example-wrap"><pre class="language-text"><code>running 4 tests
+test fibonacci_test::case_1_zero_base_case ... ok
+test fibonacci_test::case_2_one_base_case ... ok
+test fibonacci_test::case_3 ... ok
+test fibonacci_test::case_4 ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out</code></pre></div><h4 id="use-specific-case-attributes"><a class="doc-anchor" href="#use-specific-case-attributes">§</a>Use specific <code>case</code> attributes</h4>
+<p>Every function’s attributes that preceding a <code>#[case]</code> attribute will
+be used in this test case and all function’s attributes that follow the
+last <code>#[case]</code> attribute will mark all test cases.</p>
+<p>This feature can be use to mark just some cases as <code>should_panic</code>
+and choose to have a fine grain on expected panic messages.</p>
+<p>In follow example we run 3 tests where the first pass without any
+panic, in the second we catch a panic but we don’t care about the message
+and in the third one we also check the panic message.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::rstest;
+
+<span class="attr">#[rstest]
+#[case::no_panic(<span class="number">0</span>)]
+#[should_panic]
+#[case::panic(<span class="number">1</span>)]
+#[should_panic(expected=<span class="string">"expected"</span>)]
+#[case::panic_with_message(<span class="number">2</span>)]
+</span><span class="kw">fn </span>attribute_per_case(<span class="attr">#[case] </span>val: i32) {
+    <span class="kw">match </span>val {
+        <span class="number">0 </span>=&gt; <span class="macro">assert!</span>(<span class="bool-val">true</span>),
+        <span class="number">1 </span>=&gt; <span class="macro">panic!</span>(<span class="string">"No catch"</span>),
+        <span class="number">2 </span>=&gt; <span class="macro">panic!</span>(<span class="string">"expected"</span>),
+        <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
+    }
+}</code></pre></div>
+<p>Output:</p>
+<div class="example-wrap"><pre class="language-text"><code>running 3 tests
+test attribute_per_case::case_1_no_panic ... ok
+test attribute_per_case::case_3_panic_with_message ... ok
+test attribute_per_case::case_2_panic ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out</code></pre></div>
+<p>To mark all your tests as <code>#[should_panic]</code> use:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+#[case(<span class="number">1</span>)]
+#[case(<span class="number">2</span>)]
+#[case(<span class="number">3</span>)]
+#[should_panic]
+</span><span class="kw">fn </span>fail(<span class="attr">#[case] </span>v: u32) { <span class="macro">assert_eq!</span>(<span class="number">0</span>, v) }</code></pre></div><h3 id="values-lists"><a class="doc-anchor" href="#values-lists">§</a>Values Lists</h3>
+<p>Another useful way to write a test and execute it for some values
+is to use the values list syntax. This syntax can be useful both
+for a plain list and for testing all combination of input arguments.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>should_be_valid(
+    <span class="attr">#[values(<span class="string">"John"</span>, <span class="string">"alice"</span>, <span class="string">"My_Name"</span>, <span class="string">"Zigy_2001"</span>)]
+    </span>input: <span class="kw-2">&amp;</span>str
+) {
+    <span class="macro">assert!</span>(is_valid(input))
+}</code></pre></div>
+<p>or</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>should_accept_all_corner_cases(
+    <span class="attr">#[values(<span class="string">"J"</span>, <span class="string">"A"</span>, <span class="string">"A________________________________________21"</span>)]
+    </span>name: <span class="kw-2">&amp;</span>str,
+    <span class="attr">#[values(<span class="number">14</span>, <span class="number">100</span>)]
+    </span>age: u8
+) {
+    <span class="macro">assert!</span>(valid_user(name, age))
+}</code></pre></div>
+<p>where <code>cargo test</code> output is</p>
+<div class="example-wrap"><pre class="language-text"><code>test should_accept_all_corner_cases::name_1___J__::age_2_100 ... ok
+test should_accept_all_corner_cases::name_2___A__::age_1_14 ... ok
+test should_accept_all_corner_cases::name_2___A__::age_2_100 ... ok
+test should_accept_all_corner_cases::name_3___A________________________________________21__::age_2_100 ... ok
+test should_accept_all_corner_cases::name_3___A________________________________________21__::age_1_14 ... ok
+test should_accept_all_corner_cases::name_1___J__::age_1_14 ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s</code></pre></div>
+<p>Note that the test names contains the given expression sanitized into
+a valid Rust identifier name. This should help to identify which case fails.</p>
+<p>Also value list implements the magic conversion feature: every time the value type
+implements <code>FromStr</code> trait you can use a literal string to define it.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+</span><span class="kw">fn </span>given_port(<span class="attr">#[values(<span class="string">"1.2.3.4:8000"</span>, <span class="string">"4.3.2.1:8000"</span>, <span class="string">"127.0.0.1:8000"</span>)] </span>addr: SocketAddr) {
+    <span class="macro">assert_eq!</span>(<span class="number">8000</span>, addr.port())
+}</code></pre></div><h3 id="destructuring-inputs"><a class="doc-anchor" href="#destructuring-inputs">§</a>Destructuring inputs</h3>
+<p>Both parametrized case and values can be destructured:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">struct </span>S {
+    first: u32,
+    second: u32,
+}
+
+<span class="kw">struct </span>T(i32);
+
+<span class="attr">#[rstest]
+#[case(S{first: <span class="number">21</span>, second: <span class="number">42</span>})]
+</span><span class="kw">fn </span>some_test(<span class="attr">#[case] </span>S{first, second} : S, <span class="attr">#[values(T(-<span class="number">1</span>), T(<span class="number">1</span>))] </span>T(t): T) {
+    <span class="macro">assert_eq!</span>(<span class="number">1</span>, t * t);
+    <span class="macro">assert_eq!</span>(<span class="number">2 </span>* first, second);
+}</code></pre></div><h3 id="files-path-as-input-arguments"><a class="doc-anchor" href="#files-path-as-input-arguments">§</a>Files path as input arguments</h3>
+<p>If you need to create a test for each file in a given location you can use
+<code>#[files("glob path syntax")]</code> attribute to generate a test for each file that
+satisfy the given glob path.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+</span><span class="kw">fn </span>for_each_file(<span class="attr">#[files(<span class="string">"src/**/*.rs"</span>)] #[exclude(<span class="string">"test"</span>)] </span>path: PathBuf) {
+    <span class="macro">assert!</span>(check_file(<span class="kw-2">&amp;</span>path))
+}</code></pre></div>
+<p>The default behavior is to ignore the files that start with <code>"."</code>, but you can
+modify this by use <code>#[include_dot_files]</code> attribute. The <code>files</code> attribute can be
+used more than once on the same variable, and you can also create some custom
+exclusion rules with the <code>#[exclude("regex")]</code> attributes that filter out all
+paths that verify the regular expression.</p>
+<p>Sometime is useful to have test files in a workspace folder to share them between the
+crates in your workspace. You can do that by use the usual parent folders <code>..</code> in
+the glob path. In this case the test names will be the relative path from the crate root
+where the parent folder components are replaced by <code>_UP</code>: for instance if you have a
+<code>valid_call.yaml</code> in the folder <code>../test_cases</code> (from your crate root) a test name could be
+<code>path_1__UP_test_cases_valid_call_yaml</code>.</p>
+<p>If you want to change the base path for the test files. You can do that by using
+<code>#[base_dir = "..."]</code> attribute. The <code>base_dir</code> is resolved relative to the crate root
+(similar to the <code>files</code> attribute without <code>base_dir</code>). If you want to use an absolute
+path you can use <code>#[base_dir = "/path/to/your/files"]</code>.</p>
+<p>Both <code>files</code> and <code>base_dir</code> attributes can use environment variables using the syntax
+<code>$VAR</code> or <code>${VAR}</code>. If the environment variable is not set, the attribute will cause
+an error. This can be ignored using the <code>#[ignore_missing_env_vars]</code> attribute. A
+default value can be provided for the environment variable using the syntax
+<code>${VAR:-default}</code> (similar to bash). This can be really useful when you want to override
+the cargo root on some environments: use <code>#[base_dir = "BASE_TEST_DIR:-"]</code> do the trick.</p>
+<p>The <code>#[files(...)]</code> attribute ignores matched directory paths by default,
+returning only file paths. If you need the test cases to include directories
+found by the glob pattern, use the <code>#[dirs]</code> attribute in conjunction with <code>#[files(...)]</code>.</p>
+<p>Finally, often you would to recompile tests sources when file the folders or the
+environment variables changed. In this case you should provide a <code>build.rs</code> script file
+that tell to the compiler what to look in order to recompile the tests. For instance
+follow a simple example:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">pub fn </span>main() {
+    <span class="macro">println!</span>(<span class="string">"cargo::rerun-if-changed=tests/resources"</span>);
+    <span class="macro">println!</span>(<span class="string">"cargo::rerun-if-env-changed=BASE_TEST_DIR"</span>);
+}</code></pre></div><h4 id="mode--"><a class="doc-anchor" href="#mode--">§</a><code>#[mode = ...]</code></h4>
+<p>Using the <code>#[mode = ...]</code> attribute on an argument tagged with
+<code>#[files(...)]</code> and friends will set the way the file is passed as an argument.
+It accepts the following arguments with the following behaviour:</p>
+<ul>
+<li><code>path</code>: the default behaviour, passes each file path as a <a href="https://doc.rust-lang.org/1.94.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>.</li>
+<li><code>str</code>: passes the contents of each file as a <a href="https://doc.rust-lang.org/1.94.0/std/primitive.str.html" title="primitive str">&amp;str</a> using <a href="https://doc.rust-lang.org/1.94.0/core/macro.include_str.html" title="macro core::include_str">include_str</a>.</li>
+<li><code>bytes</code>: passes the contents of each files as a <code>&amp;[u8]</code> using <a href="https://doc.rust-lang.org/1.94.0/core/macro.include_bytes.html" title="macro core::include_bytes">include_bytes</a>.</li>
+</ul>
+<p>Trying to pass directories as arguments will cause a compile error when using <code>str</code> and
+<code>bytes</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+</span><span class="kw">fn </span>for_each_path(
+    <span class="attr">#[files(<span class="string">"src/**/*.rs"</span>)] #[exclude(<span class="string">"test"</span>)] #[mode = path] </span>path: PathBuf
+) {
+    <span class="kw">let </span>contents = read_to_string(path).unwrap();
+    <span class="macro">assert!</span>(contents.len() &gt;= <span class="number">0</span>)
+}
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>for_each_txt_file(
+    <span class="attr">#[files(<span class="string">"src/**/*.rs"</span>)] #[exclude(<span class="string">"test"</span>)] #[mode = str] </span>contents: <span class="kw-2">&amp;</span>str
+) {
+    <span class="macro">assert!</span>(contents.len() &gt;= <span class="number">0</span>)
+}
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>for_each_bin_file(
+    <span class="attr">#[files(<span class="string">"src/**/*.rs"</span>)] #[exclude(<span class="string">"test"</span>)] #[mode = bytes] </span>contents: <span class="kw-2">&amp;</span>[u8]
+) {
+    <span class="macro">assert!</span>(contents.len() &gt;= <span class="number">0</span>)
+}</code></pre></div><h3 id="use-parametrize-definition-in-more-tests"><a class="doc-anchor" href="#use-parametrize-definition-in-more-tests">§</a>Use Parametrize definition in more tests</h3>
+<p>If you need to use a test list for more than one test you can use
+<a href="https://crates.io/crates/rstest_reuse"><code>rstest_reuse</code></a> crate.
+With this helper crate you can define a template and use it everywhere.</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::rstest;
+<span class="kw">use </span>rstest_reuse::{<span class="self">self</span>, <span class="kw-2">*</span>};
+
+<span class="attr">#[template]
+#[rstest]
+#[case(<span class="number">2</span>, <span class="number">2</span>)]
+#[case(<span class="number">4</span>/<span class="number">2</span>, <span class="number">2</span>)]
+</span><span class="kw">fn </span>two_simple_cases(<span class="attr">#[case] </span>a: u32, <span class="attr">#[case] </span>b: u32) {}
+
+<span class="attr">#[apply(two_simple_cases)]
+</span><span class="kw">fn </span>it_works(<span class="attr">#[case] </span>a: u32,<span class="attr">#[case] </span>b: u32) {
+    <span class="macro">assert_eq!</span>(a, b);
+}</code></pre></div>
+<p>See <a href="https://crates.io/crates/rstest_reuse"><code>rstest_reuse</code></a> for more details.</p>
+<h3 id="async"><a class="doc-anchor" href="#async">§</a>Async</h3>
+<p><code>rstest</code> supports async tests, but makes no assumptions about what
+async runtime you are using. Async tests require either an
+<a href="#explicit-test-attributes">explicit test attribute</a> or an
+<a href="#implicit-test-attributes">implicit test attribute</a>.</p>
+<p>You are responsible for providing any appropriate peer dependencies to run your async tests.</p>
+<p>If your test input is an async value (fixture or test parameter) you can use <code>#[future]</code>
+attribute to remove <code>impl Future&lt;Output = T&gt;</code> boilerplate and just use <code>T</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+<span class="attr">#[fixture]
+</span><span class="kw">async fn </span>base() -&gt; u32 { <span class="number">42 </span>}
+
+<span class="attr">#[rstest]
+#[case(<span class="number">21</span>, <span class="kw">async </span>{ <span class="number">2 </span>})]
+#[case(<span class="number">6</span>, <span class="kw">async </span>{ <span class="number">7 </span>})]
+#[tokio::test]
+</span><span class="kw">async fn </span>my_async_test(<span class="attr">#[future] </span>base: u32, <span class="attr">#[case] </span>expected: u32, <span class="attr">#[future] #[case] </span>div: u32) {
+    <span class="macro">assert_eq!</span>(expected, base.<span class="kw">await </span>/ div.<span class="kw">await</span>);
+}</code></pre></div>
+<p>As you noted you should <code>.await</code> all <em>future</em> values and this some times can be really boring.
+In this case you can use <code>#[future(awt)]</code> to <em>awaiting</em> an input or annotating your function
+with <code>#[awt]</code> attributes to globally <code>.await</code> all your <em>future</em> inputs. Previous code can be
+simplified like follow:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[rstest]
+#[case(<span class="number">21</span>, <span class="kw">async </span>{ <span class="number">2 </span>})]
+#[case(<span class="number">6</span>, <span class="kw">async </span>{ <span class="number">7 </span>})]
+#[tokio::test]
+#[awt]
+</span><span class="kw">async fn </span>global(<span class="attr">#[future] </span>base: u32, <span class="attr">#[case] </span>expected: u32, <span class="attr">#[future] #[case] </span>div: u32) {
+    <span class="macro">assert_eq!</span>(expected, base / div);
+}
+
+<span class="attr">#[rstest]
+#[case(<span class="number">21</span>, <span class="kw">async </span>{ <span class="number">2 </span>})]
+#[case(<span class="number">6</span>, <span class="kw">async </span>{ <span class="number">7 </span>})]
+#[tokio::test]
+</span><span class="kw">async fn </span>single(<span class="attr">#[future] </span>base: u32, <span class="attr">#[case] </span>expected: u32, <span class="attr">#[future(awt)] #[case] </span>div: u32) {
+    <span class="macro">assert_eq!</span>(expected, base.<span class="kw">await </span>/ div);
+}</code></pre></div><h4 id="test-timeout"><a class="doc-anchor" href="#test-timeout">§</a>Test <code>#[timeout()]</code></h4>
+<p>You can define an execution timeout for your tests with <code>#[timeout(&lt;duration&gt;)]</code> attribute. Timeout
+works both for sync and async tests and is runtime agnostic. <code>#[timeout(&lt;duration&gt;)]</code> take an
+expression that should return a <code>std::time::Duration</code>. Follow a simple async example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+<span class="kw">use </span>std::time::Duration;
+
+<span class="kw">async fn </span>delayed_sum(a: u32, b: u32,delay: Duration) -&gt; u32 {
+    async_std::task::sleep(delay).<span class="kw">await</span>;
+    a + b
+}
+
+<span class="attr">#[rstest]
+#[timeout(Duration::from_millis(<span class="number">80</span>))]
+#[async_std::test]
+</span><span class="kw">async fn </span>single_pass() {
+    <span class="macro">assert_eq!</span>(<span class="number">4</span>, delayed_sum(<span class="number">2</span>, <span class="number">2</span>, ms(<span class="number">10</span>)).<span class="kw">await</span>);
+}</code></pre></div>
+<p>In this case test pass because the delay is just 10 milliseconds and timeout is
+80 milliseconds.</p>
+<p>You can use <code>timeout</code> attribute like any other attribute in your tests, and you can
+override a group timeout with a test specific one. In the follow example we have
+3 tests where first and third use 100 milliseconds but the second one use 10 milliseconds.
+Another valuable point in this example is to use an expression to compute the
+duration.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>ms(ms: u32) -&gt; Duration {
+    Duration::from_millis(ms.into())
+}
+
+<span class="attr">#[rstest]
+#[case::pass(ms(<span class="number">1</span>), <span class="number">4</span>)]
+#[timeout(ms(<span class="number">10</span>))]
+#[case::fail_timeout(ms(<span class="number">60</span>), <span class="number">4</span>)]
+#[case::fail_value(ms(<span class="number">1</span>), <span class="number">5</span>)]
+#[timeout(ms(<span class="number">100</span>))]
+#[async_std::test]
+</span><span class="kw">async fn </span>group_one_timeout_override(<span class="attr">#[case] </span>delay: Duration, <span class="attr">#[case] </span>expected: u32) {
+    <span class="macro">assert_eq!</span>(expected, delayed_sum(<span class="number">2</span>, <span class="number">2</span>, delay).<span class="kw">await</span>);
+}</code></pre></div>
+<p>If you want to use <code>timeout</code> for <code>async</code> test you need to use <code>async-timeout</code>
+feature (enabled by default).</p>
+<h4 id="default-timeout"><a class="doc-anchor" href="#default-timeout">§</a>Default timeout</h4>
+<p>You can set a default timeout for test using the <code>RSTEST_TIMEOUT</code> environment variable.
+The value is in seconds and is evaluated on test compile time.</p>
+<h3 id="test-attributes"><a class="doc-anchor" href="#test-attributes">§</a>Test Attributes</h3><h4 id="explicit-test-attributes"><a class="doc-anchor" href="#explicit-test-attributes">§</a>Explicit Test Attributes</h4>
+<p>If your test contains an attribute <code>#[test_attr(...)]</code>, this is an explicit test attribute declaration.
+The contents of the parentheses will be inserted as an attribute of your test. This allows for arbitrary
+test attribute syntax.</p>
+<p>For instance, if you want to test an async function with <a href="https://docs.rs/smol-macros/0.1.1/smol_macros/macro.test.html"><code>smol_macros::test</code></a>,
+you can write</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+<span class="kw">use </span>macro_rules_attribute::apply;
+<span class="kw">use </span>smol_macros::test;
+<span class="kw">use </span>std::future::Future;
+
+<span class="attr">#[rstest]
+#[case(<span class="number">2</span>, <span class="kw">async </span>{ <span class="number">4 </span>})]
+#[case(<span class="number">21</span>, <span class="kw">async </span>{ <span class="number">42 </span>})]
+#[test_attr(apply(test))]
+</span><span class="kw">async fn </span>my_async_test(<span class="attr">#[case] </span>a: u32, <span class="attr">#[case] #[future] </span>result: u32) {
+    <span class="macro">assert_eq!</span>(<span class="number">2 </span>* a, result.<span class="kw">await</span>);
+}</code></pre></div><h4 id="implicit-test-attributes"><a class="doc-anchor" href="#implicit-test-attributes">§</a>Implicit Test Attributes</h4>
+<p>If your test contains an attribute whose path ends in <code>test</code>, this is treated
+as an implicit test attribute, and replaces the default <code>#[test]</code> attribute.
+Simply including the attribute in your test’s attribute list is all that is required.</p>
+<p>For instance, if you want to test an async function with the <code>actix_rt::test</code> attribute, you can just write:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+<span class="kw">use </span>actix_rt;
+<span class="kw">use </span>std::future::Future;
+
+<span class="attr">#[rstest]
+#[case(<span class="number">2</span>, <span class="kw">async </span>{ <span class="number">4 </span>})]
+#[case(<span class="number">21</span>, <span class="kw">async </span>{ <span class="number">42 </span>})]
+#[actix_rt::test]
+</span><span class="kw">async fn </span>my_async_test(<span class="attr">#[case] </span>a: u32, <span class="attr">#[case] #[future] </span>result: u32) {
+    <span class="macro">assert_eq!</span>(<span class="number">2 </span>* a, result.<span class="kw">await</span>);
+}</code></pre></div>
+<p>Implicit test attributes have a lower priority than <a href="#explicit-test-attribute"><code>explicit test attributes</code></a>.
+If you have an unrelated attribute whose path ends in <code>test</code>, you should declare an explicit test attribute
+for deconfliction.</p>
+<h4 id="default-test-attributes"><a class="doc-anchor" href="#default-test-attributes">§</a>Default Test Attributes</h4>
+<p>Synchronous tests use <code>#[test]</code> as the default test attribute if nothing else is supplied explicitly or implicitly.</p>
+<p>Asynchronous tests will fail to compile if no test attribute is specified explicitly or implicitly.</p>
+<h3 id="test-context-object"><a class="doc-anchor" href="#test-context-object">§</a>Test <code>Context</code> object</h3>
+<p>You can have a <a href="struct.Context.html" title="struct rstest::Context"><code>Context</code></a> object for your test by annotating an argument by <code>#[context]</code> attribute.
+This object contains some useful information both to implement simple logics and debugging stuff.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::{rstest, Context};
+
+<span class="attr">#[rstest]
+#[case::a_description(<span class="number">42</span>)]
+</span><span class="kw">fn </span>my_test(<span class="attr">#[context] </span>ctx: Context, <span class="attr">#[case] </span>_c: u32) {
+    <span class="macro">assert_eq!</span>(<span class="string">"my_test"</span>, ctx.name);
+    <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="string">"a_description"</span>), ctx.description);
+    <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), ctx.case);
+
+    std::thread::sleep(std::time::Duration::from_millis(<span class="number">100</span>));
+    <span class="macro">assert!</span>(ctx.start.elapsed() &gt;= std::time::Duration::from_millis(<span class="number">100</span>));
+}
+</code></pre></div><h3 id="local-lifetime-and-by_ref-attribute"><a class="doc-anchor" href="#local-lifetime-and-by_ref-attribute">§</a>Local lifetime and <code>#[by_ref]</code> attribute</h3>
+<p>In some cases you may want to use a local lifetime for some arguments of your test.
+In these cases you can use the <code>#[by_ref]</code> attribute then use the reference instead
+the value.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">enum </span>E&lt;<span class="lifetime">'a</span>&gt; {
+    A(bool),
+    B(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Cell&lt;E&lt;<span class="lifetime">'a</span>&gt;&gt;),
+}
+
+<span class="kw">fn </span>make_e_from_bool&lt;<span class="lifetime">'a</span>&gt;(_bump: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>(), b: bool) -&gt; E&lt;<span class="lifetime">'a</span>&gt; {
+    E::A(b)
+}
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>bump() -&gt; () {}
+
+<span class="attr">#[rstest]
+#[case(<span class="bool-val">true</span>, E::A(<span class="bool-val">true</span>))]
+</span><span class="kw">fn </span>it_works&lt;<span class="lifetime">'a</span>&gt;(<span class="attr">#[by_ref] </span>bump: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>(), <span class="attr">#[case] </span>b: bool, <span class="attr">#[case] </span>expected: E&lt;<span class="lifetime">'a</span>&gt;) {
+    <span class="kw">let </span>actual = make_e_from_bool(<span class="kw-2">&amp;</span>bump, b);
+    <span class="macro">assert_eq!</span>(actual, expected);
+}</code></pre></div>
+<p>You can use <code>#[by_ref]</code> attribute for all arguments of your test and not just for fixture
+but also for cases, values and files.</p>
+<h3 id="putting-all-together"><a class="doc-anchor" href="#putting-all-together">§</a>Putting all Together</h3>
+<p>All these features can be used together with a mixture of fixture variables,
+fixed cases and bunch of values. For instance, you might need two
+test cases which test for panics, one for a logged in user and one for a guest user.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>repository() -&gt; InMemoryRepository {
+    <span class="kw">let </span><span class="kw-2">mut </span>r = InMemoryRepository::default();
+    <span class="comment">// fill repository with some data
+    </span>r
+}
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>alice() -&gt; User {
+    User::logged(<span class="string">"Alice"</span>, <span class="string">"2001-10-04"</span>, <span class="string">"London"</span>, <span class="string">"UK"</span>)
+}
+
+<span class="attr">#[rstest]
+#[case::authorized_user(alice())] </span><span class="comment">// We can use `fixture` also as standard function
+</span><span class="attr">#[case::guest(User::Guest)]   </span><span class="comment">// We can give a name to every case : `guest` in this case
+</span><span class="attr">#[should_panic(expected = <span class="string">"Invalid query error"</span>)] </span><span class="comment">// We would test a panic
+</span><span class="kw">fn </span>should_be_invalid_query_error(
+    repository: <span class="kw">impl </span>Repository,
+    <span class="attr">#[case] </span>user: User,
+    <span class="attr">#[values(<span class="string">"     "</span>, <span class="string">"^%$some#@invalid!chars"</span>, <span class="string">".n.o.d.o.t.s."</span>)] </span>query: <span class="kw-2">&amp;</span>str,
+    query: <span class="kw-2">&amp;</span>str
+) {
+    repository.find_items(<span class="kw-2">&amp;</span>user, query).unwrap();
+}</code></pre></div><h3 id="ignoring-arguments"><a class="doc-anchor" href="#ignoring-arguments">§</a>Ignoring Arguments</h3>
+<p>Sometimes, you may want to inject and use fixtures not managed by rstest
+(e.g. db connection pools for sqlx tests).</p>
+<p>In these cases, you can use the <code>#[ignore]</code> attribute to ignore the additional
+parameter and let another crate take care of it:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+<span class="kw">use </span>sqlx::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>my_fixture() -&gt; i32 { <span class="number">42 </span>}
+
+<span class="attr">#[rstest]
+#[sqlx::test]
+</span><span class="kw">async fn </span>test_db(my_fixture: i32, <span class="attr">#[ignore] </span>pool: PgPool) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, injected);
+    <span class="comment">// do stuff with the connection pool
+</span>}</code></pre></div><h3 id="trace-input-arguments"><a class="doc-anchor" href="#trace-input-arguments">§</a>Trace Input Arguments</h3>
+<p>Sometimes can be very helpful to print all test’s input arguments. To
+do it you can use the <code>#[trace]</code> function attribute that you can apply
+to all cases or just to some of them.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::<span class="kw-2">*</span>;
+
+<span class="attr">#[fixture]
+</span><span class="kw">fn </span>injected() -&gt; i32 { <span class="number">42 </span>}
+
+<span class="attr">#[rstest]
+#[trace]
+</span><span class="kw">fn </span>the_test(injected: i32) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, injected)
+}</code></pre></div>
+<p>Will print an output like</p>
+<div class="example-wrap"><pre class="language-bash"><code>Testing started at 14.12 ...
+------------ TEST ARGUMENTS ------------
+injected = 42
+-------------- TEST START --------------
+
+
+Expected :42
+Actual   :43</code></pre></div>
+<p>But</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+#[case(<span class="number">1</span>)]
+#[trace]
+#[case(<span class="number">2</span>)]
+</span><span class="kw">fn </span>the_test(<span class="attr">#[case] </span>v: i32) {
+    <span class="macro">assert_eq!</span>(<span class="number">0</span>, v)
+}</code></pre></div>
+<p>will trace just <code>case_2</code> input arguments.</p>
+<p>If you want to trace input arguments but skip some of them that don’t
+implement the <code>Debug</code> trait, you can also use the
+<code>#[notrace]</code> argument attribute to skip them:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+#[trace]
+</span><span class="kw">fn </span>the_test(injected: i32, <span class="attr">#[notrace] </span>xyz: Xyz, <span class="attr">#[notrace] </span>have_no_sense: NoSense) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, injected)
+}</code></pre></div><h2 id="old-compact-syntax"><a class="doc-anchor" href="#old-compact-syntax">§</a>Old <em>compact</em> syntax</h2>
+<p><code>rstest</code> support also a syntax where all options and configuration can be write as
+<code>rstest</code> attribute arguments. This syntax is a little less verbose but make
+composition harder: for instance try to add some cases to a <code>rstest_reuse</code> template
+is really hard.</p>
+<p>So we’ll continue to maintain the old syntax for a long time but we strongly encourage
+to switch your test in the new form.</p>
+<p>Anyway, here we recall this syntax and rewrite the previous example in the <em>compact</em> form.</p>
+<div class="example-wrap"><pre class="language-text"><code>rstest(
+    arg_1,
+    ...,
+    arg_n[,]
+    [::attribute_1[:: ... [::attribute_k]]]
+)</code></pre></div>
+<p>Where:</p>
+<ul>
+<li><code>arg_i</code> could be one of the follow
+<ul>
+<li><code>ident</code> that match to one of function arguments for parametrized cases</li>
+<li><code>case[::description](v1, ..., vl)</code> a test case</li>
+<li><code>fixture(v1, ..., vl) [as argument_name]</code> where fixture is the injected
+fixture and argument_name (default use fixture) is one of function arguments
+that and <code>v1, ..., vl</code> is a partial list of fixture’s arguments</li>
+<li><code>ident =&gt; [v1, ..., vl]</code> where <code>ident</code> is one of function arguments and
+<code>v1, ..., vl</code> is a list of values for ident</li>
+</ul>
+</li>
+<li><code>attribute_j</code> a test attribute like <code>trace</code> or <code>notrace</code></li>
+</ul>
+<h3 id="fixture-arguments"><a class="doc-anchor" href="#fixture-arguments">§</a>Fixture Arguments</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest(user(<span class="string">"Bob"</span>))]
+</span><span class="kw">fn </span>check_user(user: User) {
+    assert_eq(<span class="string">"Bob"</span>, user.name())
+}</code></pre></div><h3 id="fixture-rename"><a class="doc-anchor" href="#fixture-rename">§</a>Fixture Rename</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[fixture]
+</span><span class="kw">fn </span>long_and_boring_descriptive_name() -&gt; i32 { <span class="number">42 </span>}
+
+<span class="attr">#[rstest(long_and_boring_descriptive_name <span class="kw">as </span>short)]
+</span><span class="kw">fn </span>the_test(short: i32) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, short)
+}</code></pre></div><h3 id="parametrized"><a class="doc-anchor" href="#parametrized">§</a>Parametrized</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest(input, expected,
+    case::zero_base_case(<span class="number">0</span>, <span class="number">0</span>),
+    case::one_base_case(<span class="number">1</span>, <span class="number">1</span>),
+    case(<span class="number">2</span>, <span class="number">1</span>),
+    case(<span class="number">3</span>, <span class="number">2</span>),
+    #[should_panic]
+    </span>case(<span class="number">4</span>, <span class="number">42</span>)
+)]
+<span class="kw">fn </span>fibonacci_test(input: u32, expected: u32) {
+    <span class="macro">assert_eq!</span>(expected, fibonacci(input))
+}
+</code></pre></div><h3 id="values-lists-1"><a class="doc-anchor" href="#values-lists-1">§</a>Values Lists</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="attr">#[rstest(
+    input =&gt; [<span class="string">"John"</span>, <span class="string">"alice"</span>, <span class="string">"My_Name"</span>, <span class="string">"Zigy_2001"</span>]
+</span>)]
+<span class="kw">fn </span>should_be_valid(input: <span class="kw-2">&amp;</span>str) {
+    <span class="macro">assert!</span>(is_valid(input))
+}</code></pre></div><h3 id="trace-and-notrace"><a class="doc-anchor" href="#trace-and-notrace">§</a><code>trace</code> and <code>notrace</code></h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest(::trace::notrace(xzy, have_no_sense))]
+</span><span class="kw">fn </span>the_test(injected: i32, xyz: Xyz, have_no_sense: NoSense) {
+    <span class="macro">assert_eq!</span>(<span class="number">42</span>, injected)
+}</code></pre></div></div></details></section></div></main></body></html>

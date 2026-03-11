@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Derive macro generating an impl of the trait [`Dummy`]. This works for both structs and enums."><title>Dummy in fake - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="fake" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc derive"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Dummy</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../fake/index.html">fake</a><span class="version">2.10.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Dummy</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#attributes" title="Attributes">Attributes</a></li><li><a href="#examples" title="Examples">Examples</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate fake</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">fake</a></div><h1>Derive Macro <span class="derive">Dummy</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/dummy/lib.rs.html#57">Source</a> </span></div><pre class="rust item-decl"><code>#[derive(Dummy)]
+{
+    <span class="comment">// Attributes available to this derive:</span>
+    #[dummy]
+}
+</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Derive macro generating an impl of the trait <a href="trait.Dummy.html" title="trait fake::Dummy"><code>Dummy</code></a>. This works for both structs and enums.</p>
+<h2 id="attributes"><a class="doc-anchor" href="#attributes">§</a>Attributes</h2>
+<p>For any fields in the type there are a number of keys that can be used to control the code generation.
+All of these go within the dummy attribute.</p>
+<ol>
+<li><code>faker</code> key can be used to provide a specific faker for a field provided it implements <a href="trait.Fake.html" title="trait fake::Fake"><code>Fake</code></a>.</li>
+<li><code>expr</code> key can be used to provide a rust expression as a fixed value.</li>
+<li><code>default</code> key sets the value to the types <a href="https://doc.rust-lang.org/1.94.0/core/default/trait.Default.html" title="trait core::default::Default"><code>Default</code></a> implementation.</li>
+</ol>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<p>A simple example for deriving <a href="trait.Dummy.html" title="trait fake::Dummy"><code>Dummy</code></a> on a struct:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fake::{Dummy, Fake, Faker};
+<span class="kw">use </span>fake::faker::name::en::Name;
+
+<span class="attr">#[derive(Dummy)]
+</span><span class="kw">pub struct </span>Foo {
+    <span class="attr">#[dummy(faker = <span class="string">"1000..2000"</span>)]
+    </span>order_id: usize,
+    <span class="attr">#[dummy(faker = <span class="string">"Name()"</span>)]
+    </span>customer: String,
+    paid: bool,
+    <span class="attr">#[dummy(expr = <span class="string">"\"Fixed\".into()"</span>)]
+    </span>fixed_value: String,
+    <span class="attr">#[dummy(default)]
+    </span>other: String,
+}
+
+<span class="kw">let </span>f: Foo = Faker.fake();</code></pre></div>
+<p>This would generate code roughly equivalent to:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fake::{Dummy, Fake, Faker};
+<span class="kw">use </span>fake::faker::name::en::Name;
+<span class="kw">use </span>rand::Rng;
+
+<span class="kw">pub struct </span>Foo {
+    order_id: usize,
+    customer: String,
+    paid: bool,
+    fixed_value: String,
+    other: String,
+}
+
+<span class="kw">impl </span>Dummy&lt;Faker&gt; <span class="kw">for </span>Foo {
+    <span class="kw">fn </span>dummy_with_rng&lt;R: Rng + <span class="question-mark">?</span>Sized&gt;(<span class="kw">_</span>: <span class="kw-2">&amp;</span>Faker, rng: <span class="kw-2">&amp;mut </span>R) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>order_id = Fake::fake_with_rng::&lt;usize, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>(<span class="number">1000</span>..<span class="number">2000</span>), rng);
+        <span class="kw">let </span>customer = Fake::fake_with_rng::&lt;String, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>(Name()), rng);
+        <span class="kw">let </span>paid = Fake::fake_with_rng::&lt;bool, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>Faker, rng);
+        <span class="kw">let </span>fixed_value = <span class="string">"Fixed"</span>.into();
+        <span class="kw">let </span>other = Default::default();
+        <span class="self">Self </span>{
+            order_id,
+            customer,
+            paid,
+            fixed_value,
+            other,
+        }
+    }
+}
+
+<span class="kw">let </span>f: Foo = Faker.fake();</code></pre></div>
+<p>A simple example for deriving <a href="trait.Dummy.html" title="trait fake::Dummy"><code>Dummy</code></a> on an enum. For enum tuple variants the faker attribute
+is applied directly to the types in the tuple, for struct variants it is applied on each struct
+field.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fake::{Dummy, Fake, Faker};
+<span class="kw">use </span>fake::faker::name::en::Name;
+
+<span class="attr">#[derive(Dummy)]
+</span><span class="kw">pub enum </span>Bar {
+    Simple,
+    Tuple(<span class="attr">#[dummy(faker=<span class="string">"0..5"</span>)] </span>i32),
+    Structure {
+        <span class="attr">#[dummy(faker = <span class="string">"1000..2000"</span>)]
+        </span>i: usize,
+        j: String,
+    }
+}
+
+<span class="kw">let </span>b: Bar = Faker.fake();</code></pre></div>
+<p>This will generate code roughly equivalent to:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fake::{Dummy, Fake, Faker};
+<span class="kw">use </span>fake::faker::name::en::Name;
+<span class="kw">use </span>rand::Rng;
+
+<span class="kw">pub enum </span>Bar {
+    Simple,
+    Tuple(i32),
+    Structure {
+        i: usize,
+        j: String,
+    }
+}
+
+<span class="kw">impl </span>Dummy&lt;Faker&gt; <span class="kw">for </span>Bar {
+    <span class="kw">fn </span>dummy_with_rng&lt;R: Rng + <span class="question-mark">?</span>Sized&gt;(<span class="kw">_</span>: <span class="kw-2">&amp;</span>Faker, rng: <span class="kw-2">&amp;mut </span>R) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span>rng.gen_range(<span class="number">0</span>..<span class="number">3usize</span>) {
+            <span class="number">0 </span>=&gt; <span class="self">Self</span>::Simple,
+            <span class="number">1 </span>=&gt; <span class="self">Self</span>::Tuple(Fake::fake_with_rng::&lt;i32, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>(<span class="number">0</span>..<span class="number">5</span>), rng)),
+            <span class="number">2 </span>=&gt; {
+                <span class="kw">let </span>i = Fake::fake_with_rng::&lt;usize, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>(<span class="number">1000</span>..<span class="number">2000</span>), rng);
+                <span class="kw">let </span>j = Fake::fake_with_rng::&lt;String, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>Faker, rng);
+                <span class="self">Self</span>::Structure { i, j }
+            },
+            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
+        }
+    }
+}
+
+<span class="kw">let </span>b: Bar = Faker.fake();</code></pre></div></div></details></section></div></main></body></html>

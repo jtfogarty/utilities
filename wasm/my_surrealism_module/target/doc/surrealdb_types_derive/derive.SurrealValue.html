@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Derives the `SurrealValue` trait for a struct or enum."><title>SurrealValue in surrealdb_types_derive - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="surrealdb_types_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc derive"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">SurrealValue</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../surrealdb_types_derive/index.html">surrealdb_<wbr>types_<wbr>derive</a><span class="version">3.0.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Surreal<wbr>Value</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#attributes" title="Attributes">Attributes</a></li><li><a href="#examples" title="Examples">Examples</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate surrealdb_<wbr>types_<wbr>derive</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">surrealdb_types_derive</a></div><h1>Derive Macro <span class="derive">Surreal<wbr>Value</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/surrealdb_types_derive/lib.rs.html#82-99">Source</a> </span></div><pre class="rust item-decl"><code>#[derive(SurrealValue)]
+{
+    <span class="comment">// Attributes available to this derive:</span>
+    #[surreal]
+}
+</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Derives the <code>SurrealValue</code> trait for a struct or enum.</p>
+<p>This macro automatically implements the <code>SurrealValue</code> trait, which provides conversion
+methods between Rust types and SurrealDB <code>Value</code> types.</p>
+<h2 id="attributes"><a class="doc-anchor" href="#attributes">§</a>Attributes</h2>
+<p>The <code>#[surreal]</code> attribute can be used to customize the behavior:</p>
+<ul>
+<li><code>#[surreal(crate = "path")]</code> - Specify a custom path to the types crate (e.g.,
+<code>surrealdb::types</code>, <code>::surrealdb_types</code>, <code>crate</code>). If omitted, the default is chosen by
+feature: <code>sdk-path</code> → <code>::surrealdb::types</code>, else <code>::surrealdb_types</code>.</li>
+<li><code>#[surreal(tag = "type")]</code> - Specify a custom tag field for enum variants</li>
+<li><code>#[surreal(content = "data")]</code> - Specify a custom content field for enum variants</li>
+<li><code>#[surreal(rename = "name")]</code> - Rename a field or variant</li>
+<li><code>#[surreal(skip)]</code> - Skip a field during serialization</li>
+</ul>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<p>Basic struct:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::SurrealValue;
+
+<span class="attr">#[derive(SurrealValue)]
+</span><span class="kw">struct </span>Person {
+    name: String,
+    age: i64,
+}</code></pre></div>
+<p>Enum with variants:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::SurrealValue;
+
+<span class="attr">#[derive(SurrealValue)]
+</span><span class="kw">enum </span>Status {
+    Active,
+    Inactive,
+    Pending { reason: String },
+}</code></pre></div>
+<p>Custom crate path (useful when re-exporting):</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>my_crate::SurrealValue;
+
+<span class="attr">#[derive(SurrealValue)]
+#[surreal(<span class="kw">crate </span>= <span class="string">"my_crate"</span>)]
+</span><span class="kw">struct </span>Person {
+    name: String,
+    age: i64,
+}</code></pre></div></div></details></section></div></main></body></html>

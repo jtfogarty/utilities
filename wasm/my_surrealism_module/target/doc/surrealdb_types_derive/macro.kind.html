@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A procedural macro for creating `Kind` values with a convenient DSL syntax."><title>kind in surrealdb_types_derive - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="surrealdb_types_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">kind</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../surrealdb_types_derive/index.html">surrealdb_<wbr>types_<wbr>derive</a><span class="version">3.0.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">kind</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">Examples</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate surrealdb_<wbr>types_<wbr>derive</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">surrealdb_types_derive</a></div><h1>Macro <span class="macro">kind</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/surrealdb_types_derive/lib.rs.html#138-140">Source</a> </span></div><pre class="rust item-decl"><code>kind!() { <span class="comment">/* proc-macro */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A procedural macro for creating <code>Kind</code> values with a convenient DSL syntax.</p>
+<p>This macro provides a rich syntax for constructing type definitions, including:</p>
+<ul>
+<li>Basic types: <code>string</code>, <code>bool</code>, <code>int</code>, <code>datetime</code>, etc.</li>
+<li>Parameterized types: <code>array&lt;string&gt;</code>, <code>set&lt;int, 5&gt;</code>, <code>record&lt;user | post&gt;</code></li>
+<li>Union types: <code>string | bool | int</code></li>
+<li>Literal values: <code>true</code>, <code>false</code>, <code>42</code>, <code>"hello"</code></li>
+<li>Object literals: <code>{ status: string, "user-id": int }</code></li>
+<li>Array literals: <code>[string, int, bool]</code></li>
+<li>Escape hatches: <code>(expr)</code> for arbitrary Rust expressions</li>
+<li>Type prefixes: <code>Kind::String</code>, <code>Literal::Bool(true)</code></li>
+</ul>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{kind, Kind};
+
+<span class="comment">// Basic types
+</span><span class="kw">let </span>string_kind = <span class="macro">kind!</span>(string);
+<span class="kw">let </span>array_of_strings = <span class="macro">kind!</span>(array&lt;string&gt;);
+
+<span class="comment">// Union types
+</span><span class="kw">let </span>string_or_int = <span class="macro">kind!</span>(string | int);
+
+<span class="comment">// Object literals with mixed key styles
+</span><span class="kw">let </span>response_type = <span class="macro">kind!</span>({
+    status: string,
+    <span class="string">"user-id"</span>: int,
+    data: any
+});
+
+<span class="comment">// Dynamic types with escape hatch
+</span><span class="kw">fn </span>generic_array&lt;T: SurrealValue&gt;() -&gt; Kind {
+    <span class="macro">kind!</span>(array&lt;(T::kind_of())&gt;)
+}</code></pre></div></div></details></section></div></main></body></html>

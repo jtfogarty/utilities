@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This crate will help you to write simpler tests by leveraging a software testing concept called test fixtures. A fixture is something that you can use in your tests to encapsulate a test’s dependencies."><title>rstest - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="rstest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate rstest</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../rstest/index.html">rstest</a><span class="version">0.26.1</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#what" title="What">What</a></li><li><a href="#why" title="Why">Why</a></li><li><a href="#features" title="Features">Features</a></li><li><a href="#injecting-fixtures-as-function-arguments" title="Injecting fixtures as function arguments">Injecting fixtures as function arguments</a></li><li><a href="#creating-parametrized-tests" title="Creating parametrized tests">Creating parametrized tests</a></li><li><a href="#creating-a-test-for-each-combinations-of-given-values" title="Creating a test for each combinations of given values">Creating a test for each combinations of given values</a></li><li><a href="#magic-conversion" title="Magic Conversion">Magic Conversion</a></li></ul><h3><a href="#structs">Crate Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#attributes" title="Attribute Macros">Attribute Macros</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>rstest</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/rstest/lib.rs.html#1-1563">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This crate will help you to write simpler tests by leveraging a software testing concept called
+<a href="https://en.wikipedia.org/wiki/Test_fixture#Software">test fixtures</a>. A fixture is something
+that you can use in your tests to encapsulate a test’s dependencies.</p>
+<p>The general idea is to have smaller tests that only describe the thing you’re testing while you
+hide the auxiliary utilities your tests make use of somewhere else.
+For instance, if you have an application that has many tests with users, shopping baskets, and
+products, you’d have to create a user, a shopping basket, and product every single time in
+every test which becomes unwieldy quickly. To cut down on that repetition, you can
+instead use fixtures to declare that you need those objects for your function and the fixtures
+will take care of creating those by themselves. Focus on the important stuff in your tests!</p>
+<p>In <code>rstest</code> a fixture is a function that can return any kind of valid Rust type. This
+effectively means that your fixtures are not limited by the kind of data they can return.
+A test can consume an arbitrary number of fixtures at the same time.</p>
+<h3 id="what"><a class="doc-anchor" href="#what">§</a>What</h3>
+<p>The <code>rstest</code> crate defines the following procedural macros:</p>
+<ul>
+<li><a href="attr.rstest.html" title="attr rstest::rstest"><code>[rstest]</code></a>: Declare that a test or a group of tests that may take
+<a href="attr.rstest.html#injecting-fixtures">fixtures</a>,
+<a href="attr.rstest.html#test-parametrized-cases">input table</a>,
+<a href="attr.rstest.html#values-lists">list of values</a> or read data from
+<a href="attr.rstest.html#files-path-as-input-arguments">files</a>.</li>
+<li><a href="attr.fixture.html" title="attr rstest::fixture"><code>[fixture]</code></a>: To mark a function as a fixture.</li>
+</ul>
+<h3 id="why"><a class="doc-anchor" href="#why">§</a>Why</h3>
+<p>Very often in Rust we write tests like this</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>should_process_two_users() {
+    <span class="kw">let </span><span class="kw-2">mut </span>repository = create_repository();
+    repository.add(<span class="string">"Bob"</span>, <span class="number">21</span>);
+    repository.add(<span class="string">"Alice"</span>, <span class="number">22</span>);
+
+    <span class="kw">let </span>processor = string_processor();
+    processor.send_all(<span class="kw-2">&amp;</span>repository, <span class="string">"Good Morning"</span>);
+
+    <span class="macro">assert_eq!</span>(<span class="number">2</span>, processor.output.find(<span class="string">"Good Morning"</span>).count());
+    <span class="macro">assert!</span>(processor.output.contains(<span class="string">"Bob"</span>));
+    <span class="macro">assert!</span>(processor.output.contains(<span class="string">"Alice"</span>));
+}</code></pre></div>
+<p>By making use of <a href="attr.rstest.html" title="attr rstest::rstest"><code>[rstest]</code></a> we can isolate the dependencies <code>empty_repository</code> and
+<code>string_processor</code> by passing them as fixtures:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+</span><span class="kw">fn </span>should_process_two_users(<span class="kw-2">mut </span>empty_repository: <span class="kw">impl </span>Repository,
+                            string_processor: FakeProcessor) {
+    empty_repository.add(<span class="string">"Bob"</span>, <span class="number">21</span>);
+    empty_repository.add(<span class="string">"Alice"</span>, <span class="number">22</span>);
+
+    string_processor.send_all(<span class="string">"Good Morning"</span>);
+
+    <span class="macro">assert_eq!</span>(<span class="number">2</span>, string_processor.output.find(<span class="string">"Good Morning"</span>).count());
+    <span class="macro">assert!</span>(string_processor.output.contains(<span class="string">"Bob"</span>));
+    <span class="macro">assert!</span>(string_processor.output.contains(<span class="string">"Alice"</span>));
+}</code></pre></div>
+<p>… or if you use <code>"Alice"</code> and <code>"Bob"</code> in other tests, you can isolate <code>alice_and_bob</code> fixture
+and use it directly:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[fixture]
+</span><span class="kw">fn </span>alice_and_bob(<span class="kw-2">mut </span>empty_repository: <span class="kw">impl </span>Repository) -&gt; <span class="kw">impl </span>Repository {
+    empty_repository.add(<span class="string">"Bob"</span>, <span class="number">21</span>);
+    empty_repository.add(<span class="string">"Alice"</span>, <span class="number">22</span>);
+    empty_repository
+}
+
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>should_process_two_users(alice_and_bob: <span class="kw">impl </span>Repository,
+                            string_processor: FakeProcessor) {
+    string_processor.send_all(<span class="string">"Good Morning"</span>);
+
+    <span class="macro">assert_eq!</span>(<span class="number">2</span>, string_processor.output.find(<span class="string">"Good Morning"</span>).count());
+    <span class="macro">assert!</span>(string_processor.output.contains(<span class="string">"Bob"</span>));
+    <span class="macro">assert!</span>(string_processor.output.contains(<span class="string">"Alice"</span>));
+}</code></pre></div><h3 id="features"><a class="doc-anchor" href="#features">§</a>Features</h3>
+<ul>
+<li><code>async-timeout</code>: <code>timeout</code> for <code>async</code> tests (Default enabled)</li>
+<li><code>crate-name</code>: Import <code>rstest</code> package with different name (Default enabled)</li>
+</ul>
+<h3 id="injecting-fixtures-as-function-arguments"><a class="doc-anchor" href="#injecting-fixtures-as-function-arguments">§</a>Injecting fixtures as function arguments</h3>
+<p><code>rstest</code> functions can receive fixtures by using them as input arguments.
+A function decorated with <a href="attr.rstest.html#injecting-fixtures"><code>[rstest]</code></a>
+will resolve each argument name by call the fixture function.
+Fixtures should be annotated with the <a href="attr.fixture.html" title="attr rstest::fixture"><code>[fixture]</code></a> attribute.</p>
+<p>Fixtures will be resolved like function calls by following the standard resolution rules.
+Therefore, an identically named fixture can be use in different context.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">mod </span>empty_cases {
+    <span class="kw">use </span>super::<span class="kw-2">*</span>;
+
+    <span class="attr">#[fixture]
+    </span><span class="kw">fn </span>repository() -&gt; <span class="kw">impl </span>Repository {
+        DataSet::default()
+    }
+
+    <span class="attr">#[rstest]
+    </span><span class="kw">fn </span>should_do_nothing(repository: <span class="kw">impl </span>Repository) {
+        <span class="comment">//.. test impl ..
+    </span>}
+}
+
+<span class="kw">mod </span>non_trivial_case {
+    <span class="kw">use </span>super::<span class="kw-2">*</span>;
+
+    <span class="attr">#[fixture]
+    </span><span class="kw">fn </span>repository() -&gt; <span class="kw">impl </span>Repository {
+        <span class="kw">let </span><span class="kw-2">mut </span>ds = DataSet::default();
+        <span class="comment">// Fill your dataset with interesting case
+        </span>ds
+    }
+
+    <span class="attr">#[rstest]
+    </span><span class="kw">fn </span>should_notify_all_entries(repository: <span class="kw">impl </span>Repository) {
+        <span class="comment">//.. test impl ..
+    </span>}
+}
+</code></pre></div>
+<p>Last but not least, fixtures can be injected like we saw in <code>alice_and_bob</code> example.</p>
+<h3 id="creating-parametrized-tests"><a class="doc-anchor" href="#creating-parametrized-tests">§</a>Creating parametrized tests</h3>
+<p>You can use also <a href="attr.rstest.html#test-parametrized-cases"><code>[rstest]</code></a> to create
+simple table-based tests. Let’s see the classic Fibonacci example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rstest::rstest;
+
+<span class="attr">#[rstest]
+#[case(<span class="number">0</span>, <span class="number">0</span>)]
+#[case(<span class="number">1</span>, <span class="number">1</span>)]
+#[case(<span class="number">2</span>, <span class="number">1</span>)]
+#[case(<span class="number">3</span>, <span class="number">2</span>)]
+#[case(<span class="number">4</span>, <span class="number">3</span>)]
+#[case(<span class="number">5</span>, <span class="number">5</span>)]
+#[case(<span class="number">6</span>, <span class="number">8</span>)]
+</span><span class="kw">fn </span>fibonacci_test(<span class="attr">#[case] </span>input: u32,<span class="attr">#[case] </span>expected: u32) {
+    <span class="macro">assert_eq!</span>(expected, fibonacci(input))
+}
+
+<span class="kw">fn </span>fibonacci(input: u32) -&gt; u32 {
+    <span class="kw">match </span>input {
+        <span class="number">0 </span>=&gt; <span class="number">0</span>,
+        <span class="number">1 </span>=&gt; <span class="number">1</span>,
+        n =&gt; fibonacci(n - <span class="number">2</span>) + fibonacci(n - <span class="number">1</span>)
+    }
+}</code></pre></div>
+<p>This will generate a bunch of tests, one for every <code>#[case(a, b)]</code>.</p>
+<h3 id="creating-a-test-for-each-combinations-of-given-values"><a class="doc-anchor" href="#creating-a-test-for-each-combinations-of-given-values">§</a>Creating a test for each combinations of given values</h3>
+<p>In some cases you need to test your code for each combinations of some input values. In this
+cases <a href="attr.rstest.html#values-lists"><code>[rstest]</code></a> give you the ability to define a list
+of values (rust expressions) to use for an arguments.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="attr">#[rstest]
+</span><span class="kw">fn </span>should_terminate(
+    <span class="attr">#[values(State::Init, State::Start, State::Processing)]
+    </span>state: State,
+    <span class="attr">#[values(Event::Error, Event::Fatal)]
+    </span>event: Event
+) {
+    <span class="macro">assert_eq!</span>(State::Terminated, state.process(event))
+}</code></pre></div>
+<p>This will generate a test for each combination of <code>state</code> and <code>event</code>.</p>
+<h3 id="magic-conversion"><a class="doc-anchor" href="#magic-conversion">§</a>Magic Conversion</h3>
+<p>If you need a value where its type implement <code>FromStr()</code> trait you
+can use a literal string to build it.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[rstest]
+#[case(<span class="string">"1.2.3.4:8080"</span>, <span class="number">8080</span>)]
+#[case(<span class="string">"127.0.0.1:9000"</span>, <span class="number">9000</span>)]
+</span><span class="kw">fn </span>check_port(<span class="attr">#[case] </span>addr: SocketAddr, <span class="attr">#[case] </span>expected: u16) {
+    <span class="macro">assert_eq!</span>(expected, addr.port());
+}</code></pre></div>
+<p>You can use this feature also in value list and in fixture default value.</p>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Context.html" title="struct rstest::Context">Context</a></dt><dd>A test context.</dd></dl><h2 id="attributes" class="section-header">Attribute Macros<a href="#attributes" class="anchor">§</a></h2><dl class="item-table"><dt><a class="attr" href="attr.fixture.html" title="attr rstest::fixture">fixture</a></dt><dd>Define a fixture that you can use in all <code>rstest</code>’s test arguments. You should just mark your
+function as <code>#[fixture]</code> and then use it as a test’s argument. Fixture functions can also
+use other fixtures.</dd><dt><a class="attr" href="attr.rstest.html" title="attr rstest::rstest">rstest</a></dt><dd>The attribute that you should use for your tests. Your
+annotated function’s arguments can be
+<a href="attr.rstest.html#injecting-fixtures">injected</a> with
+<a href="attr.fixture.html" title="attr rstest::fixture"><code>fixture</code></a>s, provided by
+<a href="attr.rstest.html#test-parametrized-cases">parametrized cases</a>
+or by <a href="attr.rstest.html#values-lists">value lists</a>.</dd></dl></section></div></main></body></html>

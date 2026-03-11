@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["contour","resource","shape","shapes"]};

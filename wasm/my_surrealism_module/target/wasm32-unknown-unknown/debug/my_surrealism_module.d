@@ -1,0 +1,1 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/my_surrealism_module.wasm: /Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/src/lib.rs

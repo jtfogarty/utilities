@@ -1,0 +1,10 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/getrandom-acc16bcae62c6695.d: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/libgetrandom-acc16bcae62c6695.rlib: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/libgetrandom-acc16bcae62c6695.rmeta: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs
+
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs:

@@ -1,0 +1,10 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-wasip1/release/deps/rstest-3fa22debf8a6fdb0.d: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-wasip1/release/deps/librstest-3fa22debf8a6fdb0.rlib: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-wasip1/release/deps/librstest-3fa22debf8a6fdb0.rmeta: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs:

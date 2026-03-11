@@ -1,0 +1,10 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/debug/deps/surrealism-6d6eb57ac39ead55.d: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/controller.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/err.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/imports.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/memory.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/registry.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/debug/deps/libsurrealism-6d6eb57ac39ead55.rmeta: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/controller.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/err.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/imports.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/memory.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/registry.rs
+
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/lib.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/controller.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/err.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/imports.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/memory.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/surrealism-0.1.10/src/registry.rs:

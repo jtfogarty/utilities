@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["SerializableRange","Serialized"],"trait":["Serializable"]};

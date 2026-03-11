@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Trait to stitch together split up triangles."><title>StitchTriangles in geo::algorithm - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="geo" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">StitchTriangles</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../../geo/index.html"><img src="https://raw.githubusercontent.com/georust/meta/master/logo/logo.png" alt="logo"></a><h2><a href="../../geo/index.html">geo</a><span class="version">0.32.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Stitch<wbr>Triangles</a></h2><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.stitch_triangulation" title="stitch_triangulation">stitch_triangulation</a></li></ul><h3><a href="#implementors">Implementors</a></h3></section><div id="rustdoc-modnav"><h2><a href="index.html">In geo::<wbr>algorithm</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">geo</a>::<wbr><a href="index.html">algorithm</a></div><h1>Trait <span class="trait">Stitch<wbr>Triangles</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/geo/algorithm/stitch.rs.html#28-128">Source</a> </span></div><pre class="rust item-decl"><code>pub trait StitchTriangles&lt;T: <a class="trait" href="../trait.GeoFloat.html" title="trait geo::GeoFloat">GeoFloat</a>&gt;: Stitchable&lt;T&gt; {
+    // Required method
+    fn <a href="#tymethod.stitch_triangulation" class="fn">stitch_triangulation</a>(
+        &amp;self,
+    ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.94.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../geometry/struct.MultiPolygon.html" title="struct geo::geometry::MultiPolygon">MultiPolygon</a>&lt;T&gt;, LineStitchingError&gt;;
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Trait to stitch together split up triangles.</p>
+</div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.stitch_triangulation" class="method"><a class="src rightside" href="../../src/geo/algorithm/stitch.rs.html#127">Source</a><h4 class="code-header">fn <a href="#tymethod.stitch_triangulation" class="fn">stitch_triangulation</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.94.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../geometry/struct.MultiPolygon.html" title="struct geo::geometry::MultiPolygon">MultiPolygon</a>&lt;T&gt;, LineStitchingError&gt;</h4></section></summary><div class="docblock"><p>This stitching only happens along identical edges which are located in two separate
+geometries. Please read about the required pre conditions of the inputs!</p>
+<div class="example-wrap"><pre class="language-text"><code>┌─────x        ┌─────┐
+│    /│        │     │
+│   / │        │     │
+│  /  │  ───►  │     │
+│ /   │        │     │
+│/    │        │     │
+x─────┘        └─────┘</code></pre></div><h5 id="pre-conditions"><a class="doc-anchor" href="#pre-conditions">§</a>Pre Conditions</h5>
+<ul>
+<li>The triangles in the input must not overlap! This also forbids identical triangles in the
+input set. If you want to do a union on overlapping triangles then c.f. <code>SpadeBoolops</code>.</li>
+<li>Input triangles should be valid polygons. For a definition of validity
+c.f. <a href="https://www.postgis.net/workshops/postgis-intro/validity.html">https://www.postgis.net/workshops/postgis-intro/validity.html</a></li>
+</ul>
+<h5 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h5><div class="example-wrap"><pre class="language-text"><code>use geo::StitchTriangles;
+use geo::{Coord, Triangle, polygon};
+
+let tri1 = Triangle::from([
+    Coord { x: 0.0, y: 0.0 },
+    Coord { x: 1.0, y: 0.0 },
+    Coord { x: 0.0, y: 1.0 },
+]);
+let tri2 = Triangle::from([
+    Coord { x: 1.0, y: 1.0 },
+    Coord { x: 1.0, y: 0.0 },
+    Coord { x: 0.0, y: 1.0 },
+]);
+
+let result = vec![tri1, tri2].stitch_triangulation();
+
+assert!(result.is_ok());
+
+let mp = result.unwrap();
+
+assert_eq!(mp.0.len(), 1);
+
+let poly = mp.0[0].clone();
+// 4 coords + 1 duplicate for closed-ness
+assert_eq!(poly.exterior().0.len(), 4 + 1);
+
+let expected = polygon![
+    Coord { x: 1.0, y: 1.0 },
+    Coord { x: 0.0, y: 1.0 },
+    Coord { x: 0.0, y: 0.0 },
+    Coord { x: 1.0, y: 0.0 },
+];
+
+assert_eq!(poly, expected);</code></pre></div><h5 id="additional-notes"><a class="doc-anchor" href="#additional-notes">§</a>Additional Notes</h5>
+<p>Stitching triangles which result in a polygon with a hole which touches the outline
+(mentioned here <a href="https://postgis.net/workshops/postgis-intro/validity.html#repairing-invalidity">banana polygon</a>)
+will result in a single polygon without interiors instead of a polygon with a single
+interior</p>
+<div class="example-wrap"><pre class="language-text"><code>┌────────x────────┐
+│\....../ \....../│
+│.\..../   \..../.│
+│..\../     \../..│
+│...\/       \/...│
+│...───────────...│
+│../\....^..../\..│
+│./..\../.\../..\.│
+│/....\/...\/....\│
+└─────────────────┘
+
+    │    │    │
+    ▼    ▼    ▼
+
+┌────────x────────┐
+│       / \       │
+│      /   \      │
+│     /     \     │
+│    /       \    │
+│   ───────────   │
+│                 │
+│                 │
+│                 │
+└─────────────────┘</code></pre></div>
+<hr />
+<p>If you want to do something more general like a
+<a href="https://en.wikipedia.org/wiki/Boolean_operations_on_polygons"><code>Boolean Operation Union</code></a>
+you should use the trait <code>BooleanOps</code> or <code>SpadeBoolops</code>.</p>
+</div></details></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><div class="negative-marker"></div><section id="impl-StitchTriangles%3CT%3E-for-S" class="impl"><a class="src rightside" href="../../src/geo/algorithm/stitch.rs.html#142-150">Source</a><a href="#impl-StitchTriangles%3CT%3E-for-S" class="anchor">§</a><h3 class="code-header">impl&lt;S, T&gt; <a class="trait" href="trait.StitchTriangles.html" title="trait geo::algorithm::StitchTriangles">StitchTriangles</a>&lt;T&gt; for S<div class="where">where
+    S: Stitchable&lt;T&gt;,
+    T: <a class="trait" href="../trait.GeoFloat.html" title="trait geo::GeoFloat">GeoFloat</a>,</div></h3></section></div><script src="../../trait.impl/geo/algorithm/stitch/trait.StitchTriangles.js" async></script></section></div></main></body></html>

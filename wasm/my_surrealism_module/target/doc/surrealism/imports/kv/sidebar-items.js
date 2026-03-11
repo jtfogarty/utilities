@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["count","del","del_batch","del_rng","entries","exists","get","get_batch","keys","set","set_batch","values"]};

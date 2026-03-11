@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: jtfogar
+  description: Ansible role to install salt minion
+  company: ""
+  license: MIT
+  min_ansible_version: 2.9
+  platforms: []
+  galaxy_tags: []
+dependencies: []

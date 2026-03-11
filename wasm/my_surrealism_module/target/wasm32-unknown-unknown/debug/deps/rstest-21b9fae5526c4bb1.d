@@ -1,0 +1,10 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/rstest-21b9fae5526c4bb1.d: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/librstest-21b9fae5526c4bb1.rlib: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/librstest-21b9fae5526c4bb1.rmeta: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs:

@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="SurrealDB Types"><title>surrealdb_types - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="surrealdb_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate surrealdb_types</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../surrealdb_types/index.html">surrealdb_<wbr>types</a><span class="version">3.0.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#surrealdb-types" title="SurrealDB Types">SurrealDB Types</a><ul><li><a href="#purpose" title="Purpose">Purpose</a></li><li><a href="#core-types" title="Core Types">Core Types</a></li><li><a href="#key-features" title="Key Features">Key Features</a></li><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#dependencies" title="Dependencies">Dependencies</a></li><li><a href="#license" title="License">License</a></li></ul></li></ul><h3><a href="#modules">Crate Items</a></h3><ul class="block"><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#macros" title="Macros">Macros</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#enums" title="Enums">Enums</a></li><li><a href="#traits" title="Traits">Traits</a></li><li><a href="#functions" title="Functions">Functions</a></li><li><a href="#derives" title="Derive Macros">Derive Macros</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>surrealdb_<wbr>types</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/surrealdb_types/lib.rs.html#1-275">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="surrealdb-types"><a class="doc-anchor" href="#surrealdb-types">§</a>SurrealDB Types</h2>
+<p>This crate provides the shared public value type system for SurrealDB. It serves as a foundational layer that defines all the data types that can be stored and manipulated in SurrealDB.</p>
+<h3 id="purpose"><a class="doc-anchor" href="#purpose">§</a>Purpose</h3>
+<p>The <code>surrealdb-types</code> crate acts as a shared public value type system that:</p>
+<ul>
+<li><strong>Provides type safety</strong>: Offers strongly-typed representations of all SurrealDB data types</li>
+<li><strong>Enables serialization</strong>: Supports serialization/deserialization of values</li>
+<li><strong>Facilitates type conversion</strong>: Provides traits and methods for converting between Rust types and SurrealDB values</li>
+</ul>
+<h3 id="core-types"><a class="doc-anchor" href="#core-types">§</a>Core Types</h3><h4 id="value-types"><a class="doc-anchor" href="#value-types">§</a>Value Types</h4>
+<p>The main <code>Value</code> enum represents all possible data types in SurrealDB:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{Array, Datetime, Number, Object, Value};
+<span class="kw">use </span>std::collections::BTreeMap;
+
+<span class="comment">// Basic types
+</span><span class="kw">let </span>bool_val = Value::Bool(<span class="bool-val">true</span>);
+<span class="kw">let </span>string_val = Value::String(<span class="string">"hello"</span>.to_string());
+<span class="kw">let </span>number_val = Value::Number(Number::Int(<span class="number">42</span>));
+
+<span class="comment">// Complex types
+</span><span class="kw">let </span>array_val = Value::Array(Array::from(<span class="macro">vec!</span>[Value::String(<span class="string">"item"</span>.to_string())]));
+<span class="kw">let </span>object_val = Value::Object(Object::new());
+<span class="kw">let </span>datetime_val = Value::Datetime(Datetime::now());</code></pre></div><h4 id="type-system"><a class="doc-anchor" href="#type-system">§</a>Type System</h4>
+<p>The <code>Kind</code> enum represents the type system used for schema validation and type checking:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::Kind;
+
+<span class="comment">// Basic kinds
+</span><span class="kw">let </span>string_kind = Kind::String;
+<span class="kw">let </span>number_kind = Kind::Number;
+<span class="kw">let </span>array_kind = Kind::Array(Box::new(Kind::String), <span class="prelude-val">Some</span>(<span class="number">10</span>)); <span class="comment">// Array of strings, max 10 items</span></code></pre></div><h3 id="key-features"><a class="doc-anchor" href="#key-features">§</a>Key Features</h3><h4 id="type-conversion"><a class="doc-anchor" href="#type-conversion">§</a>Type Conversion</h4>
+<p>The <code>SurrealValue</code> trait provides type-safe conversion between Rust types and SurrealDB values:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{SurrealValue, Value};
+
+<span class="comment">// Convert from Rust type to SurrealDB value
+</span><span class="kw">let </span>value: Value = <span class="string">"hello"</span>.to_string().into_value();
+
+<span class="comment">// Check if a value is of a specific type
+</span><span class="kw">if </span>value.is::&lt;String&gt;() {
+    <span class="macro">println!</span>(<span class="string">"Value is a string"</span>);
+}
+
+<span class="comment">// Convert from SurrealDB value to Rust type
+</span><span class="kw">let </span>string = value.into_t::&lt;String&gt;().unwrap();
+<span class="macro">println!</span>(<span class="string">"Extracted string: {}"</span>, string);</code></pre></div><h4 id="geometric-types"><a class="doc-anchor" href="#geometric-types">§</a>Geometric Types</h4>
+<p>Support for spatial data types using the <code>geo</code> crate:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{Geometry, Value};
+<span class="kw">use </span>geo::Point;
+
+<span class="kw">let </span>point = Point::new(<span class="number">1.0</span>, <span class="number">2.0</span>);
+<span class="kw">let </span>geometry_val = Value::Geometry(Geometry::Point(point));</code></pre></div><h4 id="record-identifiers"><a class="doc-anchor" href="#record-identifiers">§</a>Record Identifiers</h4>
+<p>Type-safe representation of SurrealDB record identifiers:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{RecordId, RecordIdKey, Value};
+
+<span class="kw">let </span>record_id = RecordId {
+    table: <span class="string">"person"</span>.into(),
+    key: RecordIdKey::String(<span class="string">"john"</span>.to_string()),
+};
+<span class="kw">let </span>record_val = Value::RecordId(record_id);</code></pre></div><h3 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h3><h4 id="basic-usage"><a class="doc-anchor" href="#basic-usage">§</a>Basic Usage</h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{Value, Number, Array, Object};
+<span class="kw">use </span>std::collections::BTreeMap;
+
+<span class="comment">// Create values
+</span><span class="kw">let </span>values = <span class="macro">vec!</span>[
+    Value::Bool(<span class="bool-val">true</span>),
+    Value::Number(Number::Int(<span class="number">42</span>)),
+    Value::String(<span class="string">"hello"</span>.to_string()),
+    Value::Array(Array::from(<span class="macro">vec!</span>[Value::String(<span class="string">"item"</span>.to_string())])),
+];
+
+<span class="comment">// Work with objects
+</span><span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::new();
+map.insert(<span class="string">"key"</span>.to_string(), Value::String(<span class="string">"value"</span>.to_string()));
+<span class="kw">let </span>object = Value::Object(Object::from(map));</code></pre></div><h4 id="macros-for-object--array-values"><a class="doc-anchor" href="#macros-for-object--array-values">§</a>Macros for object &amp; array values</h4>
+<p>This library provides two macros to easily create object and array values. All values you pass to the macro must implement the <code>SurrealValue</code> trait.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{object, array};
+
+<span class="kw">let </span>values = <span class="macro">array!</span>[
+    <span class="bool-val">true</span>,
+    <span class="number">42</span>,
+    <span class="string">"hello"</span>.to_string(),
+    <span class="macro">array!</span>[<span class="string">"item1"</span>.to_string()],
+];
+
+<span class="kw">let </span>map = <span class="macro">object!</span> {
+    key: <span class="string">"value"</span>.to_string(),
+};</code></pre></div><h4 id="deriving-the-surrealvalue-trait"><a class="doc-anchor" href="#deriving-the-surrealvalue-trait">§</a>Deriving the <code>SurrealValue</code> trait</h4><h5 id="requirements"><a class="doc-anchor" href="#requirements">§</a>Requirements</h5>
+<ul>
+<li>All fields must implement the <code>SurrealValue</code> trait</li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::SurrealValue;
+
+<span class="attr">#[derive(SurrealValue)]
+</span><span class="kw">struct </span>Person {
+    name: String,
+    age: i64,
+}
+
+<span class="kw">let </span>person = Person {
+    name: <span class="string">"John"</span>.to_string(),
+    age: <span class="number">30</span>,
+};
+
+<span class="kw">let </span>value = person.into_value();
+<span class="kw">let </span>person2 = Person::from_value(value).unwrap();
+
+<span class="macro">assert_eq!</span>(person2.name, <span class="string">"John"</span>);
+<span class="macro">assert_eq!</span>(person2.age, <span class="number">30</span>);</code></pre></div><h4 id="type-checking"><a class="doc-anchor" href="#type-checking">§</a>Type Checking</h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealdb_types::{Value, SurrealValue};
+
+<span class="kw">fn </span>process_value(value: <span class="kw-2">&amp;</span>Value) {
+    <span class="kw">match </span>value {
+        Value::String(s) =&gt; <span class="macro">println!</span>(<span class="string">"String: {}"</span>, s),
+        Value::Number(n) =&gt; <span class="macro">println!</span>(<span class="string">"Number: {:?}"</span>, n),
+        Value::Array(arr) =&gt; <span class="macro">println!</span>(<span class="string">"Array with {} items"</span>, arr.len()),
+        <span class="kw">_ </span>=&gt; <span class="macro">println!</span>(<span class="string">"Other type"</span>),
+    }
+}</code></pre></div><h3 id="dependencies"><a class="doc-anchor" href="#dependencies">§</a>Dependencies</h3>
+<p>This crate has minimal external dependencies:</p>
+<ul>
+<li><code>serde</code>: For serialization/deserialization</li>
+<li><code>chrono</code>: For datetime handling</li>
+<li><code>uuid</code>: For UUID support</li>
+<li><code>rust_decimal</code>: For decimal number support</li>
+<li><code>regex</code>: For regular expression support</li>
+<li><code>geo</code>: For geometric types</li>
+<li><code>surrealdb-types-derive</code>: For deriving the <code>SurrealValue</code> trait</li>
+<li><code>surrealdb-protocol</code>: For the SurrealDB protocol</li>
+<li><code>flatbuffers</code>: For the FlatBuffers protocol</li>
+<li><code>bytes</code>: For the Bytes type</li>
+<li><code>anyhow</code>: For error handling</li>
+<li><code>geo</code>: For geometric types</li>
+<li><code>regex</code>: For regular expression support</li>
+<li><code>rust_decimal</code>: For decimal number support</li>
+<li><code>uuid</code>: For UUID support</li>
+<li><code>rstest</code>: For testing</li>
+<li><code>hex</code>: For hex encoding</li>
+</ul>
+<h3 id="license"><a class="doc-anchor" href="#license">§</a>License</h3>
+<p>This crate is part of SurrealDB and follows the same licensing terms.</p>
+</div></details><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="array/index.html" title="mod surrealdb_types::array">array</a></dt><dd>Array value types for SurrealDB</dd><dt><a class="mod" href="bytes/index.html" title="mod surrealdb_types::bytes">bytes</a></dt><dd>Binary data value types for SurrealDB</dd><dt><a class="mod" href="datetime/index.html" title="mod surrealdb_types::datetime">datetime</a></dt><dd>Datetime value types for SurrealDB</dd><dt><a class="mod" href="duration/index.html" title="mod surrealdb_types::duration">duration</a></dt><dd>Duration value types for SurrealDB</dd><dt><a class="mod" href="file/index.html" title="mod surrealdb_types::file">file</a></dt><dd>File reference value types for SurrealDB</dd><dt><a class="mod" href="geometry/index.html" title="mod surrealdb_types::geometry">geometry</a></dt><dd>Geometric value types for SurrealDB</dd><dt><a class="mod" href="into_json/index.html" title="mod surrealdb_types::into_json">into_<wbr>json</a></dt><dd>JSON value types for SurrealDB</dd><dt><a class="mod" href="number/index.html" title="mod surrealdb_types::number">number</a></dt><dd>Numeric value types for SurrealDB</dd><dt><a class="mod" href="object/index.html" title="mod surrealdb_types::object">object</a></dt><dd>Object value types for SurrealDB</dd><dt><a class="mod" href="range/index.html" title="mod surrealdb_types::range">range</a></dt><dd>Range value types for SurrealDB</dd><dt><a class="mod" href="record_id/index.html" title="mod surrealdb_types::record_id">record_<wbr>id</a></dt><dd>Record identifier value types for SurrealDB</dd><dt><a class="mod" href="regex/index.html" title="mod surrealdb_types::regex">regex</a></dt><dd>Regular expression value types for SurrealDB</dd><dt><a class="mod" href="set/index.html" title="mod surrealdb_types::set">set</a></dt><dd>Set value types for SurrealDB</dd><dt><a class="mod" href="table/index.html" title="mod surrealdb_types::table">table</a></dt><dd>Table value types for SurrealDB</dd><dt><a class="mod" href="uuid/index.html" title="mod surrealdb_types::uuid">uuid</a></dt><dd>UUID value types for SurrealDB</dd></dl><h2 id="macros" class="section-header">Macros<a href="#macros" class="anchor">§</a></h2><dl class="item-table"><dt><a class="macro" href="macro.array.html" title="macro surrealdb_types::array">array</a></dt><dd>Macro for creating a SurrealDB array.</dd><dt><a class="macro" href="macro.kind.html" title="macro surrealdb_types::kind">kind</a></dt><dd>A procedural macro for creating <code>Kind</code> values with a convenient DSL syntax.</dd><dt><a class="macro" href="macro.object.html" title="macro surrealdb_types::object">object</a></dt><dd>Macro for creating a SurrealDB object.</dd><dt><a class="macro" href="macro.set.html" title="macro surrealdb_types::set">set</a></dt><dd>Macro for creating a SurrealDB set.</dd><dt><a class="macro" href="macro.vars.html" title="macro surrealdb_types::vars">vars</a></dt><dd>Macro for creating a SurrealDB variables struct.</dd><dt><a class="macro" href="macro.write_sql.html" title="macro surrealdb_types::write_sql">write_<wbr>sql</a></dt><dd>A procedural macro for writing SQL strings with automatic <code>ToSql</code> formatting.</dd></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Array.html" title="struct surrealdb_types::Array">Array</a></dt><dd>Represents an array of values in SurrealDB</dd><dt><a class="struct" href="struct.Bytes.html" title="struct surrealdb_types::Bytes">Bytes</a></dt><dd>Represents binary data in SurrealDB</dd><dt><a class="struct" href="struct.ConversionError.html" title="struct surrealdb_types::ConversionError">Conversion<wbr>Error</a></dt><dd>Error when converting between types</dd><dt><a class="struct" href="struct.Datetime.html" title="struct surrealdb_types::Datetime">Datetime</a></dt><dd>Represents a datetime value in SurrealDB</dd><dt><a class="struct" href="struct.Decimal.html" title="struct surrealdb_types::Decimal">Decimal</a></dt><dd><code>Decimal</code> represents a 128 bit representation of a fixed-precision decimal number.
+The finite set of values of type <code>Decimal</code> are of the form m / 10<sup>e</sup>,
+where m is an integer such that -2<sup>96</sup> &lt; m &lt; 2<sup>96</sup>, and e is an integer
+between 0 and 28 inclusive.</dd><dt><a class="struct" href="struct.Duration.html" title="struct surrealdb_types::Duration">Duration</a></dt><dd>Represents a duration value in SurrealDB</dd><dt><a class="struct" href="struct.Error.html" title="struct surrealdb_types::Error">Error</a></dt><dd>Represents an error in SurrealDB</dd><dt><a class="struct" href="struct.File.html" title="struct surrealdb_types::File">File</a></dt><dd>Represents a file reference in SurrealDB</dd><dt><a class="struct" href="struct.HashMap.html" title="struct surrealdb_types::HashMap">HashMap</a></dt><dd>A concurrent hashmap wrapper around papaya’s HashMap.</dd><dt><a class="struct" href="struct.LengthMismatchError.html" title="struct surrealdb_types::LengthMismatchError">Length<wbr>Mismatch<wbr>Error</a></dt><dd>Error when an array or tuple has the wrong length</dd><dt><a class="struct" href="struct.Notification.html" title="struct surrealdb_types::Notification">Notification</a></dt><dd>A live query notification.</dd><dt><a class="struct" href="struct.Object.html" title="struct surrealdb_types::Object">Object</a></dt><dd>Represents an object with key-value pairs in SurrealDB</dd><dt><a class="struct" href="struct.OutOfRangeError.html" title="struct surrealdb_types::OutOfRangeError">OutOf<wbr>Range<wbr>Error</a></dt><dd>Error when a value is out of range for the target type</dd><dt><a class="struct" href="struct.Range.html" title="struct surrealdb_types::Range">Range</a></dt><dd>Represents a range of values in SurrealDB</dd><dt><a class="struct" href="struct.RecordId.html" title="struct surrealdb_types::RecordId">Record<wbr>Id</a></dt><dd>Represents a record identifier in SurrealDB</dd><dt><a class="struct" href="struct.RecordIdKeyRange.html" title="struct surrealdb_types::RecordIdKeyRange">Record<wbr>IdKey<wbr>Range</a></dt><dd>Represents a range of record identifier keys in SurrealDB</dd><dt><a class="struct" href="struct.Regex.html" title="struct surrealdb_types::Regex">Regex</a></dt><dd>Represents a regular expression in SurrealDB</dd><dt><a class="struct" href="struct.Set.html" title="struct surrealdb_types::Set">Set</a></dt><dd>A set of unique values in SurrealDB</dd><dt><a class="struct" href="struct.SurrealNone.html" title="struct surrealdb_types::SurrealNone">Surreal<wbr>None</a></dt><dd>Marker type for value conversions from Value::None</dd><dt><a class="struct" href="struct.SurrealNull.html" title="struct surrealdb_types::SurrealNull">Surreal<wbr>Null</a></dt><dd>Marker type for value conversions from Value::Null</dd><dt><a class="struct" href="struct.Table.html" title="struct surrealdb_types::Table">Table</a></dt><dd>A value type referencing a specific table.</dd><dt><a class="struct" href="struct.Uuid.html" title="struct surrealdb_types::Uuid">Uuid</a></dt><dd>Represents a UUID value in SurrealDB</dd><dt><a class="struct" href="struct.Variables.html" title="struct surrealdb_types::Variables">Variables</a></dt><dd>Represents a set of variables that can be used in a query.</dd></dl><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.Action.html" title="enum surrealdb_types::Action">Action</a></dt><dd>The action that caused the notification</dd><dt><a class="enum" href="enum.AlreadyExistsError.html" title="enum surrealdb_types::AlreadyExistsError">Already<wbr>Exists<wbr>Error</a></dt><dd>Already-exists reason for [<code>ErrorKind::AlreadyExists</code>] errors.</dd><dt><a class="enum" href="enum.AuthError.html" title="enum surrealdb_types::AuthError">Auth<wbr>Error</a></dt><dd>Auth failure reason for [<code>ErrorKind::NotAllowed</code>] errors.</dd><dt><a class="enum" href="enum.ConfigurationError.html" title="enum surrealdb_types::ConfigurationError">Configuration<wbr>Error</a></dt><dd>Configuration failure reason for [<code>ErrorKind::Configuration</code>] errors.</dd><dt><a class="enum" href="enum.ConnectionError.html" title="enum surrealdb_types::ConnectionError">Connection<wbr>Error</a></dt><dd>Connection failure reason for [<code>ErrorKind::Connection</code>] errors.
+Used in the SDK for client-side connection state errors.</dd><dt><a class="enum" href="enum.Either2.html" title="enum surrealdb_types::Either2">Either2</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either3.html" title="enum surrealdb_types::Either3">Either3</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either4.html" title="enum surrealdb_types::Either4">Either4</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either5.html" title="enum surrealdb_types::Either5">Either5</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either6.html" title="enum surrealdb_types::Either6">Either6</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either7.html" title="enum surrealdb_types::Either7">Either7</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either8.html" title="enum surrealdb_types::Either8">Either8</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either9.html" title="enum surrealdb_types::Either9">Either9</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.Either10.html" title="enum surrealdb_types::Either10">Either10</a></dt><dd>Create an either of the given types</dd><dt><a class="enum" href="enum.ErrorDetails.html" title="enum surrealdb_types::ErrorDetails">Error<wbr>Details</a></dt><dd>Typed error details. Each variant represents an error kind and optionally
+wraps the detail enum for that kind. This replaces the separate <code>kind</code> field
+on <a href="struct.Error.html" title="struct surrealdb_types::Error"><code>Error</code></a> – the kind is derived from the variant.</dd><dt><a class="enum" href="enum.Geometry.html" title="enum surrealdb_types::Geometry">Geometry</a></dt><dd>Represents geometric shapes in SurrealDB</dd><dt><a class="enum" href="enum.GeometryKind.html" title="enum surrealdb_types::GeometryKind">Geometry<wbr>Kind</a></dt><dd>Represents different types of geometric shapes in SurrealDB’s type system</dd><dt><a class="enum" href="enum.Kind.html" title="enum surrealdb_types::Kind">Kind</a></dt><dd>The kind of a SurrealDB value.</dd><dt><a class="enum" href="enum.KindLiteral.html" title="enum surrealdb_types::KindLiteral">Kind<wbr>Literal</a></dt><dd>Represents literal values in SurrealDB’s type system</dd><dt><a class="enum" href="enum.NotAllowedError.html" title="enum surrealdb_types::NotAllowedError">NotAllowed<wbr>Error</a></dt><dd>Not-allowed reason for [<code>ErrorKind::NotAllowed</code>] errors.</dd><dt><a class="enum" href="enum.NotFoundError.html" title="enum surrealdb_types::NotFoundError">NotFound<wbr>Error</a></dt><dd>Not-found reason for [<code>ErrorKind::NotFound</code>] errors.</dd><dt><a class="enum" href="enum.Number.html" title="enum surrealdb_types::Number">Number</a></dt><dd>Represents a numeric value in SurrealDB</dd><dt><a class="enum" href="enum.QueryError.html" title="enum surrealdb_types::QueryError">Query<wbr>Error</a></dt><dd>Query failure reason for [<code>ErrorKind::Query</code>] errors.</dd><dt><a class="enum" href="enum.RecordIdKey.html" title="enum surrealdb_types::RecordIdKey">Record<wbr>IdKey</a></dt><dd>Represents a key component of a record identifier in SurrealDB</dd><dt><a class="enum" href="enum.SerializationError.html" title="enum surrealdb_types::SerializationError">Serialization<wbr>Error</a></dt><dd>Serialisation failure reason for [<code>ErrorKind::Serialization</code>] errors.</dd><dt><a class="enum" href="enum.SqlFormat.html" title="enum surrealdb_types::SqlFormat">SqlFormat</a></dt><dd>SQL formatting mode for pretty printing.</dd><dt><a class="enum" href="enum.TypeError.html" title="enum surrealdb_types::TypeError">Type<wbr>Error</a></dt><dd>Errors that can occur when working with SurrealDB types</dd><dt><a class="enum" href="enum.ValidationError.html" title="enum surrealdb_types::ValidationError">Validation<wbr>Error</a></dt><dd>Validation failure reason for [<code>ErrorKind::Validation</code>] errors.</dd><dt><a class="enum" href="enum.Value.html" title="enum surrealdb_types::Value">Value</a></dt><dd>Represents a value in SurrealDB</dd></dl><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.FromFlatbuffers.html" title="trait surrealdb_types::FromFlatbuffers">From<wbr>Flatbuffers</a></dt><dd>Trait for converting a flatbuffers builder type to a type.</dd><dt><a class="trait" href="trait.Indexable.html" title="trait surrealdb_types::Indexable">Indexable</a></dt><dd>Trait for values that can be indexed</dd><dt><a class="trait" href="trait.SurrealValue.html" title="trait surrealdb_types::SurrealValue">Surreal<wbr>Value</a></dt><dd>Trait for converting between SurrealDB values and Rust types</dd><dt><a class="trait" href="trait.ToFlatbuffers.html" title="trait surrealdb_types::ToFlatbuffers">ToFlatbuffers</a></dt><dd>Trait for converting a type to a flatbuffers builder type.</dd><dt><a class="trait" href="trait.ToSql.html" title="trait surrealdb_types::ToSql">ToSql</a></dt><dd>Trait for types that can be converted to SQL representation.</dd></dl><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.conversion_error.html" title="fn surrealdb_types::conversion_error">conversion_<wbr>error</a></dt><dd>Helper function to create a conversion error</dd><dt><a class="fn" href="fn.decode.html" title="fn surrealdb_types::decode">decode</a></dt><dd>Decode a flatbuffers vector to a public value.</dd><dt><a class="fn" href="fn.decode_kind.html" title="fn surrealdb_types::decode_kind">decode_<wbr>kind</a></dt><dd>Decode a flatbuffers vector to a public kind.</dd><dt><a class="fn" href="fn.encode.html" title="fn surrealdb_types::encode">encode</a></dt><dd>Encode a value to a flatbuffers vector.</dd><dt><a class="fn" href="fn.encode_kind.html" title="fn surrealdb_types::encode_kind">encode_<wbr>kind</a></dt><dd>Encode a kind to a flatbuffers vector.</dd><dt><a class="fn" href="fn.length_mismatch_error.html" title="fn surrealdb_types::length_mismatch_error">length_<wbr>mismatch_<wbr>error</a></dt><dd>Helper function to create a length mismatch error</dd><dt><a class="fn" href="fn.out_of_range_error.html" title="fn surrealdb_types::out_of_range_error">out_<wbr>of_<wbr>range_<wbr>error</a></dt><dd>Helper function to create an out of range error</dd><dt><a class="fn" href="fn.union_conversion_error.html" title="fn surrealdb_types::union_conversion_error">union_<wbr>conversion_<wbr>error</a></dt><dd>Helper function to create a conversion error for union types (Either)
+where the value doesn’t match any of the possible types</dd></dl><h2 id="derives" class="section-header">Derive Macros<a href="#derives" class="anchor">§</a></h2><dl class="item-table"><dt><a class="derive" href="derive.SurrealValue.html" title="derive surrealdb_types::SurrealValue">Surreal<wbr>Value</a></dt><dd>Derives the <code>SurrealValue</code> trait for a struct or enum.</dd></dl></section></div></main></body></html>

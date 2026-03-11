@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Synchronous memory controller for WASM linear memory (guest side)."><title>MemoryController in surrealism_types::controller - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="surrealism_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">MemoryController</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../surrealism_types/index.html">surrealism_<wbr>types</a><span class="version">0.1.10</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Memory<wbr>Controller</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#implementation-notes" title="Implementation Notes">Implementation Notes</a></li><li><a href="#example" title="Example">Example</a></li></ul><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.alloc" title="alloc">alloc</a></li><li><a href="#tymethod.free" title="free">free</a></li><li><a href="#tymethod.mut_mem" title="mut_mem">mut_mem</a></li></ul><h3><a href="#implementors">Implementors</a></h3></section><div id="rustdoc-modnav"><h2><a href="index.html">In surrealism_<wbr>types::<wbr>controller</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">surrealism_types</a>::<wbr><a href="index.html">controller</a></div><h1>Trait <span class="trait">Memory<wbr>Controller</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/surrealism_types/controller.rs.html#67-123">Source</a> </span></div><pre class="rust item-decl"><code>pub trait MemoryController {
+    // Required methods
+    fn <a href="#tymethod.alloc" class="fn">alloc</a>(&amp;mut self, len: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="../../anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>&gt;;
+<span class="item-spacer"></span>    fn <a href="#tymethod.free" class="fn">free</a>(&amp;mut self, ptr: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>, len: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="../../anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.unit.html">()</a>&gt;;
+<span class="item-spacer"></span>    fn <a href="#tymethod.mut_mem" class="fn">mut_mem</a>(&amp;mut self, ptr: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>, len: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>) -&gt; &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u8.html">u8</a>] <a href="#" class="tooltip" data-notable-ty="&amp;mut [u8]">ⓘ</a>;
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Synchronous memory controller for WASM linear memory (guest side).</p>
+<p>This trait provides the interface for managing memory allocations within a WASM module.
+It’s designed to be used on the guest side where all operations are synchronous.</p>
+<h2 id="implementation-notes"><a class="doc-anchor" href="#implementation-notes">§</a>Implementation Notes</h2>
+<p>Implementers typically:</p>
+<ul>
+<li>Use the WASM allocator (<code>__alloc</code>, <code>__free</code> exports)</li>
+<li>Track allocations for cleanup</li>
+<li>Validate alignment and bounds</li>
+</ul>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>surrealism_types::MemoryController;
+
+<span class="kw">struct </span>MyController {
+    memory: Vec&lt;u8&gt;,
+}
+
+<span class="kw">impl </span>MemoryController <span class="kw">for </span>MyController {
+    <span class="kw">fn </span>alloc(<span class="kw-2">&amp;mut </span><span class="self">self</span>, len: u32, align: u32) -&gt; <span class="prelude-ty">Result</span>&lt;u32&gt; {
+        <span class="comment">// Allocate aligned memory...
+        </span><span class="prelude-val">Ok</span>(ptr)
+    }
+
+    <span class="kw">fn </span>free(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ptr: u32, len: u32) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="comment">// Deallocate memory...
+        </span><span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">fn </span>mut_mem(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ptr: u32, len: u32) -&gt; <span class="kw-2">&amp;mut </span>[u8] {
+        <span class="comment">// Return mutable slice to memory region...
+        </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.memory[ptr <span class="kw">as </span>usize..(ptr + len) <span class="kw">as </span>usize]
+    }
+}</code></pre></div></div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.alloc" class="method"><a class="src rightside" href="../../src/surrealism_types/controller.rs.html#85">Source</a><h4 class="code-header">fn <a href="#tymethod.alloc" class="fn">alloc</a>(&amp;mut self, len: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="../../anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>&gt;</h4></section></summary><div class="docblock"><p>Allocate a region of WASM linear memory.</p>
+<h5 id="parameters"><a class="doc-anchor" href="#parameters">§</a>Parameters</h5>
+<ul>
+<li><code>len</code>: Number of bytes to allocate</li>
+<li><code>align</code>: Alignment requirement in bytes (must be a power of 2)</li>
+</ul>
+<h5 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h5>
+<p>A pointer (<code>u32</code>) to the start of the allocated region.</p>
+<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>Errors</h5>
+<p>Returns an error if:</p>
+<ul>
+<li>Allocation fails (out of memory)</li>
+<li>Alignment is invalid (not a power of 2)</li>
+<li>Memory limit would be exceeded</li>
+</ul>
+</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.free" class="method"><a class="src rightside" href="../../src/surrealism_types/controller.rs.html#105">Source</a><h4 class="code-header">fn <a href="#tymethod.free" class="fn">free</a>(&amp;mut self, ptr: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>, len: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="../../anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Free a previously allocated region of memory.</p>
+<h5 id="parameters-1"><a class="doc-anchor" href="#parameters-1">§</a>Parameters</h5>
+<ul>
+<li><code>ptr</code>: Pointer to the start of the region (from a previous <code>alloc</code> call)</li>
+<li><code>len</code>: Size of the region in bytes (must match the original allocation)</li>
+</ul>
+<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>Errors</h5>
+<p>Returns an error if:</p>
+<ul>
+<li>The pointer is invalid or wasn’t allocated</li>
+<li>The length doesn’t match the original allocation</li>
+<li>Double-free is detected</li>
+</ul>
+<h5 id="safety-notes"><a class="doc-anchor" href="#safety-notes">§</a>Safety Notes</h5>
+<p>After calling <code>free</code>, the pointer and any references to that memory region
+become invalid and must not be used.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.mut_mem" class="method"><a class="src rightside" href="../../src/surrealism_types/controller.rs.html#122">Source</a><h4 class="code-header">fn <a href="#tymethod.mut_mem" class="fn">mut_mem</a>(&amp;mut self, ptr: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>, len: <a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u32.html">u32</a>) -&gt; &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.94.0/std/primitive.u8.html">u8</a>] <a href="#" class="tooltip" data-notable-ty="&amp;mut [u8]">ⓘ</a></h4></section></summary><div class="docblock"><p>Get mutable access to a region of WASM linear memory.</p>
+<h5 id="parameters-2"><a class="doc-anchor" href="#parameters-2">§</a>Parameters</h5>
+<ul>
+<li><code>ptr</code>: Pointer to the start of the region</li>
+<li><code>len</code>: Length of the region in bytes</li>
+</ul>
+<h5 id="returns-1"><a class="doc-anchor" href="#returns-1">§</a>Returns</h5>
+<p>A mutable slice to the memory region.</p>
+<h5 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h5>
+<p>May panic if the pointer or length are out of bounds. Implementations should
+validate bounds before returning the slice.</p>
+</div></details></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"></div><script src="../../trait.impl/surrealism_types/controller/trait.MemoryController.js" async></script><script type="text/json" id="notable-traits-data">{"&mut [u8]":"<h3>Notable traits for <code>&amp;mut [<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.94.0/std/primitive.u8.html\">u8</a>]</code></h3><pre><code><div class=\"where\">impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.0/std/io/trait.Write.html\" title=\"trait std::io::Write\">Write</a> for &amp;mut [<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.94.0/std/primitive.u8.html\">u8</a>]</div>"}</script></section></div></main></body></html>

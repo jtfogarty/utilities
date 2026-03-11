@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":["SimpleContour","SimpleShape","SimpleShapes","Simplified","Simplify"]};

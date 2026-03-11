@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spade-2.15.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="spade" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.0 (4a4ef493e 2026-03-02)" data-channel="1.94.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">spade/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! # Spade
+<a href=#2 id=2 data-nosnippet>2</a>//!
+<a href=#3 id=3 data-nosnippet>3</a>//! Delaunay triangulations for the rust ecosystem.
+<a href=#4 id=4 data-nosnippet>4</a>//!
+<a href=#5 id=5 data-nosnippet>5</a>//! # Features
+<a href=#6 id=6 data-nosnippet>6</a>//! * A 2D Delaunay triangulation: [DelaunayTriangulation]
+<a href=#7 id=7 data-nosnippet>7</a>//! * Uses exact geometric predicate evaluation, preventing construction errors due to precision loss.
+<a href=#8 id=8 data-nosnippet>8</a>//! * A 2D constrained Delaunay triangulation: [ConstrainedDelaunayTriangulation]
+<a href=#9 id=9 data-nosnippet>9</a>//! * Supports vertex removal
+<a href=#10 id=10 data-nosnippet>10</a>//! * Serde support with the `serde` feature.
+<a href=#11 id=11 data-nosnippet>11</a>//! * `no_std` support with `default-features = false`
+<a href=#12 id=12 data-nosnippet>12</a>//! * Natural neighbor interpolation: [NaturalNeighbor]
+<a href=#13 id=13 data-nosnippet>13</a>//!
+<a href=#14 id=14 data-nosnippet>14</a>//! # Cargo features
+<a href=#15 id=15 data-nosnippet>15</a>//!
+<a href=#16 id=16 data-nosnippet>16</a>//! These features are disabled by default and need to be enabled in your `Cargo.toml`:
+<a href=#17 id=17 data-nosnippet>17</a>//!  - `serde`: Enable (de)serialization of (constrained) Delaunay triangulations with the
+<a href=#18 id=18 data-nosnippet>18</a>//!    [Serde](https://docs.rs/serde/latest/serde/) crate
+<a href=#19 id=19 data-nosnippet>19</a>//!  - `mint`: Enables rudimentary [mint](https://docs.rs/mint/latest/mint/) interoperability by
+<a href=#20 id=20 data-nosnippet>20</a>//!    implementing the `From` and `Into` conversion traits between `spade::Point2` and
+<a href=#21 id=21 data-nosnippet>21</a>//!    `mint::Point2`. Also implements [HasPosition] for `mint::Point2`.
+<a href=#22 id=22 data-nosnippet>22</a>
+<a href=#23 id=23 data-nosnippet>23</a></span><span class="attr">#![no_std]
+<a href=#24 id=24 data-nosnippet>24</a>#![forbid(unsafe_code)]
+<a href=#25 id=25 data-nosnippet>25</a>#![warn(clippy::all)]
+<a href=#26 id=26 data-nosnippet>26</a>#![deny(rustdoc::broken_intra_doc_links)]
+<a href=#27 id=27 data-nosnippet>27</a>#![cfg_attr(not(fuzzing), warn(missing_docs))]
+<a href=#28 id=28 data-nosnippet>28</a>#![cfg_attr(fuzzing, allow(unused_imports))]
+<a href=#29 id=29 data-nosnippet>29</a>
+<a href=#30 id=30 data-nosnippet>30</a>#[cfg(feature = <span class="string">"std"</span>)]
+<a href=#31 id=31 data-nosnippet>31</a></span><span class="kw">extern crate </span>std;
+<a href=#32 id=32 data-nosnippet>32</a>
+<a href=#33 id=33 data-nosnippet>33</a><span class="kw">extern crate </span>alloc;
+<a href=#34 id=34 data-nosnippet>34</a>
+<a href=#35 id=35 data-nosnippet>35</a><span class="kw">mod </span>cdt;
+<a href=#36 id=36 data-nosnippet>36</a><span class="kw">mod </span>delaunay_core;
+<a href=#37 id=37 data-nosnippet>37</a><span class="kw">mod </span>delaunay_triangulation;
+<a href=#38 id=38 data-nosnippet>38</a><span class="kw">mod </span>flood_fill_iterator;
+<a href=#39 id=39 data-nosnippet>39</a><span class="kw">mod </span>intersection_iterator;
+<a href=#40 id=40 data-nosnippet>40</a><span class="kw">mod </span>point;
+<a href=#41 id=41 data-nosnippet>41</a>
+<a href=#42 id=42 data-nosnippet>42</a><span class="kw">mod </span>triangulation;
+<a href=#43 id=43 data-nosnippet>43</a>
+<a href=#44 id=44 data-nosnippet>44</a><span class="kw">pub use </span><span class="kw">crate</span>::cdt::{CdtEdge, ConstrainedDelaunayTriangulation};
+<a href=#45 id=45 data-nosnippet>45</a><span class="kw">pub use </span><span class="kw">crate</span>::delaunay_triangulation::DelaunayTriangulation;
+<a href=#46 id=46 data-nosnippet>46</a><span class="kw">pub use </span><span class="kw">crate</span>::point::{HasPosition, Point2, SpadeNum};
+<a href=#47 id=47 data-nosnippet>47</a>
+<a href=#48 id=48 data-nosnippet>48</a><span class="kw">pub use </span><span class="kw">crate</span>::delaunay_core::math::{
+<a href=#49 id=49 data-nosnippet>49</a>    mitigate_underflow, validate_coordinate, validate_vertex, InsertionError, PointProjection,
+<a href=#50 id=50 data-nosnippet>50</a>    MAX_ALLOWED_VALUE, MIN_ALLOWED_VALUE,
+<a href=#51 id=51 data-nosnippet>51</a>};
+<a href=#52 id=52 data-nosnippet>52</a>
+<a href=#53 id=53 data-nosnippet>53</a><span class="kw">pub use </span>delaunay_core::{
+<a href=#54 id=54 data-nosnippet>54</a>    AngleLimit, HierarchyHintGenerator, HierarchyHintGeneratorWithBranchFactor, HintGenerator,
+<a href=#55 id=55 data-nosnippet>55</a>    LastUsedVertexHintGenerator, RefinementParameters, RefinementResult,
+<a href=#56 id=56 data-nosnippet>56</a>};
+<a href=#57 id=57 data-nosnippet>57</a>
+<a href=#58 id=58 data-nosnippet>58</a><span class="kw">pub use </span><span class="kw">crate</span>::delaunay_core::interpolation::{Barycentric, NaturalNeighbor};
+<a href=#59 id=59 data-nosnippet>59</a><span class="kw">pub use </span>delaunay_core::LineSideInfo;
+<a href=#60 id=60 data-nosnippet>60</a><span class="kw">pub use </span>intersection_iterator::{Intersection, LineIntersectionIterator};
+<a href=#61 id=61 data-nosnippet>61</a><span class="kw">pub use </span>triangulation::{FloatTriangulation, PositionInTriangulation, Triangulation};
+<a href=#62 id=62 data-nosnippet>62</a>
+<a href=#63 id=63 data-nosnippet>63</a><span class="attr">#[cfg(not(fuzzing))]
+<a href=#64 id=64 data-nosnippet>64</a></span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>delaunay_core::TriangulationExt;
+<a href=#65 id=65 data-nosnippet>65</a>
+<a href=#66 id=66 data-nosnippet>66</a><span class="attr">#[cfg(fuzzing)]
+<a href=#67 id=67 data-nosnippet>67</a></span><span class="kw">pub use </span>delaunay_core::TriangulationExt;
+<a href=#68 id=68 data-nosnippet>68</a>
+<a href=#69 id=69 data-nosnippet>69</a><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>delaunay_core::RemovalResult;
+<a href=#70 id=70 data-nosnippet>70</a>
+<a href=#71 id=71 data-nosnippet>71</a><span class="attr">#[cfg(feature = <span class="string">"mint"</span>)]
+<a href=#72 id=72 data-nosnippet>72</a></span><span class="kw">mod </span>mint_support;
+<a href=#73 id=73 data-nosnippet>73</a><span class="attr">#[cfg(test)]
+<a href=#74 id=74 data-nosnippet>74</a></span><span class="kw">mod </span>test_utilities;
+<a href=#75 id=75 data-nosnippet>75</a>
+<a href=#76 id=76 data-nosnippet>76</a><span class="doccomment">/// Handle types used for traversal and modification of triangulations.
+<a href=#77 id=77 data-nosnippet>77</a>///
+<a href=#78 id=78 data-nosnippet>78</a>/// A handle can either be a "reference handle" or a "fixed handle". Reference handles are
+<a href=#79 id=79 data-nosnippet>79</a>/// used for immutable access to a triangulation. Fixed handles allow mutation but have a
+<a href=#80 id=80 data-nosnippet>80</a>/// more limited API.
+<a href=#81 id=81 data-nosnippet>81</a>///
+<a href=#82 id=82 data-nosnippet>82</a>/// # Reference handles
+<a href=#83 id=83 data-nosnippet>83</a>///
+<a href=#84 id=84 data-nosnippet>84</a>/// Reference handles come in one of four variants:
+<a href=#85 id=85 data-nosnippet>85</a>/// * [FaceHandle](handles::FaceHandle)s refer to a single face (triangle) of the triangulation.
+<a href=#86 id=86 data-nosnippet>86</a>///   They are used get the triangle's adjacent vertices and edges. They also may refer to
+<a href=#87 id=87 data-nosnippet>87</a>///   the single outer face.
+<a href=#88 id=88 data-nosnippet>88</a>/// * [VertexHandle](handles::VertexHandle)s refer to a single vertex of the triangulation. They
+<a href=#89 id=89 data-nosnippet>89</a>///   allow to retrieve the vertex position and its outgoing edges.
+<a href=#90 id=90 data-nosnippet>90</a>/// * [DirectedEdgeHandle](handles::DirectedEdgeHandle)s refer to a single directed edge. They
+<a href=#91 id=91 data-nosnippet>91</a>///   allow to retrieve the edges origin and destination vertex, its adjacent face as well as
+<a href=#92 id=92 data-nosnippet>92</a>///   its previous and next edge.
+<a href=#93 id=93 data-nosnippet>93</a>/// * [UndirectedEdgeHandle](handles::UndirectedEdgeHandle)s refer to an edge without specifying its
+<a href=#94 id=94 data-nosnippet>94</a>///   direction.
+<a href=#95 id=95 data-nosnippet>95</a>///
+<a href=#96 id=96 data-nosnippet>96</a>/// All handles also allow to set and retrieve arbitrary additional data associated with that
+<a href=#97 id=97 data-nosnippet>97</a>/// element. Refer to the type parameters of [Triangulation] for more details.
+<a href=#98 id=98 data-nosnippet>98</a>///
+<a href=#99 id=99 data-nosnippet>99</a>/// # Fixed handles
+<a href=#100 id=100 data-nosnippet>100</a>/// Reference handles all hold an immutable reference to the underlying triangulation.
+<a href=#101 id=101 data-nosnippet>101</a>/// This reference is used to implement a feature rich and intuitive API. However,
+<a href=#102 id=102 data-nosnippet>102</a>/// due to Rust's ownership semantics, modification of a triangulation
+<a href=#103 id=103 data-nosnippet>103</a>/// can not be done using these handles as that would require a mutable reference. This is
+<a href=#104 id=104 data-nosnippet>104</a>/// required in some cases, e.g. whenever traversal of the triangulation is mixed with insertion
+<a href=#105 id=105 data-nosnippet>105</a>/// operations or when attempting to remove vertices.
+<a href=#106 id=106 data-nosnippet>106</a>/// As a solution, Spade relies on _fixed_ handles for mutation: These are created from normal
+<a href=#107 id=107 data-nosnippet>107</a>/// handles by calling `some_handle.fix()` and do not keep a reference to the triangulation.
+<a href=#108 id=108 data-nosnippet>108</a>///
+<a href=#109 id=109 data-nosnippet>109</a>/// Internally, fixed handles are implemented as indices into a `Vec`. **Removing elements from
+<a href=#110 id=110 data-nosnippet>110</a>/// the triangulation can possibly invalidate any fixed handle**. Attempting to resolve an invalid
+<a href=#111 id=111 data-nosnippet>111</a>/// handle may either refer to a different element or panic at run time. It is the callers
+<a href=#112 id=112 data-nosnippet>112</a>/// responsibility to make sure that fixed handles are not used anymore after a removal operation
+<a href=#113 id=113 data-nosnippet>113</a>/// has taken place.
+<a href=#114 id=114 data-nosnippet>114</a>///
+<a href=#115 id=115 data-nosnippet>115</a>/// Fixed handles also come in four variants, depending on which element they refer to:
+<a href=#116 id=116 data-nosnippet>116</a>///  * [FixedVertexHandle](handles::FixedVertexHandle)
+<a href=#117 id=117 data-nosnippet>117</a>///  * [FixedFaceHandle](handles::FixedFaceHandle)
+<a href=#118 id=118 data-nosnippet>118</a>///  * [FixedDirectedEdgeHandle](handles::FixedDirectedEdgeHandle)
+<a href=#119 id=119 data-nosnippet>119</a>///  * [FixedUndirectedEdgeHandle](handles::FixedUndirectedEdgeHandle)
+<a href=#120 id=120 data-nosnippet>120</a>///
+<a href=#121 id=121 data-nosnippet>121</a>/// # Retrieving handles by iteration
+<a href=#122 id=122 data-nosnippet>122</a>///
+<a href=#123 id=123 data-nosnippet>123</a>/// The [Triangulation] trait defines iterators for all handle types:
+<a href=#124 id=124 data-nosnippet>124</a>///
+<a href=#125 id=125 data-nosnippet>125</a>/// |                | Vertices | Directed Edges  | Undirected Edges | Faces |
+<a href=#126 id=126 data-nosnippet>126</a>/// |----------------|----------|-----------------|------------------|-------|
+<a href=#127 id=127 data-nosnippet>127</a>/// | **Reference**  | [vertices()](Triangulation::vertices()) | [directed_edges()](Triangulation::directed_edges) | [undirected_edges()](Triangulation::undirected_edges()) | [inner_faces()](Triangulation::inner_faces())&lt;br&gt;[all_faces()](Triangulation::all_faces()) |
+<a href=#128 id=128 data-nosnippet>128</a>/// | **Fixed**      | [fixed_vertices()](Triangulation::fixed_vertices()) | [fixed_directed_edges()](Triangulation::fixed_directed_edges()) | [fixed_undirected_edges()](Triangulation::fixed_undirected_edges()) | [fixed_inner_faces()](Triangulation::fixed_inner_faces())&lt;br&gt; [fixed_faces()](Triangulation::fixed_inner_faces()) |
+<a href=#129 id=129 data-nosnippet>129</a>///
+<a href=#130 id=130 data-nosnippet>130</a>/// # Creating handles directly
+<a href=#131 id=131 data-nosnippet>131</a>///
+<a href=#132 id=132 data-nosnippet>132</a>/// In some cases it may be desirable to create vertex handles artificially by providing the index
+<a href=#133 id=133 data-nosnippet>133</a>/// manually. This can be done by calling [handles::FixedVertexHandle::from_index](from_index(usize)).
+<a href=#134 id=134 data-nosnippet>134</a>/// Make sure that the provided index is smaller than the number of vertices in the triangulation.
+<a href=#135 id=135 data-nosnippet>135</a>///
+<a href=#136 id=136 data-nosnippet>136</a>/// # Converting between reference and fixed handles
+<a href=#137 id=137 data-nosnippet>137</a>///
+<a href=#138 id=138 data-nosnippet>138</a>/// Converting a reference handle into its fixed counterpart is performed via the
+<a href=#139 id=139 data-nosnippet>139</a>/// `fix()` method (defined on any handle type).
+<a href=#140 id=140 data-nosnippet>140</a>///
+<a href=#141 id=141 data-nosnippet>141</a>/// Converting a fixed handle type back into a reference handle requires calling either
+<a href=#142 id=142 data-nosnippet>142</a>/// [Triangulation::vertex], [Triangulation::face],
+<a href=#143 id=143 data-nosnippet>143</a>/// [Triangulation::directed_edge] or [Triangulation::undirected_edge].
+<a href=#144 id=144 data-nosnippet>144</a>///
+<a href=#145 id=145 data-nosnippet>145</a>/// # Example: Using handles
+<a href=#146 id=146 data-nosnippet>146</a>/// This example implements a nearest neighbor algorithm on a delaunay triangulation. Starting
+<a href=#147 id=147 data-nosnippet>147</a>/// from an arbitrary start vertex, it greedily walks to the closes vertex until arriving at a
+<a href=#148 id=148 data-nosnippet>148</a>/// local minimum. Due to the special properties of Delaunay triangulations, this is also the
+<a href=#149 id=149 data-nosnippet>149</a>/// global nearest neighbor.
+<a href=#150 id=150 data-nosnippet>150</a>///
+<a href=#151 id=151 data-nosnippet>151</a>/// _Note: Spade already implements this method, see [DelaunayTriangulation::nearest_neighbor]_
+<a href=#152 id=152 data-nosnippet>152</a>/// ```
+<a href=#153 id=153 data-nosnippet>153</a>/// use spade::handles::VertexHandle;
+<a href=#154 id=154 data-nosnippet>154</a>/// use spade::{DelaunayTriangulation, Point2, Triangulation};
+<a href=#155 id=155 data-nosnippet>155</a>///
+<a href=#156 id=156 data-nosnippet>156</a>/// fn nearest_neighbor(
+<a href=#157 id=157 data-nosnippet>157</a>///     triangulation: &amp;DelaunayTriangulation&lt;Point2&lt;f64&gt;&gt;,
+<a href=#158 id=158 data-nosnippet>158</a>///     target_point: Point2&lt;f64&gt;,
+<a href=#159 id=159 data-nosnippet>159</a>/// ) -&gt; VertexHandle&lt;Point2&lt;f64&gt;&gt; {
+<a href=#160 id=160 data-nosnippet>160</a>///     let mut current = triangulation.vertices().next().unwrap();
+<a href=#161 id=161 data-nosnippet>161</a>///     let mut best_distance = current.position().distance_2(target_point);
+<a href=#162 id=162 data-nosnippet>162</a>///     loop {
+<a href=#163 id=163 data-nosnippet>163</a>///         let mut closer = None;
+<a href=#164 id=164 data-nosnippet>164</a>///         for neighbor in current.out_edges().map(|edge| edge.to()) {
+<a href=#165 id=165 data-nosnippet>165</a>///             let neighbor_distance = neighbor.position().distance_2(target_point);
+<a href=#166 id=166 data-nosnippet>166</a>///             if neighbor_distance &lt; best_distance {
+<a href=#167 id=167 data-nosnippet>167</a>///                 best_distance = neighbor_distance;
+<a href=#168 id=168 data-nosnippet>168</a>///                 closer = Some(neighbor);
+<a href=#169 id=169 data-nosnippet>169</a>///                 break;
+<a href=#170 id=170 data-nosnippet>170</a>///             }
+<a href=#171 id=171 data-nosnippet>171</a>///         }
+<a href=#172 id=172 data-nosnippet>172</a>///
+<a href=#173 id=173 data-nosnippet>173</a>///         if let Some(closer) = closer {
+<a href=#174 id=174 data-nosnippet>174</a>///             current = closer;
+<a href=#175 id=175 data-nosnippet>175</a>///         } else {
+<a href=#176 id=176 data-nosnippet>176</a>///             return current;
+<a href=#177 id=177 data-nosnippet>177</a>///         }
+<a href=#178 id=178 data-nosnippet>178</a>///     }
+<a href=#179 id=179 data-nosnippet>179</a>/// }
+<a href=#180 id=180 data-nosnippet>180</a>///
+<a href=#181 id=181 data-nosnippet>181</a>/// # fn try_main() -&gt; Result&lt;(), spade::InsertionError&gt; {
+<a href=#182 id=182 data-nosnippet>182</a>///
+<a href=#183 id=183 data-nosnippet>183</a>/// let vertices = vec![
+<a href=#184 id=184 data-nosnippet>184</a>///     Point2::new(0.0, 1.0),
+<a href=#185 id=185 data-nosnippet>185</a>///     Point2::new(1.0, 1.0),
+<a href=#186 id=186 data-nosnippet>186</a>///     Point2::new(0.0, 0.0),
+<a href=#187 id=187 data-nosnippet>187</a>///     Point2::new(1.0, 0.0),
+<a href=#188 id=188 data-nosnippet>188</a>/// ];
+<a href=#189 id=189 data-nosnippet>189</a>/// let triangulation: DelaunayTriangulation&lt;Point2&lt;f64&gt;&gt; = Triangulation::bulk_load(vertices)?;
+<a href=#190 id=190 data-nosnippet>190</a>///
+<a href=#191 id=191 data-nosnippet>191</a>/// // Check that everything works!
+<a href=#192 id=192 data-nosnippet>192</a>/// for vertex in triangulation.vertices() {
+<a href=#193 id=193 data-nosnippet>193</a>///     let nearest_neighbor = nearest_neighbor(&amp;triangulation, vertex.position());
+<a href=#194 id=194 data-nosnippet>194</a>///     assert_eq!(nearest_neighbor, vertex);
+<a href=#195 id=195 data-nosnippet>195</a>/// }
+<a href=#196 id=196 data-nosnippet>196</a>/// # Ok(()) }
+<a href=#197 id=197 data-nosnippet>197</a>/// # fn main() { try_main().unwrap() }
+<a href=#198 id=198 data-nosnippet>198</a>/// ```
+<a href=#199 id=199 data-nosnippet>199</a></span><span class="kw">pub mod </span>handles {
+<a href=#200 id=200 data-nosnippet>200</a>    <span class="kw">pub use </span><span class="kw">crate</span>::delaunay_core::{
+<a href=#201 id=201 data-nosnippet>201</a>        DirectedEdgeHandle, DirectedVoronoiEdge, FaceHandle, FixedDirectedEdgeHandle,
+<a href=#202 id=202 data-nosnippet>202</a>        FixedFaceHandle, FixedUndirectedEdgeHandle, FixedVertexHandle, InnerTag, PossiblyOuterTag,
+<a href=#203 id=203 data-nosnippet>203</a>        UndirectedEdgeHandle, UndirectedVoronoiEdge, VertexHandle, VoronoiFace, VoronoiVertex,
+<a href=#204 id=204 data-nosnippet>204</a>        OUTER_FACE,
+<a href=#205 id=205 data-nosnippet>205</a>    };
+<a href=#206 id=206 data-nosnippet>206</a>}
+<a href=#207 id=207 data-nosnippet>207</a>
+<a href=#208 id=208 data-nosnippet>208</a><span class="doccomment">/// Iterators over various elements of Delaunay triangulations.
+<a href=#209 id=209 data-nosnippet>209</a></span><span class="kw">pub mod </span>iterators {
+<a href=#210 id=210 data-nosnippet>210</a>    <span class="kw">pub use </span><span class="kw">crate</span>::delaunay_core::iterators::{
+<a href=#211 id=211 data-nosnippet>211</a>        DirectedEdgeIterator, DirectedVoronoiEdgeIterator, FaceIterator, FixedDirectedEdgeIterator,
+<a href=#212 id=212 data-nosnippet>212</a>        FixedFaceIterator, FixedInnerFaceIterator, FixedUndirectedEdgeIterator,
+<a href=#213 id=213 data-nosnippet>213</a>        FixedVertexIterator, InnerFaceIterator, UndirectedEdgeIterator,
+<a href=#214 id=214 data-nosnippet>214</a>        UndirectedVoronoiEdgeIterator, VertexIterator, VoronoiFaceIterator,
+<a href=#215 id=215 data-nosnippet>215</a>    };
+<a href=#216 id=216 data-nosnippet>216</a>    <span class="kw">pub use </span><span class="kw">crate</span>::flood_fill_iterator::{
+<a href=#217 id=217 data-nosnippet>217</a>        CircleMetric, EdgesInShapeIterator, RectangleMetric, VerticesInShapeIterator,
+<a href=#218 id=218 data-nosnippet>218</a>    };
+<a href=#219 id=219 data-nosnippet>219</a>}
+<a href=#220 id=220 data-nosnippet>220</a>
+<a href=#221 id=221 data-nosnippet>221</a><span class="doccomment">/// Internals that must be published due to technical reasons. This is not the place you are
+<a href=#222 id=222 data-nosnippet>222</a>/// looking for. A change to these items is not considered to be a breaking change.
+<a href=#223 id=223 data-nosnippet>223</a></span><span class="kw">pub mod </span>internals {
+<a href=#224 id=224 data-nosnippet>224</a>    <span class="kw">pub use </span><span class="kw">crate</span>::delaunay_core::{DynamicHandleImpl, FixedHandleImpl};
+<a href=#225 id=225 data-nosnippet>225</a>}
+</code></pre></div></section></main></body></html>

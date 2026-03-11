@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Error"],"fn":["deviation","earcut","flatten"],"struct":["LinkedLists"],"trait":["Float"]};

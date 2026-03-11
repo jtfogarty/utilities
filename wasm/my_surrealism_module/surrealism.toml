@@ -1,0 +1,13 @@
+[package]
+organisation = "surrealdb"
+name = "my-module"      # Change this to whatever you want
+version = "1.0.0"
+
+[attach]
+fs = "fs"               # Allows file system access if needed
+
+[capabilities]
+allow_scripting = true
+allow_arbitrary_queries = true
+allow_functions = ["fn::*"]   # Allow all your functions (or list them specifically)
+allow_net = []                # Add domains/ports if your code needs network

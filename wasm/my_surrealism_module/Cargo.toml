@@ -1,0 +1,18 @@
+[package]
+name = "my_surrealism_module"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]   # ← This is required for WASM/Surrealism
+
+[dependencies]
+surrealism = "0.1"        # Latest Surrealism runtime (as of March 2026)
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+
+# Provide wasm_js feature for transitively included getrandom libraries
+getrandom_02 = { package = "getrandom", version = "0.2", features = ["js"] }
+getrandom_03 = { package = "getrandom", version = "0.3", features = ["wasm_js"] }
+surrealdb-types = "3.0.3"
+

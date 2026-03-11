@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["surrealdb_types",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.0/core/ops/range/trait.RangeBounds.html\" title=\"trait core::ops::range::RangeBounds\">RangeBounds</a>&lt;<a class=\"enum\" href=\"surrealdb_types/enum.Value.html\" title=\"enum surrealdb_types::Value\">Value</a>&gt; for <a class=\"struct\" href=\"surrealdb_types/struct.Range.html\" title=\"struct surrealdb_types::Range\">Range</a>",0]]],["surrealism_types",[["impl&lt;T: <a class=\"trait\" href=\"surrealism_types/serialize/trait.Serializable.html\" title=\"trait surrealism_types::serialize::Serializable\">Serializable</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.0/core/ops/range/trait.RangeBounds.html\" title=\"trait core::ops::range::RangeBounds\">RangeBounds</a>&lt;T&gt; for <a class=\"struct\" href=\"surrealism_types/serialize/struct.SerializableRange.html\" title=\"struct surrealism_types::serialize::SerializableRange\">SerializableRange</a>&lt;T&gt;",0]]],["winnow",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.0/core/ops/range/trait.RangeBounds.html\" title=\"trait core::ops::range::RangeBounds\">RangeBounds</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.94.0/std/primitive.usize.html\">usize</a>&gt; for <a class=\"struct\" href=\"winnow/stream/struct.Range.html\" title=\"struct winnow::stream::Range\">Range</a>",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[424,553,406]}

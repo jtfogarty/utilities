@@ -1,0 +1,12 @@
+---
+# tasks file for salt
+- name: Install salt-minion
+  package:
+    name: salt-minion
+    state: present
+
+- name: Ensure salt-minion is running and enabled
+  service:
+    name: salt-minion
+    state: started
+    enabled: yes

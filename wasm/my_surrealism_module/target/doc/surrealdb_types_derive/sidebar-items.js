@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"derive":["SurrealValue"],"macro":["kind","write_sql"]};

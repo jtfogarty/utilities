@@ -1,0 +1,10 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/libc-e8f469eb20950552.d: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/macros.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/mod.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/common/mod.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/liblibc-e8f469eb20950552.rlib: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/macros.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/mod.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/common/mod.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/wasm32-unknown-unknown/debug/deps/liblibc-e8f469eb20950552.rmeta: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/macros.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/mod.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/common/mod.rs
+
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/lib.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/macros.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/mod.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/new/common/mod.rs:

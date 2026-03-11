@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"attr":["surrealism"],"mod":["controller","err","imports","memory","registry"]};
