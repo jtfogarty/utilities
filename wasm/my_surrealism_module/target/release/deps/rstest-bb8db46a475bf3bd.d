@@ -1,0 +1,10 @@
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/release/deps/rstest-bb8db46a475bf3bd.d: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/release/deps/librstest-bb8db46a475bf3bd.rlib: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/Documents/projects/utilities/wasm/my_surrealism_module/target/release/deps/librstest-bb8db46a475bf3bd.rmeta: /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs /Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs
+
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/lib.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/magic_conversion.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/timeout.rs:
+/Users/jefffogarty/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rstest-0.26.1/src/context.rs:
