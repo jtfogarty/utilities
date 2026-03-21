@@ -25,7 +25,7 @@ FROM builder AS build
 
 WORKDIR /surrealmcp
 
-COPY --link . .
+COPY . .
 
 ###
 # STAGE: build-debug
