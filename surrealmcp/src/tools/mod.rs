@@ -29,25 +29,7 @@ use crate::utils::{convert_json_to_surreal, parse_target, parse_targets};
 // Global metrics
 static QUERY_COUNTER: AtomicU64 = AtomicU64::new(0);
 
-#[derive(Deserialize)]
-struct ListNamespaces {
-    namespaces: Vec<Namespace>,
-}
 
-#[derive(Deserialize)]
-struct Namespace {
-    name: String,
-}
-
-#[derive(Deserialize)]
-struct ListDatabases {
-    databases: Vec<Database>,
-}
-
-#[derive(Deserialize)]
-struct Database {
-    name: String,
-}
 
 #[derive(Deserialize, schemars::JsonSchema)]
 pub struct QueryParams {
@@ -1455,27 +1437,24 @@ It returns a list of namespaces with their names."#)]
                     .take::<Option<Value>>(0)
                     .map_err(|e| McpError::internal_error(e.to_string(), None))?;
                 
-                let info_opt: Option<ListNamespaces> = match raw_val {
-                    Some(val) => {
-                        let json_val = serde_json::to_value(val)
-                            .map_err(|e| McpError::internal_error(e.to_string(), None))?;
-                        Some(serde_json::from_value(json_val)
-                            .map_err(|e| McpError::internal_error(e.to_string(), None))?)
+                let mut namespaces = Vec::new();
+                if let Some(val) = raw_val {
+                    if let Ok(json_val) = serde_json::to_value(&val) {
+                        let obj = if json_val.is_array() {
+                            json_val.as_array().and_then(|a| a.first())
+                        } else {
+                            Some(&json_val)
+                        };
+                        
+                        if let Some(o) = obj {
+                            if let Some(ns_map) = o.get("namespaces").and_then(|n| n.as_object()) {
+                                for key in ns_map.keys() {
+                                    namespaces.push(serde_json::json!({ "name": key }));
+                                }
+                            }
+                        }
                     }
-                    None => None,
-                };
-                let info = info_opt.ok_or_else(|| {
-                    McpError::internal_error(
-                        "No namespaces returned when running INFO FOR ROOT".to_string(),
-                        None,
-                    )
-                })?;
-                // Convert the namespaces to a JSON object
-                let namespaces: Vec<serde_json::Value> = info
-                    .namespaces
-                    .into_iter()
-                    .map(|ns| serde_json::json!({ "name": ns.name }))
-                    .collect();
+                }
                 // Convert the namespaces to a JSON object
                 let result = serde_json::json!({
                     "namespaces": namespaces,
@@ -1546,27 +1525,24 @@ It returns a list of databases with their names."#)]
                     .take::<Option<Value>>(0)
                     .map_err(|e| McpError::internal_error(e.to_string(), None))?;
                 
-                let info_opt: Option<ListDatabases> = match raw_val {
-                    Some(val) => {
-                        let json_val = serde_json::to_value(val)
-                            .map_err(|e| McpError::internal_error(e.to_string(), None))?;
-                        Some(serde_json::from_value(json_val)
-                            .map_err(|e| McpError::internal_error(e.to_string(), None))?)
+                let mut databases = Vec::new();
+                if let Some(val) = raw_val {
+                    if let Ok(json_val) = serde_json::to_value(&val) {
+                        let obj = if json_val.is_array() {
+                            json_val.as_array().and_then(|a| a.first())
+                        } else {
+                            Some(&json_val)
+                        };
+                        
+                        if let Some(o) = obj {
+                            if let Some(db_map) = o.get("databases").and_then(|n| n.as_object()) {
+                                for key in db_map.keys() {
+                                    databases.push(serde_json::json!({ "name": key }));
+                                }
+                            }
+                        }
                     }
-                    None => None,
-                };
-                let info = info_opt.ok_or_else(|| {
-                    McpError::internal_error(
-                        "No databases returned when running INFO FOR NAMESPACE".to_string(),
-                        None,
-                    )
-                })?;
-                // Convert the databases to a JSON object
-                let databases: Vec<serde_json::Value> = info
-                    .databases
-                    .into_iter()
-                    .map(|db| serde_json::json!({ "name": db.name }))
-                    .collect();
+                }
                 // Convert the databases to a JSON object
                 let result = serde_json::json!({
                     "databases": databases,
