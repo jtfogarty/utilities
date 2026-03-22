@@ -1448,7 +1448,12 @@ It returns a list of namespaces with their names."#)]
                         
                         if let Some(o) = obj {
                             if let Some(ns_array) = o.get("namespaces").and_then(|n| n.as_array()) {
-                                for item in ns_array {
+                                let iter_array = if ns_array.len() == 1 && ns_array[0].is_array() {
+                                    ns_array[0].as_array().unwrap()
+                                } else {
+                                    ns_array
+                                };
+                                for item in iter_array {
                                     if let Some(name) = item.get("name").and_then(|n| n.as_str()) {
                                         namespaces.push(serde_json::json!({ "name": name }));
                                     }
@@ -1542,7 +1547,12 @@ It returns a list of databases with their names."#)]
                         
                         if let Some(o) = obj {
                             if let Some(db_array) = o.get("databases").and_then(|n| n.as_array()) {
-                                for item in db_array {
+                                let iter_array = if db_array.len() == 1 && db_array[0].is_array() {
+                                    db_array[0].as_array().unwrap()
+                                } else {
+                                    db_array
+                                };
+                                for item in iter_array {
                                     if let Some(name) = item.get("name").and_then(|n| n.as_str()) {
                                         databases.push(serde_json::json!({ "name": name }));
                                     }
