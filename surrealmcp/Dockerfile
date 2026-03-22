@@ -51,8 +51,8 @@ RUN chmod +x /surrealmcp/surrealmcp
 FROM build AS build-release
 
 RUN . /opt/rh/gcc-toolset-13/enable && \
-    cargo build && \
-    cp /surrealmcp/target/debug/surrealmcp /surrealmcp/surrealmcp && \
+    cargo build --release && \
+    cp /surrealmcp/target/release/surrealmcp /surrealmcp/surrealmcp && \
     cargo clean
 
 RUN rm -rf /surrealmcp/target /surrealmcp/src /surrealmcp/Cargo.*
