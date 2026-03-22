@@ -34,6 +34,8 @@ COPY . .
 
 FROM build AS build-debug
 
+RUN cargo clean
+
 RUN . /opt/rh/gcc-toolset-13/enable && \
     cargo build && \
     cp /surrealmcp/target/debug/surrealmcp /surrealmcp/surrealmcp && \
