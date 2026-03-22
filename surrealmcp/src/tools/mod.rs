@@ -1424,8 +1424,8 @@ It returns a list of namespaces with their names."#)]
         // Output debugging information
         debug!("Listing available namespaces");
         // Build the initial query string
-        let query = "INFO FOR ROOT STRUCTURE ".to_string();
-        // Execute INFO FOR ROOT STRUCTURE
+        let query = "INFO FOR ROOT ".to_string();
+        // Execute INFO FOR ROOT
         let mut exec_res = self.query_internal(query, None).await?;
         // Match the result of the query
         match exec_res.result.as_mut() {
@@ -1523,8 +1523,8 @@ It returns a list of databases with their names."#)]
         // Output debugging information
         debug!("Listing available databases");
         // Build the initial query string
-        let query = "INFO FOR NAMESPACE STRUCTURE ".to_string();
-        // Execute INFO FOR ROOT STRUCTURE
+        let query = "INFO FOR NS ".to_string();
+        // Execute INFO FOR NS
         let mut exec_res = self.query_internal(query, None).await?;
         // Match the result of the query
         match exec_res.result.as_mut() {
