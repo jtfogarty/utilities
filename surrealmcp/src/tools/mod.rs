@@ -1438,30 +1438,15 @@ It returns a list of namespaces with their names."#)]
                     .map_err(|e| McpError::internal_error(e.to_string(), None))?;
                 
                 let mut namespaces = Vec::new();
-                if let Some(val) = raw_val {
-                    if let Ok(json_val) = serde_json::to_value(&val) {
-                        let obj = if json_val.is_array() {
-                            json_val.as_array().and_then(|a| a.first())
-                        } else {
-                            Some(&json_val)
-                        };
-                        
-                        if let Some(o) = obj {
-                            if let Some(ns_array) = o.get("namespaces").and_then(|n| n.as_array()) {
-                                let iter_array = if ns_array.len() == 1 && ns_array[0].is_array() {
-                                    ns_array[0].as_array().unwrap()
-                                } else {
-                                    ns_array
-                                };
-                                for item in iter_array {
-                                    if let Some(name) = item.get("name").and_then(|n| n.as_str()) {
-                                        namespaces.push(serde_json::json!({ "name": name }));
-                                    }
-                                }
-                            } else if let Some(ns_map) = o.get("namespaces").and_then(|n| n.as_object()) {
-                                for key in ns_map.keys() {
-                                    namespaces.push(serde_json::json!({ "name": key }));
-                                }
+                // Use native Value pattern matching to avoid serde_json serialisation
+                // failures on SurrealDB v3 complex Value types (Duration, RecordId, etc.).
+                // INFO FOR ROOT returns Value::Object where "namespaces" is itself a
+                // Value::Object mapping name => definition string.
+                if let Some(Value::Object(root_obj)) = raw_val {
+                    if let Some(Value::Object(ns_map)) = root_obj.get("namespaces") {
+                        for name in ns_map.keys() {
+                            if !name.is_empty() {
+                                namespaces.push(serde_json::json!({ "name": name }));
                             }
                         }
                     }
@@ -1537,30 +1522,15 @@ It returns a list of databases with their names."#)]
                     .map_err(|e| McpError::internal_error(e.to_string(), None))?;
                 
                 let mut databases = Vec::new();
-                if let Some(val) = raw_val {
-                    if let Ok(json_val) = serde_json::to_value(&val) {
-                        let obj = if json_val.is_array() {
-                            json_val.as_array().and_then(|a| a.first())
-                        } else {
-                            Some(&json_val)
-                        };
-                        
-                        if let Some(o) = obj {
-                            if let Some(db_array) = o.get("databases").and_then(|n| n.as_array()) {
-                                let iter_array = if db_array.len() == 1 && db_array[0].is_array() {
-                                    db_array[0].as_array().unwrap()
-                                } else {
-                                    db_array
-                                };
-                                for item in iter_array {
-                                    if let Some(name) = item.get("name").and_then(|n| n.as_str()) {
-                                        databases.push(serde_json::json!({ "name": name }));
-                                    }
-                                }
-                            } else if let Some(db_map) = o.get("databases").and_then(|n| n.as_object()) {
-                                for key in db_map.keys() {
-                                    databases.push(serde_json::json!({ "name": key }));
-                                }
+                // Use native Value pattern matching to avoid serde_json serialisation
+                // failures on SurrealDB v3 complex Value types.
+                // INFO FOR NS returns Value::Object where "databases" is itself a
+                // Value::Object mapping name => definition string.
+                if let Some(Value::Object(root_obj)) = raw_val {
+                    if let Some(Value::Object(db_map)) = root_obj.get("databases") {
+                        for name in db_map.keys() {
+                            if !name.is_empty() {
+                                databases.push(serde_json::json!({ "name": name }));
                             }
                         }
                     }
