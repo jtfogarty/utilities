@@ -1468,7 +1468,6 @@ It returns a list of namespaces with their names."#)]
                 }
                 // Convert the namespaces to a JSON object
                 let result = serde_json::json!({
-                    "raw_json": json_val.clone(),
                     "namespaces": namespaces,
                     "count": namespaces.len()
                 });
