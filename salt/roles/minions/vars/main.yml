@@ -1,2 +1,20 @@
 ---
-# vars file for salt
+# vars file for salt/minions
+
+# The SaltStack master hostname or IP address.
+# Minions will point their configuration at this host.
+salt_master_host: "10.10.3.8"
+
+# Node numbers to REGISTER with the master.
+# These correspond to the trailing digit(s) in your inventory hostnames
+# (e.g., 7 → node7 / k8s-rancher-07).
+# The role will install & configure salt-minion on each of these hosts,
+# then go to the master and accept their keys.
+register_minions:
+  - 5
+  - 6
+
+# Node numbers to UNREGISTER from the master.
+# The role will reject / delete these keys on the master and stop the
+# salt-minion service on each matching host.
+unregister_minions: []

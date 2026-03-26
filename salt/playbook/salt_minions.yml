@@ -1,0 +1,7 @@
+---
+- name: Configure Salt Minions
+  hosts: minion_nodes
+  become: true
+
+  roles:
+    - minions

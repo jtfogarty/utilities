@@ -1,0 +1,134 @@
+TASK [minions : Download SaltStack GPG key] ****************************************************************************************************
+task path: /Users/jefffogarty/Documents/projects/utilities/salt/roles/minions/tasks/main.yml:32
+<k8s-rancher-05> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-05> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/dbb4733e67"' -o NumberOfPasswordPrompts=1 k8s-rancher-05 '/bin/sh -c '"'"'echo ~jtfogar && sleep 0'"'"''
+<k8s-rancher-06> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-06> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/d13cabd4d1"' -o NumberOfPasswordPrompts=1 k8s-rancher-06 '/bin/sh -c '"'"'echo ~jtfogar && sleep 0'"'"''
+<k8s-rancher-06> (0, b'/home/jtfogar\n', b'')
+<k8s-rancher-06> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-06> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/d13cabd4d1"' -o NumberOfPasswordPrompts=1 k8s-rancher-06 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/jtfogar/.ansible/tmp `"&& mkdir "` echo /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220 `" && echo ansible-tmp-1774225564.479739-2889-280912300951220="` echo /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220 `" ) && sleep 0'"'"''
+<k8s-rancher-05> (0, b'/home/jtfogar\n', b'')
+<k8s-rancher-05> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-05> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/dbb4733e67"' -o NumberOfPasswordPrompts=1 k8s-rancher-05 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/jtfogar/.ansible/tmp `"&& mkdir "` echo /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337 `" && echo ansible-tmp-1774225564.484087-2888-120335372087337="` echo /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337 `" ) && sleep 0'"'"''
+<k8s-rancher-06> (0, b'ansible-tmp-1774225564.479739-2889-280912300951220=/home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220\n', b'')
+<k8s-rancher-05> (0, b'ansible-tmp-1774225564.484087-2888-120335372087337=/home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337\n', b'')
+Using module file /opt/homebrew/Cellar/ansible/13.4.0_1/libexec/lib/python3.14/site-packages/ansible/modules/get_url.py
+<k8s-rancher-06> PUT /Users/jefffogarty/.ansible/tmp/ansible-local-2688iwhtp9do/tmptbqrvvp1 TO /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220/AnsiballZ_get_url.py
+Using module file /opt/homebrew/Cellar/ansible/13.4.0_1/libexec/lib/python3.14/site-packages/ansible/modules/get_url.py
+<k8s-rancher-06> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/d13cabd4d1"' -o NumberOfPasswordPrompts=1 '[k8s-rancher-06]'
+<k8s-rancher-05> PUT /Users/jefffogarty/.ansible/tmp/ansible-local-2688iwhtp9do/tmpz6kb_850 TO /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337/AnsiballZ_get_url.py
+<k8s-rancher-05> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/dbb4733e67"' -o NumberOfPasswordPrompts=1 '[k8s-rancher-05]'
+<k8s-rancher-06> (0, b'sftp> put /Users/jefffogarty/.ansible/tmp/ansible-local-2688iwhtp9do/tmptbqrvvp1 /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220/AnsiballZ_get_url.py\n', b'')
+<k8s-rancher-06> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-06> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/d13cabd4d1"' -o NumberOfPasswordPrompts=1 k8s-rancher-06 '/bin/sh -c '"'"'chmod u+rwx /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220/ /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220/AnsiballZ_get_url.py && sleep 0'"'"''
+<k8s-rancher-05> (0, b'sftp> put /Users/jefffogarty/.ansible/tmp/ansible-local-2688iwhtp9do/tmpz6kb_850 /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337/AnsiballZ_get_url.py\n', b'')
+<k8s-rancher-05> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-05> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/dbb4733e67"' -o NumberOfPasswordPrompts=1 k8s-rancher-05 '/bin/sh -c '"'"'chmod u+rwx /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337/ /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337/AnsiballZ_get_url.py && sleep 0'"'"''
+<k8s-rancher-06> (0, b'', b'')
+<k8s-rancher-06> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-06> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/d13cabd4d1"' -o NumberOfPasswordPrompts=1 -tt k8s-rancher-06 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-cawvbntgowvjzpsavsqskvtlbfevsajz ; /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220/AnsiballZ_get_url.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+<k8s-rancher-05> (0, b'', b'')
+<k8s-rancher-05> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-05> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/dbb4733e67"' -o NumberOfPasswordPrompts=1 -tt k8s-rancher-05 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-kbrdsamlkgxlfyeddsmefebfsanlywtq ; /usr/bin/python3.10 /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337/AnsiballZ_get_url.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+<k8s-rancher-06> Escalation succeeded
+<k8s-rancher-05> Escalation succeeded
+<k8s-rancher-05> (1, b'\r\n{"url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg", "dest": "/usr/share/keyrings/salt-archive-keyring.gpg", "elapsed": 0, "failed": true, "msg": "Request failed: <urlopen error [Errno -2] Name or service not known>", "invocation": {"module_args": {"dest": "/usr/share/keyrings/salt-archive-keyring.gpg", "mode": "0644", "url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg", "force": false, "http_agent": "ansible-httpget", "use_proxy": true, "validate_certs": true, "force_basic_auth": false, "use_gssapi": false, "backup": false, "checksum": "", "timeout": 10, "unredirected_headers": [], "decompress": true, "use_netrc": true, "unsafe_writes": false, "url_username": null, "url_password": null, "client_cert": null, "client_key": null, "headers": null, "tmp_dest": null, "ciphers": null, "owner": null, "group": null, "seuser": null, "serole": null, "selevel": null, "setype": null, "attributes": null}}}\r\n', b'Shared connection to k8s-rancher-05 closed.\r\n')
+<k8s-rancher-05> Failed to connect to the host via ssh: Shared connection to k8s-rancher-05 closed.
+<k8s-rancher-05> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-05> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/dbb4733e67"' -o NumberOfPasswordPrompts=1 k8s-rancher-05 '/bin/sh -c '"'"'rm -f -r /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.484087-2888-120335372087337/ > /dev/null 2>&1 && sleep 0'"'"''
+<k8s-rancher-06> (1, b'\r\n{"url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg", "dest": "/usr/share/keyrings/salt-archive-keyring.gpg", "elapsed": 0, "failed": true, "msg": "Request failed: <urlopen error [Errno -2] Name or service not known>", "invocation": {"module_args": {"dest": "/usr/share/keyrings/salt-archive-keyring.gpg", "mode": "0644", "url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg", "force": false, "http_agent": "ansible-httpget", "use_proxy": true, "validate_certs": true, "force_basic_auth": false, "use_gssapi": false, "backup": false, "checksum": "", "timeout": 10, "unredirected_headers": [], "decompress": true, "use_netrc": true, "unsafe_writes": false, "url_username": null, "url_password": null, "client_cert": null, "client_key": null, "headers": null, "tmp_dest": null, "ciphers": null, "owner": null, "group": null, "seuser": null, "serole": null, "selevel": null, "setype": null, "attributes": null}}}\r\n', b'Shared connection to k8s-rancher-06 closed.\r\n')
+<k8s-rancher-06> Failed to connect to the host via ssh: Shared connection to k8s-rancher-06 closed.
+<k8s-rancher-06> ESTABLISH SSH CONNECTION FOR USER: jtfogar
+<k8s-rancher-06> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="jtfogar"' -o ConnectTimeout=10 -o 'ControlPath="/Users/jefffogarty/.ansible/cp/d13cabd4d1"' -o NumberOfPasswordPrompts=1 k8s-rancher-06 '/bin/sh -c '"'"'rm -f -r /home/jtfogar/.ansible/tmp/ansible-tmp-1774225564.479739-2889-280912300951220/ > /dev/null 2>&1 && sleep 0'"'"''
+<k8s-rancher-05> (0, b'', b'')
+[ERROR]: Task failed: Module failed: Request failed: <urlopen error [Errno -2] Name or service not known>
+Origin: /Users/jefffogarty/Documents/projects/utilities/salt/roles/minions/tasks/main.yml:32:3
+
+30   when: minion_should_register | bool
+31
+32 - name: Download SaltStack GPG key
+     ^ column 3
+
+fatal: [node5]: FAILED! => {
+    "changed": false,
+    "dest": "/usr/share/keyrings/salt-archive-keyring.gpg",
+    "elapsed": 0,
+    "invocation": {
+        "module_args": {
+            "attributes": null,
+            "backup": false,
+            "checksum": "",
+            "ciphers": null,
+            "client_cert": null,
+            "client_key": null,
+            "decompress": true,
+            "dest": "/usr/share/keyrings/salt-archive-keyring.gpg",
+            "force": false,
+            "force_basic_auth": false,
+            "group": null,
+            "headers": null,
+            "http_agent": "ansible-httpget",
+            "mode": "0644",
+            "owner": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "timeout": 10,
+            "tmp_dest": null,
+            "unredirected_headers": [],
+            "unsafe_writes": false,
+            "url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg",
+            "url_password": null,
+            "url_username": null,
+            "use_gssapi": false,
+            "use_netrc": true,
+            "use_proxy": true,
+            "validate_certs": true
+        }
+    },
+    "msg": "Request failed: <urlopen error [Errno -2] Name or service not known>",
+    "url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg"
+}
+<k8s-rancher-06> (0, b'', b'')
+fatal: [node6]: FAILED! => {
+    "changed": false,
+    "dest": "/usr/share/keyrings/salt-archive-keyring.gpg",
+    "elapsed": 0,
+    "invocation": {
+        "module_args": {
+            "attributes": null,
+            "backup": false,
+            "checksum": "",
+            "ciphers": null,
+            "client_cert": null,
+            "client_key": null,
+            "decompress": true,
+            "dest": "/usr/share/keyrings/salt-archive-keyring.gpg",
+            "force": false,
+            "force_basic_auth": false,
+            "group": null,
+            "headers": null,
+            "http_agent": "ansible-httpget",
+            "mode": "0644",
+            "owner": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "timeout": 10,
+            "tmp_dest": null,
+            "unredirected_headers": [],
+            "unsafe_writes": false,
+            "url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg",
+            "url_password": null,
+            "url_username": null,
+            "use_gssapi": false,
+            "use_netrc": true,
+            "use_proxy": true,
+            "validate_certs": true
+        }
+    },
+    "msg": "Request failed: <urlopen error [Errno -2] Name or service not known>",
+    "url": "https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3007/SALT-PROJECT-GPG-PUBKEY-2023.gpg"
+}

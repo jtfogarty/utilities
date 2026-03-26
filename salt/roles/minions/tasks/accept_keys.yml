@@ -1,0 +1,77 @@
+---
+# accept_keys.yml — runs on the master node (delegated from minions role)
+# Accepts pending keys for minions in register_minions and
+# rejects/deletes keys for minions in unregister_minions.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Build minion ID strings from the node number lists
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Build list of minion IDs to accept
+  set_fact:
+    minion_ids_to_accept: >-
+      {%- set ids = [] -%}
+      {%- for n in register_minions -%}
+        {%- if salt_minion_id_zero_pad -%}
+          {%- set _ = ids.append(salt_minion_id_prefix ~ '%02d' | format(n | int)) -%}
+        {%- else -%}
+          {%- set _ = ids.append(salt_minion_id_prefix ~ (n | string)) -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {{ ids }}
+  delegate_to: "{{ groups['master_nodes'][0] }}"
+  run_once: true
+
+- name: Build list of minion IDs to reject/delete
+  set_fact:
+    minion_ids_to_reject: >-
+      {%- set ids = [] -%}
+      {%- for n in unregister_minions -%}
+        {%- if salt_minion_id_zero_pad -%}
+          {%- set _ = ids.append(salt_minion_id_prefix ~ '%02d' | format(n | int)) -%}
+        {%- else -%}
+          {%- set _ = ids.append(salt_minion_id_prefix ~ (n | string)) -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {{ ids }}
+  delegate_to: "{{ groups['master_nodes'][0] }}"
+  run_once: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Accept keys for registered minions
+# salt-key -a <minion_id> -y
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Accept salt minion keys on master
+  command: "salt-key -a {{ item }} -y"
+  loop: "{{ minion_ids_to_accept }}"
+  register: accept_key_result
+  changed_when: >-
+    'Key for minion' in accept_key_result.stdout or
+    'accepted' in accept_key_result.stdout
+  failed_when: >-
+    accept_key_result.rc != 0 and
+    'already accepted' not in accept_key_result.stdout
+  when: minion_ids_to_accept | length > 0
+  become: true
+  delegate_to: "{{ groups['master_nodes'][0] }}"
+  run_once: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Reject / delete keys for unregistered minions
+# Deletes from all key rings (accepted, pending, rejected)
+# salt-key -d <minion_id> -y
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Delete (unregister) salt minion keys on master
+  command: "salt-key -d {{ item }} -y"
+  loop: "{{ minion_ids_to_reject }}"
+  register: delete_key_result
+  changed_when: >-
+    'Deleted key' in delete_key_result.stdout or
+    'deleted' in delete_key_result.stdout
+  failed_when: >-
+    delete_key_result.rc != 0 and
+    'does not match any accepted' not in delete_key_result.stdout and
+    'No keys matched' not in delete_key_result.stdout
+  when: minion_ids_to_reject | length > 0
+  become: true
+  delegate_to: "{{ groups['master_nodes'][0] }}"
+  run_once: true

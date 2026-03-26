@@ -1,12 +1,157 @@
 ---
-# tasks file for salt
-- name: Install salt-minion
-  package:
-    name: salt-minion
+# tasks file for salt/minions
+# Determines which nodes to configure based on register_minions and
+# unregister_minions lists defined in vars/main.yml.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1. Derive whether this host is in the register or unregister lists
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Determine node number for this host
+  set_fact:
+    node_number: "{{ inventory_hostname | regex_replace('^node(\\d+)$', '\\1') | int }}"
+
+- name: Check if this host should be registered
+  set_fact:
+    minion_should_register: "{{ node_number | int in register_minions }}"
+    minion_should_unregister: "{{ node_number | int in unregister_minions }}"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2. REGISTER path – install, configure, and start
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install dependencies for apt repo management
+  apt:
+    name:
+      - curl
+      - gnupg
+      - apt-transport-https
     state: present
+    update_cache: true
+  when: minion_should_register | bool
+
+# ── Fetch repo assets on the controller (nodes have no direct internet) ────────
+
+- name: Download SaltStack GPG public key to controller
+  get_url:
+    url: "{{ salt_repo_key_url }}"
+    dest: "/tmp/salt-key.asc"
+    mode: "0644"
+  delegate_to: localhost
+  run_once: true
+  become: false
+  when: minion_should_register | bool
+
+- name: Download salt.sources to controller
+  get_url:
+    url: "{{ salt_repo_sources_url }}"
+    dest: "/tmp/salt.sources"
+    mode: "0644"
+  delegate_to: localhost
+  run_once: true
+  become: false
+  when: minion_should_register | bool
+
+# ── Push repo assets to nodes ──────────────────────────────────────────────────
+
+- name: Ensure keyrings directory exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  when: minion_should_register | bool
+
+- name: Copy armored GPG key to node
+  copy:
+    src: "/tmp/salt-key.asc"
+    dest: "/tmp/salt-key.asc"
+    owner: root
+    group: root
+    mode: "0644"
+  when: minion_should_register | bool
+
+- name: Dearmor GPG key on node
+  shell: gpg --dearmor -o {{ salt_keyring_dest }} /tmp/salt-key.asc
+  args:
+    creates: "{{ salt_keyring_dest }}"
+  when: minion_should_register | bool
+
+- name: Copy salt.sources to node
+  copy:
+    src: "/tmp/salt.sources"
+    dest: "{{ salt_sources_dest }}"
+    owner: root
+    group: root
+    mode: "0644"
+  when: minion_should_register | bool
+
+- name: Pin Salt to {{ salt_repo_major_version }}.x series
+  copy:
+    content: |
+      Package: salt-*
+      Pin: version {{ salt_repo_major_version }}.*
+      Pin-Priority: 1001
+    dest: "{{ salt_pin_dest }}"
+    owner: root
+    group: root
+    mode: "0644"
+  when: minion_should_register | bool
+
+- name: Update apt cache
+  apt:
+    update_cache: true
+  when: minion_should_register | bool
+
+- name: Install salt-minion {{ salt_minion_version }} and salt-common
+  apt:
+    name:
+      - "salt-minion={{ salt_minion_version }}"
+      - "salt-common={{ salt_minion_version }}"
+    state: present
+    allow_downgrade: true
+  when: minion_should_register | bool
+
+- name: Deploy salt-minion configuration
+  template:
+    src: minion.conf.j2
+    dest: "{{ salt_minion_config_dir }}/minion"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart salt-minion
+  when: minion_should_register | bool
 
 - name: Ensure salt-minion is running and enabled
   service:
-    name: salt-minion
+    name: "{{ salt_minion_service }}"
     state: started
-    enabled: yes
+    enabled: true
+  when: minion_should_register | bool
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3. UNREGISTER path – stop service and remove package
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Stop and disable salt-minion (unregister)
+  service:
+    name: "{{ salt_minion_service }}"
+    state: stopped
+    enabled: false
+  when: minion_should_unregister | bool
+  ignore_errors: true
+
+- name: Remove salt-minion package (unregister)
+  package:
+    name: salt-minion
+    state: absent
+  when: minion_should_unregister | bool
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4. Force any pending handler (restart) before key acceptance
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Flush handlers to restart minion before key acceptance
+  meta: flush_handlers
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5. Key management on the master
+# ──────────────────────────────────────────────────────────────────────────────
+- name: Accept / reject keys on the master
+  include_tasks: accept_keys.yml

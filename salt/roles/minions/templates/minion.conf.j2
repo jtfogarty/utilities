@@ -1,0 +1,7 @@
+# Managed by Ansible — do not edit manually.
+
+# The master to connect to.
+master: {{ salt_master_host }}
+
+# Unique minion ID derived from the node number.
+id: {{ salt_minion_id_prefix }}{% if salt_minion_id_zero_pad %}{{ '%02d' | format(node_number | int) }}{% else %}{{ node_number }}{% endif %}

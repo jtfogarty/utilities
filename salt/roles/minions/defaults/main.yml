@@ -1,2 +1,37 @@
 ---
-# defaults file for salt
+# defaults file for salt/minions
+
+# Default minion ID prefix — combined with the node number to form the minion ID.
+# e.g., prefix "k8s-rancher-" + number "7" → minion_id "k8s-rancher-07"
+salt_minion_id_prefix: "k8s-rancher-"
+
+# Whether to zero-pad the node number when building minion IDs (07 vs 7).
+salt_minion_id_zero_pad: true
+
+# Salt-minion service name (varies by distro).
+salt_minion_service: "salt-minion"
+
+# Path to the salt-minion configuration directory.
+salt_minion_config_dir: "/etc/salt"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SaltStack repository settings (Chlorine / 3007.x)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Major release series used for the apt pin (e.g. "3007").
+salt_repo_major_version: "3007"
+
+# Full pinned version to install.
+# salt-common must match salt-minion when installing a point release.
+salt_minion_version: "3007.13"
+
+# Broadcom-hosted armored GPG public key (current as of Salt 3006+).
+salt_repo_key_url: "https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public"
+
+# GitHub-hosted salt.sources file (sets up the apt repo and components).
+salt_repo_sources_url: "https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources"
+
+# Destination paths on the managed nodes.
+salt_keyring_dest: "/etc/apt/keyrings/salt-archive-keyring.pgp"
+salt_sources_dest: "/etc/apt/sources.list.d/salt.sources"
+salt_pin_dest: "/etc/apt/preferences.d/salt-pin-1001"
