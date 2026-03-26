@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["Ptr"],"trait":["Transfer"]};

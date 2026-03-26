@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["Bs","BsAdj","BsNoun","BsVerb","Buzzword","BuzzwordMiddle","BuzzwordTail","CatchPhrase","CompanyName","CompanySuffix","Industry","Profession"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"trait":["FixShapesExtension"],"type":["FixShapes"]};

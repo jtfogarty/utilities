@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["LineCap","LineJoin"],"struct":["BufferStyle"],"trait":["Buffer"]};

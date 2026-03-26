@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["ID_CHARS"],"enum":["RecordIdKey"],"mod":["key","range"],"struct":["RecordId","RecordIdKeyRange"]};

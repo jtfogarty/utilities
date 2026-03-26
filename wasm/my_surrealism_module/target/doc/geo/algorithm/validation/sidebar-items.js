@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["InvalidGeometry","InvalidGeometryCollection","InvalidLine","InvalidLineString","InvalidMultiLineString","InvalidMultiPoint","InvalidMultiPolygon","InvalidPoint","InvalidPolygon","InvalidRect","InvalidTriangle","RingRole"],"struct":["CoordIndex","GeometryIndex"],"trait":["Validation"]};

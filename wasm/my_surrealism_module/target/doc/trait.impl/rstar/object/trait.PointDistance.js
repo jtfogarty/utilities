@@ -1,9 +1,0 @@
-(function() {
-    const implementors = Object.fromEntries([["geo_types",[["impl&lt;T&gt; <a class=\"trait\" href=\"rstar/object/trait.PointDistance.html\" title=\"trait rstar::object::PointDistance\">PointDistance</a> for <a class=\"struct\" href=\"geo_types/geometry/struct.Line.html\" title=\"struct geo_types::geometry::Line\">Line</a>&lt;T&gt;<div class=\"where\">where\n    T: <a class=\"trait\" href=\"num_traits/float/trait.Float.html\" title=\"trait num_traits::float::Float\">Float</a> + <a class=\"trait\" href=\"rstar/point/trait.RTreeNum.html\" title=\"trait rstar::point::RTreeNum\">RTreeNum</a>,</div>",0],["impl&lt;T&gt; <a class=\"trait\" href=\"rstar/object/trait.PointDistance.html\" title=\"trait rstar::object::PointDistance\">PointDistance</a> for <a class=\"struct\" href=\"geo_types/geometry/struct.LineString.html\" title=\"struct geo_types::geometry::LineString\">LineString</a>&lt;T&gt;<div class=\"where\">where\n    T: <a class=\"trait\" href=\"num_traits/float/trait.Float.html\" title=\"trait num_traits::float::Float\">Float</a> + <a class=\"trait\" href=\"rstar/point/trait.RTreeNum.html\" title=\"trait rstar::point::RTreeNum\">RTreeNum</a>,</div>",0]]],["rstar",[]]]);
-    if (window.register_implementors) {
-        window.register_implementors(implementors);
-    } else {
-        window.pending_implementors = implementors;
-    }
-})()
-//{"start":59,"fragment_lengths":[1127,13]}

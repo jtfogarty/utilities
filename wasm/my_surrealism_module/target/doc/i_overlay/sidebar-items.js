@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["build","core","float","mesh","segm","string","vector"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["nearest_neighbour_distance"],"trait":["EuclideanDistance"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["guide","reclaim"],"struct":["Collector","LocalGuard","OwnedGuard"],"trait":["Guard"]};

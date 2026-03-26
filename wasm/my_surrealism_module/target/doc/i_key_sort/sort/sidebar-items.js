@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["key_sort","layout","min_max"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["Bs","BsAdj","BsNoun","BsVerb","Buzzword","BuzzwordMiddle","BuzzwordTail","CatchPhrase","CompanyName","CompanySuffix","Industry","Profession"]};

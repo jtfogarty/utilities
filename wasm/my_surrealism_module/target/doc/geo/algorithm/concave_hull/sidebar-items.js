@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["ConcaveHullOptions"],"trait":["ConcaveHull"]};

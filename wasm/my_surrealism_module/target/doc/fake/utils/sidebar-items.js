@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["either"],"struct":["EitherFaker","WrappedVal"],"trait":["IntoInner"]};

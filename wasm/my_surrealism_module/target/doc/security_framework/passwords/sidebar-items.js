@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["delete_generic_password","delete_generic_password_options","delete_internet_password","generic_password","get_internet_password","set_generic_password","set_generic_password_options","set_internet_password"],"struct":["AccessControlOptions","PasswordOptions"]};

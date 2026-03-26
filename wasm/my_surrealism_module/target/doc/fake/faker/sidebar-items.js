@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["address","administrative","automotive","barcode","boolean","company","creditcard","currency","filesystem","finance","internet","job","lorem","name","number","phone_number"]};

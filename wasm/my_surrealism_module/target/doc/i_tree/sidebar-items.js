@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["EMPTY_REF"],"mod":["key","map","seg","set"],"trait":["Expiration","ExpiredKey","ExpiredVal"]};

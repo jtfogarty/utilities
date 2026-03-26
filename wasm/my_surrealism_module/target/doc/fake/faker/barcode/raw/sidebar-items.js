@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["Isbn","Isbn10","Isbn13"]};

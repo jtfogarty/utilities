@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["area","count","dedup","despike","path","reverse","shape","simple"]};

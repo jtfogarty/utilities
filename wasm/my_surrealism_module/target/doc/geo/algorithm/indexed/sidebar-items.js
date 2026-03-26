@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["interval_tree_multipolygon","prepared_geometry"]};

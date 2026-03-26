@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["ContourDirection","ShapeType"],"struct":["IntOverlayOptions","Overlay"]};

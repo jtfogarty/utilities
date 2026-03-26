@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["TriangulationError"],"struct":["DelaunayTriangulationConfig"],"trait":["SpadeTriangulationFloat","TriangulateDelaunay"],"type":["Triangles","TriangulationResult"]};

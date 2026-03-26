@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["array","exp","iter","list","tree"]};

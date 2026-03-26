@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["AddRef","CloudSync","ItemAddValue","ItemUpdateValue","Limit","Location","Reference","SearchResult"],"fn":["add_item","update_item"],"struct":["ItemAddOptions","ItemClass","ItemSearchOptions","ItemUpdateOptions","KeyClass"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["clip","extract","graph","line","overlay","rule","slice","split"]};

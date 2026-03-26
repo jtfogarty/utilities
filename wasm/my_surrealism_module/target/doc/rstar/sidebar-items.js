@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["RStarInsertionStrategy","RTreeNode"],"mod":["iterators","primitives"],"struct":["AABB","DefaultParams","ParentNode","RTree"],"trait":["Envelope","InsertionStrategy","Point","PointDistance","RTreeNum","RTreeObject","RTreeParams","SelectionFunction"]};

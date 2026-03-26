@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["Field","Position","Seniority","Title"]};

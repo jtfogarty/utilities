@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["DirPath","FileExtension","FileName","FilePath","MimeType","Semver","SemverStable","SemverUnstable"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"trait":["BiggestShapePoints","PointsCount"],"type":["IntShapes"]};

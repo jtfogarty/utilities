@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["DomainSuffix","FreeEmail","FreeEmailProvider","IP","IPv4","IPv6","MACAddress","Password","SafeEmail","UserAgent","Username"]};

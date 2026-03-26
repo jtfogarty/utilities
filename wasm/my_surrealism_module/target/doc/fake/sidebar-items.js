@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"derive":["Dummy"],"macro":["binary_heap","linked_list","vec","vec_deque"],"mod":["faker","locales","utils"],"struct":["Faker","Opt","Optional","PathFaker","ResultFaker","StringFaker"],"trait":["Dummy","Fake"]};

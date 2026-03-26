@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["LineStringIter","MapLinesIter"],"trait":["LinesIter"]};
