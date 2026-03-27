@@ -85,4 +85,5 @@
     name: salt-api
     state: started
     enabled: true
+  when: not ansible_check_mode
   tags: [service, salt_api]
