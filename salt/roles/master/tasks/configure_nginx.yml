@@ -1,33 +1,61 @@
 ---
-# tasks file for salt-master
-# Installs Salt Master + salt-api with HTTPS + nginx reverse proxy on Ubuntu.
-#
-# Set  salt_master_already_installed: true  (via vars or -e) to skip the
-# package/repo install steps and only configure nginx + salt-api.
-# See playbook/salt_master_api_nginx.yml for a ready-made playbook that does
-# exactly that.
+# tasks/configure_nginx.yml
+# Configures the nginx reverse proxy for salt-api.
+# Run standalone (with salt_master_already_installed: true) to only
+# reconfigure/restart nginx without touching the full install.
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Install (skipped when salt_master_already_installed: true)
+# SSL directory
 # ──────────────────────────────────────────────────────────────────────────────
-- name: Install Salt packages and APT repository
-  import_tasks: install.yml
-  when: not salt_master_already_installed
+
+- name: Ensure /etc/ssl/private exists and has correct permissions
+  file:
+    path: /etc/ssl/private
+    state: directory
+    owner: root
+    group: ssl-cert
+    mode: "0710"
+  tags: [configure, nginx, ssl]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Configure salt-api (PAM, master drop-ins, service)
+# nginx virtual host for salt-api
 # ──────────────────────────────────────────────────────────────────────────────
-- name: Configure salt-api
-  import_tasks: configure_api.yml
+
+- name: Deploy nginx salt-api virtual host config
+  template:
+    src: salt-api-nginx.conf.j2
+    dest: /etc/nginx/sites-available/salt-api.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Restart nginx
+  tags: [configure, nginx]
+
+- name: Enable nginx salt-api virtual host
+  file:
+    src: /etc/nginx/sites-available/salt-api.conf
+    dest: /etc/nginx/sites-enabled/salt-api.conf
+    state: link
+  notify:
+    - Restart nginx
+  tags: [configure, nginx]
+
+- name: Remove nginx default site (avoid port conflicts)
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - Restart nginx
+  tags: [configure, nginx]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Configure nginx reverse proxy for salt-api
+# Enable and start nginx
 # ──────────────────────────────────────────────────────────────────────────────
-- name: Configure nginx
-  import_tasks: configure_nginx.yml
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Firewall rules
-# ──────────────────────────────────────────────────────────────────────────────
-- name: Apply firewall rules
-  import_tasks: firewall.yml
+- name: Ensure nginx is enabled and running
+  service:
+    name: nginx
+    state: started
+    enabled: true
+  tags: [service, nginx]

@@ -1,0 +1,27 @@
+---
+# playbook/salt_master_api_nginx.yml
+#
+# Use this playbook when salt-master is ALREADY INSTALLED on the host and you
+# only want to (re)install / (re)configure nginx and salt-api.
+#
+# It sets salt_master_already_installed=true so the APT repo setup and
+# package install for salt-master are skipped entirely.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml playbook/salt_master_api_nginx.yml
+#
+# You can further narrow what runs with tags:
+#   --tags nginx            → only nginx config tasks
+#   --tags salt_api         → only salt-api config tasks
+#   --tags configure        → all configure tasks (api + nginx)
+#   --tags firewall         → only firewall rules
+
+- name: Configure nginx + salt-api (master pre-installed)
+  hosts: salt_master
+  become: true
+
+  vars:
+    salt_master_already_installed: true   # skip repo/package install
+
+  roles:
+    - master

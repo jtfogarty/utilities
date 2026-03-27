@@ -1,6 +1,11 @@
 ---
 # defaults file for salt/master
 
+# Set to true when salt-master is already installed on the target host.
+# When true the APT repo setup and package installation steps are skipped
+# so only nginx + salt-api are installed/configured.
+salt_master_already_installed: false
+
 salt_version: "3006.23"
 
 # Salt packages to install on the master

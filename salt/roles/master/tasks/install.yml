@@ -1,33 +1,52 @@
 ---
-# tasks file for salt-master
-# Installs Salt Master + salt-api with HTTPS + nginx reverse proxy on Ubuntu.
-#
-# Set  salt_master_already_installed: true  (via vars or -e) to skip the
-# package/repo install steps and only configure nginx + salt-api.
-# See playbook/salt_master_api_nginx.yml for a ready-made playbook that does
-# exactly that.
+# tasks/install.yml
+# Installs the SaltStack APT repo, packages, and CherryPy.
+# Skipped entirely when salt_master_already_installed is true.
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Install (skipped when salt_master_already_installed: true)
+# 1. Repository setup — SaltStack APT repo for Ubuntu
 # ──────────────────────────────────────────────────────────────────────────────
-- name: Install Salt packages and APT repository
-  import_tasks: install.yml
-  when: not salt_master_already_installed
+
+- name: Install SaltStack apt repo keyring
+  get_url:
+    url: "https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public"
+    dest: /etc/apt/keyrings/salt-archive-keyring.pgp
+    mode: "0644"
+  tags: [install, salt_master]
+
+- name: Add SaltStack APT repository
+  apt_repository:
+    repo: >-
+      deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.pgp arch=amd64]
+      https://packages.broadcom.com/artifactory/saltproject-deb/
+      stable main
+    filename: salt
+    state: present
+    update_cache: true
+  tags: [install, salt_master]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Configure salt-api (PAM, master drop-ins, service)
+# 2. Install nginx, salt-master, salt-api
 # ──────────────────────────────────────────────────────────────────────────────
-- name: Configure salt-api
-  import_tasks: configure_api.yml
+
+- name: Install nginx, salt-master, and salt-api
+  apt:
+    name:
+      - nginx
+      - salt-master
+      - salt-api
+    state: present
+    update_cache: true
+  tags: [install, salt_master, nginx, salt_api]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Configure nginx reverse proxy for salt-api
+# 3. Install CherryPy for salt-api rest_cherrypy
+#    Must use the Salt-bundled pip so it lands in Salt's own Python env
 # ──────────────────────────────────────────────────────────────────────────────
-- name: Configure nginx
-  import_tasks: configure_nginx.yml
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Firewall rules
-# ──────────────────────────────────────────────────────────────────────────────
-- name: Apply firewall rules
-  import_tasks: firewall.yml
+- name: Install CherryPy into the Salt Python environment
+  pip:
+    name: cherrypy
+    executable: /opt/saltstack/salt/bin/pip3
+    state: present
+  tags: [install, salt_api]

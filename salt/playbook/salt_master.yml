@@ -1,0 +1,24 @@
+---
+# playbook/salt_master.yml
+#
+# Full install + configuration of salt-master, salt-api, and nginx on a
+# fresh Ubuntu host.  Runs all tasks including APT repo setup and package
+# installation.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml playbook/salt_master.yml
+#
+# You can narrow what runs with tags:
+#   --tags install          → only install tasks (repo + packages + cherrypy)
+#   --tags configure        → only configuration tasks (api + nginx)
+#   --tags nginx            → only nginx tasks
+#   --tags salt_api         → only salt-api tasks
+#   --tags salt_master      → only salt-master tasks
+#   --tags firewall         → only firewall rules
+
+- name: Full install and configuration of salt-master + salt-api + nginx
+  hosts: salt_master
+  become: true
+
+  roles:
+    - master

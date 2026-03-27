@@ -1,0 +1,88 @@
+---
+# tasks/configure_api.yml
+# Configures PAM, salt-master drop-ins, and the salt-api service.
+# Run standalone (with salt_master_already_installed: true) to only
+# reconfigure/restart salt-api without touching the full install.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PAM configuration for salt-api auth
+# The two pam_unix.so lines are the minimal working config for Ubuntu PAM.
+# auth_pam_service in eauth.conf points to this file name (salt-api).
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Deploy PAM service file for salt-api auth
+  copy:
+    content: |
+      auth     required     pam_unix.so
+      account  required     pam_unix.so
+    dest: /etc/pam.d/salt-api
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [configure, salt_api, pam]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Salt Master drop-in configs
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure master.d directory exists
+  file:
+    path: "{{ salt_master_config_dir }}/master.d"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags: [configure, salt_master, salt_api]
+
+- name: Deploy salt-api configuration (rest_cherrypy)
+  template:
+    src: master.d/api.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/api.conf"
+    owner: root
+    group: root
+    mode: "0640"
+  notify:
+    - Restart salt-api
+    - Restart salt-master
+  tags: [configure, salt_api]
+
+- name: Deploy external auth configuration (PAM)
+  template:
+    src: master.d/eauth.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/eauth.conf"
+    owner: root
+    group: root
+    mode: "0640"
+  notify:
+    - Restart salt-api
+    - Restart salt-master
+  tags: [configure, salt_api, pam]
+
+- name: Deploy salt-master user configuration
+  template:
+    src: master.d/salt-user.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/salt-user.conf"
+    owner: root
+    group: root
+    mode: "0640"
+  notify:
+    - Restart salt-master
+  tags: [configure, salt_master]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Enable and start salt-master + salt-api
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure salt-master is enabled and running
+  service:
+    name: salt-master
+    state: started
+    enabled: true
+  tags: [service, salt_master]
+
+- name: Ensure salt-api is enabled and running
+  service:
+    name: salt-api
+    state: started
+    enabled: true
+  tags: [service, salt_api]
