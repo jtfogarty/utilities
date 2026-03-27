@@ -2,7 +2,8 @@ use crate::config::ServerConfig;
 use crate::salt;
 use rmcp::{
     ErrorData as McpError, ServerHandler,
-    handler::server::tool::Parameters,
+    handler::server::router::tool::ToolRouter,
+    handler::server::wrapper::parameters::Parameters,
     model::{CallToolResult, Content, ServerCapabilities, ServerInfo, Implementation, ProtocolVersion},
     schemars, tool, tool_handler, tool_router,
 };
@@ -25,7 +26,7 @@ impl SaltService {
     }
 
     #[tool(description = "Execute any Salt command via the existing salt-api")]
-    pub async fn salt_execute(
+    async fn salt_execute(
         &self,
         Parameters(request): Parameters<SaltExecuteRequest>,
     ) -> Result<CallToolResult, McpError> {
