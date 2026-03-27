@@ -3,7 +3,7 @@ use crate::salt;
 use rmcp::{
     ErrorData as McpError, ServerHandler,
     handler::server::router::tool::ToolRouter,
-    handler::server::tool::Parameters,
+    handler::server::wrapper::parameters::Parameters,   // <-- this is the path the compiler wants
     model::{CallToolResult, Content, ServerCapabilities, ServerInfo, Implementation, ProtocolVersion},
     schemars, tool, tool_handler, tool_router,
 };
@@ -26,10 +26,12 @@ impl SaltService {
     }
 
     #[tool(description = "Execute any Salt command via the existing salt-api")]
-    async fn salt_execute(
+    pub async fn salt_execute(
         &self,
-        Parameters(request): Parameters<SaltExecuteRequest>,
+        params: Parameters<SaltExecuteRequest>,   // <-- surrealmcp style (no destructuring here)
     ) -> Result<CallToolResult, McpError> {
+        let request = params.0;   // destructure once inside the function
+
         let token = salt::get_token(&self.config).await?;
 
         let payload = serde_json::json!({
