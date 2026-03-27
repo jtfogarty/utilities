@@ -1,16 +1,16 @@
-use crate::{config::ServerConfig, tools::SaltTools};
 use anyhow::Result;
-use rmcp::serve_server;
+use crate::config::ServerConfig;
+use crate::tools::SaltService;
 use tokio::io::{stdin, stdout};
 
 pub async fn start_server(config: ServerConfig) -> Result<()> {
     tracing::info!("Starting saltapimcp (stdio transport) — Salt API at {}", config.salt_api_url);
 
-    let tools = SaltTools::new(config);
+    let service = SaltService::new(config);
 
-    let service = serve_server(tools, (stdin(), stdout())).await?;
+    let server = rmcp::serve_server(service, (stdin(), stdout())).await?;
 
     tracing::info!("saltapimcp ready — LLM agents can now call salt_execute");
-    let _ = service.waiting().await;
+    let _ = server.waiting().await;
     Ok(())
 }

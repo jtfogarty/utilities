@@ -1,17 +1,16 @@
+use crate::config::ServerConfig;
 use crate::salt;
 use rmcp::{
-    ErrorData as McpError,
-    handler::server::router::tool::ToolRouter,
-    handler::server::tool::Parameters,
-    model::{CallToolResult, Content},
-    schemars, tool, tool_router,
+    ErrorData as McpError, ServerHandler,
+    handler::server::wrapper::parameters::Parameters,
+    model::{CallToolResult, Content, ServerCapabilities, ServerInfo, Implementation, ProtocolVersion},
+    schemars, tool, tool_handler,
 };
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use crate::config::ServerConfig;
 
 #[derive(Debug, Clone)]
-pub struct SaltTools {
+pub struct SaltService {
     config: ServerConfig,
 }
 
@@ -27,12 +26,27 @@ pub struct SaltExecuteRequest {
     pub client: Option<String>,
 }
 
-#[tool_router]
-impl SaltTools {
-    pub fn new(config: ServerConfig) -> ToolRouter<Self> {
-        Self::tool_router()
+impl SaltService {
+    pub fn new(config: ServerConfig) -> Self {
+        Self { config }
     }
+}
 
+#[tool_handler]
+impl ServerHandler for SaltService {
+    fn get_info(&self) -> ServerInfo {
+        ServerInfo {
+            protocol_version: ProtocolVersion::V_2024_11_05,
+            capabilities: ServerCapabilities::builder().enable_tools().build(),
+            server_info: Implementation::from_build_env(),
+            instructions: Some(
+                "SaltStack MCP server. Use the salt_execute tool to run any Salt command via the local salt-api.".to_string(),
+            ),
+        }
+    }
+}
+
+impl SaltService {
     #[tool(description = "Execute any Salt command via the existing salt-api")]
     async fn salt_execute(
         &self,
@@ -54,13 +68,13 @@ impl SaltTools {
             .send()
             .await
             .map_err(|e| McpError {
-                code: -32603,
+                code: ErrorCode(-32603),
                 message: Cow::from(format!("Salt API call failed: {}", e)),
                 data: None,
             })?;
 
         let body: serde_json::Value = resp.json().await.map_err(|e| McpError {
-            code: -32603,
+            code: ErrorCode(-32603),
             message: Cow::from(format!("Failed to parse Salt response: {}", e)),
             data: None,
         })?;

@@ -2,6 +2,7 @@ use crate::config::ServerConfig;
 use once_cell::sync::Lazy;
 use reqwest::Client;
 use rmcp::ErrorData as McpError;
+use rmcp::model::ErrorCode;
 use std::borrow::Cow;
 use tokio::sync::Mutex;
 
@@ -24,13 +25,13 @@ pub async fn get_token(config: &ServerConfig) -> Result<String, McpError> {
         .send()
         .await
         .map_err(|e| McpError {
-            code: -32603,
+            code: ErrorCode(-32603),
             message: Cow::from(format!("Login failed: {}", e)),
             data: None,
         })?;
 
     let body: serde_json::Value = resp.json().await.map_err(|e| McpError {
-        code: -32603,
+        code: ErrorCode(-32603),
         message: Cow::from(format!("Login response error: {}", e)),
         data: None,
     })?;
@@ -38,7 +39,7 @@ pub async fn get_token(config: &ServerConfig) -> Result<String, McpError> {
     let token = body["return"][0]["token"]
         .as_str()
         .ok_or_else(|| McpError {
-            code: -32603,
+            code: ErrorCode(-32603),
             message: Cow::from("No token in login response"),
             data: None,
         })?
