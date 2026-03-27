@@ -5,7 +5,8 @@
 
 FROM docker.io/rockylinux/rockylinux:9 AS builder
 
-RUN dnf install -y gcc-toolset-13 git cmake llvm-toolset patch zlib-devel python3.11
+# Added openssl-devel + pkgconf so reqwest/openssl-sys can build
+RUN dnf install -y gcc-toolset-13 git cmake llvm-toolset patch zlib-devel python3.11 openssl-devel pkgconf
 
 ARG RUST_VERSION=1.89.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rustup.sh
