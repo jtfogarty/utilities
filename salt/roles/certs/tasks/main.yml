@@ -45,7 +45,7 @@
       file:
         path: /tmp/mkcert
         state: absent
-  when: not mkcert_stat.stat.exists
+  when: not mkcert_stat.stat.exists and not ansible_check_mode
   tags: [certs, mkcert, install]
 
 # ──────────────────────────────────────────────────────────────────────────────
