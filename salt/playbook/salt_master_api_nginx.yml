@@ -15,6 +15,7 @@
 #   --tags salt_api         → only salt-api config tasks
 #   --tags configure        → all configure tasks (api + nginx)
 #   --tags firewall         → only firewall rules
+#   --tags certs            → only cert generation (mkcert)
 
 - name: Configure nginx + salt-api (master pre-installed)
   hosts: salt_master
@@ -24,4 +25,5 @@
     salt_master_already_installed: true   # skip repo/package install
 
   roles:
+    - certs
     - master

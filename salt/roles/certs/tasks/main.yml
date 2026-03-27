@@ -1,0 +1,127 @@
+---
+# tasks file for certs role
+# Installs mkcert, creates a local CA, and generates the TLS cert + key
+# used by the nginx reverse proxy in front of salt-api.
+# Cert paths match salt_ssl_crt / salt_ssl_key in the master role defaults.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1. Prerequisites
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install mkcert prerequisites (libnss3-tools)
+  apt:
+    name: libnss3-tools
+    state: present
+    update_cache: true
+  tags: [certs, mkcert, install]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2. Install mkcert binary
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Check if mkcert is already installed
+  stat:
+    path: "{{ mkcert_bin }}"
+  register: mkcert_stat
+  tags: [certs, mkcert, install]
+
+- name: Download and install mkcert binary
+  block:
+    - name: Download mkcert to a temp location
+      get_url:
+        url: "{{ mkcert_url }}"
+        dest: /tmp/mkcert
+        mode: "0755"
+        force: true
+
+    - name: Move mkcert to {{ mkcert_bin }}
+      copy:
+        src: /tmp/mkcert
+        dest: "{{ mkcert_bin }}"
+        mode: "0755"
+        remote_src: true
+
+    - name: Remove temp mkcert download
+      file:
+        path: /tmp/mkcert
+        state: absent
+  when: not mkcert_stat.stat.exists
+  tags: [certs, mkcert, install]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3. Install the local CA (idempotent — mkcert skips if CA already exists)
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install mkcert local CA into system trust store
+  command: "{{ mkcert_bin }} -install"
+  environment:
+    CAROOT: /etc/ssl/mkcert-ca
+  changed_when: false   # mkcert -install is idempotent; don't mark changed
+  tags: [certs, mkcert, ca]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4. Ensure output directories exist with correct permissions
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure cert directory exists
+  file:
+    path: "{{ mkcert_cert_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags: [certs, dirs]
+
+- name: Ensure key directory exists with restricted permissions
+  file:
+    path: "{{ mkcert_key_dir }}"
+    state: directory
+    owner: root
+    group: ssl-cert
+    mode: "0710"
+  tags: [certs, dirs]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5. Check whether the cert already exists (skip generation unless forced)
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Check if TLS cert already exists
+  stat:
+    path: "{{ salt_ssl_crt }}"
+  register: cert_stat
+  tags: [certs, generate]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 6. Generate cert + key with mkcert
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Generate TLS cert and key with mkcert
+  command: >
+    {{ mkcert_bin }}
+    -cert-file {{ salt_ssl_crt }}
+    -key-file  {{ salt_ssl_key }}
+    {{ mkcert_domains | join(' ') }}
+  environment:
+    CAROOT: /etc/ssl/mkcert-ca
+  when: not cert_stat.stat.exists or mkcert_force_regen
+  tags: [certs, generate]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 7. Lock down key file permissions
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Restrict permissions on private key
+  file:
+    path: "{{ salt_ssl_key }}"
+    owner: root
+    group: ssl-cert
+    mode: "0640"
+  tags: [certs, permissions]
+
+- name: Ensure cert file is world-readable
+  file:
+    path: "{{ salt_ssl_crt }}"
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [certs, permissions]

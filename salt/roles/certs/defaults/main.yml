@@ -1,0 +1,32 @@
+---
+# defaults file for certs role
+
+# ── mkcert binary ──────────────────────────────────────────────────────────────
+# Download URL for the latest mkcert amd64 Linux binary.
+mkcert_url: "https://dl.filippo.io/mkcert/latest?for=linux/amd64"
+mkcert_bin: /usr/local/bin/mkcert
+
+# ── Certificate output paths ───────────────────────────────────────────────────
+# These must match the values used in the master role (salt_ssl_crt / salt_ssl_key)
+# and in the nginx template (salt-api-nginx.conf.j2).
+mkcert_cert_dir: /etc/ssl/certs
+mkcert_key_dir:  /etc/ssl/private
+mkcert_cert_file: salt-master.crt
+mkcert_key_file:  salt-master.key
+
+# Full paths (convenience aliases consumed by the master role variables)
+salt_ssl_crt: "{{ mkcert_cert_dir }}/{{ mkcert_cert_file }}"
+salt_ssl_key: "{{ mkcert_key_dir }}/{{ mkcert_key_file }}"
+
+# ── Subject alt-names ──────────────────────────────────────────────────────────
+# Add every name / IP that browsers or API clients will use.
+# ansible_fqdn and ansible_hostname are gathered automatically.
+mkcert_domains:
+  - "{{ ansible_fqdn }}"
+  - "{{ ansible_hostname }}"
+  - localhost
+  - 127.0.0.1
+  - "::1"
+
+# Set to true to force cert regeneration even if the cert file already exists.
+mkcert_force_regen: false
