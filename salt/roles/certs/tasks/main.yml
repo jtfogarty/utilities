@@ -8,9 +8,11 @@
 # 1. Prerequisites
 # ──────────────────────────────────────────────────────────────────────────────
 
-- name: Install mkcert prerequisites (libnss3-tools)
+- name: Install mkcert prerequisites (libnss3-tools, ssl-cert)
   apt:
-    name: libnss3-tools
+    name:
+      - libnss3-tools
+      - ssl-cert       # creates the ssl-cert group used for key file ownership
     state: present
     update_cache: true
   tags: [certs, mkcert, install]
