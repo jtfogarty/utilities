@@ -1,0 +1,15 @@
+[Unit]
+Description=Salt API MCP Server for LLM Agents
+After=salt-master.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/saltapimcp start --salt-api-url http://127.0.0.1:8000 --salt-user YOURUSER --salt-pass YOURPASS
+Restart=always
+RestartSec=5
+Environment="RUST_LOG=info"
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
