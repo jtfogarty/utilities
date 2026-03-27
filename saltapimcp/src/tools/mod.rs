@@ -1,13 +1,19 @@
 use crate::salt;
 use rmcp::{
-    handler::server::tool::ToolRouter,
-    model::{CallToolResult, ToolContent},
-    schemars, tool, tool_router, Parameters,
+    ErrorData as McpError,
+    handler::server::router::tool::ToolRouter,
+    handler::server::tool::Parameters,
+    model::{CallToolResult, Content},
+    schemars, tool, tool_router,
 };
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
+use crate::config::ServerConfig;
 
 #[derive(Debug, Clone)]
-pub struct SaltTools;
+pub struct SaltTools {
+    config: ServerConfig,
+}
 
 #[derive(Debug, Deserialize, schemars::JsonSchema, Serialize)]
 pub struct SaltExecuteRequest {
@@ -23,7 +29,7 @@ pub struct SaltExecuteRequest {
 
 #[tool_router]
 impl SaltTools {
-    pub fn new() -> ToolRouter<Self> {
+    pub fn new(config: ServerConfig) -> ToolRouter<Self> {
         Self::tool_router()
     }
 
@@ -31,9 +37,8 @@ impl SaltTools {
     async fn salt_execute(
         &self,
         Parameters(request): Parameters<SaltExecuteRequest>,
-        config: &crate::config::ServerConfig, // injected by server
-    ) -> Result<CallToolResult, rmcp::model::ErrorData> {
-        let token = salt::get_token(config).await?;
+    ) -> Result<CallToolResult, McpError> {
+        let token = salt::get_token(&self.config).await?;
 
         let payload = serde_json::json!({
             "client": request.client.unwrap_or_else(|| "local".to_string()),
@@ -43,19 +48,19 @@ impl SaltTools {
         });
 
         let resp = salt::http_client()
-            .post(format!("{}/run", config.salt_api_url))
+            .post(format!("{}/run", self.config.salt_api_url))
             .header("X-Auth-Token", token)
             .json(&payload)
             .send()
             .await
-            .map_err(|e| rmcp::model::ErrorData {
-                code: (-32603).into(),
+            .map_err(|e| McpError {
+                code: -32603,
                 message: Cow::from(format!("Salt API call failed: {}", e)),
                 data: None,
             })?;
 
-        let body: serde_json::Value = resp.json().await.map_err(|e| rmcp::model::ErrorData {
-            code: (-32603).into(),
+        let body: serde_json::Value = resp.json().await.map_err(|e| McpError {
+            code: -32603,
             message: Cow::from(format!("Failed to parse Salt response: {}", e)),
             data: None,
         })?;
@@ -63,6 +68,6 @@ impl SaltTools {
         let result_text = serde_json::to_string_pretty(&body)
             .unwrap_or_else(|_| "Command executed successfully".to_string());
 
-        Ok(CallToolResult::success(vec![ToolContent::text(result_text)]))
+        Ok(CallToolResult::success(vec![Content::text(result_text)]))
     }
 }
