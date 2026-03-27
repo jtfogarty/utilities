@@ -30,7 +30,7 @@ salt_api_socket_queue_size: 30
 # External auth (PAM) — list of users allowed to access the API
 salt_eauth_backend: pam
 salt_eauth_users:
-  - username: jfogar
+  - username: jtfogar
     permissions:
       - '.*'
   - username: mpc

@@ -38,7 +38,7 @@ FAILURES=0
 # ── Defaults (match roles/master/defaults/main.yml) ───────────────────────────
 HOST="10.10.3.8"
 PORT="8443"
-USER="jfogar"
+USER="jtfogar"
 PASSWORD=""
 CACERT="${SALT_API_CACERT:-}"   # path to mkcert CA cert; overrides system trust
 CURL_TLS_OPT=""
@@ -75,89 +75,95 @@ if [[ -z "$PASSWORD" ]]; then
 fi
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
-# Returns the response body; stores HTTP status in $HTTP_STATUS.
-# -s  silent, -S  show errors, no -f so 4xx/5xx bodies are still captured.
+# Each api_* function writes the response body to $_BODY_TMP and returns
+# (echoes) just the HTTP status code. This avoids the subshell variable-
+# propagation problem — callers capture status via $() and read the body
+# from the temp file.
+_BODY_TMP=$(mktemp)
+trap "rm -f $_BODY_TMP" EXIT
+
 api_get() {
-  HTTP_STATUS=""
-  local out
-  out=$(curl -sS $CURL_TLS_OPT \
-    -w '\n__HTTP_STATUS__%{http_code}' \
+  curl -sS $CURL_TLS_OPT \
+    -o "$_BODY_TMP" \
+    -w "%{http_code}" \
     -H 'Accept: application/json' \
-    "$BASE_URL$1" 2>&1)
-  HTTP_STATUS=$(echo "$out" | grep '__HTTP_STATUS__' | sed 's/__HTTP_STATUS__//')
-  echo "$out" | grep -v '__HTTP_STATUS__'
+    "$BASE_URL$1" 2>>"$_BODY_TMP" || true
 }
 
 api_post() {
-  HTTP_STATUS=""
   local endpoint="$1"; shift
-  local out
-  out=$(curl -sS $CURL_TLS_OPT \
-    -w '\n__HTTP_STATUS__%{http_code}' \
+  curl -sS $CURL_TLS_OPT \
+    -o "$_BODY_TMP" \
+    -w "%{http_code}" \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     "$BASE_URL$endpoint" \
-    -d "$@" 2>&1)
-  HTTP_STATUS=$(echo "$out" | grep '__HTTP_STATUS__' | sed 's/__HTTP_STATUS__//')
-  echo "$out" | grep -v '__HTTP_STATUS__'
+    -d "$@" 2>>"$_BODY_TMP" || true
 }
 
 api_post_auth() {
-  HTTP_STATUS=""
   local endpoint="$1"; local token="$2"; shift 2
-  local out
-  out=$(curl -sS $CURL_TLS_OPT \
-    -w '\n__HTTP_STATUS__%{http_code}' \
+  curl -sS $CURL_TLS_OPT \
+    -o "$_BODY_TMP" \
+    -w "%{http_code}" \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -H "X-Auth-Token: $token" \
     "$BASE_URL$endpoint" \
-    -d "$@" 2>&1)
-  HTTP_STATUS=$(echo "$out" | grep '__HTTP_STATUS__' | sed 's/__HTTP_STATUS__//')
-  echo "$out" | grep -v '__HTTP_STATUS__'
+    -d "$@" 2>>"$_BODY_TMP" || true
 }
 
 # ── Test 1 — Service health ───────────────────────────────────────────────────
-header "1. Service health (on $(hostname -s) — requires SSH or local run)"
-if ssh -o BatchMode=yes -o ConnectTimeout=5 "${HOST}" \
+header "1. Service health (on ${HOST})"
+if ssh -o BatchMode=yes -o ConnectTimeout=5 -l "${USER}" "${HOST}" \
     "systemctl is-active --quiet nginx && systemctl is-active --quiet salt-api" 2>/dev/null; then
   pass "nginx and salt-api are active"
 else
-  fail "One or both services are not running (or SSH unavailable for service check — skipping)"
+  fail "One or both services are not running (or SSH unavailable for service check)"
 fi
 
 # ── Test 2 — HTTPS reachability ───────────────────────────────────────────────
 header "2. HTTPS reachability  ${BASE_URL}/"
-REACH_BODY=$(api_get "/" 2>&1) || true
+HTTP_STATUS=$(api_get "/")
+REACH_BODY=$(cat "$_BODY_TMP")
 
-if echo "$REACH_BODY" | grep -qi "salt"; then
-  pass "salt-api banner received"
+if [[ "$HTTP_STATUS" == "200" ]] && echo "$REACH_BODY" | grep -qi '"return"\|Welcome\|clients'; then
+  pass "salt-api banner received (HTTP ${HTTP_STATUS})"
   info "Response: $(echo "$REACH_BODY" | head -c 120)…"
 else
-  fail "Unexpected response or connection refused"
+  fail "Unexpected response (HTTP ${HTTP_STATUS:-???})"
   info "Response: ${REACH_BODY:-<empty>}"
-fi
-
-# ── Test 3 — Auth / login ─────────────────────────────────────────────────────
-header "3. Authentication  POST /login"
-LOGIN_RESP=$(api_post "/login" \
-  "{\"username\": \"${USER}\", \"password\": \"${PASSWORD}\", \"eauth\": \"pam\"}") || true
-
-TOKEN=$(echo "$LOGIN_RESP" | python3 -c \
-  "import sys,json; d=json.load(sys.stdin); print(d['return'][0]['token'])" 2>/dev/null || true)
-
-if [[ -n "$TOKEN" ]]; then
-  pass "Login successful — token: ${TOKEN:0:16}…"
-else
-  fail "Login failed (HTTP ${HTTP_STATUS:-???})"
-  info "Raw response: ${LOGIN_RESP:-<empty>}"
-  if echo "$LOGIN_RESP" | grep -qi 'SSL\|certificate\|issuer\|verify'; then
+  if echo "$REACH_BODY" | grep -qi 'SSL\|certificate\|issuer\|verify'; then
     echo -e "\n${YELLOW}Tip: curl cannot verify the mkcert CA. Fix with one of:${RESET}"
     echo -e "  ${CYAN}# Option 1 — skip verification (quick, home-lab only):${RESET}"
     echo    "    $0 -k ..."
     echo -e "  ${CYAN}# Option 2 — trust the mkcert CA (recommended):${RESET}"
     echo    "    scp ${HOST}:/etc/ssl/mkcert-ca/rootCA.pem ./mkcert-ca.pem"
     echo    "    $0 -c ./mkcert-ca.pem ..."
+  fi
+fi
+
+# ── Test 3 — Auth / login ─────────────────────────────────────────────────────
+header "3. Authentication  POST /login"
+HTTP_STATUS=$(api_post "/login" \
+  "{\"username\": \"${USER}\", \"password\": \"${PASSWORD}\", \"eauth\": \"pam\"}")
+LOGIN_RESP=$(cat "$_BODY_TMP")
+
+TOKEN=$(echo "$LOGIN_RESP" | python3 -c \
+  "import sys,json; d=json.load(sys.stdin); print(d['return'][0]['token'])" 2>/dev/null || true)
+
+if [[ -n "$TOKEN" ]]; then
+  pass "Login successful (HTTP ${HTTP_STATUS}) — token: ${TOKEN:0:16}…"
+else
+  fail "Login failed (HTTP ${HTTP_STATUS:-???})"
+  info "Raw response: ${LOGIN_RESP:-<empty>}"
+  if [[ "$HTTP_STATUS" == "401" ]]; then
+    echo -e "\n${YELLOW}Tip: 401 means PAM rejected the credentials. Check:${RESET}"
+    echo    "  1. Is the user '${USER}' a real Linux account on ${HOST}?"
+    echo    "     ssh ${HOST} 'id ${USER}'"
+    echo    "  2. Is '${USER}' listed in /etc/salt/master.d/eauth.conf on ${HOST}?"
+    echo    "  3. Is the password correct for '${USER}' on ${HOST}?"
+    echo    "  Use -u to override the username:  $0 -u <linux-user> ..."
   fi
   echo -e "\n${RED}Cannot continue without a valid token.${RESET}"
   echo "Failures: $FAILURES"
@@ -166,8 +172,9 @@ fi
 
 # ── Test 4 — Command execution ────────────────────────────────────────────────
 header "4. Command execution  POST /  (test.ping on '*')"
-CMD_RESP=$(api_post_auth "/" "$TOKEN" \
-  '{"client": "local", "tgt": "*", "fun": "test.ping"}' 2>&1) || true
+HTTP_STATUS=$(api_post_auth "/" "$TOKEN" \
+  '{"client": "local", "tgt": "*", "fun": "test.ping"}')
+CMD_RESP=$(cat "$_BODY_TMP")
 
 if echo "$CMD_RESP" | python3 -c \
     "import sys,json; r=json.load(sys.stdin)['return'][0]; assert any(v is True for v in r.values())" \
@@ -176,18 +183,19 @@ if echo "$CMD_RESP" | python3 -c \
     "import sys,json; r=json.load(sys.stdin)['return'][0]; print(', '.join(k for k,v in r.items() if v is True))")
   pass "test.ping returned True for: ${MINIONS}"
 else
-  fail "test.ping did not return True for any minion"
+  fail "test.ping did not return True for any minion (HTTP ${HTTP_STATUS:-???})"
   info "Response: ${CMD_RESP:-<empty>}"
 fi
 
 # ── Test 5 — Logout ───────────────────────────────────────────────────────────
 header "5. Logout  POST /logout"
-LOGOUT_RESP=$(api_post_auth "/logout" "$TOKEN" '{}' 2>&1) || true
+HTTP_STATUS=$(api_post_auth "/logout" "$TOKEN" '{}')
+LOGOUT_RESP=$(cat "$_BODY_TMP")
 
 if echo "$LOGOUT_RESP" | grep -qi "logout\|success\|return"; then
-  pass "Logout acknowledged"
+  pass "Logout acknowledged (HTTP ${HTTP_STATUS})"
 else
-  fail "Unexpected logout response"
+  fail "Unexpected logout response (HTTP ${HTTP_STATUS:-???})"
   info "Response: ${LOGOUT_RESP:-<empty>}"
 fi
 
