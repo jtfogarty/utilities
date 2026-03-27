@@ -79,6 +79,7 @@
     owner: root
     group: ssl-cert
     mode: "0710"
+  when: not ansible_check_mode
   tags: [certs, dirs]
 
 # ──────────────────────────────────────────────────────────────────────────────
