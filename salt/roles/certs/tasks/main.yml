@@ -117,6 +117,7 @@
     owner: root
     group: ssl-cert
     mode: "0640"
+  when: not ansible_check_mode
   tags: [certs, permissions]
 
 - name: Ensure cert file is world-readable
