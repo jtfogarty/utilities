@@ -22,9 +22,9 @@ salt_ssl_key: "{{ mkcert_key_dir }}/{{ mkcert_key_file }}"
 # Add every name / IP that browsers or API clients will use.
 # ansible_fqdn and ansible_hostname are gathered automatically.
 mkcert_domains:
-  - "{{ ansible_fqdn }}"
-  - "{{ ansible_hostname }}"
-  - "{{ ansible_default_ipv4.address }}"   # host's primary IP (e.g. 10.10.3.8)
+  - "{{ ansible_facts['fqdn'] }}"
+  - "{{ ansible_facts['hostname'] }}"
+  - "{{ ansible_facts['default_ipv4']['address'] }}"   # host's primary IP (e.g. 10.10.3.8)
   - localhost
   - 127.0.0.1
   - "::1"

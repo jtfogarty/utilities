@@ -1,14 +1,15 @@
 # Managed by Ansible - do not edit manually
-# salt-api configuration (rest_cherrypy over HTTPS — loopback only)
-# nginx terminates TLS externally and proxies to this port
+# salt-api configuration (rest_cherrypy — plain HTTP on loopback only)
+# nginx terminates TLS externally and proxies to this port via HTTP.
+# Do NOT add ssl_crt/ssl_key here — that would make CherryPy speak HTTPS
+# while nginx proxies plain HTTP, causing 502 Bad Gateway errors.
 
 rest_cherrypy:
   port: {{ salt_api_port }}
   host: {{ salt_api_host }}
-  ssl_crt: {{ salt_ssl_crt }}
-  ssl_key: {{ salt_ssl_key }}
   thread_pool: {{ salt_api_thread_pool }}
   socket_queue_size: {{ salt_api_socket_queue_size }}
+  disable_ssl: true
 
 netapi_enable_clients:
 {% for client in salt_netapi_enable_clients %}

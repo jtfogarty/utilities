@@ -1,48 +1,22 @@
+TASK [certs : Generate TLS cert and key with mkcert] *******************************************************************************************
+[WARNING]: Deprecation warnings can be disabled by setting `deprecation_warnings=False` in ansible.cfg.
+[DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+Origin: /Users/jefffogarty/Documents/projects/utilities/salt/roles/certs/defaults/main.yml:25:5
 
-TASK [master : Install SaltStack apt repo keyring] *********************************************************************************************
-skipping: [node1]
+23 # ansible_fqdn and ansible_hostname are gathered automatically.
+24 mkcert_domains:
+25   - "{{ ansible_fqdn }}"
+       ^ column 5
 
-TASK [master : Add SaltStack APT repository] ***************************************************************************************************
-skipping: [node1]
+Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
 
-TASK [master : Install nginx, salt-master, and salt-api] ***************************************************************************************
-skipping: [node1]
-
-TASK [master : Install CherryPy into the Salt Python environment] ******************************************************************************
-skipping: [node1]
-
-TASK [master : Deploy PAM service file for salt-api auth] **************************************************************************************
 changed: [node1]
 
-TASK [master : Ensure master.d directory exists] ***********************************************************************************************
-[ERROR]: Task failed: Finalization of task args for 'ansible.builtin.file' failed: Error while resolving value for 'path': 'salt_master_config_dir' is undefined
+TASK [certs : Restrict permissions on private key] *********************************************************************************************
+ok: [node1]
 
-Task failed.
-Origin: /Users/jefffogarty/Documents/projects/utilities/salt/roles/master/tasks/configure_api.yml:28:3
+TASK [certs : Ensure cert file is world-readable] **********************************************************************************************
+ok: [node1]
 
-26 # ──────────────────────────────────────────────────────────────────────────────
-27
-28 - name: Ensure master.d directory exists
-     ^ column 3
-
-<<< caused by >>>
-
-Finalization of task args for 'ansible.builtin.file' failed.
-Origin: /Users/jefffogarty/Documents/projects/utilities/salt/roles/master/tasks/configure_api.yml:29:3
-
-27
-28 - name: Ensure master.d directory exists
-29   file:
-     ^ column 3
-
-<<< caused by >>>
-
-Error while resolving value for 'path': 'salt_master_config_dir' is undefined
-Origin: /Users/jefffogarty/Documents/projects/utilities/salt/roles/master/tasks/configure_api.yml:30:11
-
-28 - name: Ensure master.d directory exists
-29   file:
-30     path: "{{ salt_master_config_dir }}/master.d"
-             ^ column 11
-
-fatal: [node1]: FAILED! => {"changed": false, "msg": "Task failed: Finalization of task args for 'ansible.builtin.file' failed: Error while resolving value for 'path': 'salt_master_config_dir' is undefined"}
+PLAY RECAP *************************************************************************************************************************************
+node1                      : ok=10   changed=1    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   

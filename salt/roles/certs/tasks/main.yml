@@ -106,7 +106,8 @@
     {{ mkcert_domains | join(' ') }}
   environment:
     CAROOT: /etc/ssl/mkcert-ca
-  when: not cert_stat.stat.exists or mkcert_force_regen
+  when: not cert_stat.stat.exists or mkcert_force_regen | bool
+  notify: Restart nginx
   tags: [certs, generate]
 
 # ──────────────────────────────────────────────────────────────────────────────
