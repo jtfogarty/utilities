@@ -24,6 +24,7 @@ salt_ssl_key: "{{ mkcert_key_dir }}/{{ mkcert_key_file }}"
 mkcert_domains:
   - "{{ ansible_fqdn }}"
   - "{{ ansible_hostname }}"
+  - "{{ ansible_default_ipv4.address }}"   # host's primary IP (e.g. 10.10.3.8)
   - localhost
   - 127.0.0.1
   - "::1"
