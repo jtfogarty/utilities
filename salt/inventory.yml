@@ -1,6 +1,6 @@
 all:
   children:
-    master_nodes:
+    salt_master:
       hosts:
         node1:
           ansible_host: 10.10.3.8
