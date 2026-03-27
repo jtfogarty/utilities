@@ -1,0 +1,47 @@
+---
+# defaults file for salt/master
+
+salt_version: "3006.23"
+
+# Salt packages to install on the master
+salt_packages:
+  - salt-master
+  - salt-api
+
+# salt-api port — 8000 is used by SurrealDB, so we use 8088
+salt_api_port: 8088
+
+# salt-api listen interface — loopback only; nginx terminates TLS externally
+salt_api_host: "127.0.0.1"
+
+# SSL certificate paths (Ubuntu conventions)
+salt_ssl_crt: "/etc/ssl/certs/salt-master.crt"
+salt_ssl_key: "/etc/ssl/private/salt-master.key"
+
+# CherryPy tuning
+salt_api_thread_pool: 100
+salt_api_socket_queue_size: 30
+
+# External auth (PAM) — list of users allowed to access the API
+salt_eauth_backend: pam
+salt_eauth_users:
+  - username: jfogar
+    permissions:
+      - '.*'
+  - username: mpc
+    permissions:
+      - '.*'
+
+# Restrict netapi clients to only what is needed
+salt_netapi_enable_clients:
+  - local
+  - local_async
+  - runner
+  - runner_async
+  - wheel
+
+# Salt master config directory
+salt_master_config_dir: "/etc/salt"
+
+# nginx HTTPS port for the salt-api reverse proxy
+salt_api_nginx_listen_port: 8443

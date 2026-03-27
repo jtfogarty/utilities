@@ -1,0 +1,22 @@
+---
+# handlers file for salt-master
+
+- name: Restart salt-master
+  service:
+    name: salt-master
+    state: restarted
+
+- name: Restart salt-api
+  service:
+    name: salt-api
+    state: restarted
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: Reload nginx
+  service:
+    name: nginx
+    state: reloaded

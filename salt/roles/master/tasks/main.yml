@@ -1,0 +1,191 @@
+---
+# tasks file for salt-master
+# Installs Salt Master + salt-api with HTTPS + nginx reverse proxy on Ubuntu
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1. Repository setup — SaltStack APT repo for Ubuntu
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install SaltStack apt repo keyring
+  get_url:
+    url: "https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public"
+    dest: /etc/apt/keyrings/salt-archive-keyring.pgp
+    mode: "0644"
+
+- name: Add SaltStack APT repository
+  apt_repository:
+    repo: >-
+      deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.pgp arch=amd64]
+      https://packages.broadcom.com/artifactory/saltproject-deb/
+      stable main
+    filename: salt
+    state: present
+    update_cache: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2. Install nginx, salt-master, salt-api
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install nginx, salt-master, and salt-api
+  apt:
+    name:
+      - nginx
+      - salt-master
+      - salt-api
+    state: present
+    update_cache: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3. Install CherryPy for salt-api rest_cherrypy
+#    Must use the Salt-bundled pip so it lands in Salt's own Python env
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install CherryPy into the Salt Python environment
+  pip:
+    name: cherrypy
+    executable: /opt/saltstack/salt/bin/pip3
+    state: present
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4. PAM configuration for salt-api auth
+#    The two pam_unix.so lines are the minimal working config for Ubuntu PAM.
+#    auth_pam_service in eauth.conf points to this file name (salt-api).
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Deploy PAM service file for salt-api auth
+  copy:
+    content: |
+      auth     required     pam_unix.so
+      account  required     pam_unix.so
+    dest: /etc/pam.d/salt-api
+    owner: root
+    group: root
+    mode: "0644"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5. Configure Salt Master
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure master.d directory exists
+  file:
+    path: "{{ salt_master_config_dir }}/master.d"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Deploy salt-api configuration (rest_cherrypy)
+  template:
+    src: master.d/api.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/api.conf"
+    owner: root
+    group: root
+    mode: "0640"
+  notify:
+    - Restart salt-api
+    - Restart salt-master
+
+- name: Deploy external auth configuration (PAM)
+  template:
+    src: master.d/eauth.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/eauth.conf"
+    owner: root
+    group: root
+    mode: "0640"
+  notify:
+    - Restart salt-api
+    - Restart salt-master
+
+- name: Deploy salt-master user configuration
+  template:
+    src: master.d/salt-user.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/salt-user.conf"
+    owner: root
+    group: root
+    mode: "0640"
+  notify:
+    - Restart salt-master
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 6. SSL certificate placement
+#    Expects cert/key to already exist on the host (generated externally).
+#    Adjust src paths or add a cert-generation task if needed.
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure /etc/ssl/private exists and has correct permissions
+  file:
+    path: /etc/ssl/private
+    state: directory
+    owner: root
+    group: ssl-cert
+    mode: "0710"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 7. Configure nginx reverse proxy for salt-api
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Deploy nginx salt-api virtual host config
+  template:
+    src: salt-api-nginx.conf.j2
+    dest: /etc/nginx/sites-available/salt-api.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Restart nginx
+
+- name: Enable nginx salt-api virtual host
+  file:
+    src: /etc/nginx/sites-available/salt-api.conf
+    dest: /etc/nginx/sites-enabled/salt-api.conf
+    state: link
+  notify:
+    - Restart nginx
+
+- name: Remove nginx default site (avoid port conflicts)
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - Restart nginx
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 8. Enable and start services
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure salt-master is enabled and running
+  service:
+    name: salt-master
+    state: started
+    enabled: true
+
+- name: Ensure salt-api is enabled and running
+  service:
+    name: salt-api
+    state: started
+    enabled: true
+
+- name: Ensure nginx is enabled and running
+  service:
+    name: nginx
+    state: started
+    enabled: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 9. Firewall — Ubuntu uses ufw (not firewalld)
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Allow salt-master ZeroMQ ports through ufw
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - "4505"
+    - "4506"
+
+- name: Allow nginx HTTPS port through ufw
+  ufw:
+    rule: allow
+    port: "{{ salt_api_nginx_listen_port | string }}"
+    proto: tcp

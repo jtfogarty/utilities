@@ -1,0 +1,136 @@
+---
+# tasks file for salt-master+api
+# Installs Salt Master + salt-api with HTTPS + nginx reverse proxy
+# Ubuntu version — corrections log for issues found during Rocky Linux → Ubuntu migration
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1. Repository setup
+# ──────────────────────────────────────────────────────────────────────────────
+
+# (Handled in tasks/main.yml — SaltStack APT repo for Ubuntu)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2. Install Salt Master
+# ──────────────────────────────────────────────────────────────────────────────
+
+# (Handled in tasks/main.yml — apt: salt-master, salt-api, nginx)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3. Install CherryPy for salt-api rest_cherrypy
+#    FIX: Cannot mix `apt` module with `executable: pip3`.
+#         Use the `pip` module with the Salt-bundled interpreter instead.
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Install CherryPy into the Salt Python environment
+  pip:
+    name: cherrypy
+    executable: /opt/saltstack/salt/bin/pip3
+    state: present
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4. Configure salt-api (HTTPS via rest_cherrypy)
+#    PAM NOTE: The two pam_unix.so lines below are the minimal working config
+#    for Ubuntu.  auth_pam_service in eauth.conf must match this filename
+#    (salt-api), not "salt".  This took significant troubleshooting to confirm.
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Deploy PAM service file for salt-api auth
+  copy:
+    content: |
+      auth     required     pam_unix.so
+      account  required     pam_unix.so
+    dest: /etc/pam.d/salt-api
+    owner: root
+    group: root
+    mode: "0644"
+
+# FIX: missing colon after `name` — was: `- name Ensure master.d directory exists`
+- name: Ensure master.d directory exists
+  file:
+    path: "{{ salt_master_config_dir }}/master.d"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Deploy salt-api configuration
+  template:
+    src: master.d/api.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/api.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Restart salt-api
+    - Restart salt-master
+
+# FIX: missing colon after `name` — was: `- name Deploy external auth configguration`
+- name: Deploy external auth configuration
+  template:
+    src: master.d/eauth.conf.j2
+    dest: "{{ salt_master_config_dir }}/master.d/eauth.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Restart salt-api
+    - Restart salt-master
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5. Enable and start services
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Ensure salt-master is enabled and running
+  service:
+    name: salt-master
+    state: started
+    enabled: true
+
+- name: Ensure salt-api is enabled and running
+  service:
+    name: salt-api
+    state: started
+    enabled: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 6. Firewall configuration
+#    FIX: `firewalld` is not the default on Ubuntu — use `ufw` instead.
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Allow salt-master ZeroMQ ports through ufw
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - "4505"
+    - "4506"
+
+- name: Allow nginx salt-api HTTPS port through ufw
+  ufw:
+    rule: allow
+    port: "{{ salt_api_nginx_listen_port | string }}"
+    proto: tcp
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 7. Nginx reverse proxy for salt-api
+#    Ubuntu: use sites-available + sites-enabled pattern
+# ──────────────────────────────────────────────────────────────────────────────
+
+- name: Deploy nginx configuration
+  template:
+    src: salt-api-nginx.conf.j2
+    dest: /etc/nginx/sites-available/salt-api.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Restart nginx
+
+- name: Enable nginx salt-api virtual host
+  file:
+    src: /etc/nginx/sites-available/salt-api.conf
+    dest: /etc/nginx/sites-enabled/salt-api.conf
+    state: link
+  notify:
+    - Restart nginx
