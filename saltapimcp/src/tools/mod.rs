@@ -3,7 +3,7 @@ use crate::salt;
 use rmcp::{
     ErrorData as McpError, ServerHandler,
     handler::server::router::tool::ToolRouter,
-    handler::server::tool::Parameters,
+    handler::server::wrapper::Parameters,
     model::{CallToolResult, Content, ServerCapabilities, ServerInfo, Implementation, ProtocolVersion},
     schemars, tool, tool_handler, tool_router,
 };
