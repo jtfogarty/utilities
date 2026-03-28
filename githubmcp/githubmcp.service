@@ -1,0 +1,28 @@
+[Unit]
+Description=GitHub MCP Server (official Go container)
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+
+# Podman rootless execution
+ExecStart=/usr/bin/podman run \
+  --name=github-mcp \
+  --rm \
+  --env-file=/opt/mcp-env/github-mcp.env \
+  -p 8083:8080 \
+  ghcr.io/github/github-mcp-server:latest
+
+# Cleanup on stop
+ExecStop=/usr/bin/podman stop -t 10 github-mcp
+ExecStopPost=/usr/bin/podman rm -f github-mcp || true
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
