@@ -18,4 +18,9 @@ pub struct ServerConfig {
     /// Eauth method (pam, ldap, file, etc.)
     #[arg(long, env = "SALT_EAUTH", default_value = "pam")]
     pub salt_eauth: String,
+
+    /// HTTP bind address for MCP transport (host:port).
+    /// MCP clients connect to http://<bind>/mcp
+    #[arg(long, env = "SALT_MCP_BIND", default_value = "127.0.0.1:8765")]
+    pub bind_address: String,
 }

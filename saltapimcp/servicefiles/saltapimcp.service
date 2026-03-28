@@ -1,10 +1,14 @@
 [Unit]
 Description=Salt API MCP Server for LLM Agents
-After=salt-master.service
+After=salt-master.service salt-api.service
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/saltapimcp start --salt-api-url http://127.0.0.1:8000 --salt-user YOURUSER --salt-pass YOURPASS
+ExecStart=/usr/local/bin/saltapimcp start \
+  --salt-api-url http://127.0.0.1:8088 \
+  --salt-user YOURUSER \
+  --salt-pass YOURPASS \
+  --bind-address 0.0.0.0:8765
 Restart=always
 RestartSec=5
 Environment="RUST_LOG=info"
