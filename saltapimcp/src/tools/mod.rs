@@ -42,7 +42,7 @@ impl SaltService {
         });
 
         let resp = salt::http_client()
-            .post(format!("{}/run", self.config.salt_api_url))
+            .post(format!("{}/", self.config.salt_api_url))
             .header("X-Auth-Token", token)
             .json(&payload)
             .send()
