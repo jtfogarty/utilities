@@ -1,0 +1,17 @@
+[Unit]
+Description=X.com MCP Server for LLM Agents
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/xapimcp start
+Restart=always
+
+# Load all configuration from .env file (secrets stay out of the service file)
+EnvironmentFile=/etc/xapimcp/xapimcp.env
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
