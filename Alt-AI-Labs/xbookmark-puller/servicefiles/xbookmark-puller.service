@@ -1,0 +1,18 @@
+[Unit]
+Description=X bookmark archiver (xapimcp MCP pull/delete, SurrealMCP store)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=xbookmark
+Group=xbookmark
+EnvironmentFile=-/etc/xbookmark-puller/xbookmark-puller.env
+ExecStart=/usr/local/bin/xbookmark-puller
+Restart=on-failure
+RestartSec=10
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

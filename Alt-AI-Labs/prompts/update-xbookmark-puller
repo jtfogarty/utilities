@@ -1,0 +1,33 @@
+**Updated prompt for Cursor/Antigravity (paste this directly):**
+
+Update the existing `xbookmark-puller` crate in Alt-AI-Labs/xbookmark-puller/ to enforce strict use of **xapimcp** for both pulling and deleting bookmarks. Do not implement any direct HTTP calls to X API endpoints inside the binary.
+
+**Changes required:**
+
+1. Replace the current direct `x_delete_bookmark` function (and any other direct X HTTP code) with calls to the existing `delete_bookmark` tool from xapimcp (use the same MCP client pattern already used for pulling bookmarks).
+
+2. Keep the exact current flow:
+   - Periodically pull via xapimcp (respect pagination, 429 + Retry-After, exponential backoff).
+   - For each bookmark:
+     - Check existence in SurrealDB table `x_bookmarks` by `bookmark_id` (the X tweet_id).
+     - If not present: store via SurrealMCP with fields `bookmark_id` (primary key), `text`, `url`, `author`, `created_at`, `raw_json`, `pulled_at`, `processed: false`.
+     - Then immediately call xapimcp `delete_bookmark` tool to remove it from the X account.
+     - If already exists: skip, do **not** delete again.
+   - No analysis or further actions.
+
+3. Keep all existing good parts:
+   - All code stays in a single `src/main.rs` (no splitting yet).
+   - tracing + JSON logs, reconnect/backoff on MCP failures, graceful SIGTERM/SIGINT shutdown.
+   - Same env vars: `X_BEARER_TOKEN`, `X_USER_ID`, `SURREAL_MCP_URL`, optional `SURREAL_MCP_AUTH_TOKEN`, `PULL_INTERVAL_MINUTES` (default 15, min 1).
+   - Same `Cargo.toml` dependencies (just ensure the MCP client for xapimcp is present and used).
+
+4. Improve SurrealDB existence check if the current heuristic (string search for "id") is fragile — switch to a clean SurrealMCP query that returns a proper count or boolean (e.g. `SELECT count() FROM x_bookmarks WHERE bookmark_id = $id` and parse the result reliably).
+
+Output only:
+- The updated full `xbookmark-puller/Cargo.toml` (if any changes)
+- The updated full `xbookmark-puller/src/main.rs`
+- Any necessary updates to the service file or .env.example
+
+Then list the minimal shell commands to rebuild and redeploy the binary on the SaltMaster (same rsync + cargo build --release + install + systemctl restart pattern as before).
+
+Begin the update now.
