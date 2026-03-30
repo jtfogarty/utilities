@@ -21,11 +21,11 @@ pub async fn start_server(config: ServerConfig) -> Result<()> {
     }
 }
 
-async fn start_studio_server(config: ServerConfig) -> Result<()> {
+async fn start_stdio_server(config: ServerConfig) -> Result<()> {
     tracing::info!("Starting xapimcp (stdio transport)");
     let server = XServer::new(config);
     let service = server.serve((stdin(), stdout())).await?;
-    tracing::info!("xapimcp ready (stdio");
+    tracing::info!("xapimcp ready (stdio)");
     service.waiting().await?;
     Ok(())
 }
@@ -48,7 +48,7 @@ async fn start_http_server(config: ServerConfig, bind_address: &str) -> Result<(
     let session_manager = Arc::new(LocalSessionManager::default());
 
     let mcp_service = StreamableHttpService::new(
-        move || Ok(XService::new(config.clone())),
+        move || Ok(XServer::new(config.clone())),
         session_manager,
         StreamableHttpServerConfig {
             stateful_mode: true,
@@ -61,17 +61,17 @@ async fn start_http_server(config: ServerConfig, bind_address: &str) -> Result<(
         .route("/health", get(|| async { StatusCode::OK }))
         .layer(TraceLayer::new_for_http());
 
-    tracing::info!("xapimcp ready ( - listening on {bind_address}");
+    tracing::info!("xapimcp ready (Streamable HTTP) — listening on {bind_address}");
 
-    axum::serve(listener, router);
-        .with_graceful_shutdown(shutdown_signal()))
+    axum::serve(listener, router)
+        .with_graceful_shutdown(shutdown_signal())
         .await?;
 
     Ok(())
 }
 
 async fn shutdown_signal() {
-    let _ = tokio::signal::ctrl_c().await?;
+    let _ = tokio::signal::ctrl_c().await;
     tracing::info!("shutdown signal received");
 }
 

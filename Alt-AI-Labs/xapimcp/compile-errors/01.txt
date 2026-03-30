@@ -1,0 +1,37 @@
+   Compiling xapimcp v0.1.0 (/xapimcp)
+error: expected one of `>`, a const expression, lifetime, or type, found `}`
+  --> src/config/mod.rs:19:1
+   |
+5  | pub struct ServerConfig {
+   |            ------------ while parsing this struct
+...
+18 |     pub bind_address: Option<String,
+   |                                     - expected one of `>`, a const expression, lifetime, or type
+19 | }
+   | ^ unexpected token
+   |
+help: you might have meant to end the type parameters here
+   |
+18 |     pub bind_address: Option<String>,
+   |                                    +
+
+error: mismatched closing delimiter: `)`
+  --> src/server/mod.rs:33:84
+   |
+33 | async fn start_http_server(config: ServerConfig, bind_address: &str) -> Result<()> {
+   |                                                                                    ^ unclosed delimiter
+...
+67 |         .with_graceful_shutdown(shutdown_signal()))
+   |                                                   ^ mismatched closing delimiter
+
+error: unexpected closing delimiter: `}`
+  --> src/server/mod.rs:71:1
+   |
+67 |         .with_graceful_shutdown(shutdown_signal()))
+   |                                                   - missing open `(` for this delimiter
+...
+71 | }
+   | ^ unexpected closing delimiter
+
+error: could not compile `xapimcp` (bin "xapimcp") due to 3 previous errors
+Error: error building at STEP "RUN . /opt/rh/gcc-toolset-13/enable &&     cargo build &&     cp /xapimcp/target/debug/xapimcp /xapimcp/xapimcp &&     cargo clean": error while running runtime: exit status 101

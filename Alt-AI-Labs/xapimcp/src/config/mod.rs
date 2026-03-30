@@ -15,5 +15,5 @@ pub struct ServerConfig {
     // If omitted the server runs in stdio mode (stdin/stdout).
     #[arg(long, env = "X_MCP_BIND_ADDRESS", default_value = "0.0.0.0:8090")]
     #[serde(skip)]
-    pub bind_address: Option<String,
+    pub bind_address: Option<String>,
 }
