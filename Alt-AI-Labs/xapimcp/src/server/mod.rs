@@ -14,7 +14,8 @@ use rmcp::{
 use std::sync::Arc;
 use tokio::io::{stdin, stdout};
 
-pub async fn start_server(config: ServerConfig) -> Result<()> {
+pub async fn start_server(mut config: ServerConfig) -> Result<()> {
+    config.ensure_x_user_id().await?;
     match config.bind_address.clone() {
         Some(addr) => start_http_server(config, &addr).await,
         None => start_stdio_server(config).await,
