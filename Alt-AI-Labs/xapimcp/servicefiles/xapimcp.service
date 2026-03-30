@@ -4,8 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/xapimcp start
+ExecStart=/usr/local/bin/xapimcp start --bind-address 0.0.0.0:8090
 Restart=always
+restartSec=5
 
 # Load all configuration from .env file (secrets stay out of the service file)
 EnvironmentFile=/etc/xapimcp/xapimcp.env

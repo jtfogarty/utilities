@@ -3,7 +3,7 @@ use crate::{
     tools::{DeleteBookmarkRequest, GetMyBookmarksRequest, GetRepliesRequest},
     x,
 };
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use rmcp::{
     handler::server::{router::tool::ToolRouter, wrapper::Parameters},
     model::{
@@ -11,17 +11,68 @@ use rmcp::{
     },
     tool, tool_handler, tool_router, ServerHandler, ServiceExt,
 };
+use std::sync::Arc;
 use tokio::io::{stdin, stdout};
 
 pub async fn start_server(config: ServerConfig) -> Result<()> {
-    tracing::info!("Starting xapimcp (stdio transport) — X.com API ready");
+    match config.bind_address.clone() {
+        Some(addr) => start_http_server(config, &addr).await,
+        None => start_stdio_server(config).await,
+    }
+}
 
+async fn start_studio_server(config: ServerConfig) -> Result<()> {
+    tracing::info!("Starting xapimcp (stdio transport)");
     let server = XServer::new(config);
     let service = server.serve((stdin(), stdout())).await?;
-
-    tracing::info!("xapimcp ready — LLM agents can now call get_my_bookmarks, delete_bookmark, get_replies_to_bookmark");
+    tracing::info!("xapimcp ready (stdio");
     service.waiting().await?;
     Ok(())
+}
+
+async fn start_http_server(config: ServerConfig, bind_address: &str) -> Result<()> {
+    use axum::{Router, routing::get};
+    use axum::http::StatusCode;
+    use rmcp::transport::{
+        StreamableHttpServerConfig,
+        streamable_http_server::{session::local::LocalSessionManager, tower::StreamableHttpService},
+    };
+    use tower_http::trace::TraceLayer;
+
+    tracing::info!(bind_address,"Starting xapimcp (Streamable HTTP transport)");
+
+    let listener = tokio::net::TcpListener::bind(&bind_address)
+        .await
+        .map_err(|e| anyhow!("Failed to bind to {bind_address}: {e}"))?;
+
+    let session_manager = Arc::new(LocalSessionManager::default());
+
+    let mcp_service = StreamableHttpService::new(
+        move || Ok(XService::new(config.clone())),
+        session_manager,
+        StreamableHttpServerConfig {
+            stateful_mode: true,
+            sse_keep_alive: None,
+        },
+    );
+
+    let router = Router::new()
+        .nest_service("/mcp", mcp_service)
+        .route("/health", get(|| async { StatusCode::OK }))
+        .layer(TraceLayer::new_for_http());
+
+    tracing::info!("xapimcp ready ( - listening on {bind_address}");
+
+    axum::serve(listener, router);
+        .with_graceful_shutdown(shutdown_signal()))
+        .await?;
+
+    Ok(())
+}
+
+async fn shutdown_signal() {
+    let _ = tokio::signal::ctrl_c().await?;
+    tracing::info!("shutdown signal received");
 }
 
 #[derive(Clone)]

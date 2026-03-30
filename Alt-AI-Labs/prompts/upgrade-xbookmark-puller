@@ -1,0 +1,48 @@
+**Prompt for Cursor – Upgrade X API Rate Limit Handling in `xbookmark-puller` to use `governor`**
+
+You are an expert Rust + Tokio developer specializing in robust API clients.
+
+**Current code context**  
+Reference file: `Alt-AI-Labs/xbookmark-puller/src/main.rs`  
+(The project already has the rate-limit documentation block at the top and uses the existing imports listed below.)
+
+**Task**
+
+1. **Keep the existing design philosophy**  
+   - `xapimcp` remains a thin, stateless wrapper (no rate-limit logic inside it).  
+   - All rate-limit handling stays in the client (`xbookmark-puller`).
+
+2. **Replace the current manual backoff/pacing logic with the `governor` crate**  
+   - Add `governor = "0.6"` (with default features) to `Cargo.toml`.  
+   - Create a new `RateLimitTracker` struct that holds **two separate `governor::RateLimiter`s**:  
+     - One for GET `/bookmarks` (180 requests / 15 min)  
+     - One for DELETE `/bookmarks/:id` (50 requests / 15 min)  
+   - Use `governor::Quota::per_duration` with the exact 15-minute windows.  
+   - Wrap every call to `x_get_bookmarks_page` and `x_delete_bookmark_mcp` with the appropriate rate limiter’s `check()` / `until_ready()` (or `check_key` if you prefer keyed).  
+   - Remove the old exponential-backoff retry loop and the 350 ms inter-page sleep — `governor` now handles all pacing automatically.
+
+3. **Additional robustness improvements (all required)**  
+   - Add **jitter** (±10 % random) to any `until_ready` waits (use `rand` if already in dependencies, otherwise add `rand = "0.8"`).  
+   - Log rate-limit state (remaining quota, next reset) at debug level after every call.  
+   - Keep the existing 429 detection as a **fallback** (in case headers are missing or governor misses something).  
+   - Add an `AtomicBool is_deleting` (or watch channel) so the outer pull cycle skips new fetches while a delete batch is running.  
+   - After a full 800-delete batch finishes, force a wait until the **exact** next 15-minute window reset before the next pull cycle.  
+   - Add a config flag `RATE_LIMIT_ENFORCED: bool` (default `true`) and a `--dry-run` CLI flag that still respects timing but skips actual DELETE calls.  
+   - Distinguish true rate-limit 429s from other 429s and treat the latter as fatal.
+
+4. **Update the documentation block**  
+   - Rewrite the entire `# X API Rate Limit Handling` Markdown section at the top of `main.rs`.  
+   - Document the new `governor`-based strategy, the two RateLimiters, jitter, batch awareness, and the fallback 429 path.  
+   - Include a short “Changes since original (2026-03)” summary.
+
+5. **Output format**  
+   - First, output the **fully updated documentation block** (new Markdown comment).  
+   - Then output:  
+     - The updated `Cargo.toml` dependency section.  
+     - The new/modified Rust code (especially `RateLimitTracker`, updated `x_get_bookmarks_page`, `x_delete_bookmark_mcp`, and the outer pull loop).  
+     - Any necessary import changes (add `governor`, `rand` if used, etc.).  
+   - Finally, give a short summary of what was changed and why it makes the 800-bookmark batch workflow far more robust and efficient.
+
+Only modify files inside the `xbookmark-puller` crate. Use the existing imports as a base (do not remove any). Prefer `governor::DirectRateLimiter` or the keyed variant as appropriate. Keep the code clean, well-commented, and production-ready.
+
+Apply these changes cleanly.

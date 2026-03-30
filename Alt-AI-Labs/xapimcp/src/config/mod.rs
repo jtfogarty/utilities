@@ -10,4 +10,10 @@ pub struct ServerConfig {
     /// Your X.com numeric user ID (find it at https://x.com/whoami or via /2/users/me)
     #[arg(long, env = "X_USER_ID")]
     pub x_user_id: String,
+
+    /// Bind address for Streaable HTTP transport (0.0.0.0:8090).
+    // If omitted the server runs in stdio mode (stdin/stdout).
+    #[arg(long, env = "X_MCP_BIND_ADDRESS", default_value = "0.0.0.0:8090")]
+    #[serde(skip)]
+    pub bind_address: Option<String,
 }
