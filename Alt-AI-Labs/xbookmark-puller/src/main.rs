@@ -80,6 +80,8 @@ struct Cli {
 struct Config {
     surreal_mcp_url: String,
     surreal_mcp_auth_token: Option<String>,
+    surreal_namespace: String,
+    surreal_database: String,
     x_mcp_url: String,
     x_mcp_auth_token: Option<String>,
     pull_interval: Duration,
@@ -89,6 +91,21 @@ struct Config {
 
 impl Config {
     fn from_env(dry_run: bool) -> Result<Self> {
+        fn env_one_of(keys: &[&str], label: &str) -> Result<String> {
+            for k in keys {
+                if let Ok(v) = std::env::var(k) {
+                    let t = v.trim();
+                    if !t.is_empty() {
+                        return Ok(t.to_string());
+                    }
+                }
+            }
+            bail!(
+                "{label} must be set (non-empty). Looked at env vars: {}",
+                keys.join(", ")
+            );
+        }
+
         let pull_minutes: u64 = std::env::var("PULL_INTERVAL_MINUTES")
             .ok()
             .and_then(|s| s.parse().ok())
@@ -98,6 +115,13 @@ impl Config {
         let x_mcp_url = std::env::var("X_MCP_URL")
             .context("X_MCP_URL must be set (xapimcp streamable HTTP endpoint, e.g. http://127.0.0.1:8090/mcp)")?;
 
+        // Applied via SurrealMCP tool calls (`use_namespace` + `use_database`).
+        // "Prefixed if needed" support: accept bare + prefixed spellings.
+        let surreal_namespace =
+            env_one_of(&["NAMESPACE", "SURREALDB_NAMESPACE", "SURREALDB_NS"], "NAMESPACE")?;
+        let surreal_database =
+            env_one_of(&["DATABASE", "SURREALDB_DATABASE", "SURREALDB_DB"], "DATABASE")?;
+
         let rate_limit_enforced = match std::env::var("RATE_LIMIT_ENFORCED") {
             Ok(s) => !matches!(s.to_lowercase().as_str(), "0" | "false" | "no" | "off"),
             Err(_) => true,
@@ -106,6 +130,8 @@ impl Config {
         Ok(Self {
             surreal_mcp_url,
             surreal_mcp_auth_token: std::env::var("SURREAL_MCP_AUTH_TOKEN").ok(),
+            surreal_namespace,
+            surreal_database,
             x_mcp_url,
             x_mcp_auth_token: std::env::var("X_MCP_AUTH_TOKEN").ok(),
             pull_interval: Duration::from_secs(pull_minutes.max(1).saturating_mul(60)),
@@ -221,15 +247,23 @@ async fn connect_streamable_mcp(
     auth_token: Option<String>,
     label: &'static str,
 ) -> Result<RunningClient> {
+    let uri_for_log = uri.clone();
+    let auth_token_set = auth_token.is_some();
     let mut tcfg = StreamableHttpClientTransportConfig::with_uri(uri);
     if let Some(tok) = auth_token {
         tcfg = tcfg.auth_header(tok);
     }
     let transport = StreamableHttpClientTransport::from_config(tcfg);
+    info!(
+        label,
+        surreal_mcp_url = %uri_for_log,
+        mcp_auth_token_set = auth_token_set,
+        "connecting to streamable MCP"
+    );
     ()
         .serve(transport)
         .await
-        .map_err(|e| anyhow!("{label} MCP connect: {e}"))
+        .map_err(|e| anyhow!("{label} MCP connect to {uri_for_log}: {e}"))
 }
 
 fn mcp_tool_text(res: &CallToolResult) -> String {
@@ -316,6 +350,52 @@ fn parse_count_from_surreal_debug(text: &str) -> Option<u64> {
     }
 
     None
+}
+
+async fn surreal_use_namespace(surreal: &ClientPeer, namespace: &str) -> Result<()> {
+    let mut args = JsonObject::new();
+    args.insert("namespace".to_string(), json!(namespace));
+
+    let res = surreal
+        .call_tool(CallToolRequestParams {
+            meta: None,
+            name: Cow::Borrowed("use_namespace"),
+            arguments: Some(args),
+            task: None,
+        })
+        .await
+        .map_err(|e| anyhow!("SurrealMCP use_namespace tool: {e}"))?;
+
+    mcp_ensure_ok_surreal(&res).context("SurrealMCP use_namespace result")?;
+    Ok(())
+}
+
+async fn surreal_use_database(surreal: &ClientPeer, database: &str) -> Result<()> {
+    let mut args = JsonObject::new();
+    args.insert("database".to_string(), json!(database));
+
+    let res = surreal
+        .call_tool(CallToolRequestParams {
+            meta: None,
+            name: Cow::Borrowed("use_database"),
+            arguments: Some(args),
+            task: None,
+        })
+        .await
+        .map_err(|e| anyhow!("SurrealMCP use_database tool: {e}"))?;
+
+    mcp_ensure_ok_surreal(&res).context("SurrealMCP use_database result")?;
+    Ok(())
+}
+
+async fn surreal_apply_namespace_database(
+    surreal: &ClientPeer,
+    namespace: &str,
+    database: &str,
+) -> Result<()> {
+    surreal_use_namespace(surreal, namespace).await?;
+    surreal_use_database(surreal, database).await?;
+    Ok(())
 }
 
 async fn surreal_query_exists(surreal: &ClientPeer, bookmark_id: &str) -> Result<bool> {
@@ -686,6 +766,8 @@ async fn main() -> Result<()> {
         pull_interval_secs = cfg.pull_interval.as_secs(),
         pull_interval_minutes = cfg.pull_interval.as_secs() / 60,
         surreal_mcp = %cfg.surreal_mcp_url,
+        surreal_namespace = %cfg.surreal_namespace,
+        surreal_database = %cfg.surreal_database,
         x_mcp = %cfg.x_mcp_url,
         rate_limit_enforced = cfg.rate_limit_enforced,
         dry_run = cfg.dry_run,
@@ -721,6 +803,21 @@ async fn main() -> Result<()> {
         "SurrealMCP",
     )
     .await?;
+
+    // Ensure SurrealMCP session is pinned to the requested namespace/database
+    // before we run any `query` / `create` tools (including in --dry-run mode).
+    surreal_apply_namespace_database(
+        &surreal_svc.peer(),
+        &cfg.surreal_namespace,
+        &cfg.surreal_database,
+    )
+    .await?;
+    info!(
+        surreal_namespace = %cfg.surreal_namespace,
+        surreal_database = %cfg.surreal_database,
+        "SurrealMCP session configured via use_namespace/use_database"
+    );
+
     let mut x_svc = connect_streamable_mcp(
         cfg.x_mcp_url.clone(),
         cfg.x_mcp_auth_token.clone(),
