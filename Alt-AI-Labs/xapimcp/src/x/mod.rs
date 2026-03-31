@@ -1,14 +1,25 @@
 use crate::config::ServerConfig;
 use anyhow::Context;
 use anyhow::Result;
-use reqwest::Client;
+use reqwest::{Client, Url};
 use rmcp::model::ErrorData as McpError;
 use std::sync::LazyLock;
+use tracing::info;
 
 static HTTP_CLIENT: LazyLock<Client> = LazyLock::new(Client::new);
 
 pub fn http_client() -> &'static Client {
     &HTTP_CLIENT
+}
+
+fn bearer_token_fingerprint(token: &str) -> String {
+    let chars: Vec<char> = token.chars().collect();
+    if chars.len() <= 10 {
+        return token.to_string();
+    }
+    let first: String = chars.iter().take(5).copied().collect();
+    let last: String = chars.iter().rev().take(5).copied().collect::<Vec<_>>().into_iter().rev().collect();
+    format!("{first}...{last}")
 }
 
 pub async fn fetch_authenticated_user_id(bearer_token: &str) -> anyhow::Result<String> {
@@ -38,16 +49,35 @@ pub async fn get_my_bookmarks(
     config: &ServerConfig,
     pagination_token: Option<String>,
 ) -> Result<serde_json::Value, McpError> {
-    let mut url = format!(
-        "https://api.x.com/2/users/{}/bookmarks?max_results=100&tweet.fields=created_at,author_id,conversation_id,text",
-        config.user_id()
+    info!(
+        x_user_id = config.user_id(),
+        x_bearer_token_preview = %bearer_token_fingerprint(&config.x_bearer_token),
+        "xapimcp auth context for get_my_bookmarks"
     );
+    let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
+    let mut url = Url::parse_with_params(
+        &base,
+        &[
+            ("max_results", "100"),
+            (
+                "tweet.fields",
+                "created_at,author_id,conversation_id,text,public_metrics,attachments,referenced_tweets,entities,lang",
+            ),
+            ("expansions", "author_id,attachments.media_keys"),
+            ("user.fields", "id,name,username,verified,public_metrics"),
+            (
+                "media.fields",
+                "media_key,type,url,preview_image_url,width,height,duration_ms,public_metrics",
+            ),
+        ],
+    )
+    .map_err(|e| McpError::internal_error(format!("Invalid bookmarks URL: {}", e), None))?;
     if let Some(token) = pagination_token {
-        url.push_str(&format!("&pagination_token={}", token));
+        url.query_pairs_mut().append_pair("pagination_token", &token);
     }
 
     let resp = http_client()
-        .get(&url)
+        .get(url)
         .bearer_auth(&config.x_bearer_token)
         .send()
         .await
@@ -73,14 +103,24 @@ pub async fn get_my_bookmarks(
 }
 
 pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<serde_json::Value, McpError> {
-    let url = format!(
-        "https://api.x.com/2/users/{}/bookmarks/{}",
-        config.user_id(),
-        tweet_id
+    info!(
+        x_user_id = config.user_id(),
+        x_bearer_token_preview = %bearer_token_fingerprint(&config.x_bearer_token),
+        tweet_id = %tweet_id,
+        "xapimcp auth context for delete_bookmark"
     );
+    let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
+    let mut url =
+        Url::parse(&base).map_err(|e| McpError::internal_error(format!("Invalid delete URL: {}", e), None))?;
+    {
+        let mut segments = url
+            .path_segments_mut()
+            .map_err(|_| McpError::internal_error("Delete URL does not support path segments", None))?;
+        segments.push(&tweet_id);
+    }
 
     let resp = http_client()
-        .delete(&url)
+        .delete(url)
         .bearer_auth(&config.x_bearer_token)
         .send()
         .await
@@ -109,13 +149,34 @@ pub async fn get_replies_to_tweet(
     config: &ServerConfig,
     tweet_id: String,
 ) -> Result<serde_json::Value, McpError> {
-    let url = format!(
-        "https://api.x.com/2/tweets/search/recent?query=conversation_id:{}&max_results=100&tweet.fields=created_at,author_id,text,conversation_id",
-        tweet_id
+    info!(
+        x_user_id = config.user_id(),
+        x_bearer_token_preview = %bearer_token_fingerprint(&config.x_bearer_token),
+        tweet_id = %tweet_id,
+        "xapimcp auth context for get_replies_to_tweet"
     );
+    let query = format!("conversation_id:{}", tweet_id);
+    let url = Url::parse_with_params(
+        "https://api.x.com/2/tweets/search/recent",
+        &[
+            ("query", query.as_str()),
+            ("max_results", "100"),
+            (
+                "tweet.fields",
+                "created_at,author_id,text,conversation_id,public_metrics,attachments,referenced_tweets,entities,lang",
+            ),
+            ("expansions", "author_id,attachments.media_keys"),
+            ("user.fields", "id,name,username,verified,public_metrics"),
+            (
+                "media.fields",
+                "media_key,type,url,preview_image_url,width,height,duration_ms,public_metrics",
+            ),
+        ],
+    )
+    .map_err(|e| McpError::internal_error(format!("Invalid replies URL: {}", e), None))?;
 
     let resp = http_client()
-        .get(&url)
+        .get(url)
         .bearer_auth(&config.x_bearer_token)
         .send()
         .await
