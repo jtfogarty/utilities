@@ -55,7 +55,17 @@ pub async fn get_my_bookmarks(
             McpError::internal_error(format!("X API bookmarks request failed: {}", e), None)
         })?;
 
-    let body: serde_json::Value = resp.json().await.map_err(|e| {
+    let status = resp.status();
+    let body_text = resp.text().await.map_err(|e| {
+        McpError::internal_error(format!("Failed to read X API bookmarks response: {}", e), None)
+    })?;
+    if !status.is_success() {
+        return Err(McpError::internal_error(
+            format!("X API GET /bookmarks {}: {}", status, body_text),
+            None,
+        ));
+    }
+    let body: serde_json::Value = serde_json::from_str(&body_text).map_err(|e| {
         McpError::internal_error(format!("Failed to parse X API response: {}", e), None)
     })?;
 
@@ -78,7 +88,17 @@ pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<
             McpError::internal_error(format!("X API delete bookmark failed: {}", e), None)
         })?;
 
-    let body: serde_json::Value = resp.json().await.map_err(|e| {
+    let status = resp.status();
+    let body_text = resp.text().await.map_err(|e| {
+        McpError::internal_error(format!("Failed to read X API delete response: {}", e), None)
+    })?;
+    if !status.is_success() {
+        return Err(McpError::internal_error(
+            format!("X API DELETE /bookmarks/{{id}} {}: {}", status, body_text),
+            None,
+        ));
+    }
+    let body: serde_json::Value = serde_json::from_str(&body_text).map_err(|e| {
         McpError::internal_error(format!("Failed to parse delete response: {}", e), None)
     })?;
 
@@ -103,7 +123,17 @@ pub async fn get_replies_to_tweet(
             McpError::internal_error(format!("X API replies search failed: {}", e), None)
         })?;
 
-    let body: serde_json::Value = resp.json().await.map_err(|e| {
+    let status = resp.status();
+    let body_text = resp.text().await.map_err(|e| {
+        McpError::internal_error(format!("Failed to read X API replies response: {}", e), None)
+    })?;
+    if !status.is_success() {
+        return Err(McpError::internal_error(
+            format!("X API GET /tweets/search/recent {}: {}", status, body_text),
+            None,
+        ));
+    }
+    let body: serde_json::Value = serde_json::from_str(&body_text).map_err(|e| {
         McpError::internal_error(format!("Failed to parse replies response: {}", e), None)
     })?;
 
