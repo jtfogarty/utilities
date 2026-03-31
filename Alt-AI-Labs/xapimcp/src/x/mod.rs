@@ -23,16 +23,23 @@ fn bearer_token_fingerprint(token: &str) -> String {
     format!("{first}...{last}")
 }
 
+fn oauth_secrets(config: &ServerConfig) -> Result<reqwest_oauth1::Secrets<'_>> {
+    Ok(
+        reqwest_oauth1::Secrets::new(config.x_consumer_key.as_str(), config.consumer_secret()?)
+            .token(
+                config.x_access_token.as_str(),
+                config.x_access_token_secret.as_str(),
+            ),
+    )
+}
+
 pub async fn fetch_authenticated_user_id(config: &ServerConfig) -> anyhow::Result<String> {
     let url = "https://api.x.com/2/users/me?user.fields=id";
+    let secrets = oauth_secrets(config)?;
     let resp = http_client()
+        .clone()
+        .oauth1(secrets)
         .get(url)
-        .oauth1(
-            config.x_consumer_key.as_str(),
-            config.consumer_secret()?,
-            config.x_access_token.as_str(),
-            config.x_access_token_secret.as_str(),
-        )
         .send()
         .await
         .context("X API GET /2/users/me failed")?;
@@ -82,14 +89,12 @@ pub async fn get_my_bookmarks(
         url.query_pairs_mut().append_pair("pagination_token", &token);
     }
 
+    let secrets = oauth_secrets(config)
+        .map_err(|e| McpError::internal_error(format!("OAuth1 secrets error: {}", e), None))?;
     let resp = http_client()
+        .clone()
+        .oauth1(secrets)
         .get(url)
-        .oauth1(
-            config.x_consumer_key.as_str(),
-            config.consumer_secret().map_err(|e| McpError::internal_error(e.to_string(), None))?,
-            config.x_access_token.as_str(),
-            config.x_access_token_secret.as_str(),
-        )
         .send()
         .await
         .map_err(|e| {
@@ -130,14 +135,12 @@ pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<
         segments.push(&tweet_id);
     }
 
+    let secrets = oauth_secrets(config)
+        .map_err(|e| McpError::internal_error(format!("OAuth1 secrets error: {}", e), None))?;
     let resp = http_client()
+        .clone()
+        .oauth1(secrets)
         .delete(url)
-        .oauth1(
-            config.x_consumer_key.as_str(),
-            config.consumer_secret().map_err(|e| McpError::internal_error(e.to_string(), None))?,
-            config.x_access_token.as_str(),
-            config.x_access_token_secret.as_str(),
-        )
         .send()
         .await
         .map_err(|e| {
@@ -191,14 +194,12 @@ pub async fn get_replies_to_tweet(
     )
     .map_err(|e| McpError::internal_error(format!("Invalid replies URL: {}", e), None))?;
 
+    let secrets = oauth_secrets(config)
+        .map_err(|e| McpError::internal_error(format!("OAuth1 secrets error: {}", e), None))?;
     let resp = http_client()
+        .clone()
+        .oauth1(secrets)
         .get(url)
-        .oauth1(
-            config.x_consumer_key.as_str(),
-            config.consumer_secret().map_err(|e| McpError::internal_error(e.to_string(), None))?,
-            config.x_access_token.as_str(),
-            config.x_access_token_secret.as_str(),
-        )
         .send()
         .await
         .map_err(|e| {
