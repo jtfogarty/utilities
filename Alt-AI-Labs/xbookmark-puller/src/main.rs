@@ -57,6 +57,7 @@ use rmcp::transport::streamable_http_client::StreamableHttpClientTransportConfig
 use serde_json::{Value, json};
 use tokio::sync::watch;
 use tracing::{debug, error, info, warn};
+use tracing_subscriber::EnvFilter;
 
 type ClientPeer = rmcp::service::Peer<rmcp::service::RoleClient>;
 type RunningClient = rmcp::service::RunningService<rmcp::service::RoleClient, ()>;
@@ -256,9 +257,9 @@ async fn connect_streamable_mcp(
     let transport = StreamableHttpClientTransport::from_config(tcfg);
     info!(
         label,
-        surreal_mcp_url = %uri_for_log,
+        mcp_url = %uri_for_log,
         mcp_auth_token_set = auth_token_set,
-        "connecting to streamable MCP"
+        "connecting to streamable MCP (TCP + MCP initialize; can hang here if URL/port wrong)"
     );
     ()
         .serve(transport)
@@ -525,6 +526,10 @@ async fn x_get_bookmarks_page(
 
     let mut attempt: u32 = 0;
     loop {
+        info!(
+            has_pagination_token = pagination_token.is_some(),
+            "stage: waiting for GET rate-limit slot (governor) before xapimcp get_my_bookmarks"
+        );
         rl.acquire_get("get_my_bookmarks").await;
 
         let mut args = JsonObject::new();
@@ -532,6 +537,10 @@ async fn x_get_bookmarks_page(
             args.insert("pagination_token".to_string(), json!(t));
         }
 
+        info!(
+            has_pagination_token = pagination_token.is_some(),
+            "stage: calling xapimcp tool get_my_bookmarks (blocks until X API responds)"
+        );
         let res = x
             .call_tool(CallToolRequestParams {
                 meta: None,
@@ -648,6 +657,7 @@ async fn run_pull_cycle(
     cfg: &Config,
     is_deleting: &AtomicBool,
 ) -> Result<()> {
+    info!("stage: pull cycle started");
     let mut token: Option<String> = None;
     let mut deletes_this_run: u32 = 0;
 
@@ -756,8 +766,12 @@ async fn run_pull_cycle(
 async fn main() -> Result<()> {
     let cli = Cli::parse();
 
+    // Default to `info` when RUST_LOG is unset; otherwise people see **no** lines and assume stdout
+    // (tracing emits to **stderr** by default).
+    let filter = EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| EnvFilter::new("info"));
     tracing_subscriber::fmt()
-        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
+        .with_env_filter(filter)
         .json()
         .init();
 
@@ -797,15 +811,25 @@ async fn main() -> Result<()> {
     let rate_limits = Arc::new(RateLimitTracker::new(cfg.rate_limit_enforced));
 
     let mut mcp_attempt: u32 = 0;
+    info!(
+        surreal_mcp = %cfg.surreal_mcp_url,
+        "stage: connecting to SurrealMCP (after this, use_namespace/use_database)"
+    );
     let mut surreal_svc = connect_streamable_mcp(
         cfg.surreal_mcp_url.clone(),
         cfg.surreal_mcp_auth_token.clone(),
         "SurrealMCP",
     )
     .await?;
+    info!("stage: SurrealMCP transport connected");
 
     // Ensure SurrealMCP session is pinned to the requested namespace/database
     // before we run any `query` / `create` tools (including in --dry-run mode).
+    info!(
+        namespace = %cfg.surreal_namespace,
+        database = %cfg.surreal_database,
+        "stage: calling SurrealMCP use_namespace then use_database"
+    );
     surreal_apply_namespace_database(
         &surreal_svc.peer(),
         &cfg.surreal_namespace,
@@ -818,12 +842,17 @@ async fn main() -> Result<()> {
         "SurrealMCP session configured via use_namespace/use_database"
     );
 
+    info!(
+        x_mcp = %cfg.x_mcp_url,
+        "stage: connecting to xapimcp (if process hangs here with no new surrealmcp lines, xapimcp is not reachable or MCP handshake stuck)"
+    );
     let mut x_svc = connect_streamable_mcp(
         cfg.x_mcp_url.clone(),
         cfg.x_mcp_auth_token.clone(),
         "xapimcp",
     )
     .await?;
+    info!("stage: xapimcp transport connected; entering scheduler loop (logs go to stderr unless redirected)");
 
     let mut ticker = tokio::time::interval(cfg.pull_interval);
     ticker.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
@@ -848,6 +877,10 @@ async fn main() -> Result<()> {
                 }
             }
             _ = ticker.tick() => {
+                info!(
+                    pull_interval_secs = cfg.pull_interval.as_secs(),
+                    "stage: scheduler tick (first tick is immediate; later ticks are on pull_interval)"
+                );
                 let surreal = surreal_svc.peer();
                 let x = x_svc.peer();
                 match run_pull_cycle(surreal, x, rate_limits.as_ref(), cfg.as_ref(), is_deleting.as_ref()).await {
@@ -876,7 +909,16 @@ async fn main() -> Result<()> {
                                 let _ = x_svc.close().await;
                                 surreal_svc = new_s;
                                 x_svc = new_x;
-                                info!("reconnected SurrealMCP and xapimcp");
+                                if let Err(e) = surreal_apply_namespace_database(
+                                    &surreal_svc.peer(),
+                                    &cfg.surreal_namespace,
+                                    &cfg.surreal_database,
+                                )
+                                .await
+                                {
+                                    error!(error = %e, "SurrealMCP reconnect: use_namespace/use_database failed");
+                                }
+                                info!("reconnected SurrealMCP and xapimcp (namespace/database re-applied)");
                             }
                             (s_err, x_err) => {
                                 if let Err(ref e) = s_err {
