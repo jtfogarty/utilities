@@ -2,6 +2,7 @@ use crate::config::ServerConfig;
 use anyhow::Context;
 use anyhow::Result;
 use reqwest::{Client, Url};
+use reqwest_oauth1::OAuthClientProvider;
 use rmcp::model::ErrorData as McpError;
 use std::sync::LazyLock;
 use tracing::info;
@@ -22,11 +23,16 @@ fn bearer_token_fingerprint(token: &str) -> String {
     format!("{first}...{last}")
 }
 
-pub async fn fetch_authenticated_user_id(bearer_token: &str) -> anyhow::Result<String> {
+pub async fn fetch_authenticated_user_id(config: &ServerConfig) -> anyhow::Result<String> {
     let url = "https://api.x.com/2/users/me?user.fields=id";
     let resp = http_client()
         .get(url)
-        .bearer_auth(bearer_token)
+        .oauth1(
+            config.x_consumer_key.as_str(),
+            config.consumer_secret()?,
+            config.x_access_token.as_str(),
+            config.x_access_token_secret.as_str(),
+        )
         .send()
         .await
         .context("X API GET /2/users/me failed")?;
@@ -51,7 +57,7 @@ pub async fn get_my_bookmarks(
 ) -> Result<serde_json::Value, McpError> {
     info!(
         x_user_id = config.user_id(),
-        x_bearer_token_preview = %bearer_token_fingerprint(&config.x_bearer_token),
+        x_access_token_preview = %bearer_token_fingerprint(&config.x_access_token),
         "xapimcp auth context for get_my_bookmarks"
     );
     let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
@@ -78,7 +84,12 @@ pub async fn get_my_bookmarks(
 
     let resp = http_client()
         .get(url)
-        .bearer_auth(&config.x_bearer_token)
+        .oauth1(
+            config.x_consumer_key.as_str(),
+            config.consumer_secret().map_err(|e| McpError::internal_error(e.to_string(), None))?,
+            config.x_access_token.as_str(),
+            config.x_access_token_secret.as_str(),
+        )
         .send()
         .await
         .map_err(|e| {
@@ -105,7 +116,7 @@ pub async fn get_my_bookmarks(
 pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<serde_json::Value, McpError> {
     info!(
         x_user_id = config.user_id(),
-        x_bearer_token_preview = %bearer_token_fingerprint(&config.x_bearer_token),
+        x_access_token_preview = %bearer_token_fingerprint(&config.x_access_token),
         tweet_id = %tweet_id,
         "xapimcp auth context for delete_bookmark"
     );
@@ -121,7 +132,12 @@ pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<
 
     let resp = http_client()
         .delete(url)
-        .bearer_auth(&config.x_bearer_token)
+        .oauth1(
+            config.x_consumer_key.as_str(),
+            config.consumer_secret().map_err(|e| McpError::internal_error(e.to_string(), None))?,
+            config.x_access_token.as_str(),
+            config.x_access_token_secret.as_str(),
+        )
         .send()
         .await
         .map_err(|e| {
@@ -151,7 +167,7 @@ pub async fn get_replies_to_tweet(
 ) -> Result<serde_json::Value, McpError> {
     info!(
         x_user_id = config.user_id(),
-        x_bearer_token_preview = %bearer_token_fingerprint(&config.x_bearer_token),
+        x_access_token_preview = %bearer_token_fingerprint(&config.x_access_token),
         tweet_id = %tweet_id,
         "xapimcp auth context for get_replies_to_tweet"
     );
@@ -177,7 +193,12 @@ pub async fn get_replies_to_tweet(
 
     let resp = http_client()
         .get(url)
-        .bearer_auth(&config.x_bearer_token)
+        .oauth1(
+            config.x_consumer_key.as_str(),
+            config.consumer_secret().map_err(|e| McpError::internal_error(e.to_string(), None))?,
+            config.x_access_token.as_str(),
+            config.x_access_token_secret.as_str(),
+        )
         .send()
         .await
         .map_err(|e| {
