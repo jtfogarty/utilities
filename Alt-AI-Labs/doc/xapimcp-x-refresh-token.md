@@ -12,8 +12,8 @@ In the X developer portal for your app:
 
 You’ll need:
 
-- `X_CLIENT_ID` (or legacy `X_CONSUMER_KEY`)
-- `X_CLIENT_SECRET` (or legacy `X_CONSUMER_SECRET`)
+- `X_CLIENT_ID` + `X_CLIENT_SECRET` (preferred). If those are unset, legacy `X_CONSUMER_KEY` / `X_CONSUMER_SECRET` are used instead.
+- **Avoid** keeping old consumer keys in the same `EnvironmentFile` once you’ve switched to Client ID/Secret — remove or comment them out so there’s no confusion.
 
 ## 1) Generate the refresh token on your laptop
 From the repo root (or `Alt-AI-Labs/xapimcp/`), run:

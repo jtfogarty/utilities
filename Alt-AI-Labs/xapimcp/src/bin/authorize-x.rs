@@ -51,8 +51,8 @@ async fn main() -> anyhow::Result<()> {
 
     // Laptop-only helper. Requires a browser for interactive login.
     // Prefer CONSUMER_* first: some `.env` files set X_CLIENT_ID to a username by mistake.
-    let client_id = env_one_of(&["X_CONSUMER_KEY", "X_CLIENT_ID"])?;
-    let client_secret = env_one_of(&["X_CONSUMER_SECRET", "X_CLIENT_SECRET", "X_CONSUMBER_SECRET"])?;
+    let client_id = env_one_of(&["X_CLIENT_ID", "X_CONSUMER_KEY"])?;
+    let client_secret = env_one_of(&["X_CLIENT_SECRET", "X_CONSUMER_SECRET", "X_CONSUMBER_SECRET"])?;
 
     let redirect_uri = "http://127.0.0.1:8080/callback".to_string();
     let auth_url = AuthUrl::new("https://x.com/i/oauth2/authorize".to_string())?;

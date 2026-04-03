@@ -47,17 +47,18 @@ pub struct ServerConfig {
 
 impl ServerConfig {
     fn client_id(&self) -> Result<String, McpError> {
-        // Prefer consumer key: some env files misuse X_CLIENT_ID (e.g. username).
+        // Prefer explicit OAuth2 names from the X portal. Legacy CONSUMER_KEY still works if
+        // CLIENT_ID is unset (but a stale CONSUMER_KEY must not override a valid X_CLIENT_ID).
         let v = self
-            .x_consumer_key
+            .x_client_id
             .as_deref()
-            .or(self.x_client_id.as_deref())
+            .or(self.x_consumer_key.as_deref())
             .unwrap_or("")
             .trim()
             .to_string();
         if v.is_empty() {
             return Err(McpError::internal_error(
-                "X_CONSUMER_KEY or X_CLIENT_ID must be set (OAuth2 app client id)".to_string(),
+                "X_CLIENT_ID or X_CONSUMER_KEY must be set (OAuth2 app client id)".to_string(),
                 None,
             ));
         }
@@ -66,16 +67,16 @@ impl ServerConfig {
 
     fn client_secret(&self) -> Result<String, McpError> {
         let v = self
-            .x_consumer_secret
+            .x_client_secret
             .as_deref()
-            .or(self.x_client_secret.as_deref())
+            .or(self.x_consumer_secret.as_deref())
             .or(self.x_consumber_secret.as_deref())
             .unwrap_or("")
             .trim()
             .to_string();
         if v.is_empty() {
             return Err(McpError::internal_error(
-                "X_CONSUMER_SECRET or X_CLIENT_SECRET must be set (OAuth2 app client secret)".to_string(),
+                "X_CLIENT_SECRET or X_CONSUMER_SECRET must be set (OAuth2 app client secret)".to_string(),
                 None,
             ));
         }
