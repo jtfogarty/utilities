@@ -45,6 +45,22 @@ pub struct ServerConfig {
     pub bind_address: Option<String>,
 }
 
+fn normalize_refresh_token(raw: &str) -> String {
+    let s = raw.trim();
+    let s = s.strip_prefix('\u{FEFF}').unwrap_or(s).trim();
+    // Refresh tokens are a single line; ignore accidental extra lines / trailing junk.
+    let line = s.lines().find(|l| !l.trim().is_empty()).unwrap_or("").trim();
+    let mut t = line.to_string();
+    if t.len() >= 2 {
+        if t.starts_with('"') && t.ends_with('"') {
+            t = t[1..t.len() - 1].trim().to_string();
+        } else if t.starts_with('\'') && t.ends_with('\'') {
+            t = t[1..t.len() - 1].trim().to_string();
+        }
+    }
+    t
+}
+
 impl ServerConfig {
     fn client_id(&self) -> Result<String, McpError> {
         // Prefer explicit OAuth2 names from the X portal. Legacy CONSUMER_KEY still works if
@@ -85,9 +101,9 @@ impl ServerConfig {
 
     fn load_refresh_token(&self) -> Result<String, McpError> {
         if let Some(s) = self.x_refresh_token.as_deref() {
-            let t = s.trim();
+            let t = normalize_refresh_token(s);
             if !t.is_empty() {
-                return Ok(t.to_string());
+                return Ok(t);
             }
         }
 
@@ -102,9 +118,9 @@ impl ServerConfig {
                     None,
                 )
             })?;
-            let t = text.trim();
+            let t = normalize_refresh_token(&text);
             if !t.is_empty() {
-                return Ok(t.to_string());
+                return Ok(t);
             }
         }
 

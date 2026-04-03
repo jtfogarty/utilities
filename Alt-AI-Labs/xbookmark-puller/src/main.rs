@@ -69,12 +69,30 @@ type InfoDirectRateLimiter = RateLimiter<
     StateInformationMiddleware,
 >;
 
+fn env_one_of(keys: &[&str], label: &str) -> Result<String> {
+    for k in keys {
+        if let Ok(v) = std::env::var(k) {
+            let t = v.trim();
+            if !t.is_empty() {
+                return Ok(t.to_string());
+            }
+        }
+    }
+    bail!(
+        "{label} must be set (non-empty). Looked at env vars: {}",
+        keys.join(", ")
+    );
+}
+
 #[derive(Parser, Debug)]
 #[command(name = "xbookmark-puller")]
 struct Cli {
     /// Store via SurrealMCP but do not call xapimcp `delete_bookmark` (timing and governor still apply).
     #[arg(long)]
     dry_run: bool,
+    /// Connect to SurrealMCP only: `use_namespace` / `use_database`, insert one test row into `x_bookmarks`, verify with `SELECT count()`, then exit (does not use xapimcp).
+    #[arg(long)]
+    test_surreal_write: bool,
 }
 
 #[derive(Clone)]
@@ -90,23 +108,34 @@ struct Config {
     dry_run: bool,
 }
 
+/// Minimal config for `--test-surreal-write` (no `X_MCP_URL` required).
+struct SurrealTestConfig {
+    surreal_mcp_url: String,
+    surreal_mcp_auth_token: Option<String>,
+    surreal_namespace: String,
+    surreal_database: String,
+}
+
+impl SurrealTestConfig {
+    fn from_env() -> Result<Self> {
+        let surreal_mcp_url = std::env::var("SURREAL_MCP_URL").context(
+            "SURREAL_MCP_URL must be set (SurrealMCP streamable HTTP, e.g. http://127.0.0.1:8800/mcp)",
+        )?;
+        let surreal_namespace =
+            env_one_of(&["NAMESPACE", "SURREALDB_NAMESPACE", "SURREALDB_NS"], "NAMESPACE")?;
+        let surreal_database =
+            env_one_of(&["DATABASE", "SURREALDB_DATABASE", "SURREALDB_DB"], "DATABASE")?;
+        Ok(Self {
+            surreal_mcp_url,
+            surreal_mcp_auth_token: std::env::var("SURREAL_MCP_AUTH_TOKEN").ok(),
+            surreal_namespace,
+            surreal_database,
+        })
+    }
+}
+
 impl Config {
     fn from_env(dry_run: bool) -> Result<Self> {
-        fn env_one_of(keys: &[&str], label: &str) -> Result<String> {
-            for k in keys {
-                if let Ok(v) = std::env::var(k) {
-                    let t = v.trim();
-                    if !t.is_empty() {
-                        return Ok(t.to_string());
-                    }
-                }
-            }
-            bail!(
-                "{label} must be set (non-empty). Looked at env vars: {}",
-                keys.join(", ")
-            );
-        }
-
         let pull_minutes: u64 = std::env::var("PULL_INTERVAL_MINUTES")
             .ok()
             .and_then(|s| s.parse().ok())
@@ -452,6 +481,67 @@ async fn surreal_create_bookmark(surreal: &ClientPeer, record: &JsonObject) -> R
     Ok(())
 }
 
+/// One-shot check: SurrealMCP `create` into `x_bookmarks` + `query` count for the same id.
+async fn run_surreal_write_test(cfg: SurrealTestConfig) -> Result<()> {
+    let test_id = format!(
+        "_puller_write_test_{}",
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_millis()
+    );
+    info!(
+        surreal_mcp = %cfg.surreal_mcp_url,
+        namespace = %cfg.surreal_namespace,
+        database = %cfg.surreal_database,
+        test_bookmark_id = %test_id,
+        "test-surreal-write: connecting to SurrealMCP"
+    );
+
+    let mut surreal_svc = connect_streamable_mcp(
+        cfg.surreal_mcp_url.clone(),
+        cfg.surreal_mcp_auth_token.clone(),
+        "SurrealMCP",
+    )
+    .await?;
+
+    let surreal = surreal_svc.peer();
+    surreal_apply_namespace_database(surreal, &cfg.surreal_namespace, &cfg.surreal_database).await?;
+
+    let mut data = JsonObject::new();
+    data.insert("bookmark_id".to_string(), json!(&test_id));
+    data.insert(
+        "text".to_string(),
+        json!("xbookmark-puller --test-surreal-write (safe to delete)"),
+    );
+    data.insert(
+        "url".to_string(),
+        json!("https://example.invalid/xbookmark-puller-test"),
+    );
+    data.insert("author".to_string(), json!(""));
+    data.insert("created_at".to_string(), json!(Utc::now().to_rfc3339()));
+    data.insert("raw_json".to_string(), json!("{}"));
+    data.insert("pulled_at".to_string(), json!(Utc::now().to_rfc3339()));
+    data.insert("processed".to_string(), json!(false));
+
+    surreal_create_bookmark(surreal, &data).await?;
+    info!(test_bookmark_id = %test_id, "test-surreal-write: SurrealMCP create succeeded");
+
+    let visible = surreal_query_exists(surreal, &test_id).await?;
+    if !visible {
+        bail!(
+            "test-surreal-write: row not found after create (SELECT count() FROM x_bookmarks WHERE bookmark_id = …); check table name and SurrealMCP"
+        );
+    }
+
+    info!(
+        test_bookmark_id = %test_id,
+        "test-surreal-write: read-back OK; remove test row in Surreal if you want (DELETE WHERE bookmark_id = this id)"
+    );
+    let _ = surreal_svc.close().await;
+    Ok(())
+}
+
 fn tweet_author_label(tweet: &Value, includes: Option<&Value>) -> String {
     let aid = tweet
         .get("author_id")
@@ -774,6 +864,12 @@ async fn main() -> Result<()> {
         .with_env_filter(filter)
         .json()
         .init();
+
+    if cli.test_surreal_write {
+        let scfg = SurrealTestConfig::from_env()?;
+        run_surreal_write_test(scfg).await?;
+        return Ok(());
+    }
 
     let cfg = Arc::new(Config::from_env(cli.dry_run)?);
     info!(

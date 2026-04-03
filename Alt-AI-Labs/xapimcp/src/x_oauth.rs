@@ -81,6 +81,9 @@ fn format_refresh_token_error(
                 BasicErrorResponseType::InvalidClient => {
                     s.push_str(" — `invalid_client`: check X_CLIENT_ID and X_CLIENT_SECRET (no extra whitespace; must be the confidential client for this app).");
                 }
+                BasicErrorResponseType::InvalidRequest => {
+                    s.push_str(" — `invalid_request` + bad token: refresh value is often corrupted (BOM, quotes, extra lines in X_REFRESH_TOKEN_FILE) or no longer valid. Re-copy the token or run `authorize-x` again.");
+                }
                 _ => {}
             }
             s
