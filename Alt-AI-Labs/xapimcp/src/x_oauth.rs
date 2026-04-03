@@ -12,8 +12,9 @@
 //! No interactive auth is performed on the headless server.
 
 use oauth2::{
-    AuthUrl, ClientId, ClientSecret, RefreshToken, TokenResponse, TokenUrl,
-    basic::BasicClient,
+    AuthUrl, ClientId, ClientSecret, RefreshToken, RequestTokenError, TokenResponse, TokenUrl,
+    basic::{BasicErrorResponse, BasicErrorResponseType, BasicClient},
+    reqwest::AsyncHttpClientError,
 };
 use rmcp::model::ErrorData as McpError;
 
@@ -67,6 +68,32 @@ impl XOAuthClient {
     }
 }
 
+fn format_refresh_token_error(
+    e: RequestTokenError<AsyncHttpClientError, BasicErrorResponse>,
+) -> String {
+    match e {
+        RequestTokenError::ServerResponse(resp) => {
+            let mut s = format!("X POST /2/oauth2/token: {resp}");
+            match resp.error() {
+                BasicErrorResponseType::InvalidGrant => {
+                    s.push_str(" — `invalid_grant`: refresh token revoked/expired/wrong app, or Client ID+secret on this host do not match the X app that minted the token. Fix env and re-run `cargo run --bin authorize-x` on a laptop.");
+                }
+                BasicErrorResponseType::InvalidClient => {
+                    s.push_str(" — `invalid_client`: check X_CLIENT_ID and X_CLIENT_SECRET (no extra whitespace; must be the confidential client for this app).");
+                }
+                _ => {}
+            }
+            s
+        }
+        RequestTokenError::Request(re) => format!("X POST /2/oauth2/token HTTP error: {re}"),
+        RequestTokenError::Parse(pe, body) => format!(
+            "X POST /2/oauth2/token: failed to parse response ({pe}); body={}",
+            String::from_utf8_lossy(&body)
+        ),
+        RequestTokenError::Other(msg) => format!("X POST /2/oauth2/token: {msg}"),
+    }
+}
+
 pub async fn refresh_access_token(
     client: &XOAuthClient,
     refresh_token: &str,
@@ -86,7 +113,7 @@ pub async fn refresh_access_token(
         .exchange_refresh_token(&refresh_token)
         .request_async(oauth2::reqwest::async_http_client)
         .await
-        .map_err(|e| McpError::internal_error(format!("X refresh-token request failed: {e}"), None))?;
+        .map_err(|e| McpError::internal_error(format_refresh_token_error(e), None))?;
 
     let access = token_res.access_token().secret().to_string();
     let new_refresh = token_res
