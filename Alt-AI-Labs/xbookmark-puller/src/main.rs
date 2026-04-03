@@ -24,8 +24,8 @@ stateless MCP wrapper over the X API — **no** rate-limit logic lives there.
   next 15-minute UTC wall-clock boundary** so the next cycle aligns with a fresh window.
 - **`RATE_LIMIT_ENFORCED`**: when `false`, governor waits are skipped (still logs a warning); 429
   fallback remains.
-- **`--dry-run`**: still acquires governor slots and runs Surreal inserts, but **skips** the delete
-  MCP call.
+- **`--dry-run`**: still acquires governor slots and **still runs Surreal `query` / `create`** (writes
+  to the DB); it only **skips** the xapimcp `delete_bookmark` MCP call.
 
 ## Changes since original (2026-03)
 
@@ -68,6 +68,10 @@ type InfoDirectRateLimiter = RateLimiter<
     governor::clock::DefaultClock,
     StateInformationMiddleware,
 >;
+
+/// Surreal table for archived bookmarks. Used for both `create` targets (`{table}:{id}`) and
+/// `SELECT … FROM {table}` in `query` — keep a single source of truth.
+const SURREAL_X_BOOKMARKS_TABLE: &str = "x_bookmarks";
 
 fn env_one_of(keys: &[&str], label: &str) -> Result<String> {
     for k in keys {
@@ -430,10 +434,10 @@ async fn surreal_apply_namespace_database(
 
 async fn surreal_query_exists(surreal: &ClientPeer, bookmark_id: &str) -> Result<bool> {
     let mut args = JsonObject::new();
-    args.insert(
-        "query".to_string(),
-        json!("SELECT count() FROM x_bookmarks WHERE bookmark_id = $bid"),
+    let q = format!(
+        "SELECT count() FROM {SURREAL_X_BOOKMARKS_TABLE} WHERE bookmark_id = $bid"
     );
+    args.insert("query".to_string(), json!(q));
     let mut params = JsonObject::new();
     params.insert("bid".to_string(), json!(bookmark_id));
     args.insert("parameters".to_string(), json!(params));
@@ -462,9 +466,20 @@ async fn surreal_query_exists(surreal: &ClientPeer, bookmark_id: &str) -> Result
     Ok(count > 0)
 }
 
+/// Inserts one bookmark row via SurrealMCP `create`. Used by **`--dry-run` / normal pull** and
+/// **`--test-surreal-write`** (same code path).
 async fn surreal_create_bookmark(surreal: &ClientPeer, record: &JsonObject) -> Result<()> {
+    // SurrealMCP `create` expects a full record id (`table:id`), not a bare table name.
+    let bid = record
+        .get("bookmark_id")
+        .and_then(|v| v.as_str())
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .ok_or_else(|| anyhow!("surreal_create_bookmark: missing or empty bookmark_id"))?;
+    let target = format!("{SURREAL_X_BOOKMARKS_TABLE}:{bid}");
+
     let mut args = JsonObject::new();
-    args.insert("target".to_string(), json!("x_bookmarks"));
+    args.insert("target".to_string(), json!(target));
     args.insert("data".to_string(), Value::Object(record.clone()));
 
     let res = surreal
@@ -481,7 +496,7 @@ async fn surreal_create_bookmark(surreal: &ClientPeer, record: &JsonObject) -> R
     Ok(())
 }
 
-/// One-shot check: SurrealMCP `create` into `x_bookmarks` + `query` count for the same id.
+/// One-shot check: calls [`surreal_create_bookmark`] + [`surreal_query_exists`] (same as pull / `--dry-run`).
 async fn run_surreal_write_test(cfg: SurrealTestConfig) -> Result<()> {
     let test_id = format!(
         "_puller_write_test_{}",
@@ -530,7 +545,7 @@ async fn run_surreal_write_test(cfg: SurrealTestConfig) -> Result<()> {
     let visible = surreal_query_exists(surreal, &test_id).await?;
     if !visible {
         bail!(
-            "test-surreal-write: row not found after create (SELECT count() FROM x_bookmarks WHERE bookmark_id = …); check table name and SurrealMCP"
+            "test-surreal-write: row not found after create (SELECT count() FROM {SURREAL_X_BOOKMARKS_TABLE} WHERE bookmark_id = …); check table name and SurrealMCP"
         );
     }
 
@@ -768,7 +783,8 @@ async fn run_pull_cycle(
             if exists {
                 info!(
                     bookmark_id = bid,
-                    "duplicate bookmark in Surreal (x_bookmarks); skipping store and delete"
+                    table = SURREAL_X_BOOKMARKS_TABLE,
+                    "duplicate bookmark in Surreal; skipping store and delete"
                 );
                 continue;
             }
@@ -799,7 +815,11 @@ async fn run_pull_cycle(
             data.insert("processed".to_string(), json!(false));
 
             surreal_create_bookmark(surreal, &data).await?;
-            info!(bookmark_id = bid, "stored new bookmark row in Surreal (x_bookmarks)");
+            info!(
+                bookmark_id = bid,
+                table = SURREAL_X_BOOKMARKS_TABLE,
+                "stored new bookmark row in Surreal"
+            );
 
             is_deleting.store(true, Ordering::SeqCst);
             let delete_outcome = async {
