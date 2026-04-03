@@ -18,7 +18,7 @@ Update the existing `xbookmark-puller` crate in Alt-AI-Labs/xbookmark-puller/ to
 3. Keep all existing good parts:
    - All code stays in a single `src/main.rs` (no splitting yet).
    - tracing + JSON logs, reconnect/backoff on MCP failures, graceful SIGTERM/SIGINT shutdown.
-   - Same env vars: `X_BEARER_TOKEN`, `X_USER_ID`, `SURREAL_MCP_URL`, optional `SURREAL_MCP_AUTH_TOKEN`, `PULL_INTERVAL_MINUTES` (default 15, min 1).
+   - Same env vars: `X_MCP_URL`, optional `X_MCP_AUTH_TOKEN`, `SURREAL_MCP_URL`, optional `SURREAL_MCP_AUTH_TOKEN`, `NAMESPACE`/`DATABASE`, `PULL_INTERVAL_MINUTES` (default 15, min 1). (xbookmark-puller talks to xapimcp only; it does **not** use `X_BEARER_TOKEN` / `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET`.)
    - Same `Cargo.toml` dependencies (just ensure the MCP client for xapimcp is present and used).
 
 4. Improve SurrealDB existence check if the current heuristic (string search for "id") is fragile — switch to a clean SurrealMCP query that returns a proper count or boolean (e.g. `SELECT count() FROM x_bookmarks WHERE bookmark_id = $id` and parse the result reliably).

@@ -2,7 +2,6 @@ use crate::config::ServerConfig;
 use anyhow::Context;
 use anyhow::Result;
 use reqwest::{Client, Url};
-use reqwest_oauth1::OAuthClientProvider;
 use rmcp::model::ErrorData as McpError;
 use std::sync::LazyLock;
 use tracing::info;
@@ -13,33 +12,15 @@ pub fn http_client() -> &'static Client {
     &HTTP_CLIENT
 }
 
-fn bearer_token_fingerprint(token: &str) -> String {
-    let chars: Vec<char> = token.chars().collect();
-    if chars.len() <= 10 {
-        return token.to_string();
-    }
-    let first: String = chars.iter().take(5).copied().collect();
-    let last: String = chars.iter().rev().take(5).copied().collect::<Vec<_>>().into_iter().rev().collect();
-    format!("{first}...{last}")
-}
-
-fn oauth_secrets(config: &ServerConfig) -> Result<reqwest_oauth1::Secrets<'_>> {
-    Ok(
-        reqwest_oauth1::Secrets::new(config.x_consumer_key.as_str(), config.consumer_secret()?)
-            .token(
-                config.x_access_token.as_str(),
-                config.x_access_token_secret.as_str(),
-            ),
-    )
-}
-
 pub async fn fetch_authenticated_user_id(config: &ServerConfig) -> anyhow::Result<String> {
     let url = "https://api.x.com/2/users/me?user.fields=id";
-    let secrets = oauth_secrets(config)?;
+    let token = config
+        .get_valid_x_access_token()
+        .await
+        .map_err(|e| anyhow::anyhow!(e.message.into_owned()))?;
     let resp = http_client()
-        .clone()
-        .oauth1(secrets)
         .get(url)
+        .bearer_auth(token)
         .send()
         .await
         .context("X API GET /2/users/me failed")?;
@@ -64,9 +45,10 @@ pub async fn get_my_bookmarks(
 ) -> Result<serde_json::Value, McpError> {
     info!(
         x_user_id = config.user_id(),
-        x_access_token_preview = %bearer_token_fingerprint(&config.x_access_token),
-        "xapimcp auth context for get_my_bookmarks"
+        x_access_token = "present",
+        "xapimcp auth context for get_my_bookmarks (token redacted)"
     );
+    let token = config.get_valid_x_access_token().await?;
     let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
     let mut url = Url::parse_with_params(
         &base,
@@ -89,12 +71,9 @@ pub async fn get_my_bookmarks(
         url.query_pairs_mut().append_pair("pagination_token", &token);
     }
 
-    let secrets = oauth_secrets(config)
-        .map_err(|e| McpError::internal_error(format!("OAuth1 secrets error: {}", e), None))?;
     let resp = http_client()
-        .clone()
-        .oauth1(secrets)
         .get(url)
+        .bearer_auth(token)
         .send()
         .await
         .map_err(|e| {
@@ -121,10 +100,11 @@ pub async fn get_my_bookmarks(
 pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<serde_json::Value, McpError> {
     info!(
         x_user_id = config.user_id(),
-        x_access_token_preview = %bearer_token_fingerprint(&config.x_access_token),
+        x_access_token = "present",
         tweet_id = %tweet_id,
-        "xapimcp auth context for delete_bookmark"
+        "xapimcp auth context for delete_bookmark (token redacted)"
     );
+    let token = config.get_valid_x_access_token().await?;
     let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
     let mut url =
         Url::parse(&base).map_err(|e| McpError::internal_error(format!("Invalid delete URL: {}", e), None))?;
@@ -135,12 +115,9 @@ pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<
         segments.push(&tweet_id);
     }
 
-    let secrets = oauth_secrets(config)
-        .map_err(|e| McpError::internal_error(format!("OAuth1 secrets error: {}", e), None))?;
     let resp = http_client()
-        .clone()
-        .oauth1(secrets)
         .delete(url)
+        .bearer_auth(token)
         .send()
         .await
         .map_err(|e| {
@@ -170,10 +147,11 @@ pub async fn get_replies_to_tweet(
 ) -> Result<serde_json::Value, McpError> {
     info!(
         x_user_id = config.user_id(),
-        x_access_token_preview = %bearer_token_fingerprint(&config.x_access_token),
+        x_access_token = "present",
         tweet_id = %tweet_id,
-        "xapimcp auth context for get_replies_to_tweet"
+        "xapimcp auth context for get_replies_to_tweet (token redacted)"
     );
+    let token = config.get_valid_x_access_token().await?;
     let query = format!("conversation_id:{}", tweet_id);
     let url = Url::parse_with_params(
         "https://api.x.com/2/tweets/search/recent",
@@ -194,12 +172,9 @@ pub async fn get_replies_to_tweet(
     )
     .map_err(|e| McpError::internal_error(format!("Invalid replies URL: {}", e), None))?;
 
-    let secrets = oauth_secrets(config)
-        .map_err(|e| McpError::internal_error(format!("OAuth1 secrets error: {}", e), None))?;
     let resp = http_client()
-        .clone()
-        .oauth1(secrets)
         .get(url)
+        .bearer_auth(token)
         .send()
         .await
         .map_err(|e| {

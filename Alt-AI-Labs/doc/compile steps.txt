@@ -1,0 +1,15 @@
+podman image prune -a -f
+podman build --no-cache --security-opt label=disable --target build-debug -t xapimcp-dev xapimcp/.
+podman create --replace --name tmp-dev xapimcp-dev && podman cp tmp-dev:/xapimcp/xapimcp ./xapimcp
+sudo mv ./xapimcp/xapimcp /usr/local/bin/
+
+
+podman image prune -a -f
+podman build --no-cache --security-opt label=disable --target build-debug -t xbookmark-puller-dev xbookmark-puller/.
+podman create --replace --name tmp-dev xbookmark-puller-dev && podman cp tmp-dev:/xbookmark-puller/xbookmark-puller ./xbookmark-puller
+sudo mv ./xbookmark-puller/xbookmark-puller /usr/local/bin/
+
+
+export NAMESPACE="bookmarks"
+export DATABASE="v1"
+SURREAL_MCP_URL=http://127.0.0.1:8800/mcp X_MCP_URL=http://127.0.0.1:8090/mcp ./xbookmark-puller --dry-run
