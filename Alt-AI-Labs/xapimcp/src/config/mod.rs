@@ -201,9 +201,20 @@ impl ServerConfig {
         Ok(())
     }
 
-    pub fn user_id(&self) -> &str {
-        self.x_user_id
-            .as_deref()
-            .expect("x_user_id must be set after ensure_x_user_id")
+    pub fn user_id(&self) -> Result<&str, McpError> {
+        let Some(s) = self.x_user_id.as_deref() else {
+            return Err(McpError::internal_error(
+                "X_USER_ID is not set — run ensure_x_user_id after X auth succeeds".to_string(),
+                None,
+            ));
+        };
+        let t = s.trim();
+        if t.is_empty() {
+            return Err(McpError::internal_error(
+                "X_USER_ID is not set — run ensure_x_user_id after X auth succeeds".to_string(),
+                None,
+            ));
+        }
+        Ok(t)
     }
 }

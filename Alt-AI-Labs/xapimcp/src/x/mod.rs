@@ -43,13 +43,14 @@ pub async fn get_my_bookmarks(
     config: &ServerConfig,
     pagination_token: Option<String>,
 ) -> Result<serde_json::Value, McpError> {
+    let uid = config.user_id()?;
     info!(
-        x_user_id = config.user_id(),
+        x_user_id = uid,
         x_access_token = "present",
         "xapimcp auth context for get_my_bookmarks (token redacted)"
     );
     let token = config.get_valid_x_access_token().await?;
-    let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
+    let base = format!("https://api.x.com/2/users/{uid}/bookmarks");
     let mut url = Url::parse_with_params(
         &base,
         &[
@@ -98,14 +99,15 @@ pub async fn get_my_bookmarks(
 }
 
 pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<serde_json::Value, McpError> {
+    let uid = config.user_id()?;
     info!(
-        x_user_id = config.user_id(),
+        x_user_id = uid,
         x_access_token = "present",
         tweet_id = %tweet_id,
         "xapimcp auth context for delete_bookmark (token redacted)"
     );
     let token = config.get_valid_x_access_token().await?;
-    let base = format!("https://api.x.com/2/users/{}/bookmarks", config.user_id());
+    let base = format!("https://api.x.com/2/users/{uid}/bookmarks");
     let mut url =
         Url::parse(&base).map_err(|e| McpError::internal_error(format!("Invalid delete URL: {}", e), None))?;
     {
@@ -145,8 +147,9 @@ pub async fn get_replies_to_tweet(
     config: &ServerConfig,
     tweet_id: String,
 ) -> Result<serde_json::Value, McpError> {
+    let uid = config.user_id()?;
     info!(
-        x_user_id = config.user_id(),
+        x_user_id = uid,
         x_access_token = "present",
         tweet_id = %tweet_id,
         "xapimcp auth context for get_replies_to_tweet (token redacted)"

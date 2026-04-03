@@ -13,9 +13,10 @@ use rmcp::{
 };
 use std::sync::Arc;
 use tokio::io::{stdin, stdout};
+use tokio::sync::Mutex;
 
-pub async fn start_server(mut config: ServerConfig) -> Result<()> {
-    config.ensure_x_user_id().await?;
+pub async fn start_server(config: ServerConfig) -> Result<()> {
+    tracing::info!("xapimcp starting (X auth is lazy: failures surface on tool calls, not process exit)");
     match config.bind_address.clone() {
         Some(addr) => start_http_server(config, &addr).await,
         None => start_stdio_server(config).await,
@@ -24,7 +25,7 @@ pub async fn start_server(mut config: ServerConfig) -> Result<()> {
 
 async fn start_stdio_server(config: ServerConfig) -> Result<()> {
     tracing::info!("Starting xapimcp (stdio transport)");
-    let server = XServer::new(config);
+    let server = XServer::new(Arc::new(Mutex::new(config)));
     let service = server.serve((stdin(), stdout())).await?;
     tracing::info!("xapimcp ready (stdio)");
     service.waiting().await?;
@@ -48,8 +49,12 @@ async fn start_http_server(config: ServerConfig, bind_address: &str) -> Result<(
 
     let session_manager = Arc::new(LocalSessionManager::default());
 
+    let shared_config = Arc::new(Mutex::new(config));
     let mcp_service = StreamableHttpService::new(
-        move || Ok(XServer::new(config.clone())),
+        {
+            let shared_config = shared_config.clone();
+            move || Ok(XServer::new(shared_config.clone()))
+        },
         session_manager,
         StreamableHttpServerConfig {
             stateful_mode: true,
@@ -78,7 +83,7 @@ async fn shutdown_signal() {
 
 #[derive(Clone)]
 pub struct XServer {
-    config: ServerConfig,
+    config: Arc<Mutex<ServerConfig>>,
     tool_router: ToolRouter<Self>,
 }
 
@@ -99,11 +104,18 @@ impl ServerHandler for XServer {
 
 #[tool_router(router = tool_router)]
 impl XServer {
-    pub fn new(config: ServerConfig) -> Self {
+    pub fn new(config: Arc<Mutex<ServerConfig>>) -> Self {
         Self {
             config,
             tool_router: Self::tool_router(),
         }
+    }
+
+    async fn ensure_x_ready(&self) -> Result<(), rmcp::ErrorData> {
+        let mut cfg = self.config.lock().await;
+        cfg.ensure_x_user_id()
+            .await
+            .map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))
     }
 
     #[tool(description = "Get your personal X.com bookmarks (returns full tweet data)")]
@@ -111,7 +123,9 @@ impl XServer {
         &self,
         params: Parameters<GetMyBookmarksRequest>,
     ) -> Result<CallToolResult, rmcp::ErrorData> {
-        let data = x::get_my_bookmarks(&self.config, params.0.pagination_token).await?;
+        self.ensure_x_ready().await?;
+        let cfg = self.config.lock().await;
+        let data = x::get_my_bookmarks(&cfg, params.0.pagination_token).await?;
         let text = serde_json::to_string_pretty(&data)
             .unwrap_or_else(|_| "Bookmarks retrieved".to_string());
         Ok(CallToolResult::success(vec![Content::text(text)]))
@@ -122,7 +136,9 @@ impl XServer {
         &self,
         params: Parameters<DeleteBookmarkRequest>,
     ) -> Result<CallToolResult, rmcp::ErrorData> {
-        let data = x::delete_bookmark(&self.config, params.0.tweet_id).await?;
+        self.ensure_x_ready().await?;
+        let cfg = self.config.lock().await;
+        let data = x::delete_bookmark(&cfg, params.0.tweet_id).await?;
         let text = serde_json::to_string_pretty(&data)
             .unwrap_or_else(|_| "Bookmark deleted".to_string());
         Ok(CallToolResult::success(vec![Content::text(text)]))
@@ -133,7 +149,9 @@ impl XServer {
         &self,
         params: Parameters<GetRepliesRequest>,
     ) -> Result<CallToolResult, rmcp::ErrorData> {
-        let data = x::get_replies_to_tweet(&self.config, params.0.tweet_id).await?;
+        self.ensure_x_ready().await?;
+        let cfg = self.config.lock().await;
+        let data = x::get_replies_to_tweet(&cfg, params.0.tweet_id).await?;
         let text = serde_json::to_string_pretty(&data)
             .unwrap_or_else(|_| "Replies retrieved".to_string());
         Ok(CallToolResult::success(vec![Content::text(text)]))
