@@ -73,6 +73,9 @@ type InfoDirectRateLimiter = RateLimiter<
 /// `SELECT … FROM {table}` in `query` — keep a single source of truth.
 const SURREAL_X_BOOKMARKS_TABLE: &str = "x_bookmarks";
 
+/// `SELECT … FROM x_bookmarks` fails with "table does not exist" until the first `CREATE`; log once.
+static SURREAL_TABLE_MISSING_LOGGED: AtomicBool = AtomicBool::new(false);
+
 fn env_one_of(keys: &[&str], label: &str) -> Result<String> {
     for k in keys {
         if let Ok(v) = std::env::var(k) {
@@ -345,6 +348,18 @@ fn parse_count_from_surreal_debug(text: &str) -> Option<u64> {
         return None;
     }
 
+    // SurrealMCP / driver `Debug`: zero rows (e.g. no matching `bookmark_id`).
+    if trimmed.contains("Ok(Array(Array([])))") || trimmed.contains("Ok(Array(Array([ ])))") {
+        return Some(0);
+    }
+    // Loose match: empty inner array after Array(Array(
+    if let Some(pos) = trimmed.find("Array(Array([") {
+        let after = &trimmed[pos + "Array(Array([".len()..];
+        if after.starts_with("])") || after.starts_with(" ])") {
+            return Some(0);
+        }
+    }
+
     if let Ok(v) = serde_json::from_str::<Value>(trimmed) {
         if let Some(n) = parse_count_from_json_value(&v) {
             return Some(n);
@@ -454,6 +469,17 @@ async fn surreal_query_exists(surreal: &ClientPeer, bookmark_id: &str) -> Result
 
     mcp_ensure_ok_surreal(&res).context("SurrealMCP query result")?;
     let text = mcp_tool_text(&res);
+    // Empty NS/DB: table isn't defined until the first `CREATE`. Query returns an error, not
+    // "count 0". Treat as "row absent" so bootstrap works; do not `bail!` (that would block creation).
+    if text.contains("does not exist") && text.contains(SURREAL_X_BOOKMARKS_TABLE) {
+        if !SURREAL_TABLE_MISSING_LOGGED.swap(true, Ordering::Relaxed) {
+            info!(
+                table = %SURREAL_X_BOOKMARKS_TABLE,
+                "Surreal: table not defined yet (empty database). First successful CREATE defines it; until then existence checks see this error and are treated as not found."
+            );
+        }
+        return Ok(false);
+    }
     let Some(count) = parse_count_from_surreal_debug(&text) else {
         warn!(
             bookmark_id,
@@ -535,7 +561,7 @@ async fn run_surreal_write_test(cfg: SurrealTestConfig) -> Result<()> {
     );
     data.insert("author".to_string(), json!(""));
     data.insert("created_at".to_string(), json!(Utc::now().to_rfc3339()));
-    data.insert("raw_json".to_string(), json!("{}"));
+    data.insert("raw_json".to_string(), json!({}));
     data.insert("pulled_at".to_string(), json!(Utc::now().to_rfc3339()));
     data.insert("processed".to_string(), json!(false));
 
@@ -765,9 +791,12 @@ async fn run_pull_cycle(
     info!("stage: pull cycle started");
     let mut token: Option<String> = None;
     let mut deletes_this_run: u32 = 0;
+    // Each iteration is one xapimcp `get_my_bookmarks` call → one X bookmark-list request (paginated).
+    let mut get_my_bookmarks_pages: u32 = 0;
 
     loop {
         let page = x_get_bookmarks_page(x, token.as_deref(), rl, is_deleting).await?;
+        get_my_bookmarks_pages = get_my_bookmarks_pages.saturating_add(1);
         let includes = page.get("includes");
         let tweets = page
             .get("data")
@@ -801,7 +830,6 @@ async fn run_pull_cycle(
                 .and_then(|x| x.as_str())
                 .unwrap_or("")
                 .to_string();
-            let raw_json = serde_json::to_string(tweet).unwrap_or_else(|_| "{}".to_string());
             let pulled_at = Utc::now().to_rfc3339();
 
             let mut data = JsonObject::new();
@@ -810,7 +838,8 @@ async fn run_pull_cycle(
             data.insert("url".to_string(), json!(url));
             data.insert("author".to_string(), json!(author));
             data.insert("created_at".to_string(), json!(created_at));
-            data.insert("raw_json".to_string(), json!(raw_json));
+            // Store the tweet as a nested object (not a JSON string) for Surreal/inspection.
+            data.insert("raw_json".to_string(), tweet.clone());
             data.insert("pulled_at".to_string(), json!(pulled_at));
             data.insert("processed".to_string(), json!(false));
 
@@ -868,6 +897,12 @@ async fn run_pull_cycle(
         }
         token = next;
     }
+
+    info!(
+        get_my_bookmarks_pages,
+        dry_run = cfg.dry_run,
+        "pull cycle finished bookmark list fetch (each page is one X bookmark-list API call; dry_run skips delete_bookmark only)"
+    );
 
     Ok(())
 }
