@@ -360,10 +360,10 @@ fn parse_count_from_surreal_debug(text: &str) -> Option<u64> {
         }
     }
 
-    if let Ok(v) = serde_json::from_str::<Value>(trimmed) {
-        if let Some(n) = parse_count_from_json_value(&v) {
-            return Some(n);
-        }
+    if let Ok(v) = serde_json::from_str::<Value>(trimmed)
+        && let Some(n) = parse_count_from_json_value(&v)
+    {
+        return Some(n);
     }
 
     for key in ["\"count\": Number(Int(", "count: Number(Int(", "\"c\": Number(Int(", "c: Number(Int("] {
@@ -690,28 +690,28 @@ async fn x_get_bookmarks_page(
         let text = mcp_tool_text(&res).trim().to_string();
         let v: Value = serde_json::from_str(&text).context("parse xapimcp get_my_bookmarks JSON")?;
 
-        if let Some(errs) = v.get("errors").and_then(|e| e.as_array()) {
-            if !errs.is_empty() {
-                if let Some(fatal) = x_errors_fatal_non_rate_limit_429(errs) {
-                    bail!("X API (via xapimcp): {fatal}");
-                }
-                if x_errors_all_documented_rate_limits(errs) {
-                    if attempt >= 5 {
-                        bail!("X API rate limit (via xapimcp): exceeded fallback retries");
-                    }
-                    warn!(
-                        attempt,
-                        "429 rate-limit fallback after governor; short sleep and retry"
-                    );
-                    attempt = attempt.saturating_add(1);
-                    tokio::time::sleep(Duration::from_secs(2)).await;
-                    continue;
-                }
-                let first = &errs[0];
-                let title = first.get("title").and_then(|t| t.as_str()).unwrap_or("error");
-                let detail = first.get("detail").and_then(|t| t.as_str()).unwrap_or("");
-                bail!("X API (via xapimcp): {title} — {detail}");
+        if let Some(errs) = v.get("errors").and_then(|e| e.as_array())
+            && !errs.is_empty()
+        {
+            if let Some(fatal) = x_errors_fatal_non_rate_limit_429(errs) {
+                bail!("X API (via xapimcp): {fatal}");
             }
+            if x_errors_all_documented_rate_limits(errs) {
+                if attempt >= 5 {
+                    bail!("X API rate limit (via xapimcp): exceeded fallback retries");
+                }
+                warn!(
+                    attempt,
+                    "429 rate-limit fallback after governor; short sleep and retry"
+                );
+                attempt = attempt.saturating_add(1);
+                tokio::time::sleep(Duration::from_secs(2)).await;
+                continue;
+            }
+            let first = &errs[0];
+            let title = first.get("title").and_then(|t| t.as_str()).unwrap_or("error");
+            let detail = first.get("detail").and_then(|t| t.as_str()).unwrap_or("");
+            bail!("X API (via xapimcp): {title} — {detail}");
         }
 
         return Ok(v);
@@ -748,29 +748,29 @@ async fn x_delete_bookmark_mcp(
         let text = mcp_tool_text(&res).trim().to_string();
         let v: Value = serde_json::from_str(&text).context("parse xapimcp delete_bookmark JSON")?;
 
-        if let Some(errs) = v.get("errors").and_then(|e| e.as_array()) {
-            if !errs.is_empty() {
-                if let Some(fatal) = x_errors_fatal_non_rate_limit_429(errs) {
-                    bail!("X delete (via xapimcp): {fatal}");
-                }
-                if x_errors_all_documented_rate_limits(errs) {
-                    if attempt >= 5 {
-                        bail!("X delete rate limit (via xapimcp): exceeded fallback retries");
-                    }
-                    warn!(
-                        tweet_id,
-                        attempt,
-                        "429 rate-limit fallback on delete after governor; short sleep and retry"
-                    );
-                    attempt = attempt.saturating_add(1);
-                    tokio::time::sleep(Duration::from_secs(2)).await;
-                    continue;
-                }
-                let first = &errs[0];
-                let title = first.get("title").and_then(|t| t.as_str()).unwrap_or("error");
-                let detail = first.get("detail").and_then(|t| t.as_str()).unwrap_or("");
-                bail!("X delete (via xapimcp): {title} — {detail}");
+        if let Some(errs) = v.get("errors").and_then(|e| e.as_array())
+            && !errs.is_empty()
+        {
+            if let Some(fatal) = x_errors_fatal_non_rate_limit_429(errs) {
+                bail!("X delete (via xapimcp): {fatal}");
             }
+            if x_errors_all_documented_rate_limits(errs) {
+                if attempt >= 5 {
+                    bail!("X delete rate limit (via xapimcp): exceeded fallback retries");
+                }
+                warn!(
+                    tweet_id,
+                    attempt,
+                    "429 rate-limit fallback on delete after governor; short sleep and retry"
+                );
+                attempt = attempt.saturating_add(1);
+                tokio::time::sleep(Duration::from_secs(2)).await;
+                continue;
+            }
+            let first = &errs[0];
+            let title = first.get("title").and_then(|t| t.as_str()).unwrap_or("error");
+            let detail = first.get("detail").and_then(|t| t.as_str()).unwrap_or("");
+            bail!("X delete (via xapimcp): {title} — {detail}");
         }
 
         return Ok(());
@@ -982,7 +982,7 @@ async fn main() -> Result<()> {
         "stage: calling SurrealMCP use_namespace then use_database"
     );
     surreal_apply_namespace_database(
-        &surreal_svc.peer(),
+        surreal_svc.peer(),
         &cfg.surreal_namespace,
         &cfg.surreal_database,
     )
@@ -1061,7 +1061,7 @@ async fn main() -> Result<()> {
                                 surreal_svc = new_s;
                                 x_svc = new_x;
                                 if let Err(e) = surreal_apply_namespace_database(
-                                    &surreal_svc.peer(),
+                                    surreal_svc.peer(),
                                     &cfg.surreal_namespace,
                                     &cfg.surreal_database,
                                 )

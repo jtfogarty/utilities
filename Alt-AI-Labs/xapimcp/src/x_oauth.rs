@@ -12,9 +12,9 @@
 //! No interactive auth is performed on the headless server.
 
 use oauth2::{
-    AuthUrl, ClientId, ClientSecret, RefreshToken, RequestTokenError, TokenResponse, TokenUrl,
-    basic::{BasicErrorResponse, BasicErrorResponseType, BasicClient},
-    reqwest::AsyncHttpClientError,
+    AuthUrl, ClientId, ClientSecret, EndpointNotSet, EndpointSet, HttpClientError, RedirectUrl,
+    RefreshToken, RequestTokenError, TokenResponse, TokenUrl,
+    basic::{self, BasicClient, BasicErrorResponse, BasicErrorResponseType},
 };
 use rmcp::model::ErrorData as McpError;
 
@@ -48,28 +48,31 @@ impl XOAuthClient {
         })
     }
 
-    fn oauth_client(&self) -> Result<BasicClient, McpError> {
+    fn oauth_client(
+        &self,
+    ) -> Result<
+        basic::BasicClient<EndpointSet, EndpointNotSet, EndpointNotSet, EndpointNotSet, EndpointSet>,
+        McpError,
+    > {
         let auth_url = AuthUrl::new("https://x.com/i/oauth2/authorize".to_string())
             .map_err(|e| McpError::internal_error(format!("Invalid authorize URL: {e}"), None))?;
         let token_url = TokenUrl::new("https://api.x.com/2/oauth2/token".to_string())
             .map_err(|e| McpError::internal_error(format!("Invalid token URL: {e}"), None))?;
 
-        Ok(BasicClient::new(
-            self.client_id.clone(),
-            Some(self.client_secret.clone()),
-            auth_url,
-            Some(token_url),
-        )
-        .set_redirect_uri(
-            oauth2::RedirectUrl::new(self.redirect_uri.clone()).map_err(|e| {
-                McpError::internal_error(format!("Invalid redirect URI: {e}"), None)
-            })?,
-        ))
+        Ok(BasicClient::new(self.client_id.clone())
+            .set_client_secret(self.client_secret.clone())
+            .set_auth_uri(auth_url)
+            .set_token_uri(token_url)
+            .set_redirect_uri(
+                RedirectUrl::new(self.redirect_uri.clone()).map_err(|e| {
+                    McpError::internal_error(format!("Invalid redirect URI: {e}"), None)
+                })?,
+            ))
     }
 }
 
 fn format_refresh_token_error(
-    e: RequestTokenError<AsyncHttpClientError, BasicErrorResponse>,
+    e: RequestTokenError<HttpClientError<reqwest::Error>, BasicErrorResponse>,
 ) -> String {
     match e {
         RequestTokenError::ServerResponse(resp) => {
@@ -88,7 +91,9 @@ fn format_refresh_token_error(
             }
             s
         }
-        RequestTokenError::Request(re) => format!("X POST /2/oauth2/token HTTP error: {re}"),
+        RequestTokenError::Request(re) => {
+            format!("X POST /2/oauth2/token HTTP error: {re}")
+        }
         RequestTokenError::Parse(pe, body) => format!(
             "X POST /2/oauth2/token: failed to parse response ({pe}); body={}",
             String::from_utf8_lossy(&body)
@@ -112,9 +117,14 @@ pub async fn refresh_access_token(
     let oauth = client.oauth_client()?;
     let refresh_token = RefreshToken::new(rt.to_string());
 
+    let http_client = reqwest::Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .build()
+        .map_err(|e| McpError::internal_error(format!("oauth2 reqwest client: {e}"), None))?;
+
     let token_res = oauth
         .exchange_refresh_token(&refresh_token)
-        .request_async(oauth2::reqwest::async_http_client)
+        .request_async(&http_client)
         .await
         .map_err(|e| McpError::internal_error(format_refresh_token_error(e), None))?;
 

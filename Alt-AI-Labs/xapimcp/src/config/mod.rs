@@ -52,9 +52,9 @@ fn normalize_refresh_token(raw: &str) -> String {
     let line = s.lines().find(|l| !l.trim().is_empty()).unwrap_or("").trim();
     let mut t = line.to_string();
     if t.len() >= 2 {
-        if t.starts_with('"') && t.ends_with('"') {
-            t = t[1..t.len() - 1].trim().to_string();
-        } else if t.starts_with('\'') && t.ends_with('\'') {
+        let quoted_double = t.starts_with('"') && t.ends_with('"');
+        let quoted_single = t.starts_with('\'') && t.ends_with('\'');
+        if quoted_double || quoted_single {
             t = t[1..t.len() - 1].trim().to_string();
         }
     }

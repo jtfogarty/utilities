@@ -4,8 +4,9 @@ mod dotenv_load;
 
 use axum::{Router, extract::Query, routing::get};
 use oauth2::{
-    AuthorizationCode, CsrfToken, PkceCodeChallenge, PkceCodeVerifier, Scope, TokenResponse,
-    basic::BasicClient, AuthUrl, TokenUrl, ClientId, ClientSecret, RedirectUrl,
+    AuthUrl, AuthorizationCode, ClientId, ClientSecret, CsrfToken, PkceCodeChallenge, RedirectUrl,
+    Scope, TokenResponse, TokenUrl,
+    basic::BasicClient,
 };
 use serde::Deserialize;
 use std::net::SocketAddr;
@@ -58,13 +59,11 @@ async fn main() -> anyhow::Result<()> {
     let auth_url = AuthUrl::new("https://x.com/i/oauth2/authorize".to_string())?;
     let token_url = TokenUrl::new("https://api.x.com/2/oauth2/token".to_string())?;
 
-    let client = BasicClient::new(
-        ClientId::new(client_id),
-        Some(ClientSecret::new(client_secret)),
-        auth_url,
-        Some(token_url),
-    )
-    .set_redirect_uri(RedirectUrl::new(redirect_uri.clone())?);
+    let client = BasicClient::new(ClientId::new(client_id))
+        .set_client_secret(ClientSecret::new(client_secret))
+        .set_auth_uri(auth_url)
+        .set_token_uri(token_url)
+        .set_redirect_uri(RedirectUrl::new(redirect_uri.clone())?);
 
     let (pkce_challenge, pkce_verifier) = PkceCodeChallenge::new_random_sha256();
 
@@ -113,10 +112,14 @@ async fn main() -> anyhow::Result<()> {
         anyhow::bail!("CSRF state mismatch (expected {}, got {})", csrf_state.secret(), state);
     }
 
+    let http_client = reqwest::Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .build()?;
+
     let token_res = client
         .exchange_code(AuthorizationCode::new(code))
-        .set_pkce_verifier(PkceCodeVerifier::new(pkce_verifier.secret().to_string()))
-        .request_async(oauth2::reqwest::async_http_client)
+        .set_pkce_verifier(pkce_verifier)
+        .request_async(&http_client)
         .await?;
 
     let refresh = token_res
