@@ -790,18 +790,21 @@ fn backoff_secs(attempt: u32) -> u64 {
     (1u64 << attempt.min(8)).min(300)
 }
 
+/// Returns the total number of bookmarks fetched across all pages.
+/// Returns `0` when X reports an empty bookmark list (no data, no next_token).
 async fn run_pull_cycle(
     surreal: &ClientPeer,
     x: &ClientPeer,
     rl: &RateLimitTracker,
     cfg: &Config,
     is_deleting: &AtomicBool,
-) -> Result<()> {
+) -> Result<u32> {
     info!("stage: pull cycle started");
     let mut token: Option<String> = None;
     let mut deletes_this_run: u32 = 0;
     // Each iteration is one xapimcp `get_my_bookmarks` call → one X bookmark-list request (paginated).
     let mut get_my_bookmarks_pages: u32 = 0;
+    let mut total_bookmarks_seen: u32 = 0;
 
     loop {
         let page = x_get_bookmarks_page(x, token.as_deref(), rl, is_deleting).await?;
@@ -812,6 +815,20 @@ async fn run_pull_cycle(
             .and_then(|d| d.as_array())
             .cloned()
             .unwrap_or_default();
+
+        // On the very first page, if X returned no bookmarks and there is no
+        // pagination token, the bookmark list is empty. Exit early so we don't
+        // keep running (and billing) when there is nothing to do.
+        if get_my_bookmarks_pages == 1 && tweets.is_empty() {
+            let next_check = page
+                .get("meta")
+                .and_then(|m| m.get("next_token"))
+                .and_then(|t| t.as_str());
+            if next_check.is_none() {
+                info!("X returned zero bookmarks and no pagination token — nothing to do; exiting");
+                return Ok(0);
+            }
+        }
 
         for tweet in &tweets {
             let Some(bid) = tweet.get("id").and_then(|x| x.as_str()) else {
@@ -895,6 +912,8 @@ async fn run_pull_cycle(
             }
         }
 
+        total_bookmarks_seen = total_bookmarks_seen.saturating_add(tweets.len() as u32);
+
         let next = page
             .get("meta")
             .and_then(|m| m.get("next_token"))
@@ -909,11 +928,12 @@ async fn run_pull_cycle(
 
     info!(
         get_my_bookmarks_pages,
+        total_bookmarks_seen,
         dry_run = cfg.dry_run,
         "pull cycle finished bookmark list fetch (each page is one X bookmark-list API call; dry_run skips delete_bookmark only)"
     );
 
-    Ok(())
+    Ok(total_bookmarks_seen)
 }
 
 #[tokio::main]
@@ -1044,7 +1064,15 @@ async fn main() -> Result<()> {
                 let surreal = surreal_svc.peer();
                 let x = x_svc.peer();
                 match run_pull_cycle(surreal, x, rate_limits.as_ref(), cfg.as_ref(), is_deleting.as_ref()).await {
-                    Ok(()) => {
+                    Ok(0) => {
+                        // X returned no bookmarks — nothing left to archive.
+                        // Close connections and exit cleanly so we stop billing.
+                        info!("no bookmarks found; shutting down to avoid unnecessary API calls");
+                        let _ = surreal_svc.close().await;
+                        let _ = x_svc.close().await;
+                        return Ok(());
+                    }
+                    Ok(_) => {
                         mcp_attempt = 0;
                         info!("pull cycle finished");
                     }
