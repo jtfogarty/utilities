@@ -11,7 +11,8 @@ stateless MCP wrapper over the X API — **no** rate-limit logic lives there.
 
 - Two independent **GCRA** limiters (`governor::RateLimiter` + `StateInformationMiddleware`):
   - **GET** `get_my_bookmarks` → **180** cells / **15 min** window (`Quota::new(180, 15 min)`).
-  - **DELETE** `delete_bookmark` → **50** cells / **15 min** window (`Quota::new(50, 15 min)`).
+  - **DELETE** `delete_bookmark` → **50** cells / **15 min** window (`Quota::new(50, 15 min)`),
+    burst capped at **5** to prevent exhausting the X API window on the first run.
 - Before each MCP call, the client **waits** until the matching limiter grants a cell. Waits use
   `NotUntil::wait_time_from(Instant::now())` plus **±10%** jitter (via `rand`) on the sleep duration
   to reduce thundering herds.
@@ -194,7 +195,7 @@ impl RateLimitTracker {
             .allow_burst(NonZeroU32::new(180).expect("180"));
         let del_quota = Quota::with_period(Duration::from_secs(18))
             .expect("DELETE quota period")
-            .allow_burst(NonZeroU32::new(50).expect("50"));
+            .allow_burst(NonZeroU32::new(5).expect("5"));
 
         let clock = Arc::new(DefaultClock::default());
         let get = Arc::new(
@@ -626,7 +627,15 @@ fn x_error_is_documented_rate_limit(e: &Value) -> bool {
         .unwrap_or("")
         .to_lowercase();
     title.contains("too many requests")
-        && (detail.contains("rate") || detail.contains("limit") || msg.contains("rate limit"))
+        && (
+            detail.contains("rate")
+                || detail.contains("limit")
+                || msg.contains("rate limit")
+                // X sometimes returns a bland 429 where both title and detail are just
+                // "Too Many Requests" with no "rate"/"limit" substring. Treat that as
+                // a retryable rate-limit response rather than a fatal error.
+                || detail.contains("too many requests")
+        )
 }
 
 fn x_errors_fatal_non_rate_limit_429(errs: &[Value]) -> Option<String> {
