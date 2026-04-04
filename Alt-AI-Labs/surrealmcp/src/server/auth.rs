@@ -249,6 +249,7 @@ struct JweHeader {
 }
 
 /// JWT header structure
+#[allow(dead_code)]
 #[derive(Debug, Serialize, Deserialize)]
 struct JwtHeader {
     /// The algorithm used to sign the token

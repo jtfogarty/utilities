@@ -18,7 +18,7 @@ use tracing::{debug, error, info, warn};
 
 use crate::logs::init_logging_and_metrics;
 use crate::server::auth::{TokenValidationConfig, require_bearer_auth};
-use crate::server::http::health;
+use crate::server::http::{ensure_mcp_response_content_type, health};
 use crate::server::limit::create_rate_limit_layer;
 use crate::tools::SurrealService;
 use crate::utils::{format_duration, generate_connection_id};
@@ -443,6 +443,8 @@ async fn start_http_server(config: ServerConfig) -> Result<()> {
             require_bearer_auth(config, req, next)
         }));
     }
+    // Outermost on response path: ensure /mcp replies include Content-Type (rmcp clients reject None).
+    router = router.layer(axum::middleware::from_fn(ensure_mcp_response_content_type));
     // Use the shared double ctrl-c handler
     let signal = handle_double_ctrl_c();
     // Serve the Axum router over HTTP

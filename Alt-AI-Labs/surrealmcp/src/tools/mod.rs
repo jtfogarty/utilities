@@ -1442,15 +1442,14 @@ It returns a list of namespaces with their names."#)]
                 // failures on SurrealDB v3 complex Value types (Duration, RecordId, etc.).
                 // INFO FOR ROOT returns Value::Object where "namespaces" is itself a
                 // Value::Object mapping name => definition string.
-                if let Some(Value::Object(root_obj)) = raw_val {
-                    if let Some(Value::Object(ns_map)) = root_obj.get("namespaces") {
+                if let Some(Value::Object(root_obj)) = raw_val
+                    && let Some(Value::Object(ns_map)) = root_obj.get("namespaces") {
                         for name in ns_map.keys() {
                             if !name.is_empty() {
                                 namespaces.push(serde_json::json!({ "name": name }));
                             }
                         }
                     }
-                }
                 // Convert the namespaces to a JSON object
                 let result = serde_json::json!({
                     "namespaces": namespaces,
@@ -1526,15 +1525,14 @@ It returns a list of databases with their names."#)]
                 // failures on SurrealDB v3 complex Value types.
                 // INFO FOR NS returns Value::Object where "databases" is itself a
                 // Value::Object mapping name => definition string.
-                if let Some(Value::Object(root_obj)) = raw_val {
-                    if let Some(Value::Object(db_map)) = root_obj.get("databases") {
+                if let Some(Value::Object(root_obj)) = raw_val
+                    && let Some(Value::Object(db_map)) = root_obj.get("databases") {
                         for name in db_map.keys() {
                             if !name.is_empty() {
                                 databases.push(serde_json::json!({ "name": name }));
                             }
                         }
                     }
-                }
                 // Convert the databases to a JSON object
                 let result = serde_json::json!({
                     "databases": databases,

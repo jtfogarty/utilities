@@ -1,5 +1,6 @@
 use axum::extract::Request;
-use axum::http::{Response, StatusCode};
+use axum::http::header::CONTENT_TYPE;
+use axum::http::{HeaderValue, Response, StatusCode};
 use governor::middleware::NoOpMiddleware;
 use metrics::counter;
 use tower_governor::{
@@ -73,9 +74,13 @@ impl KeyExtractor for RobustIpKeyExtractor {
             debug!(ip = ?addr.ip(), "Extracted IP address from socket");
             return Ok(addr.ip().to_string());
         }
-        // If we don't find an identifying key, use a default key
-        warn!("Could not extract IP address from request, using default key");
-        Ok("unknown".to_string())
+        // If we don't find an identifying key, generate a unique key per connection
+        // so that unidentified clients (e.g. local HTTP without proxy headers) each
+        // get their own rate-limit bucket instead of all sharing "unknown" and
+        // exhausting the burst limit on the very first initialize handshake.
+        let unique_key = format!("anon_{:x}_{:x}", rand::random::<u32>(), rand::random::<u32>());
+        warn!(key = %unique_key, "Could not extract IP address from request, using unique anonymous key");
+        Ok(unique_key)
     }
 }
 
@@ -100,9 +105,10 @@ pub fn create_rate_limit_layer(
         // Increment rate limit error metrics
         counter!("surrealmcp.total_errors").increment(1);
         counter!("surrealmcp.total_rate_limit_errors").increment(1);
-        // Return the error response
+        // Return the error response (rmcp HTTP clients require Content-Type on non-202 responses)
         Response::builder()
             .status(StatusCode::TOO_MANY_REQUESTS)
+            .header(CONTENT_TYPE, HeaderValue::from_static("text/plain; charset=utf-8"))
             .body("Rate limit exceeded".into())
             .unwrap()
     })

@@ -13,6 +13,7 @@ pub struct CloudSignInResponse {
 }
 
 /// A user in SurrealDB Cloud
+#[allow(dead_code)]
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CloudUser {
     pub id: String,
