@@ -1,0 +1,261 @@
+npx sv add tailwindcss
+
+# 3. Initialize shadcn-svelte (choose "dark" theme when prompted)
+npx shadcn-svelte@latest init
+
+# 4. Add core shadcn-svelte components
+npx shadcn-svelte@latest add sidebar card button input badge scroll-area separator tooltip sheet dialog command                    
+
+# 5. Add SurrealDB JS SDK
+npm install surrealdb
+
+# 6. Add Lucide icons
+npm install lucide-svelte
+
+# 7. Add Fuse.js for client-side fuzzy search
+npm install fuse.js
+
+# 8. Add Ollama JS client (local AI — no API key required)
+npm install ollama
+# Optional: Vercel AI SDK with Ollama provider if you want streaming helpers
+# npm install ai @ai-sdk/ollama
+
+# 9. Ensure Ollama is running locally with your chosen model
+# ollama pull llama3        # or mistral, phi3, etc.
+# ollama serve              # starts on http://localhost:11434
+
+# 10. Start the dev server                                    
+npm run dev
+Need to install the following packages:
+sv@0.14.0
+Ok to proceed? (y) y
+
+
+HINT: Run "sv --help" to get the full list of commands, add-ons, and examples to one-shot and skip interactive prompts.
+┌  Welcome to the Svelte CLI! (v0.14.0)
+│
+◇  Directory not empty. Continue?
+│  Yes
+│
+◆  Project created
+│
+◇  Which package manager do you want to install dependencies with?
+│  bun
+│
+│  To skip prompts next time, run:
+●  bun x sv@0.14.0 create --template minimal --types ts --install bun .
+│
+◆  Successfully installed dependencies with bun
+│
+◇  What's next? ───────────────────────────────╮
+│                                              │
+│  📁 Project steps                            │
+│                                              │
+│    1: bun run dev --open                     │
+│                                              │
+│  To close the dev server, hit Ctrl-C         │
+│                                              │
+│  Stuck? Visit us at https://svelte.dev/chat  │
+│                                              │
+├──────────────────────────────────────────────╯
+│
+└  You're all set!
+
+npm notice
+npm notice New minor version of npm available! 11.6.2 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+
+HINT: Run "sv --help" to get the full list of commands, add-ons, and examples to one-shot and skip interactive prompts.
+┌  Welcome to the Svelte CLI! (v0.14.0)
+│
+◇  Verifications not met ────────────────────────────╮
+│                                                    │
+│  - clean working directory (Found modified files)  │
+│                                                    │
+├────────────────────────────────────────────────────╯
+│
+◇  Verifications failed. Do you wish to continue?
+│  Yes
+│
+◇  Which plugins would you like to add?
+│  none
+│
+◆  Successfully setup add-ons: tailwindcss
+│
+◇  Which package manager do you want to install dependencies with?
+│  bun
+│
+│  To skip prompts next time, run:
+●  bun x sv@0.14.0 add tailwindcss="plugins:none" --install bun
+│
+◆  Successfully installed dependencies with bun
+│
+└  You're all set!
+
+Need to install the following packages:
+shadcn-svelte@1.2.7
+Ok to proceed? (y) 
+
+┌   shadcn-svelte  v1.2.7 
+│
+◇  You didn't provide a preset for the design system, how would you like to 
+│  continue?
+│  Choose from a list of pre-configured presets
+│
+◇  Choose from a list of pre-configured presets
+│  Vega - Lucide / Inter
+│
+◇  Where is your global CSS file? (this file will be overwritten)
+│  src/routes/layout.css
+│
+◇  Configure the import alias for lib:
+│  $lib
+│
+◇  Configure the import alias for components:
+│  $lib/components
+│
+◇  Configure the import alias for ui:
+│  $lib/components/ui
+│
+◇  Configure the import alias for utils:
+│  $lib/utils
+│
+◇  Configure the import alias for hooks:
+│  $lib/hooks
+│
+◇  Config file components.json created
+│
+◇  Alias paths validated
+│
+◇  utils installed at src/lib/utils
+│
+◇  font-inter installed at font-inter
+│
+◇  vega installed at vega
+│
+◇  Updates to your src/routes/layout.css are required. Existing CSS variables may be 
+overwritten. Continue?
+│  Yes
+│
+◇  Stylesheet updated at src/routes/layout.css
+│
+◆  Successfully installed dependencies
+│
+└  Success! Project initialization completed.
+
+┌   shadcn-svelte  v1.2.7 
+│
+◇  Components to install:
+│  sidebar, card, button, input, badge, scroll-area, separator, tooltip, sheet,
+│  dialog, command
+│
+◇  Ready to install components and dependencies?
+│  Yes
+│
+◇  sidebar installed at src/lib/components/ui/sidebar
+│
+◇  is-mobile installed at src/lib/hooks/is-mobile
+│
+◇  input installed at src/lib/components/ui/input
+│
+◇  tooltip installed at src/lib/components/ui/tooltip
+│
+◇  skeleton installed at src/lib/components/ui/skeleton
+│
+◇  separator installed at src/lib/components/ui/separator
+│
+◇  button installed at src/lib/components/ui/button
+│
+◇  sheet installed at src/lib/components/ui/sheet
+│
+◇  card installed at src/lib/components/ui/card
+│
+◇  badge installed at src/lib/components/ui/badge
+│
+◇  scroll-area installed at src/lib/components/ui/scroll-area
+│
+◇  dialog installed at src/lib/components/ui/dialog
+│
+◇  command installed at src/lib/components/ui/command
+│
+◇  input-group installed at src/lib/components/ui/input-group
+│
+◇  textarea installed at src/lib/components/ui/textarea
+│
+◆  Successfully installed dependencies
+│
+└  Success! Components added.
+
+
+added 3 packages, and audited 94 packages in 8s
+
+18 packages are looking for funding
+  run `npm fund` for details
+
+6 low severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+added 1 package, and audited 95 packages in 2s
+
+18 packages are looking for funding
+  run `npm fund` for details
+
+6 low severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+added 1 package, and audited 96 packages in 617ms
+
+19 packages are looking for funding
+  run `npm fund` for details
+
+6 low severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+added 2 packages, and audited 98 packages in 649ms
+
+19 packages are looking for funding
+  run `npm fund` for details
+
+6 low severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> dashboard@0.0.1 dev
+> vite dev
+
+10:02:56 PM [vite] (client) Forced re-optimization of dependencies
+
+  VITE v7.3.1  ready in 1756 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
