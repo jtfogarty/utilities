@@ -626,20 +626,30 @@ fn parse_bookmark_ids_from_surreal(text: &str) -> Vec<String> {
     if let Ok(v) = serde_json::from_str::<Value>(trimmed) {
         return extract_bookmark_ids_from_value(&v);
     }
-    // Fallback: look for bookmark_id strings in debug output
+    // Fallback: SurrealMCP returns Rust Debug format like:
+    //   "bookmark_id": String("1802517863275643377")
+    // Find all String("...") values after bookmark_id keys.
     let mut ids = Vec::new();
-    for line in trimmed.lines() {
-        // Match patterns like: bookmark_id: String("1234567890")
-        if let Some(idx) = line.find("bookmark_id") {
-            let after = &line[idx..];
-            if let Some(start) = after.find('"') {
-                let rest = &after[start + 1..];
-                if let Some(end) = rest.find('"') {
-                    let id = &rest[..end];
-                    if !id.is_empty() && id.chars().all(|c| c.is_ascii_digit()) {
-                        ids.push(id.to_string());
-                    }
+    let pattern = "bookmark_id";
+    let mut search_from = 0;
+    while let Some(idx) = trimmed[search_from..].find(pattern) {
+        let abs = search_from + idx + pattern.len();
+        search_from = abs;
+        // Look for String(" after the key
+        let remaining = &trimmed[abs..];
+        if let Some(s_idx) = remaining.find("String(\"") {
+            // Only match if it's reasonably close (within 10 chars for `: ` or `": `)
+            if s_idx > 20 {
+                continue;
+            }
+            let val_start = s_idx + "String(\"".len();
+            let val_remaining = &remaining[val_start..];
+            if let Some(end) = val_remaining.find("\")") {
+                let id = &val_remaining[..end];
+                if !id.is_empty() {
+                    ids.push(id.to_string());
                 }
+                search_from = abs + val_start + end;
             }
         }
     }
