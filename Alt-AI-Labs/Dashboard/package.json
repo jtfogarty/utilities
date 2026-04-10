@@ -19,6 +19,8 @@
 		"@sveltejs/kit": "^2.50.2",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@tailwindcss/vite": "^4.1.18",
+		"@types/dompurify": "^3.2.0",
+		"@types/ws": "^8.18.1",
 		"bits-ui": "^2.16.3",
 		"clsx": "^2.1.1",
 		"shadcn-svelte": "^1.2.7",
@@ -32,9 +34,12 @@
 		"vite": "^7.3.1"
 	},
 	"dependencies": {
+		"dompurify": "^3.3.3",
 		"fuse.js": "^7.3.0",
 		"lucide-svelte": "^1.0.1",
+		"marked": "^17.0.6",
 		"ollama": "^0.6.3",
-		"surrealdb": "^2.0.3"
+		"surrealdb": "^2.0.3",
+		"ws": "^8.20.0"
 	}
 }

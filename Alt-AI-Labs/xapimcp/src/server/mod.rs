@@ -1,6 +1,6 @@
 use crate::{
     config::ServerConfig,
-    tools::{DeleteBookmarkRequest, GetMyBookmarksRequest, GetRepliesRequest},
+    tools::{DeleteBookmarkRequest, GetMyBookmarksRequest, GetRepliesRequest, GetTweetRequest},
     x,
 };
 use anyhow::{Result, anyhow};
@@ -141,6 +141,19 @@ impl XServer {
         let data = x::delete_bookmark(&cfg, params.0.tweet_id).await?;
         let text = serde_json::to_string_pretty(&data)
             .unwrap_or_else(|_| "Bookmark deleted".to_string());
+        Ok(CallToolResult::success(vec![Content::text(text)]))
+    }
+
+    #[tool(description = "Look up a single tweet by ID (returns note_tweet and article fields)")]
+    async fn get_tweet(
+        &self,
+        params: Parameters<GetTweetRequest>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        self.ensure_x_ready().await?;
+        let cfg = self.config.lock().await;
+        let data = x::get_tweet(&cfg, params.0.tweet_id).await?;
+        let text = serde_json::to_string_pretty(&data)
+            .unwrap_or_else(|_| "Tweet retrieved".to_string());
         Ok(CallToolResult::success(vec![Content::text(text)]))
     }
 

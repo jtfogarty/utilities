@@ -57,7 +57,7 @@ pub async fn get_my_bookmarks(
             ("max_results", "100"),
             (
                 "tweet.fields",
-                "created_at,author_id,conversation_id,text,public_metrics,attachments,referenced_tweets,entities,lang",
+                "created_at,author_id,conversation_id,text,public_metrics,attachments,referenced_tweets,entities,lang,note_tweet,article",
             ),
             ("expansions", "author_id,attachments.media_keys"),
             ("user.fields", "id,name,username,verified,public_metrics"),
@@ -143,6 +143,49 @@ pub async fn delete_bookmark(config: &ServerConfig, tweet_id: String) -> Result<
     Ok(body)
 }
 
+pub async fn get_tweet(
+    config: &ServerConfig,
+    tweet_id: String,
+) -> Result<serde_json::Value, McpError> {
+    let token = config.get_valid_x_access_token().await?;
+    let base = format!("https://api.x.com/2/tweets/{tweet_id}");
+    let url = Url::parse_with_params(
+        &base,
+        &[
+            (
+                "tweet.fields",
+                "created_at,author_id,text,note_tweet,article",
+            ),
+        ],
+    )
+    .map_err(|e| McpError::internal_error(format!("Invalid tweet lookup URL: {}", e), None))?;
+
+    let resp = http_client()
+        .get(url)
+        .bearer_auth(token)
+        .send()
+        .await
+        .map_err(|e| {
+            McpError::internal_error(format!("X API tweet lookup request failed: {}", e), None)
+        })?;
+
+    let status = resp.status();
+    let body_text = resp.text().await.map_err(|e| {
+        McpError::internal_error(format!("Failed to read X API tweet lookup response: {}", e), None)
+    })?;
+    if !status.is_success() {
+        return Err(McpError::internal_error(
+            format!("X API GET /tweets/{{id}} {}: {}", status, body_text),
+            None,
+        ));
+    }
+    let body: serde_json::Value = serde_json::from_str(&body_text).map_err(|e| {
+        McpError::internal_error(format!("Failed to parse tweet lookup response: {}", e), None)
+    })?;
+
+    Ok(body)
+}
+
 pub async fn get_replies_to_tweet(
     config: &ServerConfig,
     tweet_id: String,
@@ -163,7 +206,7 @@ pub async fn get_replies_to_tweet(
             ("max_results", "100"),
             (
                 "tweet.fields",
-                "created_at,author_id,text,conversation_id,public_metrics,attachments,referenced_tweets,entities,lang",
+                "created_at,author_id,text,conversation_id,public_metrics,attachments,referenced_tweets,entities,lang,note_tweet,article",
             ),
             ("expansions", "author_id,attachments.media_keys"),
             ("user.fields", "id,name,username,verified,public_metrics"),

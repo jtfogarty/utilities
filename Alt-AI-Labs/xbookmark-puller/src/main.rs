@@ -95,12 +95,22 @@ fn env_one_of(keys: &[&str], label: &str) -> Result<String> {
 #[derive(Parser, Debug)]
 #[command(name = "xbookmark-puller")]
 struct Cli {
-    /// Store via SurrealMCP but do not call xapimcp `delete_bookmark` (timing and governor still apply).
-    #[arg(long)]
-    dry_run: bool,
-    /// Connect to SurrealMCP only: `use_namespace` / `use_database`, insert one test row into `x_bookmarks`, verify with `SELECT count()`, then exit (does not use xapimcp).
-    #[arg(long)]
-    test_surreal_write: bool,
+    #[command(subcommand)]
+    command: Option<Command>,
+}
+
+#[derive(clap::Subcommand, Debug)]
+enum Command {
+    /// Fetch bookmarks from X, store in SurrealDB, delete from X (default behaviour).
+    Pull {
+        /// Store via SurrealMCP but do not call xapimcp `delete_bookmark` (timing and governor still apply).
+        #[arg(long)]
+        dry_run: bool,
+    },
+    /// Back-fill `note_tweet` and `article` columns for existing x_bookmarks rows by looking up each tweet via the X v2 API.
+    PopulateNewFields,
+    /// Connect to SurrealMCP only: insert one test row into `x_bookmarks`, verify with `SELECT count()`, then exit (does not use xapimcp).
+    TestSurrealWrite,
 }
 
 #[derive(Clone)]
@@ -584,6 +594,272 @@ async fn run_surreal_write_test(cfg: SurrealTestConfig) -> Result<()> {
     Ok(())
 }
 
+/// Select all bookmark_ids where note_tweet and article are both null/missing.
+async fn surreal_select_unpopulated_bookmark_ids(surreal: &ClientPeer) -> Result<Vec<String>> {
+    let mut args = JsonObject::new();
+    let q = format!(
+        "SELECT bookmark_id FROM {SURREAL_X_BOOKMARKS_TABLE} WHERE note_tweet IS NULL OR note_tweet = NONE"
+    );
+    args.insert("query".to_string(), json!(q));
+
+    let res = surreal
+        .call_tool(CallToolRequestParams {
+            meta: None,
+            name: Cow::Borrowed("query"),
+            arguments: Some(args),
+            task: None,
+        })
+        .await
+        .map_err(|e| anyhow!("SurrealMCP query tool: {e}"))?;
+
+    mcp_ensure_ok_surreal(&res).context("SurrealMCP query result")?;
+    let text = mcp_tool_text(&res);
+
+    // Parse response: could be JSON array of objects with bookmark_id field
+    let ids = parse_bookmark_ids_from_surreal(&text);
+    Ok(ids)
+}
+
+fn parse_bookmark_ids_from_surreal(text: &str) -> Vec<String> {
+    let trimmed = text.trim();
+    // Try JSON parse first
+    if let Ok(v) = serde_json::from_str::<Value>(trimmed) {
+        return extract_bookmark_ids_from_value(&v);
+    }
+    // Fallback: look for bookmark_id strings in debug output
+    let mut ids = Vec::new();
+    for line in trimmed.lines() {
+        // Match patterns like: bookmark_id: String("1234567890")
+        if let Some(idx) = line.find("bookmark_id") {
+            let after = &line[idx..];
+            if let Some(start) = after.find('"') {
+                let rest = &after[start + 1..];
+                if let Some(end) = rest.find('"') {
+                    let id = &rest[..end];
+                    if !id.is_empty() && id.chars().all(|c| c.is_ascii_digit()) {
+                        ids.push(id.to_string());
+                    }
+                }
+            }
+        }
+    }
+    ids
+}
+
+fn extract_bookmark_ids_from_value(v: &Value) -> Vec<String> {
+    let mut ids = Vec::new();
+    match v {
+        Value::Array(arr) => {
+            for item in arr {
+                ids.extend(extract_bookmark_ids_from_value(item));
+            }
+        }
+        Value::Object(map) => {
+            if let Some(bid) = map.get("bookmark_id").and_then(|b| b.as_str()) {
+                ids.push(bid.to_string());
+            } else {
+                for val in map.values() {
+                    ids.extend(extract_bookmark_ids_from_value(val));
+                }
+            }
+        }
+        _ => {}
+    }
+    ids
+}
+
+/// Update note_tweet and article fields on an existing bookmark record via SurrealMCP merge.
+async fn surreal_update_bookmark_fields(
+    surreal: &ClientPeer,
+    bookmark_id: &str,
+    note_tweet: &Value,
+    article: &Value,
+) -> Result<()> {
+    let mut args = JsonObject::new();
+    let target = format!("{SURREAL_X_BOOKMARKS_TABLE}:{bookmark_id}");
+    args.insert(
+        "targets".to_string(),
+        json!([target]),
+    );
+    let mut merge = JsonObject::new();
+    merge.insert("note_tweet".to_string(), note_tweet.clone());
+    merge.insert("article".to_string(), article.clone());
+    args.insert("merge_data".to_string(), Value::Object(merge));
+
+    let res = surreal
+        .call_tool(CallToolRequestParams {
+            meta: None,
+            name: Cow::Borrowed("update"),
+            arguments: Some(args),
+            task: None,
+        })
+        .await
+        .map_err(|e| anyhow!("SurrealMCP update tool: {e}"))?;
+
+    mcp_ensure_ok_surreal(&res).context("SurrealMCP update result")?;
+    Ok(())
+}
+
+/// Fetch a single tweet via xapimcp `get_tweet` tool with rate limiting and 429 retry.
+async fn x_get_tweet_mcp(
+    x: &ClientPeer,
+    tweet_id: &str,
+    rl: &RateLimitTracker,
+) -> Result<Value> {
+    let mut attempt: u32 = 0;
+    loop {
+        rl.acquire_get("get_tweet").await;
+
+        let mut args = JsonObject::new();
+        args.insert("tweet_id".to_string(), json!(tweet_id));
+
+        let res = x
+            .call_tool(CallToolRequestParams {
+                meta: None,
+                name: Cow::Borrowed("get_tweet"),
+                arguments: Some(args),
+                task: None,
+            })
+            .await
+            .map_err(|e| anyhow!("xapimcp get_tweet: {e}"))?;
+
+        if res.is_error == Some(true) {
+            let msg = mcp_tool_text(&res);
+            bail!("xapimcp get_tweet MCP error: {msg}");
+        }
+
+        let text = mcp_tool_text(&res).trim().to_string();
+        let v: Value = serde_json::from_str(&text).context("parse xapimcp get_tweet JSON")?;
+
+        if let Some(errs) = v.get("errors").and_then(|e| e.as_array())
+            && !errs.is_empty()
+        {
+            if let Some(fatal) = x_errors_fatal_non_rate_limit_429(errs) {
+                bail!("X API get_tweet (via xapimcp): {fatal}");
+            }
+            if x_errors_all_documented_rate_limits(errs) {
+                if attempt >= 5 {
+                    bail!("X API get_tweet rate limit: exceeded fallback retries");
+                }
+                warn!(
+                    tweet_id,
+                    attempt,
+                    "429 rate-limit fallback on get_tweet; short sleep and retry"
+                );
+                attempt = attempt.saturating_add(1);
+                tokio::time::sleep(Duration::from_secs(2)).await;
+                continue;
+            }
+            let first = &errs[0];
+            let title = first.get("title").and_then(|t| t.as_str()).unwrap_or("error");
+            let detail = first.get("detail").and_then(|t| t.as_str()).unwrap_or("");
+            bail!("X API get_tweet (via xapimcp): {title} — {detail}");
+        }
+
+        return Ok(v);
+    }
+}
+
+/// One-shot: back-fill `note_tweet` and `article` on existing x_bookmarks rows.
+async fn run_populate_new_fields(
+    scfg: SurrealTestConfig,
+    x_mcp_url: String,
+    x_mcp_auth_token: Option<String>,
+    rate_limit_enforced: bool,
+) -> Result<()> {
+    info!(
+        surreal_mcp = %scfg.surreal_mcp_url,
+        namespace = %scfg.surreal_namespace,
+        database = %scfg.surreal_database,
+        x_mcp = %x_mcp_url,
+        "populate_new_fields: starting"
+    );
+
+    let mut surreal_svc = connect_streamable_mcp(
+        scfg.surreal_mcp_url.clone(),
+        scfg.surreal_mcp_auth_token.clone(),
+        "SurrealMCP",
+    )
+    .await?;
+    let surreal = surreal_svc.peer();
+    surreal_apply_namespace_database(surreal, &scfg.surreal_namespace, &scfg.surreal_database).await?;
+
+    let mut x_svc = connect_streamable_mcp(
+        x_mcp_url.clone(),
+        x_mcp_auth_token.clone(),
+        "xapimcp",
+    )
+    .await?;
+    let x = x_svc.peer();
+
+    let rl = RateLimitTracker::new(rate_limit_enforced);
+
+    let bookmark_ids = surreal_select_unpopulated_bookmark_ids(surreal).await?;
+    let total = bookmark_ids.len();
+    if total == 0 {
+        info!("populate_new_fields: no bookmarks to process (all rows already have note_tweet populated)");
+        let _ = surreal_svc.close().await;
+        let _ = x_svc.close().await;
+        return Ok(());
+    }
+    info!(total, "populate_new_fields: bookmark IDs to process");
+
+    let mut updated: u32 = 0;
+    let mut skipped: u32 = 0;
+    let mut errors: u32 = 0;
+
+    for (i, bid) in bookmark_ids.iter().enumerate() {
+        let tweet_result = x_get_tweet_mcp(x, bid, &rl).await;
+        let tweet_val = match tweet_result {
+            Ok(v) => v,
+            Err(e) => {
+                warn!(bookmark_id = %bid, error = %e, "populate_new_fields: failed to fetch tweet; skipping");
+                errors += 1;
+                continue;
+            }
+        };
+
+        let tweet = tweet_val.get("data").unwrap_or(&tweet_val);
+        let note_tweet = tweet.get("note_tweet").cloned().unwrap_or(Value::Null);
+        let article = tweet.get("article").cloned().unwrap_or(Value::Null);
+
+        if note_tweet.is_null() && article.is_null() {
+            debug!(bookmark_id = %bid, "populate_new_fields: tweet has no note_tweet or article; skipping update");
+            skipped += 1;
+        } else {
+            if let Err(e) = surreal_update_bookmark_fields(surreal, bid, &note_tweet, &article).await {
+                warn!(bookmark_id = %bid, error = %e, "populate_new_fields: failed to update record; skipping");
+                errors += 1;
+                continue;
+            }
+            updated += 1;
+            info!(bookmark_id = %bid, "populate_new_fields: updated note_tweet/article");
+        }
+
+        if (i + 1) % 50 == 0 {
+            info!(
+                progress = format!("{}/{}", i + 1, total),
+                updated,
+                skipped,
+                errors,
+                "populate_new_fields: progress checkpoint"
+            );
+        }
+    }
+
+    info!(
+        total,
+        updated,
+        skipped,
+        errors,
+        "populate_new_fields: completed"
+    );
+
+    let _ = surreal_svc.close().await;
+    let _ = x_svc.close().await;
+    Ok(())
+}
+
 fn tweet_author_label(tweet: &Value, includes: Option<&Value>) -> String {
     let aid = tweet
         .get("author_id")
@@ -600,6 +876,16 @@ fn tweet_author_label(tweet: &Value, includes: Option<&Value>) -> String {
         }
     }
     aid.to_string()
+}
+
+/// `tweet.fields` extras from X v2 (`note_tweet`, `article`) as first-class Surreal columns.
+/// Still present on `raw_json`; these copies make `SELECT note_tweet, article` easy. Use the same
+/// helper if a future replies-ingest path stores tweets from `get_replies_to_tweet`.
+fn tweet_note_tweet_and_article(tweet: &Value) -> (Value, Value) {
+    (
+        tweet.get("note_tweet").cloned().unwrap_or(Value::Null),
+        tweet.get("article").cloned().unwrap_or(Value::Null),
+    )
 }
 
 /// True when X marks this error entry as a **rate-limit** style 429 (retry / fallback OK).
@@ -857,6 +1143,7 @@ async fn run_pull_cycle(
                 .unwrap_or("")
                 .to_string();
             let pulled_at = Utc::now().to_rfc3339();
+            let (note_tweet, article) = tweet_note_tweet_and_article(tweet);
 
             let mut data = JsonObject::new();
             data.insert("bookmark_id".to_string(), json!(bid));
@@ -864,6 +1151,8 @@ async fn run_pull_cycle(
             data.insert("url".to_string(), json!(url));
             data.insert("author".to_string(), json!(author));
             data.insert("created_at".to_string(), json!(created_at));
+            data.insert("note_tweet".to_string(), note_tweet);
+            data.insert("article".to_string(), article);
             // Store the tweet as a nested object (not a JSON string) for Surreal/inspection.
             data.insert("raw_json".to_string(), tweet.clone());
             data.insert("pulled_at".to_string(), json!(pulled_at));
@@ -949,13 +1238,35 @@ async fn main() -> Result<()> {
         .json()
         .init();
 
-    if cli.test_surreal_write {
-        let scfg = SurrealTestConfig::from_env()?;
-        run_surreal_write_test(scfg).await?;
-        return Ok(());
+    let command = cli.command.unwrap_or(Command::Pull { dry_run: false });
+
+    let dry_run = match &command {
+        Command::Pull { dry_run } => *dry_run,
+        _ => false,
+    };
+
+    match command {
+        Command::TestSurrealWrite => {
+            let scfg = SurrealTestConfig::from_env()?;
+            run_surreal_write_test(scfg).await?;
+            return Ok(());
+        }
+        Command::PopulateNewFields => {
+            let scfg = SurrealTestConfig::from_env()?;
+            let x_mcp_url = std::env::var("X_MCP_URL")
+                .context("X_MCP_URL must be set for populate_new_fields")?;
+            let x_mcp_auth_token = std::env::var("X_MCP_AUTH_TOKEN").ok();
+            let rate_limit_enforced = match std::env::var("RATE_LIMIT_ENFORCED") {
+                Ok(s) => !matches!(s.to_lowercase().as_str(), "0" | "false" | "no" | "off"),
+                Err(_) => true,
+            };
+            run_populate_new_fields(scfg, x_mcp_url, x_mcp_auth_token, rate_limit_enforced).await?;
+            return Ok(());
+        }
+        Command::Pull { .. } => {}
     }
 
-    let cfg = Arc::new(Config::from_env(cli.dry_run)?);
+    let cfg = Arc::new(Config::from_env(dry_run)?);
     info!(
         pull_interval_secs = cfg.pull_interval.as_secs(),
         pull_interval_minutes = cfg.pull_interval.as_secs() / 60,

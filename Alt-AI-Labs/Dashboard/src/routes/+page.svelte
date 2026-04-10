@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		void goto('/browse', { replaceState: true });
+	});
+</script>
+
+<svelte:head>
+	<title>Alt-AI-Labs Bookmarks</title>
+</svelte:head>
+
+<p class="text-muted-foreground p-6 text-sm">Redirecting to browse…</p>

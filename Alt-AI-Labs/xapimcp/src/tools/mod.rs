@@ -13,6 +13,12 @@ pub struct DeleteBookmarkRequest {
 }
 
 #[derive(Debug, Deserialize, schemars::JsonSchema, Serialize)]
+pub struct GetTweetRequest {
+    #[schemars(description = "Tweet ID to look up")]
+    pub tweet_id: String,
+}
+
+#[derive(Debug, Deserialize, schemars::JsonSchema, Serialize)]
 pub struct GetRepliesRequest {
     #[schemars(description = "Tweet ID of the bookmarked tweet")]
     pub tweet_id: String,
