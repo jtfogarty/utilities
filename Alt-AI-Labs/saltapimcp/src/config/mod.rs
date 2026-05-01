@@ -23,4 +23,10 @@ pub struct ServerConfig {
     /// MCP clients connect to http://<bind>/mcp
     #[arg(long, env = "SALT_MCP_BIND", default_value = "127.0.0.1:8765")]
     pub bind_address: String,
+
+    /// Optional bearer token for authenticating MCP Clients
+    /// If set, all requests (except health check) must include
+    /// `Authorization: Bearer <token>`.
+    #[arg(long, env = "AUTH_TOKEN")]
+    pub auth_token: Option<String>,
 }
