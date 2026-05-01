@@ -4,7 +4,7 @@ use metrics::counter;
 use rmcp::{
     ErrorData as McpError, RoleServer, ServerHandler,
     handler::server::router::tool::ToolRouter,
-    handler::server::tool::Parameters,
+    handler::server::wrapper::Parameters,
     model::{CallToolResult, Content, ServerCapabilities, ServerInfo},
     service::RequestContext,
     tool, tool_handler, tool_router,
@@ -29,7 +29,25 @@ use crate::utils::{convert_json_to_surreal, parse_target, parse_targets};
 // Global metrics
 static QUERY_COUNTER: AtomicU64 = AtomicU64::new(0);
 
+#[derive(Deserialize)]
+struct ListNamespaces {
+    namespaces: Vec<Namespace>,
+}
 
+#[derive(Deserialize)]
+struct Namespace {
+    name: String,
+}
+
+#[derive(Deserialize)]
+struct ListDatabase {
+    databases: Vec<String>,
+}
+
+#[derive(Deserialize)]
+struct Database {
+    name: String,
+}
 
 #[derive(Deserialize, schemars::JsonSchema)]
 pub struct QueryParams {
@@ -1432,25 +1450,28 @@ It returns a list of namespaces with their names."#)]
             Some(response) => {
                 // Calculate the elapsed time
                 let duration = start_time.elapsed();
-                // Take the first element of the response
-                let raw_val: Option<Value> = response
-                    .take::<Option<Value>>(0)
+                // Take the raw Value and do a JSON roundtrip to deserialize
+                let raw: Option<surrealdb::types::Value> = 
+                    response
+                        .take(0)
+                        .map_err(|e| McpError::internal_error(e.to_string(), None))?;
+                let info_opt: Option<ListNamespaces> = raw
+                    .map(|v| serde_json::from_str(&v.into_json_value().to_string()))
+                    .transpose()
                     .map_err(|e| McpError::internal_error(e.to_string(), None))?;
-                
-                let mut namespaces = Vec::new();
-                // Use native Value pattern matching to avoid serde_json serialisation
-                // failures on SurrealDB v3 complex Value types (Duration, RecordId, etc.).
-                // INFO FOR ROOT returns Value::Object where "namespaces" is itself a
-                // Value::Object mapping name => definition string.
-                if let Some(Value::Object(root_obj)) = raw_val
-                    && let Some(Value::Object(ns_map)) = root_obj.get("namespaces") {
-                        for name in ns_map.keys() {
-                            if !name.is_empty() {
-                                namespaces.push(serde_json::json!({ "name": name }));
-                            }
-                        }
-                    }
-                // Convert the namespaces to a JSON object
+                let info = info_opt.ok_or_else(|| {
+                    McpError::internal_error(
+                        "No namespaces returned when running INFO FOR ROOT".to_string(), 
+                        None,
+                    )
+                })?;
+                // Convert the namspaces to a JSON object
+                let namespaces: Vec<serde_json::Value> = info
+                    .namespaces
+                    .into_iter()
+                    .map(|n| serde_json::json!({ "name": n.name }))
+                    .collect();
+                // Convert the namespaces to a JSON object 
                 let result = serde_json::json!({
                     "namespaces": namespaces,
                     "count": namespaces.len()
@@ -1486,7 +1507,7 @@ It returns a list of namespaces with their names."#)]
             }
         }
     }
-
+    
     /// List available databases on the connected endpoint.
     ///
     /// This function lists all databases available on the currently connected SurrealDB endpoint.
@@ -1515,25 +1536,28 @@ It returns a list of databases with their names."#)]
             Some(response) => {
                 // Calculate the elapsed time
                 let duration = start_time.elapsed();
-                // Take the first element of the response
-                let raw_val: Option<Value> = response
-                    .take::<Option<Value>>(0)
+                // Take the raw Value and do a JSON roundtrip to deserialize
+                let raw: Option<surrealdb::types::Value> = 
+                    response
+                        .take(0)
+                        .map_err(|e| McpError::internal_error(e.to_string(), None))?;
+                let info_opt: Option<ListDatabase> = raw
+                    .map(|v| serde_json::from_str(&v.into_json_value().to_string()))
+                    .transpose()
                     .map_err(|e| McpError::internal_error(e.to_string(), None))?;
-                
-                let mut databases = Vec::new();
-                // Use native Value pattern matching to avoid serde_json serialisation
-                // failures on SurrealDB v3 complex Value types.
-                // INFO FOR NS returns Value::Object where "databases" is itself a
-                // Value::Object mapping name => definition string.
-                if let Some(Value::Object(root_obj)) = raw_val
-                    && let Some(Value::Object(db_map)) = root_obj.get("databases") {
-                        for name in db_map.keys() {
-                            if !name.is_empty() {
-                                databases.push(serde_json::json!({ "name": name }));
-                            }
-                        }
-                    }
+                let info = info_opt.ok_or_else(|| {
+                    McpError::internal_error(
+                        "No databases returned when running INFO FOR NS".to_string(), 
+                        None,
+                    )
+                })?;
                 // Convert the databases to a JSON object
+                let databases: Vec<serde_json::Value> = info
+                    .databases
+                    .into_iter()
+                    .map(|n| serde_json::json!({ "name": n }))
+                    .collect();
+                // Convert the databases to a JSON object 
                 let result = serde_json::json!({
                     "databases": databases,
                     "count": databases.len()
@@ -1568,41 +1592,6 @@ It returns a list of databases with their names."#)]
                 Err(McpError::internal_error(err, None))
             }
         }
-    }
-
-    /// Return the current version of the SurrealMCP server.
-    ///
-    /// This function returns the version of the SurrealMCP server currently running.
-    ///
-    /// # Arguments
-    /// * `None` - No parameters are required for this tool
-    #[tool(description = r#"
-Return the version of the SurrealMCP server.
-
-This function returns the current version number of the SurrealMCP server. 
-It is useful for verifying that you are running the expected version after a deployment.
-"#)]
-    pub async fn get_version(&self) -> Result<CallToolResult, McpError> {
-        // Start the measurement timer
-        let start_time = Instant::now();
-        // Increment tool usage counter
-        counter!("surrealmcp.tools.get_version").increment(1);
-        // Output debugging information
-        debug!("Getting SurrealMCP version");
-        
-        // Calculate the elapsed time
-        let duration = start_time.elapsed();
-        
-        let version = env!("CARGO_PKG_VERSION").to_string();
-        
-        info!(
-            connection_id = %self.connection_id,
-            duration_ms = duration.as_millis(),
-            version = %version,
-            "Successfully retrieved version"
-        );
-        
-        Ok(CallToolResult::success(vec![Content::text(version)]))
     }
 
     /// Change the namespace on the currently connected endpoint.

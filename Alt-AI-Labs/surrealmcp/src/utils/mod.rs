@@ -64,8 +64,7 @@ pub fn convert_json_to_surreal(
     // Ensure the value is a JSON value
     let json_value = value.into();
     // Convert the JSON value to a SurrealQL Value
-    let json_string = json_value.to_string();
-    surrealdb::parse::value(&json_string)
+    surrealdb::parse::value(&json_value.to_string())
         .map_err(|e| format!("Failed to convert parameter '{name}': {e}"))
 }
 
