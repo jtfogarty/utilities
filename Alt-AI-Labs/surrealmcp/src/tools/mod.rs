@@ -1434,7 +1434,10 @@ List available namespaces on the connected endpoint.
 
 This function lists all namespaces available on the currently connected SurrealDB endpoint.
 It returns a list of namespaces with their names."#)]
-    pub async fn list_namespaces(&self) -> Result<CallToolResult, McpError> {
+    pub async fn list_namespaces(
+        &self,
+        _params: Parameters<CloudParams>,
+    ) -> Result<CallToolResult, McpError> {
         // Start the measurement timer
         let start_time = Instant::now();
         // Increment tool usage counter
@@ -1520,7 +1523,10 @@ List available databases on the connected endpoint.
 
 This function lists all databases available on the currently connected SurrealDB endpoint.
 It returns a list of databases with their names."#)]
-    pub async fn list_databases(&self) -> Result<CallToolResult, McpError> {
+    pub async fn list_databases(
+        &self,
+        _params: Parameters<CloudParams>,
+    ) -> Result<CallToolResult, McpError> {
         // Start the measurement timer
         let start_time = Instant::now();
         // Increment tool usage counter
@@ -1863,7 +1869,10 @@ This is useful when you want to:
 - Clean up resources
 - Ensure no active connections remain
 "#)]
-    pub async fn disconnect_endpoint(&self) -> Result<CallToolResult, McpError> {
+    pub async fn disconnect_endpoint(
+        &self,
+        _params: Parameters<CloudParams>,
+    ) -> Result<CallToolResult, McpError> {
         // Increment tool usage metrics
         counter!("surrealmcp.tools.disconnect_endpoint").increment(1);
         // Output debugging information
