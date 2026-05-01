@@ -1,4 +1,4 @@
 [workspace]
 resolver = "3"
-members = ["salt-master-agent", "xbookmark-puller"]
+members = ["salt-master-agent", "xbookmark-puller", "saltapimcp"]
 exclude = ["surrealmcp"]

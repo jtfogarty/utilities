@@ -614,9 +614,15 @@ async fn surreal_select_unpopulated_bookmark_ids(surreal: &ClientPeer) -> Result
 
     mcp_ensure_ok_surreal(&res).context("SurrealMCP query result")?;
     let text = mcp_tool_text(&res);
+    debug!(
+        raw_len = text.len(),
+        raw_prefix = &text[..text.len().min(500)],
+        "populate_new_fields: raw SurrealMCP query response"
+    );
 
     // Parse response: could be JSON array of objects with bookmark_id field
     let ids = parse_bookmark_ids_from_surreal(&text);
+    debug!(parsed_count = ids.len(), "populate_new_fields: parsed bookmark IDs from response");
     Ok(ids)
 }
 
