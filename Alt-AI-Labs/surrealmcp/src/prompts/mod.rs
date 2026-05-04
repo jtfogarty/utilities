@@ -37,26 +37,18 @@ impl PromptGenerator for DatabaseQueryAssistant {
 
     fn arguments(&self) -> Vec<PromptArgument> {
         vec![
-            PromptArgument {
-                name: "query_type".to_string(),
-                title: Some("Query Type".to_string()),
-                description: Some(
-                    "The type of query (SELECT, CREATE, UPDATE, DELETE, etc.)".to_string(),
-                ),
-                required: Some(true),
-            },
-            PromptArgument {
-                name: "table_name".to_string(),
-                title: Some("Table Name".to_string()),
-                description: Some("The table name to query".to_string()),
-                required: Some(false),
-            },
-            PromptArgument {
-                name: "requirements".to_string(),
-                title: Some("Requirements".to_string()),
-                description: Some("Specific requirements or constraints for the query".to_string()),
-                required: Some(false),
-            },
+            PromptArgument::new("query_type")
+                .with_title("Query Type")
+                .with_description("The type of query (SELECT, CREATE, UPDATE, DELETE, etc.)")
+                .with_required(true),
+            PromptArgument::new("table_name")
+                .with_title("Table Name")
+                .with_description("The table name to query")
+                .with_required(false),
+            PromptArgument::new("requirements")
+                .with_title("Requirements")
+                .with_description("Specific requirements or constraints for the query")
+                .with_required(false),
         ]
     }
 
@@ -117,24 +109,18 @@ impl PromptGenerator for DataModelingExpert {
 
     fn arguments(&self) -> Vec<PromptArgument> {
         vec![
-            PromptArgument {
-                name: "use_case".to_string(),
-                title: Some("Use Case".to_string()),
-                description: Some("The use case or application domain (e.g., social network, e-commerce, analytics)".to_string()),
-                required: Some(true),
-            },
-            PromptArgument {
-                name: "data_types".to_string(),
-                title: Some("Data Types".to_string()),
-                description: Some("The types of data to be stored (users, posts, transactions, etc.)".to_string()),
-                required: Some(false),
-            },
-            PromptArgument {
-                name: "scale_requirements".to_string(),
-                title: Some("Scale Requirements".to_string()),
-                description: Some("Scale requirements (small, medium, large, enterprise)".to_string()),
-                required: Some(false),
-            },
+            PromptArgument::new("use_case")
+                .with_title("Use Case")
+                .with_description("The use case or application domain (e.g., social network, e-commerce, analytics)")
+                .with_required(true),
+            PromptArgument::new("data_types")
+                .with_title("Data Types")
+                .with_description("The types of data to be stored (users, posts, transactions, etc.)")
+                .with_required(false),
+            PromptArgument::new("scale_requirements")
+                .with_title("Scale Requirements")
+                .with_description("Scale requirements (small, medium, large, enterprise)")
+                .with_required(false),
         ]
     }
 
@@ -189,22 +175,14 @@ impl PromptGenerator for SurrealQlGuide {
 
     fn arguments(&self) -> Vec<PromptArgument> {
         vec![
-            PromptArgument {
-                name: "task".to_string(),
-                title: Some("Task".to_string()),
-                description: Some(
-                    "Brief description of what you need to do in SurrealQL".to_string(),
-                ),
-                required: Some(false),
-            },
-            PromptArgument {
-                name: "schema".to_string(),
-                title: Some("Schema".to_string()),
-                description: Some(
-                    "Optional schema or table context relevant to the task".to_string(),
-                ),
-                required: Some(false),
-            },
+            PromptArgument::new("task")
+                .with_title("Task")
+                .with_description("Brief description of what you need to do in SurrealQL")
+                .with_required(false),
+            PromptArgument::new("schema")
+                .with_title("Schema")
+                .with_description("Optional schema or table context relevant to the task")
+                .with_required(false),
         ]
     }
 
@@ -288,12 +266,13 @@ impl PromptRegistry {
 pub fn list_prompts() -> Vec<Prompt> {
     PromptRegistry::get_generators()
         .into_iter()
-        .map(|generator| Prompt {
-            name: generator.name().to_string(),
-            title: Some(generator.summary().to_string()),
-            description: Some(generator.description().to_string()),
-            arguments: Some(generator.arguments()),
-            icons: None,
+        .map(|generator| {
+            Prompt::new(
+                generator.name(),
+                Some(generator.description().to_string()),
+                Some(generator.arguments()),
+            )
+            .with_title(generator.summary())
         })
         .collect()
 }

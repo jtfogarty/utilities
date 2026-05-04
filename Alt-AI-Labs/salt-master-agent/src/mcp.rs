@@ -47,6 +47,8 @@ pub struct McpRuntime {
     surreal_sink: Option<rmcp::service::ServerSink>,
     /// Names chosen from SurrealMCP's advertised tools (for direct `call_tool` in hooks).
     surreal_memory_tools: Option<Arc<SurrealMemoryTools>>,
+    /// xapimcp peer (used by the bookmark summarizer to fetch tweet content when `notes` is empty).
+    x_sink: Option<rmcp::service::ServerSink>,
     _services: Vec<ClientRunningService>,
 }
 
@@ -62,6 +64,10 @@ impl McpRuntime {
     pub fn surreal_memory_tools(&self) -> Option<Arc<SurrealMemoryTools>> {
         self.surreal_memory_tools.clone()
     }
+
+    pub fn x_sink(&self) -> Option<rmcp::service::ServerSink> {
+        self.x_sink.clone()
+    }
 }
 
 fn transport_for(url: &str, auth: Option<&str>) -> StreamableHttpClientTransport<reqwest::Client> {
@@ -73,14 +79,12 @@ fn transport_for(url: &str, auth: Option<&str>) -> StreamableHttpClientTransport
 }
 
 fn client_info(name: &str) -> ClientInfo {
-    ClientInfo {
-        client_info: Implementation {
-            name: format!("salt-master-agent-{name}"),
-            version: env!("CARGO_PKG_VERSION").to_string(),
-            ..Default::default()
-        },
-        ..Default::default()
-    }
+    let mut info = ClientInfo::default();
+    info.client_info = Implementation::new(
+        format!("salt-master-agent-{name}"),
+        env!("CARGO_PKG_VERSION"),
+    );
+    info
 }
 
 async fn connect_one(
@@ -241,6 +245,7 @@ pub async fn initialize_mcp_clients(cfg: &AppConfig) -> anyhow::Result<McpRuntim
     let mut _services = Vec::new();
     let mut surreal_sink = None;
     let mut surreal_memory_tools = None;
+    let mut x_sink = None;
 
     if cfg.mcp.surreal_url.is_some() {
         match connect_surreal_mcp(cfg, tool_server_handle.clone()).await {
@@ -284,6 +289,7 @@ pub async fn initialize_mcp_clients(cfg: &AppConfig) -> anyhow::Result<McpRuntim
         )
         .await
         .context("X MCP connection")?;
+        x_sink = Some(svc.peer().clone());
         _services.push(svc);
     }
 
@@ -305,6 +311,7 @@ pub async fn initialize_mcp_clients(cfg: &AppConfig) -> anyhow::Result<McpRuntim
         tool_server_handle,
         surreal_sink,
         surreal_memory_tools,
+        x_sink,
         _services,
     })
 }

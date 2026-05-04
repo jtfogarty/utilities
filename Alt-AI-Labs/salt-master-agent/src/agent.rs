@@ -165,12 +165,7 @@ impl SurrealAuditHook {
         params.insert("target".into(), json!(&self.trace_table));
         params.insert("values".into(), json!(vec![row]));
 
-        let req = CallToolRequestParams {
-            meta: None,
-            name: "insert".into(),
-            arguments: Some(params),
-            task: None,
-        };
+        let req = CallToolRequestParams::new("insert").with_arguments(params);
         match sink.call_tool(req).await {
             Ok(r) => {
                 if r.is_error == Some(true) {
@@ -211,12 +206,7 @@ async fn call_mcp_tool(
     name: &str,
     arguments: serde_json::Map<String, Value>,
 ) -> Result<CallToolResult, rmcp::ServiceError> {
-    let req = CallToolRequestParams {
-        meta: None,
-        name: name.to_string().into(),
-        arguments: Some(arguments),
-        task: None,
-    };
+    let req = CallToolRequestParams::new(name.to_string()).with_arguments(arguments);
     sink.call_tool(req).await
 }
 
@@ -299,12 +289,7 @@ pub async fn retrieve_recent_history(
     args.insert("order_clause".into(), json!("ts DESC"));
     args.insert("limit_clause".into(), json!(limit.to_string()));
 
-    let req = CallToolRequestParams {
-        meta: None,
-        name: "select".into(),
-        arguments: Some(args),
-        task: None,
-    };
+    let req = CallToolRequestParams::new("select").with_arguments(args);
     match sink.call_tool(req).await {
         Ok(r) => {
             if r.is_error == Some(true) {

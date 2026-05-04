@@ -8,8 +8,8 @@ Stateless Rust binary that drives a **SaltStack-focused** LLM agent: local **Oll
 |--------|--------|
 | LLM | Ollama via `rig`’s Ollama provider |
 | Agent | `rig` `AgentBuilder`, `ToolChoice::Required` when any MCP tool is registered |
-| MCP client | `rmcp` **0.16** (must match `rig-core`’s `rmcp` dependency — do not bump independently) |
-| Tool aggregation | Single shared `ToolServerHandle`; one `McpClientHandler` per MCP URL |
+| MCP client | `rmcp` **1.6** (matches `rig-core` 0.36's `rmcp` major line — bump together) |
+| Tool aggregation | Single shared `ToolServerHandle`; one `McpClientHandler` per MCP URL; native Rust tools registered alongside |
 | Config | `figment`: optional `salt-master-agent.toml` + `SMA_*` environment |
 | HTTP | `axum`: `GET /health`, `POST /v1/prompt` |
 | Logging | `tracing-subscriber` JSON layers + `RUST_LOG` / `SMA_log_filter` |
@@ -51,6 +51,13 @@ Important fields (defaults in code — see `src/config.rs`):
 | `surreal_tool_persist_reflection` | Optional: exact MCP tool for end-of-turn reflections |
 | `skip_startup_history` | Skip startup `select` if the table is not ready yet |
 | `http_bind` | `serve` listen address, default `127.0.0.1:7099` |
+| `ollama_summarize_model` | Model used by the bookmark summarizer, default `llama3.1:8b` |
+| `surreal_namespace` / `surreal_database` | NS/DB applied via `use_namespace` / `use_database` at startup; defaults `bookmarks` / `v1` |
+| `bookmark_annotations_table` | Table holding bookmark annotation rows (default `bookmark_annotations`) |
+| `bookmark_summarize_default_limit` | Default `limit` for `summarize_unsummarized_bookmarks` (default 10) |
+| `bookmark_reactor_enabled` | If true, run a background loop every `bookmark_reactor_interval_seconds` (default 300) that calls the tool |
+| `apply_bookmark_schema_on_startup` | Idempotently apply `summary` / `extracted_urls` fields and `fn::mark_as_processed` (default true) |
+| `x_get_tweet_tool` | xapimcp tool used to fetch tweet text by id when `notes` is empty (default `get_tweet`) |
 
 ### Example `salt-master-agent.toml`
 
@@ -77,9 +84,42 @@ cargo run --release -- repl
 cargo run --release -- serve
 # curl -s localhost:7099/health
 # curl -s localhost:7099/v1/prompt -H 'content-type: application/json' -d '{"prompt":"status of salt minions"}'
+
+# Run the same HTTP server AND the bookmark reactor loop:
+cargo run --release -- serve --process-bookmarks
+```
+
+**One-shot bookmark processing** (no agent / HTTP, exits when done):
+
+```bash
+cargo run --release -- process-bookmarks --limit 25
+```
+
+**Apply / reapply the bookmark schema** (`summary`, `extracted_urls`, `fn::mark_as_processed`):
+
+```bash
+cargo run --release -- init-bookmark-schema
 ```
 
 Graceful shutdown: **Ctrl+C** or **SIGTERM** (Unix) while serving.
+
+## Bookmark summarizer
+
+When SurrealMCP is connected the agent registers a native tool:
+
+`summarize_unsummarized_bookmarks(limit?: integer 1..=500)` — selects rows from
+`bookmark_annotations` where `summary IS NONE OR summary = ""`, fetches each row's `notes`
+(falling back to `xapimcp.get_tweet(tweet_id)` when notes is short and an `x_url` MCP is
+configured), asks the local Ollama model `ollama_summarize_model` (default `llama3.1:8b`)
+for a strict-JSON `{summary, extracted_urls}` payload, then UPDATEs each row through
+SurrealMCP and writes a per-record audit row into `surreal_history_table`.
+
+The summarizer **system prompt is hard-coded** in `src/agents/bookmark_processor.rs`
+(`SUMMARIZER_SYSTEM_PROMPT`) and must not be edited at runtime — downstream code (GitHub
+detection, dedupe) relies on its exact wording and JSON contract.
+
+A SurrealQL helper `fn::mark_as_processed($table, $bookmark_id, $summary, $extracted_urls)`
+is also defined for direct use from other clients.
 
 ## MCP tool namespace
 

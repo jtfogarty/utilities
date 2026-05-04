@@ -6,9 +6,7 @@ use crate::{
 use anyhow::{Result, anyhow};
 use rmcp::{
     handler::server::{router::tool::ToolRouter, wrapper::Parameters},
-    model::{
-        CallToolResult, Content, Implementation, ProtocolVersion, ServerCapabilities, ServerInfo,
-    },
+    model::{CallToolResult, Content, Implementation, ServerCapabilities, ServerInfo},
     tool, tool_handler, tool_router, ServerHandler, ServiceExt,
 };
 use std::sync::Arc;
@@ -56,10 +54,7 @@ async fn start_http_server(config: ServerConfig, bind_address: &str) -> Result<(
             move || Ok(XServer::new(shared_config.clone()))
         },
         session_manager,
-        StreamableHttpServerConfig {
-            stateful_mode: true,
-            sse_keep_alive: None,
-        },
+        StreamableHttpServerConfig::default(),
     );
 
     let router = Router::new()
@@ -90,15 +85,9 @@ pub struct XServer {
 #[tool_handler(router = self.tool_router)]
 impl ServerHandler for XServer {
     fn get_info(&self) -> ServerInfo {
-        ServerInfo {
-            protocol_version: ProtocolVersion::V_2024_11_05,
-            capabilities: ServerCapabilities::builder().enable_tools().build(),
-            server_info: Implementation::from_build_env(),
-            instructions: Some(
-                "X.com MCP server. Use the three bookmark tools to manage your personal X bookmarks and their replies."
-                    .to_string(),
-            ),
-        }
+        ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
+            .with_server_info(Implementation::from_build_env())
+            .with_instructions("X.com MCP server. Use the three bookmark tools to manage your personal X bookmarks and their replies.")
     }
 }
 

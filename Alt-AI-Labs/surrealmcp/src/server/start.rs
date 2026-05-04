@@ -380,10 +380,7 @@ async fn start_http_server(config: ServerConfig) -> Result<()> {
             ))
         },
         session_manager,
-        StreamableHttpServerConfig {
-            stateful_mode: false,
-            sse_keep_alive: Some(Duration::from_secs(20)),
-        },
+        StreamableHttpServerConfig::default(),
     );
     // Create rate limiting layer with metrics
     let rate_limit_layer = create_rate_limit_layer(rate_limit_rps, rate_limit_burst);

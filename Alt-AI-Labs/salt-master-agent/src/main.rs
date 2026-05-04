@@ -1,11 +1,13 @@
 //! `salt-master-agent` — Ollama + Rig + rmcp. Stateless process; durable memory only via MCP (SurrealMCP).
 
 mod agent;
+mod agents;
 mod config;
 mod error;
 mod mcp;
 
 use std::sync::Arc;
+use std::time::Duration;
 
 use axum::{
     Json, Router,
@@ -20,7 +22,9 @@ use tower_http::trace::TraceLayer;
 use tracing_subscriber::{EnvFilter, fmt, prelude::*};
 
 use crate::agent::SurrealAuditHook;
+use crate::agents::bookmark_processor::{self, BookmarkProcessor};
 use crate::config::AppConfig;
+use crate::mcp::McpRuntime;
 use rig::completion::Prompt;
 use rig::providers::ollama;
 
@@ -40,7 +44,18 @@ enum Commands {
         /// Overrides `http_bind` for this process (also `SMA_HTTP_BIND`).
         #[arg(long, env = "SMA_HTTP_BIND")]
         bind: Option<String>,
+        /// Force-enable the bookmark reactor loop for this process (overrides config).
+        #[arg(long)]
+        process_bookmarks: bool,
     },
+    /// One-shot: process unsummarized bookmarks and exit (no agent / HTTP).
+    ProcessBookmarks {
+        /// How many records to process this run.
+        #[arg(long, default_value_t = 10)]
+        limit: u32,
+    },
+    /// Apply the bookmark schema (`summary`, `extracted_urls`, `fn::mark_as_processed`) and exit.
+    InitBookmarkSchema,
 }
 
 #[derive(Clone)]
@@ -130,18 +145,52 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let mcp = mcp::initialize_mcp_clients(&cfg)
         .await
         .map_err(|e| anyhow::anyhow!(e))?;
-    let agent = agent::build_agent(&cfg, &mcp)
-        .await
-        .map_err(|e| anyhow::anyhow!(e))?;
+
+    if let Some(sink) = mcp.surreal_sink() {
+        bookmark_processor::select_namespace_database(&cfg, &sink).await;
+        if cfg.apply_bookmark_schema_on_startup {
+            bookmark_processor::ensure_schema(&cfg, &sink).await;
+        }
+    }
+
+    let bookmark_processor_opt = mcp
+        .surreal_sink()
+        .map(|s| BookmarkProcessor::new(&cfg, s, mcp.x_sink()));
+
+    if let Some(bp) = &bookmark_processor_opt {
+        if let Err(e) = mcp.tool_server_handle().add_tool(bp.clone()).await {
+            tracing::warn!(%e, "failed to register summarize_unsummarized_bookmarks tool");
+        } else {
+            tracing::info!("registered tool: {}", bookmark_processor::TOOL_NAME);
+        }
+    } else {
+        tracing::warn!(
+            "SurrealMCP not connected; `summarize_unsummarized_bookmarks` tool not registered"
+        );
+    }
 
     match cli.command {
         Commands::Repl => {
+            let agent = agent::build_agent(&cfg, &mcp)
+                .await
+                .map_err(|e| anyhow::anyhow!(e))?;
+            spawn_reactor_if_enabled(&cfg, bookmark_processor_opt.clone());
             agent::run_repl(agent).await?;
         }
-        Commands::Serve { bind } => {
+        Commands::Serve {
+            bind,
+            process_bookmarks,
+        } => {
             if let Some(b) = bind {
                 cfg.http_bind = b;
             }
+            if process_bookmarks {
+                cfg.bookmark_reactor_enabled = true;
+            }
+            let agent = agent::build_agent(&cfg, &mcp)
+                .await
+                .map_err(|e| anyhow::anyhow!(e))?;
+            spawn_reactor_if_enabled(&cfg, bookmark_processor_opt.clone());
             let state = HttpState {
                 agent: Arc::new(agent),
             };
@@ -161,7 +210,62 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                 .await
                 .map_err(|e| anyhow::anyhow!(e))?;
         }
+        Commands::ProcessBookmarks { limit } => {
+            let bp = bookmark_processor_opt.ok_or_else(|| {
+                anyhow::anyhow!("SurrealMCP not configured (set SMA_MCP__SURREAL_URL)")
+            })?;
+            let out = bp.process(Some(limit)).await?;
+            println!("{}", serde_json::to_string_pretty(&out)?);
+        }
+        Commands::InitBookmarkSchema => {
+            let sink = mcp.surreal_sink().ok_or_else(|| {
+                anyhow::anyhow!("SurrealMCP not configured (set SMA_MCP__SURREAL_URL)")
+            })?;
+            bookmark_processor::ensure_schema(&cfg, &sink).await;
+            println!("bookmark schema applied to table `{}`", cfg.bookmark_annotations_table);
+        }
     }
 
     Ok(())
 }
+
+fn spawn_reactor_if_enabled(cfg: &AppConfig, bp: Option<BookmarkProcessor>) {
+    if !cfg.bookmark_reactor_enabled {
+        return;
+    }
+    let Some(bp) = bp else {
+        tracing::warn!("bookmark reactor enabled but SurrealMCP not connected");
+        return;
+    };
+    let interval = Duration::from_secs(cfg.bookmark_reactor_interval_seconds.max(15));
+    let limit = cfg.bookmark_summarize_default_limit;
+    tracing::info!(
+        every_seconds = interval.as_secs(),
+        limit, "starting bookmark summarizer reactor"
+    );
+    tokio::spawn(async move {
+        let mut tick = tokio::time::interval(interval);
+        tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+        loop {
+            tick.tick().await;
+            match bp.process(Some(limit)).await {
+                Ok(out) => {
+                    if out.processed > 0 || out.skipped > 0 {
+                        tracing::info!(
+                            processed = out.processed,
+                            skipped = out.skipped,
+                            "reactor tick"
+                        );
+                    } else {
+                        tracing::debug!("reactor tick: no unsummarized bookmarks");
+                    }
+                }
+                Err(e) => tracing::warn!(%e, "reactor tick failed"),
+            }
+        }
+    });
+}
+
+// Silence unused-import warning when no caller uses `McpRuntime` outside this file.
+#[allow(dead_code)]
+fn _force_use(_: &McpRuntime) {}

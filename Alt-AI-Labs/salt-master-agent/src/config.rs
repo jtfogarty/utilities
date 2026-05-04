@@ -21,6 +21,9 @@ pub struct AppConfig {
     pub ollama_base_url: String,
     /// Model id passed to Ollama (e.g. `llama3.2`, `qwen2.5:14b`).
     pub ollama_model: String,
+    /// Model used by the bookmark summarizer (kept separate from the main agent model so a
+    /// smaller / cheaper model can be pinned for the JSON-output summary task).
+    pub ollama_summarize_model: String,
     /// Streamable HTTP endpoint for SurrealMCP (memory / audit).
     pub mcp: McpEndpoints,
     /// Max attempts per MCP endpoint before failing startup.
@@ -43,6 +46,25 @@ pub struct AppConfig {
     pub http_bind: String,
     /// RUST_LOG-style filter (also respected by `tracing_subscriber::EnvFilter`).
     pub log_filter: String,
+
+    // --- Bookmark summarizer (X.com bookmarks → SurrealMCP `bookmark_annotations`) ---
+    /// Switch SurrealMCP to this namespace before any bookmark queries.
+    /// `None` keeps whatever namespace SurrealMCP was started in.
+    pub surreal_namespace: Option<String>,
+    /// Switch SurrealMCP to this database before any bookmark queries.
+    pub surreal_database: Option<String>,
+    /// Table name holding bookmark annotation rows.
+    pub bookmark_annotations_table: String,
+    /// Default `limit` for `summarize_unsummarized_bookmarks` when the caller omits it.
+    pub bookmark_summarize_default_limit: u32,
+    /// Name of the xapimcp tool used to fetch a single tweet by id when `notes` is empty.
+    pub x_get_tweet_tool: String,
+    /// If true, run a background task that calls `summarize_unsummarized_bookmarks`
+    /// every `bookmark_reactor_interval_seconds`.
+    pub bookmark_reactor_enabled: bool,
+    pub bookmark_reactor_interval_seconds: u64,
+    /// Apply the `summary` / `extracted_urls` schema additions on startup (idempotent).
+    pub apply_bookmark_schema_on_startup: bool,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
@@ -63,6 +85,7 @@ impl Default for AppConfig {
         Self {
             ollama_base_url: "http://localhost:11434".to_string(),
             ollama_model: "llama3.2".to_string(),
+            ollama_summarize_model: "llama3.1:8b".to_string(),
             mcp: McpEndpoints::default(),
             mcp_connect_max_attempts: 8,
             mcp_connect_base_delay_ms: 500,
@@ -74,6 +97,15 @@ impl Default for AppConfig {
             skip_startup_history: false,
             http_bind: "127.0.0.1:7099".to_string(),
             log_filter: "info,salt_master_agent=debug,rig=info,rmcp=warn".to_string(),
+
+            surreal_namespace: Some("bookmarks".to_string()),
+            surreal_database: Some("v1".to_string()),
+            bookmark_annotations_table: "bookmark_annotations".to_string(),
+            bookmark_summarize_default_limit: 10,
+            x_get_tweet_tool: "get_tweet".to_string(),
+            bookmark_reactor_enabled: false,
+            bookmark_reactor_interval_seconds: 300,
+            apply_bookmark_schema_on_startup: true,
         }
     }
 }

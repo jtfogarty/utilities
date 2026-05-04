@@ -80,10 +80,7 @@ pub async fn start_server(config: ServerConfig) -> Result<()> {
     let mcp_service = StreamableHttpService::new(
         move || Ok(SaltService::new(config.clone())),
         session_manager,
-        StreamableHttpServerConfig {
-            stateful_mode: true,
-            sse_keep_alive: None,
-        },
+        StreamableHttpServerConfig::default(),
     );
 
     let router = Router::new()
