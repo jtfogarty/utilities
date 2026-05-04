@@ -1,4 +1,5 @@
 use metrics::{counter, gauge};
+use std::io::IsTerminal;
 use tracing::info;
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -9,12 +10,17 @@ pub fn init_logging_and_metrics(stdio: bool) {
         // Set up environment filter for log levels
         let filter = EnvFilter::try_from_default_env()
             .unwrap_or_else(|_| EnvFilter::new("surrealmcp=error,rmcp=error"));
+        // Disable ANSI escape codes when stderr is not a TTY (e.g. systemd
+        // capturing logs into syslog/journalctl), otherwise the colour
+        // sequences show up as literal `#033[..m` strings in the journal.
+        let use_ansi = std::io::stderr().is_terminal();
         // Initialize tracing subscriber with stderr output
         tracing_subscriber::registry()
             .with(filter)
             .with(
                 tracing_subscriber::fmt::layer()
                     .with_target(true)
+                    .with_ansi(use_ansi)
                     .with_writer(std::io::stderr),
             )
             .init();
@@ -22,12 +28,16 @@ pub fn init_logging_and_metrics(stdio: bool) {
         // Set up environment filter for log levels
         let filter = EnvFilter::try_from_default_env()
             .unwrap_or_else(|_| EnvFilter::new("surrealmcp=trace,rmcp=warn"));
+        // Disable ANSI escape codes when stdout is not a TTY (e.g. systemd
+        // capturing logs into syslog/journalctl).
+        let use_ansi = std::io::stdout().is_terminal();
         // Initialize tracing subscriber with stdout output
         tracing_subscriber::registry()
             .with(filter)
             .with(
                 tracing_subscriber::fmt::layer()
                     .with_target(true)
+                    .with_ansi(use_ansi)
                     .with_writer(std::io::stdout),
             )
             .init();

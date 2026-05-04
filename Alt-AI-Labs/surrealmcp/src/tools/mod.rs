@@ -29,24 +29,22 @@ use crate::utils::{convert_json_to_surreal, parse_target, parse_targets};
 // Global metrics
 static QUERY_COUNTER: AtomicU64 = AtomicU64::new(0);
 
+/// `INFO FOR ROOT` in SurrealDB 3.x returns `namespaces` as a JSON object whose
+/// keys are namespace names and values are the `DEFINE NAMESPACE ...` statements
+/// (e.g. `{"namespaces": {"my_ns": "DEFINE NAMESPACE my_ns"}}`). Deserializing
+/// into a `Vec` here was the cause of "invalid type: map, expected a sequence".
 #[derive(Deserialize)]
 struct ListNamespaces {
-    namespaces: Vec<Namespace>,
+    #[serde(default)]
+    namespaces: serde_json::Map<String, serde_json::Value>,
 }
 
-#[derive(Deserialize)]
-struct Namespace {
-    name: String,
-}
-
+/// `INFO FOR NS` returns `databases` as a JSON object keyed by database name,
+/// same shape as `namespaces` above.
 #[derive(Deserialize)]
 struct ListDatabase {
-    databases: Vec<String>,
-}
-
-#[derive(Deserialize)]
-struct Database {
-    name: String,
+    #[serde(default)]
+    databases: serde_json::Map<String, serde_json::Value>,
 }
 
 #[derive(Deserialize, schemars::JsonSchema)]
@@ -1468,11 +1466,16 @@ It returns a list of namespaces with their names."#)]
                         None,
                     )
                 })?;
-                // Convert the namspaces to a JSON object
+                // Convert the namespaces map into a list of {name, definition}
+                // entries. SurrealDB 3.x returns `namespaces` keyed by name with
+                // the DEFINE statement as the value.
                 let namespaces: Vec<serde_json::Value> = info
                     .namespaces
                     .into_iter()
-                    .map(|n| serde_json::json!({ "name": n.name }))
+                    .map(|(name, definition)| serde_json::json!({
+                        "name": name,
+                        "definition": definition,
+                    }))
                     .collect();
                 // Convert the namespaces to a JSON object 
                 let result = serde_json::json!({
@@ -1557,11 +1560,16 @@ It returns a list of databases with their names."#)]
                         None,
                     )
                 })?;
-                // Convert the databases to a JSON object
+                // Convert the databases map into a list of {name, definition}
+                // entries. SurrealDB 3.x returns `databases` keyed by name with
+                // the DEFINE statement as the value.
                 let databases: Vec<serde_json::Value> = info
                     .databases
                     .into_iter()
-                    .map(|n| serde_json::json!({ "name": n }))
+                    .map(|(name, definition)| serde_json::json!({
+                        "name": name,
+                        "definition": definition,
+                    }))
                     .collect();
                 // Convert the databases to a JSON object 
                 let result = serde_json::json!({
