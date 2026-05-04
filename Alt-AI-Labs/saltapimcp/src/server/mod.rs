@@ -10,11 +10,46 @@ use rmcp::transport::{
     StreamableHttpServerConfig,
     streamable_http_server::{session::local::LocalSessionManager, tower::StreamableHttpService},
 };
+use std::net::{IpAddr, SocketAddr};
 use std::sync::Arc;
 use tokio::net::TcpListener;
 
 use crate::config::ServerConfig;
 use crate::tools::SaltService;
+
+/// Build the list of allowed `Host` header values for rmcp's DNS-rebinding
+/// guard. Always includes loopback. Adds the concrete bind IP:port when bound
+/// to a non-loopback, non-wildcard address (e.g. a LAN IP).
+fn build_allowed_hosts(bind_address: &str) -> Result<Vec<String>> {
+    let bind: SocketAddr = bind_address
+        .parse()
+        .map_err(|e| anyhow!("Invalid bind address {bind_address}: {e}"))?;
+    let port = bind.port();
+
+    let mut hosts: Vec<String> = vec![
+        "localhost".into(),
+        format!("localhost:{port}"),
+        "127.0.0.1".into(),
+        format!("127.0.0.1:{port}"),
+        "::1".into(),
+        format!("[::1]:{port}"),
+    ];
+
+    let ip = bind.ip();
+    if !ip.is_unspecified() && !ip.is_loopback() {
+        let ip_str = ip.to_string();
+        let host_port = match ip {
+            IpAddr::V4(_) => format!("{ip_str}:{port}"),
+            IpAddr::V6(_) => format!("[{ip_str}]:{port}"),
+        };
+        hosts.push(ip_str);
+        hosts.push(host_port);
+    }
+
+    hosts.sort();
+    hosts.dedup();
+    Ok(hosts)
+}
 
 // Bearer-token authentication middleware.
 ///
@@ -75,12 +110,23 @@ pub async fn start_server(config: ServerConfig) -> Result<()> {
         "Starting saltapimcp (HTTP/MCP transport)"
     );
 
+    // Build the allowed-hosts list for rmcp's DNS-rebinding guard. rmcp 1.6
+    // defaults to loopback only, which 403s any request to a LAN IP before
+    // auth even runs.
+    let allowed_hosts = build_allowed_hosts(&bind_address)?;
+    tracing::info!(
+        allowed_hosts = ?allowed_hosts,
+        "Configured Streamable HTTP allowed hosts"
+    );
+
     let session_manager = Arc::new(LocalSessionManager::default());
+
+    let http_config = StreamableHttpServerConfig::default().with_allowed_hosts(allowed_hosts);
 
     let mcp_service = StreamableHttpService::new(
         move || Ok(SaltService::new(config.clone())),
         session_manager,
-        StreamableHttpServerConfig::default(),
+        http_config,
     );
 
     let router = Router::new()
@@ -98,4 +144,54 @@ pub async fn start_server(config: ServerConfig) -> Result<()> {
     axum::serve(listener, router).await?;
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::build_allowed_hosts;
+
+    #[test]
+    fn allowed_hosts_for_lan_ip_bind() {
+        let hosts = build_allowed_hosts("10.10.3.8:8765").unwrap();
+        assert!(hosts.iter().any(|h| h == "localhost"));
+        assert!(hosts.iter().any(|h| h == "localhost:8765"));
+        assert!(hosts.iter().any(|h| h == "127.0.0.1"));
+        assert!(hosts.iter().any(|h| h == "127.0.0.1:8765"));
+        assert!(hosts.iter().any(|h| h == "::1"));
+        assert!(hosts.iter().any(|h| h == "[::1]:8765"));
+        assert!(hosts.iter().any(|h| h == "10.10.3.8"));
+        assert!(hosts.iter().any(|h| h == "10.10.3.8:8765"));
+    }
+
+    #[test]
+    fn allowed_hosts_for_wildcard_bind() {
+        let hosts = build_allowed_hosts("0.0.0.0:8765").unwrap();
+        assert!(hosts.iter().any(|h| h == "localhost:8765"));
+        assert!(hosts.iter().any(|h| h == "127.0.0.1:8765"));
+        assert!(!hosts.iter().any(|h| h == "0.0.0.0"));
+    }
+
+    #[test]
+    fn allowed_hosts_for_loopback_bind_skips_duplicate_ip() {
+        let hosts = build_allowed_hosts("127.0.0.1:8765").unwrap();
+        let count_127 = hosts.iter().filter(|h| h.as_str() == "127.0.0.1").count();
+        assert_eq!(count_127, 1, "loopback should not be added twice");
+        let count_port = hosts
+            .iter()
+            .filter(|h| h.as_str() == "127.0.0.1:8765")
+            .count();
+        assert_eq!(count_port, 1);
+    }
+
+    #[test]
+    fn allowed_hosts_for_ipv6_bind() {
+        let hosts = build_allowed_hosts("[2001:db8::1]:8765").unwrap();
+        assert!(hosts.iter().any(|h| h == "2001:db8::1"));
+        assert!(hosts.iter().any(|h| h == "[2001:db8::1]:8765"));
+    }
+
+    #[test]
+    fn allowed_hosts_rejects_garbage_bind() {
+        assert!(build_allowed_hosts("not-a-socket").is_err());
+    }
 }

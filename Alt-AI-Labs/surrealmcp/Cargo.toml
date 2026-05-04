@@ -48,4 +48,5 @@ tower_governor = "0.8.0"
 tracing = "0.1.41"
 tracing-appender = "0.2.3"
 tracing-subscriber = { version = "0.3.20", features = ["env-filter", "json"] }
+url = "2.5.8"
 

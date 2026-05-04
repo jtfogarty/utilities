@@ -302,6 +302,57 @@ async fn start_unix_server(config: ServerConfig) -> Result<()> {
     }
 }
 
+/// Build the list of allowed `Host` header values for rmcp's DNS-rebinding
+/// guard. Always includes loopback. Adds the concrete bind IP:port when bound
+/// to a non-loopback, non-wildcard address, and the host (and host:port) of
+/// `server_url` so reverse-proxy deployments work.
+fn build_allowed_hosts(bind_address: &str, server_url: &str) -> Result<Vec<String>> {
+    let bind: std::net::SocketAddr = bind_address
+        .parse()
+        .map_err(|e| anyhow!("Invalid bind address {bind_address}: {e}"))?;
+    let port = bind.port();
+
+    let mut hosts: Vec<String> = vec![
+        "localhost".into(),
+        format!("localhost:{port}"),
+        "127.0.0.1".into(),
+        format!("127.0.0.1:{port}"),
+        "::1".into(),
+        format!("[::1]:{port}"),
+    ];
+
+    let ip = bind.ip();
+    if !ip.is_unspecified() && !ip.is_loopback() {
+        let ip_str = ip.to_string();
+        let host_port = match ip {
+            std::net::IpAddr::V4(_) => format!("{ip_str}:{port}"),
+            std::net::IpAddr::V6(_) => format!("[{ip_str}]:{port}"),
+        };
+        hosts.push(ip_str);
+        hosts.push(host_port);
+    }
+
+    if let Ok(url) = url::Url::parse(server_url) {
+        if let Some(h) = url.host_str() {
+            let h = h.to_string();
+            let port_for_url = url.port_or_known_default();
+            let host_port = if h.contains(':') {
+                port_for_url.map(|p| format!("[{h}]:{p}"))
+            } else {
+                port_for_url.map(|p| format!("{h}:{p}"))
+            };
+            hosts.push(h);
+            if let Some(hp) = host_port {
+                hosts.push(hp);
+            }
+        }
+    }
+
+    hosts.sort();
+    hosts.dedup();
+    Ok(hosts)
+}
+
 /// Start the MCP server in HTTP mode
 async fn start_http_server(config: ServerConfig) -> Result<()> {
     // Extract configuration values
@@ -334,6 +385,14 @@ async fn start_http_server(config: ServerConfig) -> Result<()> {
         rate_limit_burst = rate_limit_burst,
         "Starting MCP server in HTTP mode with rate limiting"
     );
+    // Build the allowed-hosts list for rmcp's DNS-rebinding guard. rmcp 1.6
+    // defaults to loopback only, which 403s any request to a LAN IP or
+    // public hostname before auth even runs.
+    let allowed_hosts = build_allowed_hosts(bind_address, &server_url)?;
+    info!(
+        allowed_hosts = ?allowed_hosts,
+        "Configured Streamable HTTP allowed hosts"
+    );
     // Create a TCP listener for the HTTP server
     let listener = TcpListener::bind(&bind_address)
         .await
@@ -365,6 +424,8 @@ async fn start_http_server(config: ServerConfig) -> Result<()> {
         .layer(cors_layer);
     // Create a session manager for the HTTP server
     let session_manager = Arc::new(LocalSessionManager::default());
+    // Configure Streamable HTTP with our derived allowed-hosts list.
+    let http_config = StreamableHttpServerConfig::default().with_allowed_hosts(allowed_hosts);
     // Create a new SurrealDB service instance for the HTTP server
     let mcp_service = StreamableHttpService::new(
         move || {
@@ -380,7 +441,7 @@ async fn start_http_server(config: ServerConfig) -> Result<()> {
             ))
         },
         session_manager,
-        StreamableHttpServerConfig::default(),
+        http_config,
     );
     // Create rate limiting layer with metrics
     let rate_limit_layer = create_rate_limit_layer(rate_limit_rps, rate_limit_burst);
@@ -505,5 +566,43 @@ mod tests {
         // For this test, we'll just verify the response structure exists
         // The actual JSON parsing would require additional dependencies
         assert!(response.headers().get("content-type").is_some());
+    }
+
+    #[test]
+    fn allowed_hosts_for_lan_ip_bind() {
+        let hosts = build_allowed_hosts("10.10.3.8:8800", "https://mcp.surrealdb.com").unwrap();
+        assert!(hosts.iter().any(|h| h == "localhost"));
+        assert!(hosts.iter().any(|h| h == "localhost:8800"));
+        assert!(hosts.iter().any(|h| h == "127.0.0.1"));
+        assert!(hosts.iter().any(|h| h == "127.0.0.1:8800"));
+        assert!(hosts.iter().any(|h| h == "::1"));
+        assert!(hosts.iter().any(|h| h == "[::1]:8800"));
+        assert!(hosts.iter().any(|h| h == "10.10.3.8"));
+        assert!(hosts.iter().any(|h| h == "10.10.3.8:8800"));
+        assert!(hosts.iter().any(|h| h == "mcp.surrealdb.com"));
+        assert!(hosts.iter().any(|h| h == "mcp.surrealdb.com:443"));
+    }
+
+    #[test]
+    fn allowed_hosts_for_wildcard_bind() {
+        let hosts = build_allowed_hosts("0.0.0.0:8800", "https://mcp.surrealdb.com").unwrap();
+        assert!(hosts.iter().any(|h| h == "localhost:8800"));
+        assert!(hosts.iter().any(|h| h == "127.0.0.1:8800"));
+        assert!(!hosts.iter().any(|h| h == "0.0.0.0"));
+        assert!(hosts.iter().any(|h| h == "mcp.surrealdb.com"));
+    }
+
+    #[test]
+    fn allowed_hosts_for_loopback_bind_skips_duplicate_ip() {
+        let hosts = build_allowed_hosts("127.0.0.1:9000", "http://localhost:9000").unwrap();
+        assert!(hosts.iter().any(|h| h == "127.0.0.1:9000"));
+        assert!(hosts.iter().any(|h| h == "localhost:9000"));
+        let count_127 = hosts.iter().filter(|h| h.as_str() == "127.0.0.1").count();
+        assert_eq!(count_127, 1, "loopback should not be added twice");
+    }
+
+    #[test]
+    fn allowed_hosts_rejects_garbage_bind() {
+        assert!(build_allowed_hosts("not-a-socket", "https://example.com").is_err());
     }
 }
