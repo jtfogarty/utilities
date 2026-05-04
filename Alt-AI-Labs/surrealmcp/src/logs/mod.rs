@@ -3,13 +3,23 @@ use std::io::IsTerminal;
 use tracing::info;
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
-/// Initialize structured logging and metrics collection
-pub fn init_logging_and_metrics(stdio: bool) {
+/// Initialize structured logging and metrics collection.
+///
+/// `stdio = true` routes log output to stderr (because stdout is the JSON-RPC
+/// channel). Otherwise logs go to stdout, which is what systemd typically
+/// captures into syslog/journalctl.
+///
+/// `default_filter` is the directive used when `RUST_LOG` is not set. It uses
+/// the same syntax as `RUST_LOG`, e.g. `info`, `surrealmcp=debug,rmcp=warn`.
+pub fn init_logging_and_metrics(stdio: bool, default_filter: &str) {
+    // Try `RUST_LOG` first, then the configured default, and finally fall back
+    // to a sane built-in directive if both fail to parse.
+    let filter = EnvFilter::try_from_default_env()
+        .or_else(|_| EnvFilter::try_new(default_filter))
+        .unwrap_or_else(|_| EnvFilter::new("surrealmcp=info,rmcp=warn"));
+
     // Check if we are running in stdio mode
     if stdio {
-        // Set up environment filter for log levels
-        let filter = EnvFilter::try_from_default_env()
-            .unwrap_or_else(|_| EnvFilter::new("surrealmcp=error,rmcp=error"));
         // Disable ANSI escape codes when stderr is not a TTY (e.g. systemd
         // capturing logs into syslog/journalctl), otherwise the colour
         // sequences show up as literal `#033[..m` strings in the journal.
@@ -25,9 +35,6 @@ pub fn init_logging_and_metrics(stdio: bool) {
             )
             .init();
     } else {
-        // Set up environment filter for log levels
-        let filter = EnvFilter::try_from_default_env()
-            .unwrap_or_else(|_| EnvFilter::new("surrealmcp=trace,rmcp=warn"));
         // Disable ANSI escape codes when stdout is not a TTY (e.g. systemd
         // capturing logs into syslog/journalctl).
         let use_ansi = std::io::stdout().is_terminal();

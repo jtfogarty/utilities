@@ -568,18 +568,27 @@ pub fn parse_string_field(text: &str, field: &str) -> Vec<String> {
 
 /// Extracts the contents of the *first* `"<field>": Array([...])` value as a list of strings,
 /// transparently unescaping `Strand("…")` / `String("…")` items inside.
+///
+/// Tolerates the SurrealMCP `IndexedResults` Debug shape, which wraps SurrealDB arrays as
+/// `Array(Array([...]))` (newer surrealdb crates) **or** as `Array([...])` (older).
 pub fn parse_array_strings_field(text: &str, field: &str) -> Vec<String> {
     let key = format!("\"{field}\"");
     let bytes = text.as_bytes();
     let mut search = 0;
     while let Some(idx) = text[search..].find(&key) {
         let abs = search + idx + key.len();
-        let rest = &text[abs..];
-        for prefix in [": Array([", ":Array([", ": Array ([", ":Array ([" ] {
-            if let Some(p_idx) = rest.find(prefix)
-                && p_idx <= 4
-            {
-                let array_start = abs + p_idx + prefix.len();
+        let rest = &text.as_bytes()[abs..];
+        let mut cursor = 0usize;
+        while cursor < rest.len() && matches!(rest[cursor], b' ' | b':') {
+            cursor += 1;
+        }
+        if cursor + 6 <= rest.len() && &rest[cursor..cursor + 6] == b"Array(" {
+            let mut p = cursor + 6;
+            while p + 6 <= rest.len() && &rest[p..p + 6] == b"Array(" {
+                p += 6;
+            }
+            if p < rest.len() && rest[p] == b'[' {
+                let array_start = abs + p + 1;
                 let mut depth = 1usize;
                 let mut i = array_start;
                 while i < bytes.len() && depth > 0 {
@@ -845,5 +854,38 @@ mod tests {
         assert_eq!(ids[0], "1788009838951235802");
         assert!(notes[0].contains("Book of Revelation"));
         assert_eq!(urls, vec!["t.co/sNW4AbdUSL".to_string()]);
+    }
+
+    /// Exact shape returned by the live SurrealMCP `query` tool (captured 2026-05-03 against
+    /// `bookmarks/v1`): `IndexedResults` wrapper, `Array(Array([…]))` and `Object(Object({…}))`
+    /// double-wrapping, `String("…")` instead of `Strand("…")`, and `RecordId(RecordId { … })`.
+    const LIVE_DEBUG: &str = "IndexedResults { results: {0: (DbResultStats { execution_time: Some(380.633µs), query_type: Some(Other) }, Ok(Array(Array([Object(Object({\"bookmark_id\": String(\"1788009838951235802\"), \"created_at\": String(\"2026-04-07T23:17:34.060Z\"), \"id\": RecordId(RecordId { table: Table(\"bookmark_annotations\"), key: String(\"byg5m9jepf7wss8flmu2\") }), \"notes\": String(\"This shows that the Book of Revelation is a big chiastic structure\"), \"updated_at\": String(\"2026-04-08T01:09:25.945Z\"), \"urls\": Array(Array([String(\"t.co/sNW4AbdUSL\")]))}))]))) }, live_queries: {} }";
+
+    #[test]
+    fn live_indexedresults_wrapped_response_is_parsed() {
+        let ids = parse_string_field(LIVE_DEBUG, "bookmark_id");
+        assert_eq!(ids, vec!["1788009838951235802".to_string()]);
+
+        let notes = parse_string_field(LIVE_DEBUG, "notes");
+        assert_eq!(
+            notes,
+            vec!["This shows that the Book of Revelation is a big chiastic structure".to_string()]
+        );
+
+        let urls = parse_array_strings_field(LIVE_DEBUG, "urls");
+        assert_eq!(urls, vec!["t.co/sNW4AbdUSL".to_string()]);
+    }
+
+    #[test]
+    fn live_double_wrapped_array_with_multiple_items() {
+        let blob = "Ok(Array(Array([Object(Object({\"urls\": Array(Array([String(\"https://github.com/a/b\"), String(\"https://github.com/c/d\")]))}))])))";
+        let urls = parse_array_strings_field(blob, "urls");
+        assert_eq!(
+            urls,
+            vec![
+                "https://github.com/a/b".to_string(),
+                "https://github.com/c/d".to_string()
+            ]
+        );
     }
 }

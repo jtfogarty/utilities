@@ -70,5 +70,9 @@ pub enum Commands {
         /// SurrealDB Cloud refresh token (used instead of fetching tokens)
         #[arg(long, env = "SURREAL_MCP_CLOUD_REFRESH_TOKEN")]
         cloud_refresh_token: Option<String>,
+        /// Log filter directive used when `RUST_LOG` is not set. Accepts the
+        /// same syntax as `RUST_LOG` (e.g. `info`, `surrealmcp=debug,rmcp=warn`).
+        #[arg(long, env = "SURREAL_MCP_LOG", default_value = "surrealmcp=info,rmcp=warn")]
+        log: String,
     },
 }

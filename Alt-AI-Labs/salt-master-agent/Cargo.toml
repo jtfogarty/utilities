@@ -1,6 +1,6 @@
 [package]
 name = "salt-master-agent"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Stateless SaltStack master agent: Ollama + Rig + rmcp MCP tools only."
 publish = false

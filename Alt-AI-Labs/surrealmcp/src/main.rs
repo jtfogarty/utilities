@@ -42,6 +42,7 @@ async fn main() -> Result<()> {
             auth_audience,
             cloud_access_token,
             cloud_refresh_token,
+            log,
         } => {
             // Create the server config
             let config = ServerConfig {
@@ -60,6 +61,7 @@ async fn main() -> Result<()> {
                 auth_audience,
                 cloud_access_token,
                 cloud_refresh_token,
+                log,
             };
             server::start_server(config).await
         }

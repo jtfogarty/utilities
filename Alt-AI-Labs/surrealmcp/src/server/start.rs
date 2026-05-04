@@ -41,6 +41,8 @@ pub struct ServerConfig {
     pub auth_audience: String,
     pub cloud_access_token: Option<String>,
     pub cloud_refresh_token: Option<String>,
+    /// Default log filter directive used when `RUST_LOG` is not set.
+    pub log: String,
 }
 
 // Global metrics
@@ -108,6 +110,8 @@ pub async fn start_server(config: ServerConfig) -> Result<()> {
 
 /// Start the MCP server in stdio mode
 async fn start_stdio_server(config: ServerConfig) -> Result<()> {
+    // Initialize structured logging and metrics before destructuring
+    init_logging_and_metrics(true, &config.log);
     // Extract configuration values
     let ServerConfig {
         endpoint,
@@ -119,8 +123,6 @@ async fn start_stdio_server(config: ServerConfig) -> Result<()> {
         cloud_refresh_token,
         ..
     } = config;
-    // Initialize structured logging and metrics
-    init_logging_and_metrics(true);
     // Output debugging information
     info!("Starting MCP server in stdio mode");
     // Generate a connection ID for this connection
@@ -174,6 +176,8 @@ async fn start_stdio_server(config: ServerConfig) -> Result<()> {
 
 /// Start the MCP server in Unix socket mode
 async fn start_unix_server(config: ServerConfig) -> Result<()> {
+    // Initialize structured logging and metrics before destructuring
+    init_logging_and_metrics(false, &config.log);
     // Extract configuration values
     let ServerConfig {
         endpoint,
@@ -188,8 +192,6 @@ async fn start_unix_server(config: ServerConfig) -> Result<()> {
     } = config;
     // Get the specified socket path
     let socket_path = socket_path.as_deref().unwrap();
-    // Initialize structured logging and metrics
-    init_logging_and_metrics(false);
     // Get the specified socket path
     let socket_path = Path::new(socket_path);
     // Remove existing socket file if it exists
@@ -355,6 +357,8 @@ fn build_allowed_hosts(bind_address: &str, server_url: &str) -> Result<Vec<Strin
 
 /// Start the MCP server in HTTP mode
 async fn start_http_server(config: ServerConfig) -> Result<()> {
+    // Initialize structured logging and metrics before destructuring
+    init_logging_and_metrics(false, &config.log);
     // Extract configuration values
     let ServerConfig {
         endpoint,
@@ -375,8 +379,6 @@ async fn start_http_server(config: ServerConfig) -> Result<()> {
     } = config;
     // Get the specified bind address
     let bind_address = bind_address.as_deref().unwrap();
-    // Initialize structured logging and metrics
-    init_logging_and_metrics(false);
     // Output debugging information
     info!(
         server_url = %server_url,
@@ -540,6 +542,7 @@ mod tests {
             auth_audience: "https://custom.audience.com/".to_string(),
             cloud_access_token: None,
             cloud_refresh_token: None,
+            log: "surrealmcp=info,rmcp=warn".to_string(),
         };
 
         // Create a simple router to test the discovery endpoint
